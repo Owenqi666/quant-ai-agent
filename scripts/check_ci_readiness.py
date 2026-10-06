@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TARGET = 'Owenqi666/quant-ai-agent'
 TARGET_URL = 'https://github.com/' + TARGET
 # Exact reviewed workflow, not a general YAML parser. A changed workflow requires review.
-WORKFLOW_SHA256 = 'ef35c72d8527e7727bfce6aae020b98db17fe92c0ad99ea5a924116c8ff2a916'
+WORKFLOW_SHA256 = '8fe3365f66ea412bdb77da2693a1aeb2a057560299c188eb44b97bc8eb96da9e'
 MAX_FILE = 8 * 1024 * 1024
 MAX_TRACKED = 20000
 REQUIRED = ('README.md', 'pyproject.toml', 'requirements-lock.txt', 'requirements-web-lock.txt',
@@ -238,7 +238,8 @@ def check(root=ROOT, *, manifest=None, observation=None, public=False):
     def workflow():
         if hashlib.sha256(read(root, '.github/workflows/ci.yml')).hexdigest() != WORKFLOW_SHA256:
             raise CheckError('workflow_changed_requires_review')
-        return {'reviewed_workflow_sha256': WORKFLOW_SHA256, 'authority': 'contents_read', 'acceptance': 'full_isolated_software', 'job_timeout_minutes': 60,
+        return {'reviewed_workflow_sha256': WORKFLOW_SHA256, 'authority': 'contents_read', 'acceptance': 'full_isolated_software', 'job_timeout_minutes': 80,
+                'full_acceptance_step_timeout_minutes': 70,
                 'third_party_market_inputs': 'not_required', 'paper_bootstrap': 'fixed_original_url_sha_and_exact_extraction',
                 'failure_evidence': 'only_acceptance_result_json_and_logs', 'scope': 'Exact reviewed workflow comparison; not general YAML validation or remote success.'}
     step('reviewed_workflow_contract', workflow)

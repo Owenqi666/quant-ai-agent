@@ -98,6 +98,26 @@ class CIReadinessTests(unittest.TestCase):
             self.assertTrue(tool.check(self.root)['passed'])
             self.failure(tool.check(self.root, public=True), 'tracked_private_boundary')
 
+    def test_reviewed_outer_budgets_are_explicit_and_never_remote_success(self):
+        value = tool.check(self.root)
+        self.assertTrue(value['passed'])
+        details = next(item['details'] for item in value['checks'] if item['name'] == 'reviewed_workflow_contract')
+        self.assertEqual(details['job_timeout_minutes'], 80)
+        self.assertEqual(details['full_acceptance_step_timeout_minutes'], 70)
+        self.assertEqual(details['authority'], 'contents_read')
+        self.assertEqual(details['failure_evidence'], 'only_acceptance_result_json_and_logs')
+        self.assertEqual(value['remote_ci'], 'not_run')
+        self.assertFalse(value['ready_to_dispatch'])
+        self.assertEqual(hashlib.sha256((self.root / '.github/workflows/ci.yml').read_bytes()).hexdigest(), tool.WORKFLOW_SHA256)
+
+    def test_old_outer_budget_bytes_require_review_again(self):
+        path = self.root / '.github/workflows/ci.yml'
+        current = path.read_text()
+        previous = current.replace('    timeout-minutes: 80\n', '    timeout-minutes: 60\n').replace('        timeout-minutes: 70\n', '        timeout-minutes: 50\n')
+        self.assertNotEqual(current, previous)
+        path.write_text(previous)
+        self.failure(tool.check(self.root), 'reviewed_workflow_contract')
+
     def test_changed_workflow_requires_review(self):
         with (self.root / '.github/workflows/ci.yml').open('a') as stream:
             stream.write('# unreviewed change\n')

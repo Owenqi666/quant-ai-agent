@@ -287,6 +287,15 @@ test("PDF upload, manual definition and API-disabled scope are available without
   page,
   request,
 }) => {
+  // Prepare the declared dataset before the first catalog read; this scenario
+  // must work alone and must not inherit another test's workspace state.
+  const importedResponse = await request.post("/api/examples/alpha101", { data: {} });
+  expect(importedResponse.status()).toBe(200);
+  const imported = await importedResponse.json();
+  const researchResponse = await request.get(`/api/researches/${imported.research_id}`);
+  expect(researchResponse.status()).toBe(200);
+  const research = await researchResponse.json();
+  const task = research.revisions[0].task;
   await page.goto("/");
   await page
     .getByRole("button", { name: "新建研究", exact: true })
@@ -296,17 +305,18 @@ test("PDF upload, manual definition and API-disabled scope are available without
     .getByLabel("论文文件", { exact: true })
     .setInputFiles(resolve("../examples/alpha101/paper.pdf"));
   await page.getByLabel("论文标题", { exact: true }).fill("手动研究上传测试");
+  const uploadedResponsePromise = page.waitForResponse(response =>
+    new URL(response.url()).pathname === "/api/papers" && response.request().method() === "POST");
   await page.getByRole("button", { name: "上传论文", exact: true }).click();
-  await expect(page.getByLabel("研究论文", { exact: true })).not.toHaveValue(
-    "",
-  );
-  const imported = await (
-    await request.post("/api/examples/alpha101", { data: {} })
-  ).json();
-  const research = await (
-    await request.get(`/api/researches/${imported.research_id}`)
-  ).json();
-  const task = research.revisions[0].task;
+  const uploadedResponse = await uploadedResponsePromise;
+  expect(uploadedResponse.status()).toBe(201);
+  const uploaded = await uploadedResponse.json();
+  expect(uploaded.sha256).toBe("1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9");
+  await expect(page.getByRole("button", { name: "上传论文", exact: true })).toBeVisible();
+  await expect(page.getByLabel("研究论文", { exact: true })).toHaveValue(uploaded.id);
+  // The UI must bind the requested data version, not a default first option.
+  await page.getByLabel("数据版本", { exact: true }).selectOption(research.dataset_id);
+  await expect(page.getByLabel("数据版本", { exact: true })).toHaveValue(research.dataset_id);
   await page
     .getByLabel("研究标题", { exact: true })
     .fill("手动定义价格成交量研究");
@@ -315,7 +325,16 @@ test("PDF upload, manual definition and API-disabled scope are available without
     .getByLabel("任务定义 JSON", { exact: false })
     .fill(JSON.stringify(task, null, 2));
   await page.getByLabel("已确认所选数据版本及 train / validation / test 时间切分").check();
-  await page.getByRole("button", { name: "创建研究", exact: false }).click();
+  const createButton = page.getByRole("button", { name: "创建研究", exact: true });
+  await expect(createButton).toBeEnabled();
+  const createdResponsePromise = page.waitForResponse(response =>
+    new URL(response.url()).pathname === "/api/researches" && response.request().method() === "POST");
+  await createButton.click();
+  const createdResponse = await createdResponsePromise;
+  expect(createdResponse.status()).toBe(201);
+  const created = await createdResponse.json();
+  expect(created.dataset_id).toBe(research.dataset_id);
+  expect(created.paper_id).toBe(uploaded.id);
   await expect(
     page.getByRole("heading", { name: "手动定义价格成交量研究", exact: true }),
   ).toBeVisible();
@@ -323,6 +342,94 @@ test("PDF upload, manual definition and API-disabled scope are available without
   await expect(
     page.getByRole("heading", { name: "alpha006", exact: true }),
   ).toBeVisible();
+});
+
+
+test("empty mounted dataset draft remains disabled after delayed real catalog; explicit dataset selection restores PDF workflow", async ({page, request}, testInfo) => {
+  const importedResponse = await request.post("/api/examples/alpha101", {data: {}});
+  expect(importedResponse.status()).toBe(200);
+  const imported = await importedResponse.json();
+  const researchResponse = await request.get(`/api/researches/${imported.research_id}`);
+  expect(researchResponse.status()).toBe(200);
+  const research = await researchResponse.json();
+  let mounted = false, arrived!: () => void, release!: () => void;
+  const arrival = new Promise<void>(resolve => {arrived = resolve;});
+  const gate = new Promise<void>(resolve => {release = resolve;});
+  let initialEmptyReads = 0, delayedReads = 0;
+  await page.route("**/api/datasets", async route => {
+    // App requires a completed initial catalog before mounting CreateResearch.
+    // A controlled empty catalog represents that valid empty initial state.
+    if (!mounted) {
+      initialEmptyReads++;
+      await route.fulfill({status: 200, contentType: "application/json", body: "[]"});
+      return;
+    }
+    // A real PDF upload requests a catalog refresh. Delay this true response
+    // until the existing form/draft is observed, not until an arbitrary sleep.
+    const response = await route.fetch();
+    expect(response.status()).toBe(200);
+    expect((await response.json()).some((row: {id: string}) => row.id === research.dataset_id)).toBe(true);
+    delayedReads++; arrived(); await gate;
+    await route.fulfill({response});
+  });
+  try {
+    await page.goto("/");
+    await page.getByRole("button", {name: "新建研究", exact: true}).first().click();
+    await expect(page.getByRole("heading", {name: "从论文创建研究", exact: true})).toBeVisible();
+    const dataset = page.getByLabel("数据版本", {exact: true});
+    await expect(dataset).toHaveValue("");
+    mounted = true;
+    const uploadResponsePromise = page.waitForResponse(response =>
+      new URL(response.url()).pathname === "/api/papers" && response.request().method() === "POST");
+    await page.getByLabel("论文文件", {exact: true}).setInputFiles(resolve("../examples/alpha101/paper.pdf"));
+    await page.getByLabel("论文标题", {exact: true}).fill("受控延迟目录的真实 PDF 上传");
+    await page.getByRole("button", {name: "上传论文", exact: true}).click();
+    const uploadResponse = await uploadResponsePromise;
+    expect(uploadResponse.status()).toBe(201);
+    const uploaded = await uploadResponse.json();
+    expect(uploaded.sha256).toBe("1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9");
+    await arrival;
+    await expect(dataset).toHaveValue("");
+    release();
+    await expect(dataset.locator(`option[value="${research.dataset_id}"]`)).toHaveCount(1);
+    await expect(page.getByRole("button", {name: "上传论文", exact: true})).toBeVisible();
+    await expect(page.getByLabel("研究论文", {exact: true})).toHaveValue(uploaded.id);
+    await expect(dataset).toHaveValue("");
+    await page.getByLabel("研究标题", {exact: true}).fill("明确数据版本的受控 PDF 研究");
+    await page.getByText("高级：直接编辑任务 JSON", {exact: true}).click();
+    await page.getByLabel("任务定义 JSON", {exact: false}).fill(JSON.stringify(research.revisions[0].task, null, 2));
+    const confirmation = page.getByLabel("已确认所选数据版本及 train / validation / test 时间切分");
+    await confirmation.check();
+    const create = page.getByRole("button", {name: "创建研究", exact: true});
+    await expect(create).toBeDisabled();
+    await page.screenshot({path: testInfo.outputPath("blank-data-disabled.png"), fullPage: true});
+    await dataset.selectOption(research.dataset_id);
+    await expect(dataset).toHaveValue(research.dataset_id);
+    await expect(confirmation).not.toBeChecked();
+    await confirmation.check();
+    await expect(create).toBeEnabled();
+    await page.screenshot({path: testInfo.outputPath("explicit-data-enabled.png"), fullPage: true});
+    const createdResponsePromise = page.waitForResponse(response =>
+      new URL(response.url()).pathname === "/api/researches" && response.request().method() === "POST");
+    await create.click();
+    const createdResponse = await createdResponsePromise;
+    expect(createdResponse.status()).toBe(201);
+    const created = await createdResponse.json();
+    expect(created.dataset_id).toBe(research.dataset_id);
+    expect(created.paper_id).toBe(uploaded.id);
+    await expect(page.getByRole("heading", {name: "明确数据版本的受控 PDF 研究", exact: true})).toBeVisible();
+    await expect(page.getByText("AI 未启用", {exact: true})).toBeVisible();
+    await expect(page.getByRole("heading", {name: "alpha006", exact: true})).toBeVisible();
+    await testInfo.attach("controlled-catalog-evidence", {contentType: "application/json", body: JSON.stringify({
+      initialEmptyReads, delayedReads, draft_remained_blank_after_catalog: true, create_disabled_without_dataset: true,
+      explicit_dataset_id: research.dataset_id, created_dataset_id: created.dataset_id, uploaded_paper_id: uploaded.id,
+      created_paper_id: created.paper_id, upload_sha256: uploaded.sha256, production_auto_selection_added: false,
+      scope: "Controlled isolated browser reproduction; not an identification of missing Linux failure trace fields",
+    })});
+  } finally {
+    release();
+    await page.unroute("**/api/datasets");
+  }
 });
 
 test("second synthetic dataset is uploaded, independently validated, explicitly registered and bound to a new research", async ({ page, request }) => {

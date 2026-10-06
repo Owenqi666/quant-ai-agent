@@ -44,7 +44,9 @@ workflow 摘要匹配是针对本项目已审查的确切字节，不是通用 Y
 
 ## CI 的实际链路
 
-现有 GitHub Actions 执行：checkout → Python3.14 / Node24 → 公开 checkout 预检 → 锁定依赖安装 → 固定论文 bootstrap → npm ci / Chromium → 统一 `verify_release.py`。使用 `contents: read`、checkout 不保留凭据、同 ref 并发取消，单 job 60 分钟、完整验收步骤 50 分钟。该链路仍需要包源、浏览器包和原论文源网络；下载失败会保留失败状态，不能声称离线完整 CI 或伪造论文 fixture。权限和超时语法见 [GitHub workflow 文档](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)。
+现有 GitHub Actions 执行：checkout → Python3.14 / Node24 → 公开 checkout 预检 → 锁定依赖安装 → 固定论文 bootstrap → npm ci / Chromium → 统一 `verify_release.py`。使用 `contents: read`、checkout 不保留凭据、同 ref 并发取消，单 job 80 分钟、完整验收步骤 70 分钟。该链路仍需要包源、浏览器包和原论文源网络；下载失败会保留失败状态，不能声称离线完整 CI 或伪造论文 fixture。权限和超时语法见 [GitHub workflow 文档](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax)。
+
+外层预算用于整套串行验收的余量：2026-10-06 PR run `37464566199` 的 Python 阶段实际用时 1745.1 秒、浏览器阶段 573.8 秒，两段合计约 38.6 分钟；计入本轮其余前三段后，原 50 分钟预算仅余约 11.1 分钟给后续 29 段及独立安装检查。该次运行在第 5 段因创建按钮禁用导致单测 60 秒超时而失败；**没有触发外层 50 分钟、Python 1800 秒或浏览器阶段 900 秒上限**。增加外层余量不能修复该用例，也不预测整套 CI 的实际总耗时或保证通过。Python 阶段仍为 1800 秒、其余阶段仍为 900 秒，Playwright 单测仍为 60 秒；没有增加自动重试、付费 runner 或模型调用。70/80 分钟仍是有限上限，新的完整实际运行才能证明是否足够。GitHub 官方规定步骤上限为 360 分钟，GitHub-hosted job 执行上限为 6 小时；本项目使用 `ubuntu-latest`，该预算在这两个范围内。[步骤/任务超时语法](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepstimeout-minutes)、[Actions 限制](https://docs.github.com/en/actions/reference/limits)。
 
 `if: always()` 仅上传以下文件类型/位置：`artifacts/ci-readiness/result.json`、`artifacts/ci-paper-bootstrap/result.json`、`artifacts/ci-acceptance/acceptance.json`、验收树内 `result.json` 与 `.log`。不上传整个目录，不上传源码 ZIP、PDF、页图、市场 CSV、工作台 DB、trace ZIP 或截图。保留期 14 天；准确匹配与多路径规则见 [upload-artifact 文档](https://github.com/actions/upload-artifact#upload-using-multiple-paths-and-exclusions)。日志仍应在评审中核对，不以文件扩展名保证任意内容安全。
 
