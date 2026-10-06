@@ -261,14 +261,14 @@ def build_sample(packet, *, source_files=None):
                 'scope': 'exact_development_case_and_claim', 'material': deepcopy(packet),
                 'implementation': _implementation(), 'model_execution': 'model_not_run'}
         fingerprint = digest(body)
-        return ResearchSample.model_validate(_bounded(body | {'id': 'research_sample_' + fingerprint, 'digest': fingerprint})).model_dump()
+        return ResearchSample.model_validate(_bounded(body | {'id': 'research_sample_' + fingerprint, 'digest': fingerprint})).model_dump(exclude_unset=True)
     except (ValueError, TypeError, KeyError, OSError, OverflowError, RecursionError) as exc:
         raise ResearchEvaluationError('Invalid research sample input: ' + str(exc)[:1200]) from exc
 
 
 def verify_sample(sample, *, source_files=None):
     try:
-        normalized = ResearchSample.model_validate(_bounded(sample)).model_dump()
+        normalized = ResearchSample.model_validate(_bounded(sample)).model_dump(exclude_unset=True)
         _equal(sample, normalized, 'Sample contract is not canonical')
         if sample['digest'] != digest(_body(sample, ('id', 'digest'))) or sample['id'] != 'research_sample_' + sample['digest']:
             raise ResearchEvaluationError('Research sample content identity differs')

@@ -134,6 +134,43 @@ class DailyResearchEvaluationTests(unittest.TestCase):
         with self.assertRaises((ValueError, evaluation.ResearchEvaluationError)):
             evaluation.build_sample(packet, source_files=self.sources if sources is None else sources)
 
+    def test_legacy_case_review_defaults_preserve_exact_snapshot_identity(self):
+        # Old experiment-level reviews lack later assessment fields. Their
+        # absence is part of the frozen Case and never supplies ClaimReview.
+        legacy = {'id': 'legacy-controlled-review', 'actor': 'human',
+            'decision': 'needs_changes', 'scope': 'Controlled legacy fixture; not an exact claim review.',
+            'note': 'Historical schema compatibility only; no real human judgment.'}
+        for explicit_null in (False, True):
+            with self.subTest(explicit_null=explicit_null):
+                packet = deepcopy(self.packet)
+                review = legacy | ({'assessment': None, 'assessment_summary': None} if explicit_null else {})
+                packet['case']['context']['reviews'] = [review]
+                rebind_case_and_claims(packet)
+                expected = deepcopy(packet)
+                sample = evaluation.build_sample(packet, source_files=self.sources)
+                self.assertEqual(sample['material'], expected)
+                self.assertEqual(sample['digest'], digest(evaluation._body(sample, ('id', 'digest'))))
+                roundtrip = json.loads(json.dumps(sample))
+                self.assertTrue(evaluation.verify_sample(roundtrip, source_files=self.sources)['passed'])
+                report = evaluation.evaluate_sample(roundtrip, source_files=self.sources)
+                self.assertEqual(report['technical_status'], 'passed')
+                self.assertEqual(report['human_reference']['human_records'], 0)
+                self.assertEqual(report['human_reference']['status'], 'pending')
+                self.assertEqual(packet, expected)
+                # Rehashing the container does not authorize changing an exact
+                # historical Case by adding/removing default fields.
+                tampered = deepcopy(sample)
+                changed = tampered['material']['case']['context']['reviews'][0]
+                if explicit_null:
+                    del changed['assessment']; del changed['assessment_summary']
+                else:
+                    changed.update(assessment=None, assessment_summary=None)
+                rehash_packet(tampered['material'])
+                tampered['digest'] = digest(evaluation._body(tampered, ('id', 'digest')))
+                tampered['id'] = 'research_sample_' + tampered['digest']
+                with self.assertRaisesRegex(ValueError, 'Stored content identity differs'):
+                    evaluation.verify_sample(tampered, source_files=self.sources)
+
     def test_daily_actual_metrics_and_unjudged_draft_without_model(self):
         sample = evaluation.build_sample(self.packet, source_files=self.sources)
         report = evaluation.evaluate_sample(sample, source_files=self.sources)
