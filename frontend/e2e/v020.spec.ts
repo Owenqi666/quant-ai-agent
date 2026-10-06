@@ -32,6 +32,7 @@ test("exact claim review displays real counts and recovers automation without ap
   await expect(page.getByLabel("指标 JSON pointer",{exact:true})).toHaveValue("/summary/min_selected");
   await page.getByRole("button",{name:`查看结论草稿 ${batch.created_at}`,exact:true}).click();
   const region=page.getByRole("region",{name:"精确结论审核",exact:true});await expect(region.getByText(/^本次待审核文字：Untrusted prose falsely claims 999999 assets$/)).toBeVisible();
+  await expect(region.getByRole("region",{name:"本版本原始审核资料",exact:true}).getByRole("status")).toContainText("原始资料暂不可用");
   await region.getByText("填写本版本的五维判断",{exact:true}).click();
   await expect(region.getByLabel("结论审核声明来源",{exact:true})).toHaveValue("");
   for(const label of labels)await expect(region.getByLabel(`结论${label}判断`,{exact:true})).toHaveValue("");
@@ -41,7 +42,7 @@ test("exact claim review displays real counts and recovers automation without ap
   const bodies:unknown[]=[];let lose=true;
   await page.route("**/api/claim-reviews",async route=>{if(route.request().method()!=="POST")return route.continue();bodies.push(route.request().postDataJSON());const response=await route.fetch();if(lose){lose=false;await route.abort();}else await route.fulfill({response});});
   await region.getByRole("button",{name:"保存本版本结论审核",exact:true}).click();await region.getByRole("button",{name:"安全重试结论审核提交",exact:true}).click();
-  await expect(region.getByRole("status")).toContainText("已保存结论审核");expect(bodies).toHaveLength(2);expect(bodies[0]).toEqual(bodies[1]);
+  await expect(region.getByRole("status").filter({hasText:"已保存结论审核"})).toBeVisible();expect(bodies).toHaveLength(2);expect(bodies[0]).toEqual(bodies[1]);
   const status=await(await request.get(`/api/claim-reviews/status?claims_id=${batch.id}&claim_id=count`)).json();expect(status.human_records).toBe(0);expect(status.human_declared_status).toBe("pending");
   expect((await(await request.get(`/api/research-claims/${batch.id}`)).json()).claims[0].semantic_fidelity).toBe("unverified");
 });
