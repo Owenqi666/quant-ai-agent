@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "kind": "research_preparation",
+  "id": "momentum-id-rof-2025",
+  "status": "prepared_not_executable",
+  "source_manifest": "docs/research/momentum_sources.json",
+  "code_revision_at_audit": "24c6a61ac147a227646058a9196a2fb61a027d6c",
+  "selection_attribution": "assistant_selected_at_user_request",
+  "ai_interface_enabled": false,
+  "human_review": null,
+  "paper_result_reproduced": false,
+  "market_data_snapshot": null,
+  "experiment_results": null,
+  "definitions": {
+    "momentum": {
+      "notation": "MOM(i,t) = product(1 + r(i,m), m=t-12..t-2) - 1",
+      "unit": "calendar month",
+      "pdf_page": 4,
+      "role": "baseline_signal"
+    },
+    "id": {
+      "notation": "ID = sign(PRET) * (fraction_negative_daily_returns - fraction_positive_daily_returns)",
+      "pdf_page": 6,
+      "author_code_column": "DGW[:, t-1] for target return month t",
+      "internal_daily_window": "unresolved",
+      "minimum_valid_daily_observations": null,
+      "missing_return_policy": null,
+      "evidence_status": "Formula and column alignment verified; daily construction unresolved"
+    },
+    "grouping": {
+      "x": "-ID",
+      "main": "independent 3x3 sorts",
+      "robustness": "sort X first, then MOM within X",
+      "contrast": "WML(low-ID) - WML(high-ID)",
+      "reference_files": [
+        "Table8A.m",
+        "Table8B.m"
+      ]
+    }
+  },
+  "planned_experiments": [
+    {
+      "id": "momentum_baseline",
+      "role": "baseline",
+      "specification": "MOM-only portfolio on the same eligible sample and evaluation months as the conditional comparison.",
+      "origin": "model_conjecture",
+      "changes": [
+        "Same-sample comparison design chosen for this project; not an asserted exact Table 1 replication."
+      ],
+      "executable": false
+    },
+    {
+      "id": "momentum_id_independent",
+      "role": "primary",
+      "method_reference": "Table8A.m",
+      "origin": "paper_method_target",
+      "implementation_fidelity": "not_yet_implemented",
+      "executable": false
+    },
+    {
+      "id": "momentum_id_sequential",
+      "role": "robustness",
+      "method_reference": "Table8B.m",
+      "origin": "paper_method_target",
+      "implementation_fidelity": "not_yet_implemented",
+      "executable": false
+    }
+  ],
+  "source_feasibility": {
+    "confirmed_reference_source": "Harvard Dataverse V2 metadata and six small source scripts, frozen locally",
+    "reference_use": "Interpretation and future numerical port checks; no market-performance claim",
+    "real_market_source": "not_onboarded",
+    "unresolved_inputs": [
+      "daily total returns and their adjustment semantics",
+      "monthly returns",
+      "point-in-time security identity and country",
+      "formation-time market capitalization",
+      "historical eligible universe",
+      "calendar and missing/delisting rules"
+    ],
+    "archive_blockers": [
+      "Precomputed DGW daily construction absent",
+      "SetupDataA.m references Intnl_WCMonthly.mat absent from V2 listing"
+    ],
+    "silent_substitutions_disallowed": [
+      "today survivors as historical universe",
+      "OHLC close as dividend-inclusive returns",
+      "21 trading days as a calendar month",
+      "future label availability as formation eligibility"
+    ]
+  },
+  "engineering_gaps": [
+    {
+      "id": "real-source",
+      "location": "paper_alpha/evaluation.py:130",
+      "state": "synthetic_only"
+    },
+    {
+      "id": "monthly-evaluation",
+      "location": "paper_alpha/evaluation.py:278",
+      "state": "daily_next_open_contract_only"
+    },
+    {
+      "id": "id-definition",
+      "state": "author_daily_construction_unresolved"
+    },
+    {
+      "id": "monthly-reference",
+      "state": "new_independent_oracle_required"
+    }
+  ],
+  "protocol_draft": {
+    "status": "unfrozen",
+    "split_dates": null,
+    "development_split": "validation",
+    "final_test": "locked",
+    "first_batch_max_experiments": 2,
+    "robustness_requires_new_record": true,
+    "cost_model": null,
+    "claim_scope": "factor statistics only until an execution and cost model exists",
+    "planned_outputs": [
+      "input hashes and semantics",
+      "factor values",
+      "formation eligibility and exclusion reasons",
+      "monthly portfolio weights",
+      "label coverage",
+      "gross group returns",
+      "baseline differences",
+      "uncertainty estimates with explicit method",
+      "all attempts and failures"
+    ],
+    "stop_conditions": [
+      "unresolved input semantics",
+      "unreconciled reference mismatch",
+      "insufficient eligible observations",
+      "budget exhausted"
+    ],
+    "acceptance": [
+      "numerical reference agreement on finite test cases",
+      "future input changes do not affect earlier signals",
+      "no cross-split labels",
+      "same input and code reproduce outputs",
+      "report metrics resolve to computed artifacts"
+    ],
+    "human_decision": "pending; do not infer approval from this preparation"
+  },
+  "next_work_packages": [
+    {
+      "id": "R1",
+      "owner": "coordinator",
+      "task": "resolve ID construction or explicitly version a project adaptation",
+      "status": "pending"
+    },
+    {
+      "id": "R2",
+      "owner": "data_agent",
+      "task": "one source adapter and point-in-time semantics",
+      "depends_on": [
+        "R1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "R3",
+      "owner": "evaluation_agent",
+      "task": "monthly independent reference and adversarial temporal cases",
+      "depends_on": [
+        "R1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "R4",
+      "owner": "coordinator",
+      "task": "integrate existing queue/review/report flow and validate",
+      "depends_on": [
+        "R2",
+        "R3"
+      ],
+      "status": "pending"
+    }
+  ],
+  "not_a_runtime_task": "Research preparation schema only. Do not pass to paper_alpha run or replace live Alpha101 tasks."
+}

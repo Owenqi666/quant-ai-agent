@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "kind": "heldout_study",
+  "id": "",
+  "material_kind": "unknown",
+  "paper": {"id": "", "title": "", "source_reference": "", "artifact": {"path": "", "sha256": ""}},
+  "task": {"id": "", "artifact": {"path": "", "sha256": ""}},
+  "manual_expected": {
+    "source": "unknown",
+    "declarant": "",
+    "label_status": "pending",
+    "artifact": {"path": "", "sha256": ""}
+  },
+  "additional_inputs": [{"id": "", "role": "unknown", "artifact": {"path": "", "sha256": ""}}],
+  "development_exposure": {"source": "unknown", "declarant": "", "paper_used": null, "task_used": null, "expected_used": null},
+  "freeze": {"status": "pending", "frozen_at": null, "input_digest": "", "execution_state": "unknown", "execution_started_at": null}
+}

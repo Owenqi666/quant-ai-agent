@@ -1,0 +1,30 @@
+{
+  "source_root": "local_source_omitted",
+  "note": "Copied source snapshots; originals were not modified. Vendor code is not an evaluator or backtest.",
+  "files": {
+    "operators.py": {
+      "original_sha256": "815e8db5ce373febf383446100a617f7ef28f81891eea246463b267ba5c77a6a",
+      "vendored_sha256": "1318a9a6be88639efd2a3a1431b63574d7682a896eb1bb69435bbcd07aa68773",
+      "changes": [
+        "Removed import-time np.random.seed(42).",
+        "Removed script-only __main__ download/demo entry point."
+      ]
+    },
+    "factors.py": {
+      "original_sha256": "1fe358f6764607bce71e28e9d310e8a31a52bd302a4006bb5b1a4fb1d7f8e2ef",
+      "vendored_sha256": "ef331da3d3df75b8421ca982e110877bb8cc22eeeacef754cda50c9a32b2bb0d",
+      "changes": [
+        "Removed import-time np.random.seed(42).",
+        "Removed script-only __main__ download/demo entry point.",
+        "Changed operators import to package-relative import."
+      ]
+    }
+  },
+  "public_metadata_projection": {
+    "original_document_sha256": "f228226a79f939b968d931873a9103c8db8cace3be0fc4c02f779a88505a7a75",
+    "omitted_categories": [
+      "personal_absolute_source_path"
+    ],
+    "note": "Historical source/code hashes retained. No ownership or redistribution authentication."
+  }
+}

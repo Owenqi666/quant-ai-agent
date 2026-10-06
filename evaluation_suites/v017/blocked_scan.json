@@ -1,0 +1,65 @@
+{
+  "kind": "author_eligibility_scan",
+  "months": [
+    {
+      "momentum_invalid": 0,
+      "momentum_missing": 59362,
+      "momentum_unrepresentable": 0,
+      "month": "1993-03",
+      "patterns": [
+        59362,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "momentum_invalid": 0,
+      "momentum_missing": 59359,
+      "momentum_unrepresentable": 0,
+      "month": "1993-04",
+      "patterns": [
+        59359,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "plan": {
+    "development_end": "1993-04",
+    "development_start": "1993-03",
+    "minimum_assets": 30,
+    "rationale": "Explicit synthetic blocked policy fixture: counts are constructed, not derived from an original MAT file; minimum_assets=30 is a project screen.",
+    "requires_market_cap": false,
+    "reserved_from": "2007-01",
+    "schema_version": 1,
+    "source_file": "IntnlData.mat",
+    "task": "momentum",
+    "threshold_origin": "project_screen"
+  },
+  "plan_digest": "deb955abb8787115000d2fdb4fc0526f24e454bcbf80b16ddb39d0b5b6ee0da5",
+  "schema_version": 1,
+  "semantics_version": "gjs-author-eligibility-v1",
+  "source": {
+    "assets": 59367,
+    "bytes": 358892265,
+    "doi": "10.7910/DVN/R1UI1J",
+    "file_id": 10519941,
+    "filename": "IntnlData.mat",
+    "first_month": "1989-01",
+    "last_month": "2020-12",
+    "periods": 384,
+    "repository_md5": "87d9424ee3b5b2fce4a4fb3646cf6df6",
+    "sha256": "6fe6fc27a85ec0f305d297b95d05039cb7bd2207ce012625df1e44bc272549ed",
+    "version": "2.0"
+  }
+}

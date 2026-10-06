@@ -1,0 +1,223 @@
+{
+  "cases": [
+    {
+      "evidence_ids": [
+        "alpha101-formula"
+      ],
+      "human_confirmation": {
+        "assessment": null,
+        "confirmed_at": null,
+        "reviewer": null,
+        "status": "pending"
+      },
+      "id": "alpha101_formula",
+      "proposal": {
+        "attribution": "paper_original",
+        "claim": "The paper lists Alpha#101 as ((close - open) / ((high - low) + .001)).",
+        "expression": "((close - open) / ((high - low) + .001))"
+      },
+      "reference_draft": "Compare the formula, page and exact operators. Formula fidelity does not establish economic mechanism or profitability.",
+      "review_focus": [
+        "evidence_accuracy",
+        "hypothesis_fidelity",
+        "implementation_alignment"
+      ]
+    },
+    {
+      "evidence_ids": [
+        "alpha006-formula"
+      ],
+      "human_confirmation": {
+        "assessment": null,
+        "confirmed_at": null,
+        "reviewer": null,
+        "status": "pending"
+      },
+      "id": "alpha006_sign_change",
+      "proposal": {
+        "attribution": "paper_original",
+        "claim": "The paper lists positive correlation(open, volume, 10).",
+        "expression": "correlation(open, volume, 10)"
+      },
+      "reference_draft": "The source formula contains -1. Decide whether a declared sign change is permitted; it cannot silently remain an original-paper implementation.",
+      "review_focus": [
+        "hypothesis_fidelity",
+        "implementation_alignment"
+      ]
+    },
+    {
+      "evidence_ids": [
+        "alpha101-formula"
+      ],
+      "human_confirmation": {
+        "assessment": null,
+        "confirmed_at": null,
+        "reviewer": null,
+        "status": "pending"
+      },
+      "id": "wrong_quote",
+      "proposal": {
+        "attribution": "paper_original",
+        "quote": "((close + open) / ((high - low) + .001))"
+      },
+      "reference_draft": "The supplied quote changes subtraction to addition. Verify literal quotation separately from meaning.",
+      "review_focus": [
+        "evidence_accuracy"
+      ]
+    },
+    {
+      "evidence_ids": [
+        "alpha101-formula"
+      ],
+      "human_confirmation": {
+        "assessment": null,
+        "confirmed_at": null,
+        "reviewer": null,
+        "status": "pending"
+      },
+      "id": "mechanism_promotion",
+      "proposal": {
+        "attribution": "paper_original",
+        "claim": "The author proves that intraday buying pressure causes future excess returns."
+      },
+      "reference_draft": "The selected citation supplies a formula. A causal/economic explanation needs its own source evidence; otherwise preserve explicit conjecture and do not approve causality.",
+      "review_focus": [
+        "mechanism_attribution",
+        "hypothesis_fidelity"
+      ]
+    },
+    {
+      "evidence_ids": [
+        "alpha006-formula"
+      ],
+      "human_confirmation": {
+        "assessment": null,
+        "confirmed_at": null,
+        "reviewer": null,
+        "status": "pending"
+      },
+      "id": "substitute_field",
+      "proposal": {
+        "attribution": "user_modification",
+        "claim": "Use turnover instead of volume, keeping correlation(open, turnover, 10).",
+        "required_fields": [
+          "open",
+          "turnover"
+        ]
+      },
+      "reference_draft": "Document units, availability and changed hypothesis. Valid expression syntax cannot establish equivalence between turnover and volume.",
+      "review_focus": [
+        "field_semantics",
+        "hypothesis_fidelity",
+        "implementation_alignment"
+      ]
+    },
+    {
+      "evidence_ids": [
+        "alpha101-formula"
+      ],
+      "human_confirmation": {
+        "assessment": null,
+        "confirmed_at": null,
+        "reviewer": null,
+        "status": "pending"
+      },
+      "id": "project_long_direction",
+      "proposal": {
+        "attribution": "project_convention",
+        "claim": "Higher factor values form the long leg after complete daily observations."
+      },
+      "reference_draft": "Compare the project evaluation timing and documented long-leg convention; the formula citation alone does not establish them as author claims.",
+      "review_focus": [
+        "mechanism_attribution",
+        "field_semantics",
+        "implementation_alignment"
+      ]
+    },
+    {
+      "evidence_ids": [
+        "momentum-window"
+      ],
+      "human_confirmation": {
+        "assessment": null,
+        "confirmed_at": null,
+        "reviewer": null,
+        "status": "pending"
+      },
+      "id": "momentum_window",
+      "proposal": {
+        "attribution": "paper_original",
+        "claim": "Compound the previous eleven monthly returns while excluding the most recent month."
+      },
+      "reference_draft": "Read the complete paper page and author alignment. This source registry quote gives a window anchor; calendar completeness and no-fill policy remain separately attributed project/source conventions.",
+      "review_focus": [
+        "evidence_accuracy",
+        "hypothesis_fidelity",
+        "field_semantics"
+      ]
+    }
+  ],
+  "confirmation": {
+    "confirmed_at": null,
+    "reviewer": null,
+    "scores": null,
+    "status": "pending_human_confirmation",
+    "user_selected_material_does_not_confirm_case_labels": true
+  },
+  "evidence": [
+    {
+      "document_sha256": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+      "end_char": 1423,
+      "id": "alpha006-formula",
+      "page": 8,
+      "paper_id": "arxiv:1601.00991v3",
+      "quote": "(-1 * correlation(open, volume, 10))",
+      "source": "examples/alpha101/paper.pdf",
+      "start_char": 1387,
+      "verification": "literal_quote_candidate",
+      "visual_checked": true
+    },
+    {
+      "document_sha256": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+      "end_char": 728,
+      "id": "alpha101-formula",
+      "page": 15,
+      "paper_id": "arxiv:1601.00991v3",
+      "quote": "((close - open) / ((high - low) + .001))",
+      "source": "examples/alpha101/paper.pdf",
+      "start_char": 688,
+      "verification": "literal_quote_candidate",
+      "visual_checked": true
+    },
+    {
+      "citation_verified": true,
+      "document_sha256": "07b8dad425b23328588a9668e8fccb58f18f79a4d1665d8fc49680198b0fbc2e",
+      "id": "momentum-window",
+      "normalized_end": 1675,
+      "normalized_start": 1623,
+      "page": 24,
+      "paper_id": "goyal-jegadeesh-subrahmanyam-rof-2025",
+      "quote": "last 11-month returns skipping the most recent month",
+      "semantic_fidelity": "requires_human_review",
+      "source": "docs/research/momentum_sources.json",
+      "verification": "source_registry_reference"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "source_linked_semantic_review_material",
+  "sources": [
+    {
+      "paper_id": "arxiv:1601.00991v3",
+      "path": "examples/alpha101/paper.pdf",
+      "semantic_labels_confirmed": false,
+      "sha256": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+      "user_material_selection_confirmed": true
+    },
+    {
+      "paper_id": "goyal-jegadeesh-subrahmanyam-rof-2025",
+      "path": "docs/research/momentum_sources.json",
+      "raw_pdf_reverified_by_this_suite": false,
+      "sha256": "58f9620d7727b575d8f0574e0b113938d8d411ed658110e3f194aba424e22992"
+    }
+  ]
+}

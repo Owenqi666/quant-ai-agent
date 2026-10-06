@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "protocol_id": "alpha101-human-workflow-v1",
+  "status": "pending_human_execution",
+  "material_confirmation": "evaluation_suites/v05/material_confirmation.json",
+  "task_id": "user_selected_alpha101",
+  "candidate_id": "alpha101",
+  "conditions": [
+    "manual_cli",
+    "workbench"
+  ],
+  "engine_mode": "normalized_fixed",
+  "inputs": {
+    "evaluation_suites/v05/task.json": "412b89980af41d423d377b13fdfef5400bc57963855454e6f08e840367d972be",
+    "examples/alpha101/paper.pdf": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+    "examples/alpha101/market.csv": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00",
+    "examples/alpha101/metadata.json": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257"
+  },
+  "evaluation": {
+    "min_assets": 5,
+    "splits": {
+      "test": {
+        "end": "2023-07-14",
+        "start": "2023-04-03"
+      },
+      "train": {
+        "end": "2022-09-30",
+        "start": "2022-01-03"
+      },
+      "validation": {
+        "end": "2023-03-31",
+        "start": "2022-10-03"
+      }
+    }
+  },
+  "phases": [
+    "reading",
+    "hypothesis",
+    "implementation",
+    "run_setup",
+    "review",
+    "report"
+  ],
+  "interval_kinds": [
+    "active",
+    "waiting",
+    "away"
+  ],
+  "interval_statuses": [
+    "ended",
+    "interrupted"
+  ],
+  "pre_execution_required": [
+    "participant",
+    "session_id",
+    "code_commit",
+    "environment",
+    "allowed_tools",
+    "execution_order",
+    "prior_familiarity",
+    "practice_session",
+    "predeclared_stop_condition"
+  ],
+  "completion_criteria": [
+    "page-linked evidence",
+    "explicit formula and mechanism attribution",
+    "legal executable candidate",
+    "verified immutable experiment",
+    "result-consistent report",
+    "five dimensions have actual judgments and reasons"
+  ],
+  "completed_human_observations": 0,
+  "scope": "Same familiar Alpha101 task with synthetic inputs; not held-out research or market-performance evidence. Human superiority and time savings are unmeasured."
+}

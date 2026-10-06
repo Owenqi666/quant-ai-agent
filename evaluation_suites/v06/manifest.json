@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "suite_id": "v06-temporal-alpha101",
+  "version": "1",
+  "scope": "synthetic_engineering",
+  "repetitions": 2,
+  "tasks": [
+    {
+      "id": "temporal_transforms",
+      "partition": "development",
+      "status": "ready",
+      "label_source": "automation",
+      "label_note": "AI-assisted deterministic engineering expectations; the user selected the paper but did not approve the transformations or provide semantic labels.",
+      "human_fidelity": "unlabelled",
+      "family_ids": [
+        "alpha101"
+      ],
+      "task": "tasks/temporal_transforms.json",
+      "input_sha256": {
+        "task": "8a2f4aa5c4c18960a71afd57ac5be9093860d3377bb3d3935bc3f4080806c024",
+        "paper": "2e958978f23f7359f8f1e18e90f41db4f836216e69c717c3dcc1d2b4b761d7cd",
+        "paper_pdf": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+        "data": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00",
+        "data_metadata": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257"
+      },
+      "expected": {
+        "fixed": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101_mean5_modified": "evaluated",
+            "alpha101_std5_modified": "evaluated",
+            "alpha101_delay1_modified": "evaluated"
+          }
+        },
+        "normalized_fixed": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101_mean5_modified": "evaluated",
+            "alpha101_std5_modified": "evaluated",
+            "alpha101_delay1_modified": "evaluated"
+          }
+        },
+        "agent": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101_mean5_modified": "evaluated",
+            "alpha101_std5_modified": "evaluated",
+            "alpha101_delay1_modified": "evaluated"
+          }
+        }
+      },
+      "executable_candidate_ids": [
+        "alpha101_mean5_modified",
+        "alpha101_std5_modified",
+        "alpha101_delay1_modified"
+      ],
+      "numerical_candidate_ids": [
+        "alpha101_mean5_modified",
+        "alpha101_std5_modified",
+        "alpha101_delay1_modified"
+      ],
+      "formula_groups": {
+        "alpha101_mean5_modified": "alpha101",
+        "alpha101_std5_modified": "alpha101",
+        "alpha101_delay1_modified": "alpha101"
+      },
+      "oracle_expectations": {
+        "alpha101_mean5_modified": "supported",
+        "alpha101_std5_modified": "supported",
+        "alpha101_delay1_modified": "supported"
+      },
+      "evidence_ids": [
+        "alpha101-formula"
+      ]
+    },
+    {
+      "id": "unsupported_window",
+      "partition": "development",
+      "status": "ready",
+      "label_source": "automation",
+      "label_note": "AI-assisted deterministic engineering expectations; the user selected the paper but did not approve the transformations or provide semantic labels.",
+      "human_fidelity": "unlabelled",
+      "family_ids": [
+        "alpha101"
+      ],
+      "task": "tasks/unsupported_window.json",
+      "input_sha256": {
+        "task": "ec790698ac96c97e5596275ba5a20e20811df0b25a69b6d781f549df02304e28",
+        "paper": "2e958978f23f7359f8f1e18e90f41db4f836216e69c717c3dcc1d2b4b761d7cd",
+        "paper_pdf": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+        "data": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00",
+        "data_metadata": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257"
+      },
+      "expected": {
+        "fixed": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101_mean6_control": "evaluated"
+          }
+        },
+        "normalized_fixed": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101_mean6_control": "evaluated"
+          }
+        },
+        "agent": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101_mean6_control": "evaluated"
+          }
+        }
+      },
+      "executable_candidate_ids": [
+        "alpha101_mean6_control"
+      ],
+      "numerical_candidate_ids": [
+        "alpha101_mean6_control"
+      ],
+      "formula_groups": {
+        "alpha101_mean6_control": "alpha101"
+      },
+      "oracle_expectations": {
+        "alpha101_mean6_control": "unsupported"
+      },
+      "evidence_ids": [
+        "alpha101-formula"
+      ]
+    },
+    {
+      "id": "missing_field",
+      "partition": "development",
+      "status": "ready",
+      "label_source": "automation",
+      "label_note": "AI-assisted deterministic engineering expectations; the user selected the paper but did not approve the transformations or provide semantic labels.",
+      "human_fidelity": "unlabelled",
+      "family_ids": [
+        "alpha101"
+      ],
+      "task": "tasks/missing_field.json",
+      "input_sha256": {
+        "task": "ae5794fa87ba701204d169f31103bf287ab2dff66f5978e1ba956e75508dad60",
+        "paper": "2e958978f23f7359f8f1e18e90f41db4f836216e69c717c3dcc1d2b4b761d7cd",
+        "paper_pdf": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+        "data": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00",
+        "data_metadata": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257"
+      },
+      "expected": {
+        "fixed": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101_vwap_control": "blocked"
+          }
+        },
+        "normalized_fixed": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101_vwap_control": "blocked"
+          }
+        },
+        "agent": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101_vwap_control": "blocked"
+          }
+        }
+      },
+      "executable_candidate_ids": [],
+      "numerical_candidate_ids": [],
+      "formula_groups": {
+        "alpha101_vwap_control": "alpha101"
+      },
+      "oracle_expectations": {},
+      "evidence_ids": [
+        "alpha101-formula"
+      ]
+    },
+    {
+      "id": "budget_stop",
+      "partition": "development",
+      "status": "ready",
+      "label_source": "automation",
+      "label_note": "AI-assisted deterministic engineering expectations; the user selected the paper but did not approve the transformations or provide semantic labels.",
+      "human_fidelity": "unlabelled",
+      "family_ids": [
+        "alpha101"
+      ],
+      "task": "tasks/budget_stop.json",
+      "input_sha256": {
+        "task": "4af60cb58faefb28cf77b2289d0498886aad4cec4a35ed0e6087823abe5daa99",
+        "paper": "2e958978f23f7359f8f1e18e90f41db4f836216e69c717c3dcc1d2b4b761d7cd",
+        "paper_pdf": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+        "data": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00",
+        "data_metadata": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257"
+      },
+      "expected": {
+        "fixed": {
+          "run_status": "budget_exhausted",
+          "candidates": {
+            "alpha101_mean5_modified": "budget_stopped"
+          }
+        },
+        "normalized_fixed": {
+          "run_status": "budget_exhausted",
+          "candidates": {
+            "alpha101_mean5_modified": "budget_stopped"
+          }
+        },
+        "agent": {
+          "run_status": "budget_exhausted",
+          "candidates": {
+            "alpha101_mean5_modified": "budget_stopped"
+          }
+        }
+      },
+      "executable_candidate_ids": [],
+      "numerical_candidate_ids": [],
+      "formula_groups": {
+        "alpha101_mean5_modified": "alpha101"
+      },
+      "oracle_expectations": {},
+      "evidence_ids": [
+        "alpha101-formula"
+      ]
+    }
+  ]
+}

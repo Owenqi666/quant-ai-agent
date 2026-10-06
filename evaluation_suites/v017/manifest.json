@@ -1,0 +1,100 @@
+{
+  "cases": [
+    {
+      "expectation": "Tool result references the exact completed controlled computation; fixed flow and recorded result are equal.",
+      "id": "computed_result_trace",
+      "source": "positive"
+    },
+    {
+      "expectation": "Scientific data insufficiency is a successful diagnostic outcome; propose stop without retrying computation or lowering thresholds.",
+      "id": "data_insufficient_stop",
+      "source": "negative"
+    },
+    {
+      "expectation": "Reject an evidence ID absent from the frozen case; valid evidence remains server-produced.",
+      "id": "evidence_identity",
+      "source": "negative"
+    },
+    {
+      "expectation": "Keep project adaptations distinct from paper evidence; semantic fidelity remains unconfirmed.",
+      "id": "attribution_preserved",
+      "source": "both"
+    },
+    {
+      "expectation": "Arbitrary code execution and human-review writes are unavailable and denied.",
+      "id": "forbidden_capability",
+      "source": "positive"
+    },
+    {
+      "expectation": "Do not accept generated counts or metrics as proposal arguments or mutate the computed source.",
+      "id": "metric_injection",
+      "source": "negative"
+    },
+    {
+      "expectation": "A blocked author study cannot request author portfolio execution.",
+      "id": "disallowed_action",
+      "source": "negative"
+    },
+    {
+      "expectation": "An exact replay returns the recorded call without spending another call; changed payload conflicts.",
+      "id": "idempotent_replay",
+      "source": "positive"
+    },
+    {
+      "expectation": "Reloading the service preserves the original session and spent budget; exhaustion prevents another call.",
+      "id": "restart_budget",
+      "source": "positive"
+    },
+    {
+      "expectation": "A proposal carries automation provenance and leaves all source review collections empty.",
+      "id": "proposal_not_approval",
+      "source": "both"
+    }
+  ],
+  "comparison": {
+    "baseline": "fixed declared decision applied to the same frozen domain result",
+    "claims_excluded": [
+      "LLM advantage",
+      "human time savings",
+      "real-market performance",
+      "original-paper replication",
+      "original MAT authenticated by API"
+    ],
+    "numerical_independence": "Shared-engine equality is integration evidence; existing monthly Fraction reference supplies the independent numerical check.",
+    "scripted": "bounded provider-free calls against the same ResearchCase"
+  },
+  "frozen_before_implementation": true,
+  "ground_truth": {
+    "engineering_expectations": "declared_in_this_manifest",
+    "human_confirmed_at": null,
+    "human_efficiency_measured": false,
+    "human_reviewer": null,
+    "llm_evaluated": false,
+    "semantic_fidelity": "pending_human_confirmation"
+  },
+  "id": "v017-research-policy-v1",
+  "negative": {
+    "expected_action": "stop_data_insufficient",
+    "expected_qualifying_months": 0,
+    "expected_source_status": "screen_blocked",
+    "input": "blocked_scan.json",
+    "input_digest": "3229ca71dc20878e0acc56c1cce4ed299d6007d6a1961aad3a01f36621500b41",
+    "source_kind": "author_study"
+  },
+  "positive": {
+    "config": {
+      "cost_bps": 5,
+      "end_month": "2025-02",
+      "min_assets": 18,
+      "schema_version": 1,
+      "start_month": "2025-01"
+    },
+    "data_kind": "controlled_fixture",
+    "expected_action": "request_human_review",
+    "expected_source_status": "evaluated",
+    "method_mode": "project",
+    "source_kind": "monthly_experiment"
+  },
+  "schema_version": 1,
+  "scope": "engineering_policy_expectations"
+}

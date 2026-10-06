@@ -1,0 +1,281 @@
+{
+  "repetitions": 2,
+  "schema_version": 1,
+  "scope": "synthetic_engineering",
+  "suite_id": "engineering-v04",
+  "tasks": [
+    {
+      "evidence_ids": [
+        "alpha006-formula",
+        "alpha101-formula",
+        "alpha005-formula"
+      ],
+      "executable_candidate_ids": [
+        "alpha006",
+        "alpha101",
+        "canonical_corr"
+      ],
+      "expected": {
+        "agent": {
+          "candidates": {
+            "alpha005": "blocked",
+            "alpha006": "evaluated",
+            "alpha101": "evaluated",
+            "canonical_corr": "evaluated",
+            "changed_original": "rejected",
+            "negative_delay": "rejected",
+            "unsafe_expr": "rejected",
+            "zero_signal": "not_evaluable"
+          },
+          "run_status": "completed"
+        },
+        "fixed": {
+          "candidates": {
+            "alpha005": "blocked",
+            "alpha006": "rejected",
+            "alpha101": "evaluated",
+            "canonical_corr": "evaluated",
+            "changed_original": "rejected",
+            "negative_delay": "rejected",
+            "unsafe_expr": "rejected",
+            "zero_signal": "not_evaluable"
+          },
+          "run_status": "completed"
+        },
+        "normalized_fixed": {
+          "candidates": {
+            "alpha005": "blocked",
+            "alpha006": "evaluated",
+            "alpha101": "evaluated",
+            "canonical_corr": "evaluated",
+            "changed_original": "rejected",
+            "negative_delay": "rejected",
+            "unsafe_expr": "rejected",
+            "zero_signal": "not_evaluable"
+          },
+          "run_status": "completed"
+        }
+      },
+      "family_ids": [
+        "alpha005",
+        "alpha006",
+        "alpha101"
+      ],
+      "formula_groups": {
+        "alpha005": "alpha005",
+        "alpha006": "alpha006",
+        "alpha101": "alpha101",
+        "canonical_corr": "alpha006",
+        "changed_original": "alpha006",
+        "negative_delay": "alpha101",
+        "unsafe_expr": "alpha101",
+        "zero_signal": "alpha101"
+      },
+      "human_fidelity": "unlabelled",
+      "id": "robustness",
+      "input_sha256": {
+        "data": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00",
+        "data_metadata": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257",
+        "paper": "2e958978f23f7359f8f1e18e90f41db4f836216e69c717c3dcc1d2b4b761d7cd",
+        "paper_pdf": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+        "task": "d01b9cb0186690abbddfdaa389003f6dc36bd62e02d6f50e894aaca59cfcef49"
+      },
+      "label_note": "Predetermined engineering expectations curated with AI assistance; source quotes verified against the bundled PDF; not user study or human semantic annotations.",
+      "label_source": "automation",
+      "numerical_candidate_ids": [
+        "alpha006",
+        "alpha101",
+        "canonical_corr",
+        "zero_signal"
+      ],
+      "oracle_expectations": {
+        "alpha006": "supported",
+        "alpha101": "supported",
+        "canonical_corr": "supported",
+        "zero_signal": "unsupported"
+      },
+      "partition": "development",
+      "status": "ready",
+      "task": "tasks/robustness.json"
+    },
+    {
+      "evidence_ids": [
+        "alpha012-formula",
+        "alpha033_modified-formula",
+        "alpha101-formula"
+      ],
+      "executable_candidate_ids": [
+        "alpha012",
+        "alpha033_modified",
+        "unsupported_open"
+      ],
+      "expected": {
+        "agent": {
+          "candidates": {
+            "alpha012": "evaluated",
+            "alpha033_modified": "evaluated",
+            "unsupported_open": "evaluated"
+          },
+          "run_status": "completed"
+        },
+        "fixed": {
+          "candidates": {
+            "alpha012": "rejected",
+            "alpha033_modified": "evaluated",
+            "unsupported_open": "evaluated"
+          },
+          "run_status": "completed"
+        },
+        "normalized_fixed": {
+          "candidates": {
+            "alpha012": "evaluated",
+            "alpha033_modified": "evaluated",
+            "unsupported_open": "evaluated"
+          },
+          "run_status": "completed"
+        }
+      },
+      "family_ids": [
+        "alpha012",
+        "alpha033",
+        "engineering_open"
+      ],
+      "formula_groups": {
+        "alpha012": "alpha012",
+        "alpha033_modified": "alpha033",
+        "unsupported_open": "engineering_open"
+      },
+      "human_fidelity": "unlabelled",
+      "id": "extra_formulas",
+      "input_sha256": {
+        "data": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00",
+        "data_metadata": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257",
+        "paper": "2e958978f23f7359f8f1e18e90f41db4f836216e69c717c3dcc1d2b4b761d7cd",
+        "paper_pdf": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+        "task": "309e85ba8f2d91b2c369d927db0b65ea19331e26d8409d411c3f1b3247accb42"
+      },
+      "label_note": "Predetermined engineering expectations curated with AI assistance; source quotes verified against the bundled PDF; not user study or human semantic annotations.",
+      "label_source": "automation",
+      "numerical_candidate_ids": [
+        "alpha012",
+        "alpha033_modified",
+        "unsupported_open"
+      ],
+      "oracle_expectations": {
+        "alpha012": "supported",
+        "alpha033_modified": "supported",
+        "unsupported_open": "unsupported"
+      },
+      "partition": "development",
+      "status": "ready",
+      "task": "tasks/extra_formulas.json"
+    },
+    {
+      "evidence_ids": [
+        "alpha101-formula"
+      ],
+      "executable_candidate_ids": [],
+      "expected": {
+        "agent": {
+          "candidates": {
+            "alpha101": "blocked"
+          },
+          "run_status": "failed"
+        },
+        "fixed": {
+          "candidates": {
+            "alpha101": "blocked"
+          },
+          "run_status": "failed"
+        },
+        "normalized_fixed": {
+          "candidates": {
+            "alpha101": "blocked"
+          },
+          "run_status": "failed"
+        }
+      },
+      "family_ids": [
+        "alpha101"
+      ],
+      "formula_groups": {
+        "alpha101": "alpha101"
+      },
+      "human_fidelity": "unlabelled",
+      "id": "wrong_quote",
+      "input_sha256": {
+        "data": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00",
+        "data_metadata": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257",
+        "paper": "2e958978f23f7359f8f1e18e90f41db4f836216e69c717c3dcc1d2b4b761d7cd",
+        "paper_pdf": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+        "task": "2deecb47a5532419efbf1be4a42c000512944e3ac45afa5be969b670bdad2e76"
+      },
+      "label_note": "Predetermined engineering expectations curated with AI assistance; source quotes verified against the bundled PDF; not user study or human semantic annotations.",
+      "label_source": "automation",
+      "numerical_candidate_ids": [],
+      "oracle_expectations": {},
+      "partition": "development",
+      "status": "ready",
+      "task": "tasks/wrong_quote.json"
+    },
+    {
+      "evidence_ids": [
+        "alpha101-formula"
+      ],
+      "executable_candidate_ids": [],
+      "expected": {
+        "agent": {
+          "candidates": {
+            "alpha101": "budget_stopped"
+          },
+          "run_status": "budget_exhausted"
+        },
+        "fixed": {
+          "candidates": {
+            "alpha101": "budget_stopped"
+          },
+          "run_status": "budget_exhausted"
+        },
+        "normalized_fixed": {
+          "candidates": {
+            "alpha101": "budget_stopped"
+          },
+          "run_status": "budget_exhausted"
+        }
+      },
+      "family_ids": [
+        "alpha101"
+      ],
+      "formula_groups": {
+        "alpha101": "alpha101"
+      },
+      "human_fidelity": "unlabelled",
+      "id": "budget_stop",
+      "input_sha256": {
+        "data": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00",
+        "data_metadata": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257",
+        "paper": "2e958978f23f7359f8f1e18e90f41db4f836216e69c717c3dcc1d2b4b761d7cd",
+        "paper_pdf": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+        "task": "3d0d8510fffea0825ef7190ca13ab8b0cc9ceb863149edfdeb95ce73d7d31a85"
+      },
+      "label_note": "Predetermined engineering expectations curated with AI assistance; source quotes verified against the bundled PDF; not user study or human semantic annotations.",
+      "label_source": "automation",
+      "numerical_candidate_ids": [],
+      "oracle_expectations": {},
+      "partition": "development",
+      "status": "ready",
+      "task": "tasks/budget_stop.json"
+    },
+    {
+      "family_ids": [],
+      "human_fidelity": "unlabelled",
+      "id": "user_paper_reserved",
+      "label_note": "No user-confirmed independent paper/hypothesis annotations have been supplied. This is a placeholder, not a research evaluation result.",
+      "label_source": "legacy_unknown",
+      "partition": "reserved",
+      "pending_reason": "Await user-selected research material and independently reviewed labels before assigning families or running a held-out evaluation.",
+      "status": "pending_annotation"
+    }
+  ],
+  "version": "1"
+}

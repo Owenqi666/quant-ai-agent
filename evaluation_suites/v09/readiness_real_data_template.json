@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "kind": "real_data",
+  "id": "",
+  "data_kind": "unknown",
+  "declaration_source": "unknown",
+  "source": {
+    "provider": "",
+    "dataset": "",
+    "version": "",
+    "reference": ""
+  },
+  "authorization": {
+    "status": "unknown",
+    "basis": "",
+    "permitted_use": "",
+    "evidence": {
+      "path": "",
+      "sha256": ""
+    }
+  },
+  "snapshots": [
+    {
+      "id": "",
+      "role": "market_data",
+      "artifact": {
+        "path": "",
+        "sha256": ""
+      }
+    },
+    {
+      "id": "",
+      "role": "calendar",
+      "artifact": {
+        "path": "",
+        "sha256": ""
+      }
+    },
+    {
+      "id": "",
+      "role": "universe",
+      "artifact": {
+        "path": "",
+        "sha256": ""
+      }
+    }
+  ],
+  "field_mapping": [
+    {
+      "target": "",
+      "source": "",
+      "unit": "",
+      "availability_time_rule": "",
+      "revision_policy": "",
+      "snapshot_id": ""
+    }
+  ],
+  "semantics": {
+    "timezone": "",
+    "timestamp_key": "",
+    "asset_key": "",
+    "calendar_snapshot_id": "",
+    "calendar_rule": "",
+    "adjustment_rule": "",
+    "adjustment_as_of_rule": "",
+    "universe_snapshot_id": "",
+    "historical_universe_rule": "",
+    "missing_value_rule": "",
+    "suspension_rule": "",
+    "delisting_rule": ""
+  }
+}

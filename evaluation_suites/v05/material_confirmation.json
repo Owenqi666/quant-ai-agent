@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-01",
+  "source": "user_message",
+  "paper_id": "arxiv:1601.00991v3",
+  "document_sha256": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+  "user_statement": "就用这个101作为研究材料，这个非常经典，我也使用过",
+  "confirmed": [
+    "material_selection",
+    "prior_personal_use_of_paper"
+  ],
+  "not_confirmed": [
+    "individual_hypothesis_fidelity",
+    "economic_mechanism",
+    "human_review_of_automated_results",
+    "manual_research_time",
+    "real_market_performance"
+  ],
+  "development_only": true
+}
