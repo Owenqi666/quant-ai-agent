@@ -1,0 +1,145 @@
+{
+  "budget": {
+    "max_attempts_per_candidate": 2,
+    "max_candidates": 4,
+    "max_seconds": 60,
+    "max_tool_calls": 24
+  },
+  "candidates": [
+    {
+      "changes": [],
+      "expression": "(sign(delta(volume, 1)) * (-1 * delta(close, 1)))",
+      "hypothesis_id": "h-alpha012",
+      "id": "alpha012",
+      "origin": "paper_original"
+    },
+    {
+      "changes": [
+        "Read the paper superscript/exponent one as a mathematical power and explicitly remove it; retain cross-sectional rank. This local form is a declared modification, not a byte-for-byte source formula."
+      ],
+      "expression": "rank(-1 * (1 - open / close))",
+      "hypothesis_id": "h-alpha033_modified",
+      "id": "alpha033_modified",
+      "origin": "user_modification"
+    },
+    {
+      "changes": [
+        "Engineering-only formula control; not a paper alpha or independent research idea."
+      ],
+      "expression": "open",
+      "hypothesis_id": "h-unsupported_open",
+      "id": "unsupported_open",
+      "origin": "model_conjecture"
+    }
+  ],
+  "data": "../../../examples/alpha101/market.csv",
+  "data_metadata": "../../../examples/alpha101/metadata.json",
+  "evaluation": {
+    "min_assets": 5,
+    "splits": {
+      "test": {
+        "end": "2023-07-14",
+        "start": "2023-04-03"
+      },
+      "train": {
+        "end": "2022-09-30",
+        "start": "2022-01-03"
+      },
+      "validation": {
+        "end": "2023-03-31",
+        "start": "2022-10-03"
+      }
+    }
+  },
+  "evidence": [
+    {
+      "id": "alpha012-formula",
+      "page": 9,
+      "quote": "(sign(delta(volume, 1)) * (-1 * delta(close, 1)))"
+    },
+    {
+      "id": "alpha033_modified-formula",
+      "page": 10,
+      "quote": "rank((-1 * ((1 - (open / close))^1)))"
+    },
+    {
+      "id": "alpha101-formula",
+      "page": 15,
+      "quote": "((close - open) / ((high - low) + .001))"
+    }
+  ],
+  "hypotheses": [
+    {
+      "assumptions": [
+        "Provider: reviewed-template proposal provider; only exact reviewed formula templates are supported, with no LLM calls.",
+        "The user's personal study of this paper is unconfirmed; this is an engineering demonstration.",
+        "Higher factor values form the long leg under a local evaluation convention, not a conclusion established by this formula citation.",
+        "Signals using daily OHLCV are available only after those observations are complete; execution timing must be specified by the local evaluation configuration.",
+        "Local data, operator semantics and evaluation settings do not reproduce the paper's backtest or establish equivalence with WorldQuant BRAIN.",
+        "Every required field must be available with documented semantics; no substitute field is authorized."
+      ],
+      "attribution": "paper_original",
+      "claim": "Source formula: (sign(delta(volume, 1)) * (-1 * delta(close, 1)))",
+      "economic_mechanism": "No causal mechanism is established by this formula excerpt; this is an engineering verification task.",
+      "evidence_ids": [
+        "alpha012-formula"
+      ],
+      "id": "h-alpha012",
+      "mechanism_attribution": "model_conjecture",
+      "required_fields": [
+        "volume",
+        "close"
+      ],
+      "signal_direction": "Higher values are long under the local evaluation convention; see assumptions."
+    },
+    {
+      "assumptions": [
+        "Provider: reviewed-template proposal provider; only exact reviewed formula templates are supported, with no LLM calls.",
+        "The user's personal study of this paper is unconfirmed; this is an engineering demonstration.",
+        "Higher factor values form the long leg under a local evaluation convention, not a conclusion established by this formula citation.",
+        "Signals using daily OHLCV are available only after those observations are complete; execution timing must be specified by the local evaluation configuration.",
+        "Local data, operator semantics and evaluation settings do not reproduce the paper's backtest or establish equivalence with WorldQuant BRAIN.",
+        "Every required field must be available with documented semantics; no substitute field is authorized."
+      ],
+      "attribution": "user_modification",
+      "claim": "Source formula: rank((-1 * ((1 - (open / close))^1)))",
+      "economic_mechanism": "No causal mechanism is established by this formula excerpt; this is an engineering verification task.",
+      "evidence_ids": [
+        "alpha033_modified-formula"
+      ],
+      "id": "h-alpha033_modified",
+      "mechanism_attribution": "model_conjecture",
+      "required_fields": [
+        "open",
+        "close"
+      ],
+      "signal_direction": "Higher values are long under the local evaluation convention; see assumptions."
+    },
+    {
+      "assumptions": [
+        "Provider: reviewed-template proposal provider; only exact reviewed formula templates are supported, with no LLM calls.",
+        "The user's personal study of this paper is unconfirmed; this is an engineering demonstration.",
+        "Higher factor values form the long leg under a local evaluation convention, not a conclusion established by this formula citation.",
+        "Signals using daily OHLCV are available only after those observations are complete; execution timing must be specified by the local evaluation configuration.",
+        "Local data, operator semantics and evaluation settings do not reproduce the paper's backtest or establish equivalence with WorldQuant BRAIN.",
+        "Every required field must be available with documented semantics; no substitute field is authorized."
+      ],
+      "attribution": "model_conjecture",
+      "claim": "Engineering control: execute a legal formula absent from the independent reference registry.",
+      "economic_mechanism": "No economic claim; deliberately unsupported reference coverage control.",
+      "evidence_ids": [
+        "alpha101-formula"
+      ],
+      "id": "h-unsupported_open",
+      "mechanism_attribution": "model_conjecture",
+      "required_fields": [
+        "open"
+      ],
+      "signal_direction": "Higher values are long under the local evaluation convention; see assumptions."
+    }
+  ],
+  "paper": "../../../examples/alpha101/paper.json",
+  "paper_pdf": "../../../examples/alpha101/paper.pdf",
+  "schema_version": 1,
+  "title": "Additional exact-formula engineering checks; personal study unconfirmed"
+}

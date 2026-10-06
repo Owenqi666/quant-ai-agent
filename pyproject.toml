@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools==84.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "paper-to-alpha"
+version = "0.22.0"
+description = "Evidence-linked, bounded local alpha research workflow"
+requires-python = ">=3.11"
+dependencies = ["numpy==2.4.6", "pandas==3.0.3", "pypdf==6.10.0"]
+
+[project.scripts]
+paper-alpha = "paper_alpha.cli:main"
+paper-alpha-web = "paper_alpha.server.launcher:main"
+
+[project.optional-dependencies]
+web = ["fastapi==0.142.2", "uvicorn==0.54.0", "python-multipart==0.0.32", "h5py==3.16.0"]
+test = ["httpx==0.28.1"]
+
+[tool.setuptools.packages.find]
+include = ["paper_alpha*"]

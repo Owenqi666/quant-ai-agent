@@ -1,0 +1,27 @@
+{
+  "paper_id": "arxiv:1601.00991v3",
+  "document_sha256": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+  "page_numbering": "1-based physical PDF pages; these pages match printed numbers",
+  "evidence": [
+    {
+      "id": "alpha006-formula",
+      "page": 8,
+      "quote": "(-1 * correlation(open, volume, 10))",
+      "visual_checked": true,
+      "start_char": 1387,
+      "end_char": 1423
+    },
+    {
+      "id": "alpha101-formula",
+      "page": 15,
+      "quote": "((close - open) / ((high - low) + .001))",
+      "visual_checked": true,
+      "start_char": 688,
+      "end_char": 728
+    }
+  ],
+  "limitations": [
+    "Formula evidence establishes the formulas; it does not establish a causal economic mechanism or a claim of profitability in this project.",
+    "The user has not confirmed this is one of their personally studied papers. This is an engineering demonstration source."
+  ]
+}

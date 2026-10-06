@@ -1,0 +1,31 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.DS_Store
+build/
+dist/
+runs/
+var/
+backups/
+artifacts/
+*.schema.lock
+*.workspace.lock
+frontend/node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+frontend/*.tsbuildinfo
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+.env
+.env.*
+!.env.example
+
+# Public checkouts retrieve the exact demonstration PDF from its original URL.
+# Existing tracked personal copies remain historical inputs; do not redistribute
+# them through the public code export or CI evidence uploads.
+/examples/alpha101/paper.pdf
+/examples/alpha101/paper.json
+/examples/alpha101/paper-page*.png

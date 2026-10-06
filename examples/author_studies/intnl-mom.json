@@ -1,0 +1,12 @@
+{
+  "development_end": "2006-12",
+  "development_start": "1993-03",
+  "minimum_assets": 30,
+  "rationale": "Predeclared project MOM screening threshold of30 original assets per month, for later method definition; not a paper rule, power calculation or portfolio sufficiency claim. All months retained regardless of results.",
+  "requires_market_cap": false,
+  "reserved_from": "2007-01",
+  "schema_version": 1,
+  "source_file": "IntnlData.mat",
+  "task": "momentum",
+  "threshold_origin": "project_screen"
+}

@@ -1,0 +1,89 @@
+{
+  "source_root": "local_source_omitted",
+  "note": "Copied existing partial implementation; source directory unchanged. These files predate this task.",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "c6c57d24515aae5c933cb650224be3a2558fe3837b078e762c5ac7dcf31e7158"
+    },
+    {
+      "path": "examples/alpha101/market.csv",
+      "sha256": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00"
+    },
+    {
+      "path": "examples/alpha101/metadata.json",
+      "sha256": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257"
+    },
+    {
+      "path": "examples/alpha101/paper-page15.png",
+      "sha256": "6183b5fa857af76863647b365bc07153f21ad7f10157bfe1c440acc03757abdd"
+    },
+    {
+      "path": "examples/alpha101/paper-page8.png",
+      "sha256": "454b0768fcfaf2df3041ab7c212fa3f3b444309dc8a0c709a4d3dfa4ec140bc0"
+    },
+    {
+      "path": "examples/alpha101/paper.json",
+      "sha256": "2e958978f23f7359f8f1e18e90f41db4f836216e69c717c3dcc1d2b4b761d7cd"
+    },
+    {
+      "path": "examples/alpha101/paper.pdf",
+      "sha256": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9"
+    },
+    {
+      "path": "examples/alpha101/source_evidence.json",
+      "sha256": "2211a585f2d02a39fc387e9615a50339bba483875072fff4293cb3963981ccdf"
+    },
+    {
+      "path": "paper_alpha/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "paper_alpha/contracts.py",
+      "sha256": "2d5e12112c2e9588d3b3e7bc670c9bdc7909de19638ba888a06c1be096d1ea8e"
+    },
+    {
+      "path": "paper_alpha/evidence.py",
+      "sha256": "7bb9f3d03b47574518d70dd8942f0a058f5fb83dc780eabdf00332b3661265f5"
+    },
+    {
+      "path": "paper_alpha/storage.py",
+      "sha256": "998ed3c6fa9ea8fd51cc9bc56b6a77387400ed35f03674f140d91b6a6ffd04d8"
+    },
+    {
+      "path": "paper_alpha/vendor/PROVENANCE.json",
+      "sha256": "f228226a79f939b968d931873a9103c8db8cace3be0fc4c02f779a88505a7a75"
+    },
+    {
+      "path": "paper_alpha/vendor/__init__.py",
+      "sha256": "801f537586b8c13f4877e2e67202d1aac2e5dec5a79348fc1e3e81a65c04514e"
+    },
+    {
+      "path": "paper_alpha/vendor/factors.py",
+      "sha256": "ef331da3d3df75b8421ca982e110877bb8cc22eeeacef754cda50c9a32b2bb0d"
+    },
+    {
+      "path": "paper_alpha/vendor/operators.py",
+      "sha256": "1318a9a6be88639efd2a3a1431b63574d7682a896eb1bb69435bbcd07aa68773"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "c83f9186bfd7be67abebc5a4d0aa315db24371c8aec5341e9c4fbbcc9352e288"
+    },
+    {
+      "path": "scripts/make_fixture.py",
+      "sha256": "d4ec35256d2a1bd3d2e6ce41b10182d53649a5778c381bf038456e36eba3a1a1"
+    },
+    {
+      "path": "tests/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "public_metadata_projection": {
+    "original_document_sha256": "eda0196c2bc6ed4fcffa091d3a6320bfdd27185d8afeb5cf9c74b312f4abeab2",
+    "omitted_categories": [
+      "personal_absolute_source_path"
+    ],
+    "note": "Historical source/code hashes retained. No ownership or redistribution authentication."
+  }
+}

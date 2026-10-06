@@ -1,0 +1,517 @@
+{
+  "ai_interface_enabled": false,
+  "contract_digest": "405a947b3d9f6f2978c386a0dea5a83242837e0a08a19a1af127d394316ca8de",
+  "contract_version": "gjs-mom-only-method-evidence-v1",
+  "evidence": [
+    {
+      "document_sha256": "07b8dad425b23328588a9668e8fccb58f18f79a4d1665d8fc49680198b0fbc2e",
+      "id": "mom-target-month-window",
+      "literal_match": true,
+      "normalization": "paper_alpha.evidence.normalize: NFKC, whitespace collapse, strip",
+      "normalized_end_exclusive": 3024,
+      "normalized_start": 2986,
+      "origin": "paper_original",
+      "page_1_based": 4,
+      "printed_page": 244,
+      "quote": "the return from month t − 12 to t − 2.",
+      "section": "2.2",
+      "semantic_fidelity": "requires_human_review",
+      "visually_inspected_by": "automation_assistant"
+    },
+    {
+      "document_sha256": "07b8dad425b23328588a9668e8fccb58f18f79a4d1665d8fc49680198b0fbc2e",
+      "id": "id-definition",
+      "literal_match": true,
+      "normalization": "paper_alpha.evidence.normalize: NFKC, whitespace collapse, strip",
+      "normalized_end_exclusive": 1979,
+      "normalized_start": 1946,
+      "origin": "paper_original",
+      "page_1_based": 6,
+      "printed_page": 246,
+      "quote": "PRET is the past 11-month return.",
+      "semantic_fidelity": "requires_human_review",
+      "visually_inspected_by": "automation_assistant"
+    },
+    {
+      "document_sha256": "07b8dad425b23328588a9668e8fccb58f18f79a4d1665d8fc49680198b0fbc2e",
+      "id": "momentum-window",
+      "literal_match": true,
+      "normalization": "paper_alpha.evidence.normalize: NFKC, whitespace collapse, strip",
+      "normalized_end_exclusive": 1675,
+      "normalized_start": 1623,
+      "origin": "paper_original",
+      "page_1_based": 24,
+      "printed_page": 264,
+      "quote": "last 11-month returns skipping the most recent month",
+      "semantic_fidelity": "requires_human_review",
+      "visually_inspected_by": "automation_assistant"
+    },
+    {
+      "document_sha256": "07b8dad425b23328588a9668e8fccb58f18f79a4d1665d8fc49680198b0fbc2e",
+      "id": "data-limit",
+      "literal_match": true,
+      "normalization": "paper_alpha.evidence.normalize: NFKC, whitespace collapse, strip",
+      "normalized_end_exclusive": 1566,
+      "normalized_start": 1525,
+      "origin": "paper_original",
+      "page_1_based": 30,
+      "printed_page": 270,
+      "quote": "Scrambled/ randomly deleted data and code",
+      "semantic_fidelity": "requires_human_review",
+      "visually_inspected_by": "automation_assistant"
+    }
+  ],
+  "execution_config_is_separate": true,
+  "full_mom_id_table8": {
+    "dgw_column_offset": -1,
+    "direction_source": {
+      "line": 28,
+      "source_id": "SetupDataA"
+    },
+    "extra_unresolved": [
+      "DGW daily return window and denominator/zero/missing/minimum-day rules",
+      "Complete author universe, cleaning, microcap, country neutralization, sorting/ties and weights implementation",
+      "Exact future-label filtering and renormalization versus strict project label coverage",
+      "Table8 note labels both sorts Panel B; preserve source ambiguity and distinguish body/headings/scripts"
+    ],
+    "grid": [
+      3,
+      3
+    ],
+    "id_formula_evidence_id": "id-definition",
+    "independent_sort_source": "Table8A",
+    "initial_upper_bound_count_check": 450,
+    "min_stocks_per_cell": 50,
+    "missing_intnl_worldscope_file_required_for_mom_only_signal": false,
+    "retvol_100_day_threshold_applies_to_id": false,
+    "scope": "not_enabled_by_mom_only",
+    "sequential_sort_source": "Table8B",
+    "x_direction": "negative_DGW"
+  },
+  "human_quality_review": null,
+  "human_review": null,
+  "id": "gjs-mom-only-project-evidence-v1",
+  "illustrative_defaults": {
+    "attribution": "project_modification",
+    "baseline": {
+      "name": "same_formation_sample_equal_weight_long_only",
+      "net_target_exposure": 1.0,
+      "risk_matched_to_momentum": false,
+      "total_weight": 1.0
+    },
+    "cost_model": null,
+    "development": {
+      "end": "2011-12",
+      "minimum_warmup_start": "2009-01",
+      "months": 24,
+      "start": "2010-01"
+    },
+    "fees_borrow_financing_liquidity_execution_modeled": false,
+    "holding_label": {
+      "formation_weights_frozen_before_labels": true,
+      "future_label_can_determine_formation": false,
+      "missing_label_execution_policy": {
+        "concatenate_across_missing_month_return_index": false,
+        "fill_missing_month_with_zero": false,
+        "paired_comparison_requires_both_evaluable": true,
+        "per_portfolio_evaluable_month_denominator": true,
+        "rule": "Portfolio H value unavailable when any nonzero frozen holding lacks a finite H return; never remove or reweight holdings using label availability."
+      },
+      "month_offset": 0,
+      "posthoc_label_filtering_or_weight_renormalization": false,
+      "unit": "decimal_simple_monthly_return"
+    },
+    "human_confirmation": null,
+    "market_scope": "provider-defined US industry portfolios, not original international single stocks",
+    "minimum_assets_unit": "industry_portfolio_series",
+    "minimum_formation_assets": 30,
+    "portfolio": {
+      "bottom_group_total_weight": -0.5,
+      "country_neutralization": false,
+      "gross_target_exposure": 1.0,
+      "grouping": "tercile",
+      "groups": 3,
+      "net_target_exposure": 0.0,
+      "rebalance_frequency": "calendar_month",
+      "signal": "raw_MOM",
+      "ties_and_remainder_policy": {
+        "empty_extreme_group_can_block_portfolio": true,
+        "equal_signals_share_one_group": true,
+        "force_equal_group_sizes": false,
+        "function": "_terciles",
+        "group_formula": "min(3, floor(3*(left+right)/(2*n)) + 1), 0-based left inclusive/right exclusive for an equal-valued group",
+        "name": "exact_equal_value_midrank_terciles_no_tie_splitting",
+        "source_path": "paper_alpha/monthly_evaluation.py",
+        "source_sha256": "2e4b5036fa68351672002cdef08063b4fbfbabd26ede82550ab31b539032cdd6"
+      },
+      "top_group_total_weight": 0.5,
+      "weight_basis": "equal_weight_within_selected_group"
+    },
+    "reserved": {
+      "claim_fully_unseen_blind_test": false,
+      "end": "2013-12",
+      "evaluate_in_current_round": false,
+      "months": 24,
+      "note": "The raw download/parser may contain later observations; only declared development labels are evaluated.",
+      "start": "2012-01"
+    },
+    "return_scope": "gross_only",
+    "source_candidate": {
+      "asset_type": "precomputed_industry_portfolio",
+      "name": "Kenneth French Data Library 49 Industry Portfolios; monthly value-weighted section",
+      "parser_contract": "kenneth-french-49-value-weighted-monthly-v1",
+      "raw_sha256": "16b3f20bf5bd1db8f5cd7a1b29f5cab1350eb0d5106c5309f77a6629590b1c0e",
+      "source_reference_id": "kenneth-french-49-industry-monthly-value-weighted",
+      "source_version": "202608 CRSP database vintage",
+      "status": "selected_frozen_source_for_project_demo",
+      "underlying_security_universe_reconstructed_by_project": false
+    },
+    "status": "illustrative_defaults_not_human_confirmed"
+  },
+  "input_and_missing_policy": {
+    "all_history_finite": true,
+    "attribution": "project_convention",
+    "calendar_lookup": "exact named calendar month; never compress gaps",
+    "compound_must_be_finite": true,
+    "evidence_context": "Author prod has no omitnan and isfinite(R11_t) filters follow; invalid-unit/overflow diagnostics are explicit project policy, not full paper data cleaning.",
+    "fill_policy": "none",
+    "label_value_required_for_signal": false,
+    "minimum_simple_return": -1.0,
+    "minus_one_return_is_valid": true,
+    "required_history_count": 11,
+    "return_input_unit": "decimal_simple_return",
+    "signal_can_read_future_or_skipped_values": false,
+    "skip_month_value_required_for_signal": false,
+    "zero_return_is_valid": true
+  },
+  "kind": "mom_only_method_contract",
+  "legacy_frozen_plan": {
+    "current_verification_scope": "Read existing frozen result summary and file bytes, no raw MAT or all-month re-scan",
+    "development_end": "2006-12",
+    "development_start": "1993-03",
+    "execution_ready": false,
+    "files": {
+      "input.json": {
+        "path": "artifacts/author-studies-v016-01/intnl-mom/input.json",
+        "sha256": "4fd6eb2f5083f81cc8a5b4ecc7ed4ae76c296708bcd8370b243774c44093c896"
+      },
+      "plan.json": {
+        "path": "artifacts/author-studies-v016-01/intnl-mom/plan.json",
+        "sha256": "40f6c4298cc1901e1ccd07f37d3c844a269d68efe432be2530eeb42747a88fe0"
+      },
+      "report.md": {
+        "path": "artifacts/author-studies-v016-01/intnl-mom/report.md",
+        "sha256": "378b13817c2a25ef772473cc399b272a75be76edc64682f16dd6be2282f426c6"
+      },
+      "result.json": {
+        "path": "artifacts/author-studies-v016-01/intnl-mom/result.json",
+        "sha256": "58e1c876be5b548a00a9076badac066be64dddf672883e96baa54c5012c91f6a"
+      }
+    },
+    "keep_original_plan_blocked": true,
+    "minimum_assets": 30,
+    "minimum_assets_unit": "anonymous_original_asset_rows",
+    "new_industry_example_can_unlock_original_plan": false,
+    "path": "artifacts/author-studies-v016-01/intnl-mom/plan.json",
+    "plan_digest": "40f6c4298cc1901e1ccd07f37d3c844a269d68efe432be2530eeb42747a88fe0",
+    "reserved_from": "2007-01",
+    "source": {
+      "assets": 59367,
+      "bytes": 358892265,
+      "doi": "10.7910/DVN/R1UI1J",
+      "file_id": 10519941,
+      "filename": "IntnlData.mat",
+      "first_month": "1989-01",
+      "last_month": "2020-12",
+      "periods": 384,
+      "repository_md5": "87d9424ee3b5b2fce4a4fb3646cf6df6",
+      "sha256": "6fe6fc27a85ec0f305d297b95d05039cb7bd2207ce012625df1e44bc272549ed",
+      "version": "2.0"
+    },
+    "summary": {
+      "max_selected": 26,
+      "min_selected": 2,
+      "months": 166,
+      "months_meeting_threshold": 0,
+      "status": "screen_blocked"
+    },
+    "task": "momentum"
+  },
+  "limitations": [
+    "Only the stated MOM signal definition is inherited unchanged; source, assets, weighting, labels, costs and split are separately attributed.",
+    "Industry portfolios are already aggregated provider series; they are not individual securities or historical point-in-time stock membership.",
+    "Baseline net exposure differs; raw return difference is not risk-adjusted alpha or causal evidence.",
+    "No full paper or Table8 reproduction, cost-adjusted trading claim, unseen-final-test claim, human decision or model advantage."
+  ],
+  "original_paper_portfolio_reference": {
+    "attribution": "paper_original",
+    "author_code_reference": {
+      "initial_count_check": 500,
+      "lines": [
+        3,
+        55
+      ],
+      "min_stocks_per_cell": 50,
+      "source_id": "Table1"
+    },
+    "country_neutralization": true,
+    "deciles": 10,
+    "not_implemented_by_this_contract": true,
+    "paper_page": 4,
+    "rebalance": "monthly",
+    "universe": "original international eligible single stocks with stated security, region, REIT, microcap and cleaning filters",
+    "weight_basis": "market_cap"
+  },
+  "paper": {
+    "document_sha256": "07b8dad425b23328588a9668e8fccb58f18f79a4d1665d8fc49680198b0fbc2e",
+    "doi": "10.1093/rof/rfae038",
+    "id": "goyal-jegadeesh-subrahmanyam-rof-2025",
+    "path": "artifacts/research-momentum-01/paper.pdf",
+    "pdf_pages": 33,
+    "source_registry": "docs/research/momentum_sources.json",
+    "source_registry_sha256": "58f9620d7727b575d8f0574e0b113938d8d411ed658110e3f194aba424e22992",
+    "title": "Empirical determinants of momentum: a perspective using international data"
+  },
+  "paper_returns_reproduced": false,
+  "paper_signal": {
+    "attribution": "paper_original",
+    "compounding_evidence": {
+      "line10": "Return11(:,t) = prod(1+Return(:,t-10:t),2) - 1;",
+      "lines": [
+        8,
+        11
+      ],
+      "origin": "author_code",
+      "source_id": "SetupDataA"
+    },
+    "example": {
+      "formation_first": "2009-01",
+      "formation_last": "2009-11",
+      "skipped_month": "2009-12",
+      "target_month": "2010-01"
+    },
+    "formation_observations": 11,
+    "formation_offsets": [
+      -12,
+      -11,
+      -10,
+      -9,
+      -8,
+      -7,
+      -6,
+      -5,
+      -4,
+      -3,
+      -2
+    ],
+    "formula": "MOM(i,H) = prod(1 + Return(i,m), m=H-12..H-2) - 1",
+    "frequency": "calendar_month",
+    "id": "mom_raw_11_calendar_months_skip1",
+    "label_offset": 0,
+    "skipped_offsets": [
+      -1
+    ],
+    "target_alignment_evidence": {
+      "author_target_relation": "H=t+2",
+      "history_relation": "t-10..t => H-12..H-2",
+      "lines": [
+        11,
+        23
+      ],
+      "origin": "author_code",
+      "source_id": "Table8A"
+    },
+    "target_month_symbol": "H",
+    "window_evidence_ids": [
+      "mom-target-month-window",
+      "momentum-window"
+    ]
+  },
+  "pending_execution_choices": [
+    "Independent source/execution verification, config/code/source hashes and report required before stating actual computed development results"
+  ],
+  "real_market_performance_established": false,
+  "schema_version": 1,
+  "scope": "Method/source attribution reference, separate from execution configuration and permission",
+  "scope_selection": {
+    "confirms_all_method_parameters": false,
+    "is_five_dimension_quality_review": false,
+    "recorded_from": "Direct user scope choice relayed by the coordinating agent",
+    "selected_scope": "industry_portfolio_MOM_project_demo",
+    "status": "user_selected_scope",
+    "user_reply": "先完成行业组合 MOM 演示（推荐）"
+  },
+  "semantic_quality_score": null,
+  "source_reference": {
+    "asset_type": "precomputed_industry_portfolio",
+    "assets": [
+      "Agric",
+      "Food",
+      "Soda",
+      "Beer",
+      "Smoke",
+      "Toys",
+      "Fun",
+      "Books",
+      "Hshld",
+      "Clths",
+      "Hlth",
+      "MedEq",
+      "Drugs",
+      "Chems",
+      "Rubbr",
+      "Txtls",
+      "BldMt",
+      "Cnstr",
+      "Steel",
+      "FabPr",
+      "Mach",
+      "ElcEq",
+      "Autos",
+      "Aero",
+      "Ships",
+      "Guns",
+      "Gold",
+      "Mines",
+      "Coal",
+      "Oil",
+      "Util",
+      "Telcm",
+      "PerSv",
+      "BusSv",
+      "Hardw",
+      "Softw",
+      "Chips",
+      "LabEq",
+      "Paper",
+      "Boxes",
+      "Trans",
+      "Whlsl",
+      "Rtail",
+      "Meals",
+      "Banks",
+      "Insur",
+      "RlEst",
+      "Fin",
+      "Other"
+    ],
+    "declared_source_vintage": "202608 CRSP database",
+    "download_manifest": {
+      "path": "artifacts/mom-only-source-assessment-01/source_download_manifest.json",
+      "sha256": "df349be715ec1457ef78cfd706497b2bbe7fe41bfaa3f42d1e3dcd336dc1504c"
+    },
+    "downloaded_at_utc": "2026-10-05T17:16:39.661424+00:00",
+    "excluded_sections": [
+      "Average Equal Weighted Returns -- Monthly",
+      "Annual returns",
+      "other source sections"
+    ],
+    "id": "kenneth-french-49-industry-monthly-value-weighted",
+    "internal_return_unit": "decimal_simple_return",
+    "license_not_inherited_from_author_archive": true,
+    "missing_codes_before_unit_conversion": [
+      "-99.99",
+      "-999"
+    ],
+    "origin": "project_modification",
+    "parse_assessment": {
+      "path": "artifacts/mom-only-source-assessment-01/parse_assessment.json",
+      "scope": "Read recorded source parser assessment, not repeat full numeric parsing",
+      "sha256": "494ed38b667fb4d5861dd720e738d53ade00164cde1b75a91223dc3e146feea0"
+    },
+    "parser_contract": "kenneth-french-49-value-weighted-monthly-v1",
+    "path": "artifacts/mom-only-source-assessment-01/49_Industry_Portfolios_CSV.zip",
+    "point_in_time_as_of_2010": false,
+    "project_cross_industry_weights": "equal_within_signal_tercile",
+    "provider": "Kenneth French Data Library",
+    "provider_internal_weights": "value_weighted_industry_portfolios",
+    "raw_bytes": 489433,
+    "raw_return_unit": "percent",
+    "raw_sha256": "16b3f20bf5bd1db8f5cd7a1b29f5cab1350eb0d5106c5309f77a6629590b1c0e",
+    "reserved_numeric_parse_record": {
+      "end": "2013-12",
+      "exported": false,
+      "numeric_tokens_parsed": 0,
+      "scope": "Raw ZIP necessarily contains full history, but selected-section scan stopped after 2011-12.",
+      "start": "2012-01",
+      "strategy_evaluated": false
+    },
+    "selected_parse_window": {
+      "end": "2011-12",
+      "months": 36,
+      "start": "2009-01"
+    },
+    "selected_section": "Average Value Weighted Returns -- Monthly",
+    "unit_conversion": "nonmissing finite return / 100",
+    "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/49_Industry_Portfolios_CSV.zip"
+  },
+  "sources": [
+    {
+      "archive_doi": "10.7910/DVN/R1UI1J",
+      "archive_version": "2.0",
+      "executed": false,
+      "id": "main",
+      "origin": "author_code",
+      "path": "artifacts/research-momentum-01/author-code/main.m",
+      "sha256": "53dc98bce2401ff121979dc8cc57363d6d475d82f1314e37fe958ff451d8a6f4",
+      "url": "https://dataverse.harvard.edu/api/access/datafile/10514469",
+      "verification": "local_bytes_match_pinned_manifest"
+    },
+    {
+      "archive_doi": "10.7910/DVN/R1UI1J",
+      "archive_version": "2.0",
+      "executed": false,
+      "id": "SetupDataA",
+      "origin": "author_code",
+      "path": "artifacts/research-momentum-01/author-code/SetupDataA.m",
+      "sha256": "ba7dc4080c833fa99f7d090ff755c2ce73b44c5174b7b34ed4256e5733895fd1",
+      "url": "https://dataverse.harvard.edu/api/access/datafile/10514484",
+      "verification": "local_bytes_match_pinned_manifest"
+    },
+    {
+      "archive_doi": "10.7910/DVN/R1UI1J",
+      "archive_version": "2.0",
+      "executed": false,
+      "id": "SetupDataB",
+      "origin": "author_code",
+      "path": "artifacts/research-momentum-01/author-code/SetupDataB.m",
+      "sha256": "fb9acfa03382b3b5e689c75bfebfe6d6be397b613838972d8bd3eb40cc5fbe54",
+      "url": "https://dataverse.harvard.edu/api/access/datafile/10514485",
+      "verification": "local_bytes_match_pinned_manifest"
+    },
+    {
+      "archive_doi": "10.7910/DVN/R1UI1J",
+      "archive_version": "2.0",
+      "executed": false,
+      "id": "Table1",
+      "origin": "author_code",
+      "path": "artifacts/research-momentum-01/author-code/Table1.m",
+      "sha256": "8eed8b7d9c1d9a55cd895c6f7512091643b5ac73f29825089740fbc9ccf1af3e",
+      "url": "https://dataverse.harvard.edu/api/access/datafile/10514481",
+      "verification": "local_bytes_match_pinned_manifest"
+    },
+    {
+      "archive_doi": "10.7910/DVN/R1UI1J",
+      "archive_version": "2.0",
+      "executed": false,
+      "id": "Table8A",
+      "origin": "author_code",
+      "path": "artifacts/research-momentum-01/author-code/Table8A.m",
+      "sha256": "ece0bfd2091362842ef6237e9ddfa4719886a4fdb41e9bde204b5e13777c399e",
+      "url": "https://dataverse.harvard.edu/api/access/datafile/10514470",
+      "verification": "local_bytes_match_pinned_manifest"
+    },
+    {
+      "archive_doi": "10.7910/DVN/R1UI1J",
+      "archive_version": "2.0",
+      "executed": false,
+      "id": "Table8B",
+      "origin": "author_code",
+      "path": "artifacts/research-momentum-01/author-code/Table8B.m",
+      "sha256": "d00d619b60d4c7816effa42ca95461bad9599166e5a1877fe9fdb59107618062",
+      "url": "https://dataverse.harvard.edu/api/access/datafile/10514486",
+      "verification": "local_bytes_match_pinned_manifest"
+    }
+  ],
+  "status": "evidence_frozen_project_defaults_unreviewed"
+}

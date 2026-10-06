@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "status": "pending_human_review",
+  "task_id": "user_selected_alpha101",
+  "task_sha256": "412b89980af41d423d377b13fdfef5400bc57963855454e6f08e840367d972be",
+  "source": "human",
+  "reviewer": null,
+  "reviewed_at": null,
+  "evidence": {
+    "alpha101-formula": {
+      "literal_quote_correct": null,
+      "page_correct": null,
+      "note": ""
+    }
+  },
+  "hypotheses": {
+    "h-alpha101": {
+      "faithful_to_source": null,
+      "mechanism_attribution_appropriate": null,
+      "assumptions_explicit": null,
+      "note": ""
+    }
+  },
+  "candidates": {
+    "alpha101": {
+      "implements_claimed_formula": null,
+      "field_semantics_appropriate": null,
+      "note": ""
+    }
+  },
+  "active_work_intervals": [],
+  "rework_count": null,
+  "limitations": [
+    "Blank fields are unreviewed, not passed. This is an input template; it is not loaded as an engine label or a completed review."
+  ]
+}

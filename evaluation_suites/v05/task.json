@@ -1,0 +1,75 @@
+{
+  "budget": {
+    "max_attempts_per_candidate": 1,
+    "max_candidates": 1,
+    "max_seconds": 60,
+    "max_tool_calls": 6
+  },
+  "candidates": [
+    {
+      "changes": [],
+      "expression": "((close - open) / ((high - low) + .001))",
+      "hypothesis_id": "h-alpha101",
+      "id": "alpha101",
+      "origin": "paper_original"
+    }
+  ],
+  "data": "../../examples/alpha101/market.csv",
+  "data_metadata": "../../examples/alpha101/metadata.json",
+  "evaluation": {
+    "min_assets": 5,
+    "splits": {
+      "test": {
+        "end": "2023-07-14",
+        "start": "2023-04-03"
+      },
+      "train": {
+        "end": "2022-09-30",
+        "start": "2022-01-03"
+      },
+      "validation": {
+        "end": "2023-03-31",
+        "start": "2022-10-03"
+      }
+    }
+  },
+  "evidence": [
+    {
+      "id": "alpha101-formula",
+      "page": 15,
+      "quote": "((close - open) / ((high - low) + .001))"
+    }
+  ],
+  "hypotheses": [
+    {
+      "assumptions": [
+        "Provider: reviewed-template proposal provider; only exact reviewed formula templates are supported, with no LLM calls.",
+        "Higher factor values form the long leg under a local evaluation convention, not a conclusion established by this formula citation.",
+        "Signals using daily OHLCV are available only after those observations are complete; execution timing must be specified by the local evaluation configuration.",
+        "Local data, operator semantics and evaluation settings do not reproduce the paper's backtest or establish equivalence with WorldQuant BRAIN.",
+        "Every required field must be available with documented semantics; no substitute field is authorized.",
+        "The user confirmed on 2026-10-01 that they have used 101 Formulaic Alphas and selected it for this project. This does not approve this hypothesis or its economic explanation.",
+        "Development workflow material from a previously used paper; not an independent held-out research task."
+      ],
+      "attribution": "paper_original",
+      "claim": "The source lists Alpha#101: ((close - open) / ((high - low) + .001))",
+      "economic_mechanism": "A possible interpretation is intraday price pressure relative to the daily range. This interpretation is a conjecture: the cited formula does not establish a causal economic mechanism; human review is required.",
+      "evidence_ids": [
+        "alpha101-formula"
+      ],
+      "id": "h-alpha101",
+      "mechanism_attribution": "model_conjecture",
+      "required_fields": [
+        "close",
+        "open",
+        "high",
+        "low"
+      ],
+      "signal_direction": "Higher values are long under the local evaluation convention; see assumptions."
+    }
+  ],
+  "paper": "../../examples/alpha101/paper.json",
+  "paper_pdf": "../../examples/alpha101/paper.pdf",
+  "schema_version": 1,
+  "title": "User-selected Alpha101 manual research workflow; synthetic evaluation"
+}

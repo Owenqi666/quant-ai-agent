@@ -1,0 +1,240 @@
+{
+  "assessment": {
+    "active_intervals": [],
+    "dimensions": {
+      "evidence_accuracy": {
+        "outcome": "not_assessed",
+        "reason": "Awaiting the human reviewer's evidence-based judgment."
+      },
+      "field_semantics": {
+        "outcome": "not_assessed",
+        "reason": "Awaiting the human reviewer's evidence-based judgment."
+      },
+      "hypothesis_fidelity": {
+        "outcome": "not_assessed",
+        "reason": "Awaiting the human reviewer's evidence-based judgment."
+      },
+      "implementation_alignment": {
+        "outcome": "not_assessed",
+        "reason": "Awaiting the human reviewer's evidence-based judgment."
+      },
+      "mechanism_attribution": {
+        "outcome": "not_assessed",
+        "reason": "Awaiting the human reviewer's evidence-based judgment."
+      }
+    },
+    "expected_attempt_id": null,
+    "expected_result_digest": null,
+    "reviewer": null
+  },
+  "confirmation": {
+    "confirmed_at": null,
+    "reviewer": null,
+    "status": "pending_human_confirmation"
+  },
+  "instructions": [
+    "Review original source material and actual result before filling this template.",
+    "Fill reviewer and exact current attempt/result identities from the workbench.",
+    "Submit actual result-bound assessments using the existing human review endpoint.",
+    "Do not treat reference drafts, software passing, or source literal matching as confirmed human semantic labels."
+  ],
+  "schema_version": 1,
+  "scope": "unsubmitted_annotation_template",
+  "semantic_case_id": null,
+  "standalone_material_annotation": {
+    "annotations": [
+      {
+        "case_id": "alpha101_formula",
+        "confirmed_at": null,
+        "dimensions": {
+          "evidence_accuracy": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "field_semantics": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "hypothesis_fidelity": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "implementation_alignment": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "mechanism_attribution": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          }
+        },
+        "reviewer": null
+      },
+      {
+        "case_id": "alpha006_sign_change",
+        "confirmed_at": null,
+        "dimensions": {
+          "evidence_accuracy": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "field_semantics": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "hypothesis_fidelity": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "implementation_alignment": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "mechanism_attribution": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          }
+        },
+        "reviewer": null
+      },
+      {
+        "case_id": "wrong_quote",
+        "confirmed_at": null,
+        "dimensions": {
+          "evidence_accuracy": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "field_semantics": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "hypothesis_fidelity": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "implementation_alignment": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "mechanism_attribution": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          }
+        },
+        "reviewer": null
+      },
+      {
+        "case_id": "mechanism_promotion",
+        "confirmed_at": null,
+        "dimensions": {
+          "evidence_accuracy": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "field_semantics": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "hypothesis_fidelity": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "implementation_alignment": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "mechanism_attribution": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          }
+        },
+        "reviewer": null
+      },
+      {
+        "case_id": "substitute_field",
+        "confirmed_at": null,
+        "dimensions": {
+          "evidence_accuracy": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "field_semantics": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "hypothesis_fidelity": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "implementation_alignment": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "mechanism_attribution": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          }
+        },
+        "reviewer": null
+      },
+      {
+        "case_id": "project_long_direction",
+        "confirmed_at": null,
+        "dimensions": {
+          "evidence_accuracy": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "field_semantics": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "hypothesis_fidelity": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "implementation_alignment": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "mechanism_attribution": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          }
+        },
+        "reviewer": null
+      },
+      {
+        "case_id": "momentum_window",
+        "confirmed_at": null,
+        "dimensions": {
+          "evidence_accuracy": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "field_semantics": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "hypothesis_fidelity": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "implementation_alignment": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          },
+          "mechanism_attribution": {
+            "outcome": "not_assessed",
+            "reason": "Awaiting the human reviewer's evidence-based judgment."
+          }
+        },
+        "reviewer": null
+      }
+    ],
+    "declaration": "human_annotation",
+    "material_sha256": "16db3c42232452d889aa5874ee22fb87d44d4456a089e42fb8d6bf7e5fcff5c5",
+    "schema_version": 1
+  }
+}

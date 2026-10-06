@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "suite_id": "v05-manual-alpha101",
+  "version": "1",
+  "scope": "synthetic_engineering",
+  "repetitions": 2,
+  "tasks": [
+    {
+      "id": "user_selected_alpha101",
+      "partition": "development",
+      "status": "ready",
+      "label_source": "automation",
+      "label_note": "The user selected and confirmed prior use of this paper; engineering expected outcomes are prepared with AI assistance, not human semantic approval.",
+      "human_fidelity": "unlabelled",
+      "family_ids": [
+        "alpha101"
+      ],
+      "task": "task.json",
+      "input_sha256": {
+        "task": "412b89980af41d423d377b13fdfef5400bc57963855454e6f08e840367d972be",
+        "paper": "2e958978f23f7359f8f1e18e90f41db4f836216e69c717c3dcc1d2b4b761d7cd",
+        "paper_pdf": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+        "data": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00",
+        "data_metadata": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257"
+      },
+      "expected": {
+        "fixed": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101": "evaluated"
+          }
+        },
+        "normalized_fixed": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101": "evaluated"
+          }
+        },
+        "agent": {
+          "run_status": "completed",
+          "candidates": {
+            "alpha101": "evaluated"
+          }
+        }
+      },
+      "executable_candidate_ids": [
+        "alpha101"
+      ],
+      "numerical_candidate_ids": [
+        "alpha101"
+      ],
+      "formula_groups": {
+        "alpha101": "alpha101"
+      },
+      "oracle_expectations": {
+        "alpha101": "supported"
+      },
+      "evidence_ids": [
+        "alpha101-formula"
+      ]
+    }
+  ]
+}

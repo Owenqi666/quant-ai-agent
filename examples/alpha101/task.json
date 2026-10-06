@@ -1,0 +1,145 @@
+{
+  "budget": {
+    "max_attempts_per_candidate": 2,
+    "max_candidates": 4,
+    "max_seconds": 60,
+    "max_tool_calls": 24
+  },
+  "candidates": [
+    {
+      "changes": [],
+      "expression": "(-1 * correlation(open, volume, 10))",
+      "hypothesis_id": "h-alpha006",
+      "id": "alpha006",
+      "origin": "paper_original"
+    },
+    {
+      "changes": [],
+      "expression": "((close - open) / ((high - low) + .001))",
+      "hypothesis_id": "h-alpha101",
+      "id": "alpha101",
+      "origin": "paper_original"
+    },
+    {
+      "changes": [],
+      "expression": "(rank((open - (sum(vwap, 10) / 10))) * (-1 * abs(rank((close - vwap)))))",
+      "hypothesis_id": "h-alpha005",
+      "id": "alpha005",
+      "origin": "paper_original"
+    }
+  ],
+  "data": "market.csv",
+  "data_metadata": "metadata.json",
+  "evaluation": {
+    "min_assets": 5,
+    "splits": {
+      "test": {
+        "end": "2023-07-14",
+        "start": "2023-04-03"
+      },
+      "train": {
+        "end": "2022-09-30",
+        "start": "2022-01-03"
+      },
+      "validation": {
+        "end": "2023-03-31",
+        "start": "2022-10-03"
+      }
+    }
+  },
+  "evidence": [
+    {
+      "id": "alpha006-formula",
+      "page": 8,
+      "quote": "(-1 * correlation(open, volume, 10))"
+    },
+    {
+      "id": "alpha101-formula",
+      "page": 15,
+      "quote": "((close - open) / ((high - low) + .001))"
+    },
+    {
+      "id": "alpha005-formula",
+      "page": 8,
+      "quote": "(rank((open - (sum(vwap, 10) / 10))) * (-1 * abs(rank((close - vwap)))))"
+    }
+  ],
+  "hypotheses": [
+    {
+      "assumptions": [
+        "Provider: reviewed-template proposal provider; only exact reviewed formula templates are supported, with no LLM calls.",
+        "The user's personal study of this paper is unconfirmed; this is an engineering demonstration.",
+        "Higher factor values form the long leg under a local evaluation convention, not a conclusion established by this formula citation.",
+        "Signals using daily OHLCV are available only after those observations are complete; execution timing must be specified by the local evaluation configuration.",
+        "Local data, operator semantics and evaluation settings do not reproduce the paper's backtest or establish equivalence with WorldQuant BRAIN.",
+        "Every required field must be available with documented semantics; no substitute field is authorized."
+      ],
+      "attribution": "paper_original",
+      "claim": "The source lists Alpha#6: (-1 * correlation(open, volume, 10))",
+      "economic_mechanism": "A possible price-volume divergence interpretation is a research conjecture. The cited formula does not establish a causal economic mechanism; human review is required.",
+      "evidence_ids": [
+        "alpha006-formula"
+      ],
+      "id": "h-alpha006",
+      "mechanism_attribution": "model_conjecture",
+      "required_fields": [
+        "open",
+        "volume"
+      ],
+      "signal_direction": "Higher values are long under the local evaluation convention; see assumptions."
+    },
+    {
+      "assumptions": [
+        "Provider: reviewed-template proposal provider; only exact reviewed formula templates are supported, with no LLM calls.",
+        "The user's personal study of this paper is unconfirmed; this is an engineering demonstration.",
+        "Higher factor values form the long leg under a local evaluation convention, not a conclusion established by this formula citation.",
+        "Signals using daily OHLCV are available only after those observations are complete; execution timing must be specified by the local evaluation configuration.",
+        "Local data, operator semantics and evaluation settings do not reproduce the paper's backtest or establish equivalence with WorldQuant BRAIN.",
+        "Every required field must be available with documented semantics; no substitute field is authorized."
+      ],
+      "attribution": "paper_original",
+      "claim": "The source lists Alpha#101: ((close - open) / ((high - low) + .001))",
+      "economic_mechanism": "A possible interpretation is intraday price pressure relative to the daily range. This interpretation is a conjecture: the cited formula does not establish a causal economic mechanism; human review is required.",
+      "evidence_ids": [
+        "alpha101-formula"
+      ],
+      "id": "h-alpha101",
+      "mechanism_attribution": "model_conjecture",
+      "required_fields": [
+        "close",
+        "open",
+        "high",
+        "low"
+      ],
+      "signal_direction": "Higher values are long under the local evaluation convention; see assumptions."
+    },
+    {
+      "assumptions": [
+        "Provider: reviewed-template proposal provider; only exact reviewed formula templates are supported, with no LLM calls.",
+        "The user's personal study of this paper is unconfirmed; this is an engineering demonstration.",
+        "Higher factor values form the long leg under a local evaluation convention, not a conclusion established by this formula citation.",
+        "Signals using daily OHLCV are available only after those observations are complete; execution timing must be specified by the local evaluation configuration.",
+        "Local data, operator semantics and evaluation settings do not reproduce the paper's backtest or establish equivalence with WorldQuant BRAIN.",
+        "Every required field must be available with documented semantics; no substitute field is authorized."
+      ],
+      "attribution": "paper_original",
+      "claim": "The source lists Alpha#5: (rank((open - (sum(vwap, 10) / 10))) * (-1 * abs(rank((close - vwap)))))",
+      "economic_mechanism": "A possible interpretation concerns price deviations from volume-weighted prices. This interpretation is a conjecture: the cited formula does not establish a causal economic mechanism; human review is required.",
+      "evidence_ids": [
+        "alpha005-formula"
+      ],
+      "id": "h-alpha005",
+      "mechanism_attribution": "model_conjecture",
+      "required_fields": [
+        "open",
+        "close",
+        "vwap"
+      ],
+      "signal_direction": "Higher values are long under the local evaluation convention; see assumptions."
+    }
+  ],
+  "paper": "paper.json",
+  "paper_pdf": "paper.pdf",
+  "schema_version": 1,
+  "title": "Paper-to-Alpha engineering demonstration; personal study unconfirmed (reviewed-template proposal provider)"
+}

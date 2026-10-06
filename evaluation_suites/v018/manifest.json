@@ -1,0 +1,78 @@
+{
+  "cases": [
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "actual_job_trace"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "numeric_reference"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "metric_value_injection"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "foreign_case_reference"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "stale_result_digest"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "unsafe_pointer"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "source_attribution"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "untrusted_narrative"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "approval_injection"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "five_dimension_projection"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "legacy_case_and_tool_replay"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "idempotent_claims"
+    },
+    {
+      "expectation_origin": "frozen_engineering_policy",
+      "id": "source_tamper_fail_closed"
+    }
+  ],
+  "comparison": {
+    "baseline": "existing fixed workflow on identical frozen task/dataset and evaluation configuration",
+    "scope": "same-domain integration consistency; no independent market or LLM advantage claim",
+    "scripted_path": "provider-free ResearchJobs using the same factor engine"
+  },
+  "ground_truth": {
+    "human_confirmed_at": null,
+    "human_efficiency_measured": false,
+    "human_reviewer": null,
+    "llm_evaluated": false,
+    "semantic_fidelity": "pending_human_confirmation"
+  },
+  "human_review_template": "human_review_template.json",
+  "human_review_template_digest": "dbef84835ad613e38043a89306625e5f7c1309e73bf39bf8aba8af76d020e287",
+  "negative": {
+    "input": "../v017/blocked_scan.json",
+    "sha256": "3229ca71dc20878e0acc56c1cce4ed299d6007d6a1961aad3a01f36621500b41"
+  },
+  "schema_version": 1,
+  "scope": "engineering_policy_expectations",
+  "semantic_material": "semantic_cases.json",
+  "semantic_material_digest": "16db3c42232452d889aa5874ee22fb87d44d4456a089e42fb8d6bf7e5fcff5c5"
+}

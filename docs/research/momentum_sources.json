@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "kind": "research_source_manifest",
+  "retrieved_at_utc": "2026-10-02T08:13:45.333989+00:00",
+  "paper_id": "goyal-jegadeesh-subrahmanyam-rof-2025",
+  "title": "Empirical determinants of momentum: a perspective using international data",
+  "authors": [
+    "Amit Goyal",
+    "Narasimhan Jegadeesh",
+    "Avanidhar Subrahmanyam"
+  ],
+  "journal": "Review of Finance",
+  "issue": "29(1), 241–273",
+  "issue_year": 2025,
+  "first_online_date": "2024-09-24",
+  "doi": "10.1093/rof/rfae038",
+  "journal_url": "https://academic.oup.com/rof/article/29/1/241/7772889",
+  "author_homepage": "https://sites.google.com/view/agoyal145/",
+  "author_pdf_url": "https://drive.google.com/file/d/1WrCF8zjPfkYKj3khW5ta4GD91490L1_1/view",
+  "download_url": "https://drive.google.com/uc?export=download&id=1WrCF8zjPfkYKj3khW5ta4GD91490L1_1",
+  "pdf_license": "CC BY-NC-ND 4.0; unchanged author-hosted published PDF",
+  "pdf_path": "artifacts/research-momentum-01/paper.pdf",
+  "pdf_sha256": "07b8dad425b23328588a9668e8fccb58f18f79a4d1665d8fc49680198b0fbc2e",
+  "pdf_pages": 33,
+  "extraction_path": "artifacts/research-momentum-01/paper.json",
+  "extraction_sha256": "69701dc212577cabad42417d41f2eb0de399e166953543c7a038501606a10f65",
+  "quote_anchors": [
+    {
+      "id": "id-definition",
+      "page": 6,
+      "quote": "PRET is the past 11-month return.",
+      "paper_id": "goyal-jegadeesh-subrahmanyam-rof-2025",
+      "document_sha256": "07b8dad425b23328588a9668e8fccb58f18f79a4d1665d8fc49680198b0fbc2e",
+      "normalized_start": 1946,
+      "normalized_end": 1979,
+      "citation_verified": true,
+      "semantic_fidelity": "requires_human_review"
+    },
+    {
+      "id": "momentum-window",
+      "page": 24,
+      "quote": "last 11-month returns skipping the most recent month",
+      "paper_id": "goyal-jegadeesh-subrahmanyam-rof-2025",
+      "document_sha256": "07b8dad425b23328588a9668e8fccb58f18f79a4d1665d8fc49680198b0fbc2e",
+      "normalized_start": 1623,
+      "normalized_end": 1675,
+      "citation_verified": true,
+      "semantic_fidelity": "requires_human_review"
+    },
+    {
+      "id": "data-limit",
+      "page": 30,
+      "quote": "Scrambled/ randomly deleted data and code",
+      "paper_id": "goyal-jegadeesh-subrahmanyam-rof-2025",
+      "document_sha256": "07b8dad425b23328588a9668e8fccb58f18f79a4d1665d8fc49680198b0fbc2e",
+      "normalized_start": 1525,
+      "normalized_end": 1566,
+      "citation_verified": true,
+      "semantic_fidelity": "requires_human_review"
+    }
+  ],
+  "anchor_scope": "Locator matching only; review complete page and formula for semantic support.",
+  "visually_checked_pdf_pages": [
+    6,
+    24
+  ],
+  "author_archive": {
+    "doi": "10.7910/DVN/R1UI1J",
+    "version": "2.0",
+    "released_at": "2024-09-12T11:16:44Z",
+    "metadata_path": "artifacts/research-momentum-01/dataverse-metadata.json",
+    "metadata_sha256": "5d329fc9e4f55e6fca9c7b4c7ac1d36082afad6cffb284344ac412d566961c69",
+    "license": "CC0 1.0",
+    "files_downloaded": [
+      {
+        "path": "artifacts/research-momentum-01/author-code/main.m",
+        "url": "https://dataverse.harvard.edu/api/access/datafile/10514469",
+        "sha256": "53dc98bce2401ff121979dc8cc57363d6d475d82f1314e37fe958ff451d8a6f4",
+        "repository_md5_verified": true
+      },
+      {
+        "path": "artifacts/research-momentum-01/author-code/SetupDataA.m",
+        "url": "https://dataverse.harvard.edu/api/access/datafile/10514484",
+        "sha256": "ba7dc4080c833fa99f7d090ff755c2ce73b44c5174b7b34ed4256e5733895fd1",
+        "repository_md5_verified": true
+      },
+      {
+        "path": "artifacts/research-momentum-01/author-code/SetupDataB.m",
+        "url": "https://dataverse.harvard.edu/api/access/datafile/10514485",
+        "sha256": "fb9acfa03382b3b5e689c75bfebfe6d6be397b613838972d8bd3eb40cc5fbe54",
+        "repository_md5_verified": true
+      },
+      {
+        "path": "artifacts/research-momentum-01/author-code/Table1.m",
+        "url": "https://dataverse.harvard.edu/api/access/datafile/10514481",
+        "sha256": "8eed8b7d9c1d9a55cd895c6f7512091643b5ac73f29825089740fbc9ccf1af3e",
+        "repository_md5_verified": true
+      },
+      {
+        "path": "artifacts/research-momentum-01/author-code/Table8A.m",
+        "url": "https://dataverse.harvard.edu/api/access/datafile/10514470",
+        "sha256": "ece0bfd2091362842ef6237e9ddfa4719886a4fdb41e9bde204b5e13777c399e",
+        "repository_md5_verified": true
+      },
+      {
+        "path": "artifacts/research-momentum-01/author-code/Table8B.m",
+        "url": "https://dataverse.harvard.edu/api/access/datafile/10514486",
+        "sha256": "d00d619b60d4c7816effa42ca95461bad9599166e5a1877fe9fdb59107618062",
+        "repository_md5_verified": true
+      }
+    ],
+    "scripts_executed": false,
+    "large_mat_files_downloaded": false
+  },
+  "local_artifact_policy": "artifacts/ is git-ignored; source URLs and hashes are retained here. No public upload performed."
+}

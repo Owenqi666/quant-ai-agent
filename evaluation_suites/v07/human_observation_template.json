@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "protocol_id": "alpha101-human-workflow-v1",
+  "record_status": "pending_human_observation",
+  "source": "human",
+  "participant": null,
+  "session_id": null,
+  "condition": null,
+  "execution_order": null,
+  "code_commit": null,
+  "environment": null,
+  "allowed_tools": null,
+  "prior_familiarity": null,
+  "practice_session": null,
+  "predeclared_stop_condition": null,
+  "started_at": null,
+  "finished_at": null,
+  "completion": null,
+  "incomplete_reason": null,
+  "intervals": [],
+  "errors_and_rework": [],
+  "template_reuse": [],
+  "help_received": [],
+  "bound_outputs": {
+    "task_sha256": null,
+    "run_id_or_directory": null,
+    "revision_id": null,
+    "attempt_id": null,
+    "review_ids": [],
+    "verification_evidence": null,
+    "report_path": null
+  },
+  "dimensions": {
+    "evidence_accuracy": null,
+    "hypothesis_fidelity": null,
+    "mechanism_attribution": null,
+    "field_semantics": null,
+    "implementation_alignment": null
+  },
+  "observed_active_seconds": null,
+  "observed_wait_seconds": null,
+  "limitations": [
+    "This is an unfilled template, not a human result or a system review.",
+    "An interval needs phase, kind, started_at, ended_at, status and source_reference; only explicitly ended observed intervals can contribute time.",
+    "Current workbench timing covers review only. Do not infer complete research time from it or double-count copied review intervals.",
+    "Null means unmeasured; interrupted and incomplete attempts remain in the record."
+  ]
+}

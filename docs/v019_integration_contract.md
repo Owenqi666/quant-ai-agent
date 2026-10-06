@@ -1,0 +1,21 @@
+# v0.19 integration contract
+
+Frozen baseline 0.18.0/schema14. Root owns additive schema15 migration, API/front-end/version/release. Agents do not write var/ or live artifacts. No new provider/network dependency; whole UI redesign remains deferred.
+
+## Observation identity
+
+Agent A publishes SCHEMA and seed helper consumed in _migrate_v14 after all new schema statements are installed. Preserve original byte temporal guards and original business tables/files. New normalized index has an explicit semantic version, raw CSV, metadata and registered digest bindings, row count and stream-verifiable digest. Full date+asset+OHLCV rows normalized with actual engine float64 representation. Only identical full rows at actual reserved/development dates expand protection; no broad graph union. Unknown legacy bindings stop safely and expose limitations. Same-key value changes/renamed assets do not imply independent research. GuardStatus remains compatible or adds typed fields with root approval; no historical Case/tool response mutation.
+
+## DomainResearchJobs
+
+New independent typed control service; keep ResearchJobs unchanged. Closed monthly_fixture source binds protocol ID/digest and validated config; author_study_diagnostic binds existing study ID/digest. Jobs freeze original source, budget, creation timestamp, effect identity and bounded context. Durable actions validate/submit/observe/complete/cancel, states created/validated/submitted/observed/completed/blocked/failed/exhausted/cancelled. Author reads are scientific diagnostics and end blocked without portfolio execution. Monthly creates the original experiment only on submit and caps queue/worker/supervisor/publication by original total wall time. Parent linkage must remain independently discoverable via frozen effect key and original monthly receipt even when a step is lost/tampered. Do not accept direct request-controlled deadline overrides. Errors during finish verification are recorded as failure. Completed exact results may be linked to ResearchCases by existing user controls; no automatic human approval. Provider_connected always false; semantic remains unverified.
+
+Expose DomainResearchJobs(store).create(**typed request), get(id), list(limit,offset,...), advance(id,action,idempotency_key), markdown(id). Publish actual signatures/models to root before integration. Agent owns monthly edits, root owns runner.py only if truly required (coordinate first). Original monthly no-parent executions preserve their contract.
+
+## SemanticAnnotations
+
+Core material validator is independent of server/scripts. Existing confirm_v018_semantics input/output stays compatible, reference materials unchanged. New typed services expose material list/detail/summary and immutable annotation preview/create/get/list/export. Agent chooses exact method names, reports early. Caller explicitly declares human or automation, reviewer, timezone-confirmed-at, exact material digest and per-material five dimensions+reasons. Do not accept approval fields, numeric quality summaries or source paths. Evidence text/reference decisions are static unverified material; cannot gain action authority. Summary separates automated records, actual declared human coverage and unknown dimensions, and never counts reference drafts as truth. Replacements must link exact earlier annotation; keep history and reject branching/changed source scope. UI default dimensions are empty and human source must be consciously selected. Root never submits human annotations during live verification.
+
+## Acceptance and live migration
+
+Each package produces a new-dir demo with JSON passed flag and scope. Root composes scripts/demo_v019.py, invokes it in full gate and portable relocated source, and adds typed HTTP/E2E validation using isolated fixtures. Freeze code before release. v0.18 backup is created by old accepted code, clone tested with new code before original additive migration. Compare every prior business table row/file/case/tool digest; worker heartbeat expected changes are separate runtime verification, not migration mutation. Open current service only after final acceptance and verify loaded module and frontend hashes. Retain all failed attempts.

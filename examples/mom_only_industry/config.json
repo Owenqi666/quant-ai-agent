@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "study_id": "ff49-industry-mom-project-v1",
+  "research_scope": "project_modification",
+  "source_contract": "kenneth-french-49-value-weighted-monthly-v1",
+  "development": {"start": "2010-01", "end": "2011-12"},
+  "reserved": {"start": "2012-01", "end": "2013-12"},
+  "signal": {
+    "window_months": 11,
+    "skip_months": 1,
+    "missing_policy": "complete",
+    "fill_policy": "none"
+  },
+  "min_formation_assets": 30,
+  "portfolio": "tercile_equal_weight_gross1_net0",
+  "baseline": "same_sample_equal_weight_long_only",
+  "cost_model": "gross_only_no_cost_model"
+}

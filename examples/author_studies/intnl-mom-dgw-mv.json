@@ -1,0 +1,12 @@
+{
+  "development_end": "2006-12",
+  "development_start": "1993-03",
+  "minimum_assets": 450,
+  "rationale": "Predeclared Table8 initial count upper-bound screen (9 groups x 50); country/REIT/microcap filters and portfolio construction are not implemented. No conclusion beyond this necessary count condition.",
+  "requires_market_cap": true,
+  "reserved_from": "2007-01",
+  "schema_version": 1,
+  "source_file": "IntnlData.mat",
+  "task": "momentum_dgw",
+  "threshold_origin": "table8_initial_upper_bound"
+}

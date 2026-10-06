@@ -1,0 +1,80 @@
+{
+  "budget": {
+    "max_attempts_per_candidate": 1,
+    "max_candidates": 4,
+    "max_seconds": 60,
+    "max_tool_calls": 1
+  },
+  "candidates": [
+    {
+      "id": "alpha101_mean5_modified",
+      "hypothesis_id": "h-alpha101_mean5_modified",
+      "expression": "ts_mean(((close - open) / ((high - low) + .001)), 5)",
+      "origin": "user_modification",
+      "changes": [
+        "Apply a complete trailing five-session mean, including the current session, to the cited Alpha#101 signal.",
+        "Constructed with AI assistance for this project; not an original formula quoted from the paper and not a human-reviewed economic hypothesis."
+      ]
+    }
+  ],
+  "data": "../../../examples/alpha101/market.csv",
+  "data_metadata": "../../../examples/alpha101/metadata.json",
+  "evaluation": {
+    "min_assets": 5,
+    "splits": {
+      "test": {
+        "end": "2023-07-14",
+        "start": "2023-04-03"
+      },
+      "train": {
+        "end": "2022-09-30",
+        "start": "2022-01-03"
+      },
+      "validation": {
+        "end": "2023-03-31",
+        "start": "2022-10-03"
+      }
+    }
+  },
+  "evidence": [
+    {
+      "id": "alpha101-formula",
+      "page": 15,
+      "quote": "((close - open) / ((high - low) + .001))"
+    }
+  ],
+  "hypotheses": [
+    {
+      "assumptions": [
+        "Higher factor values form the long leg under a local evaluation convention, not a conclusion established by this formula citation.",
+        "Signals using daily OHLCV are available only after those observations are complete; execution timing must be specified by the local evaluation configuration.",
+        "Local data, operator semantics and evaluation settings do not reproduce the paper's backtest or establish equivalence with WorldQuant BRAIN.",
+        "Every required field must be available with documented semantics; no substitute field is authorized.",
+        "The user confirmed on 2026-10-01 that they have used 101 Formulaic Alphas and selected it for this project. This does not approve this hypothesis or its economic explanation.",
+        "Development workflow material from a previously used paper; not an independent held-out research task.",
+        "AI-assisted engineering modifications implemented under the user-requested optimization scope; user_modification records a change from the source, not prior personal authorship or human scientific approval.",
+        "All variants descend from Alpha#101 in the same paper and belong to one development lineage; no independent research discovery or held-out generalization is claimed.",
+        "Only the source Alpha#101 formula is supported by the page-15 quote. Temporal transforms, windows and local standard-deviation convention are project modifications requiring human review."
+      ],
+      "attribution": "user_modification",
+      "claim": "Apply a complete trailing five-session mean, including the current session, to the cited Alpha#101 signal.",
+      "economic_mechanism": "No causal mechanism is established for this transformation. It is an engineering case to verify temporal operator semantics; usefulness remains unlabelled.",
+      "evidence_ids": [
+        "alpha101-formula"
+      ],
+      "id": "h-alpha101_mean5_modified",
+      "mechanism_attribution": "model_conjecture",
+      "required_fields": [
+        "close",
+        "open",
+        "high",
+        "low"
+      ],
+      "signal_direction": "Higher values are long under the local evaluation convention; see assumptions."
+    }
+  ],
+  "paper": "../../../examples/alpha101/paper.json",
+  "paper_pdf": "../../../examples/alpha101/paper.pdf",
+  "schema_version": 1,
+  "title": "Alpha101: temporal candidate stopped by a one-tool budget"
+}
