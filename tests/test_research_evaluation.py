@@ -263,9 +263,11 @@ class DailyResearchEvaluationTests(unittest.TestCase):
         self.assertTrue(accepted['passed']); self.assertEqual(evaluation._inventory(source), before)
         moved = root / 'moved'; shutil.copytree(output, moved)
         self.assertEqual(evaluation.verify_bundle(moved), accepted)
+        unrelated = root / 'unrelated-working-directory'
+        unrelated.mkdir()
         env = os.environ | {'PYTHONPATH': str(evaluation.ROOT)}
         run = subprocess.run([sys.executable, '-B', str(evaluation.ROOT / 'scripts/evaluate_research_sample.py'),
-            'verify', '--out', str(moved)], cwd='/private/tmp', env=env, capture_output=True, text=True, timeout=30)
+            'verify', '--out', str(moved)], cwd=unrelated, env=env, capture_output=True, text=True, timeout=30)
         self.assertEqual(run.returncode, 0, run.stderr + run.stdout)
         self.assertEqual(json.loads(run.stdout), accepted)
         self.assertEqual(evaluation._inventory(moved), evaluation._inventory(output))

@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import signal
 import socket
 import subprocess
 import sys
@@ -26,6 +27,80 @@ def sources():
                     and path.suffix not in {'.pyc', '.tsbuildinfo'} and path.name != '.DS_Store'):
                 files.append(path)
     return {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(set(files))}
+
+
+DEFAULT_STAGE_TIMEOUT_SECONDS = 900
+PYTHON_SUITE_TIMEOUT_SECONDS = 1800
+TERMINATION_GRACE_SECONDS = 0.2
+
+
+def stage_timeout_seconds(name):
+    """Bound only the complete Python suite separately; other stages stay at 900s."""
+    return PYTHON_SUITE_TIMEOUT_SECONDS if name == 'python-tests' else DEFAULT_STAGE_TIMEOUT_SECONDS
+
+
+def run_stage(name, command, cwd, out, env, timeout_seconds):
+    """Run one owned POSIX process group and close its log before hashing it.
+
+    Timeout cleanup signals only this group's members. A descendant that creates
+    a separate session is outside this cleanup scope; CI remains the outer boundary.
+    """
+    started = time.monotonic()
+    log = out / (name + '.log')
+    record = {'name': name, 'argv': command, 'cwd': str(cwd.relative_to(ROOT)),
+              'log': log.name, 'timeout_seconds': timeout_seconds, 'timed_out': False}
+    with log.open('xb') as stream:
+        process = subprocess.Popen(command, cwd=cwd, env=env, stdout=stream,
+                                   stderr=subprocess.STDOUT, start_new_session=True)
+        try:
+            record['exit_code'] = process.wait(timeout=timeout_seconds)
+        except subprocess.TimeoutExpired:
+            record.update(exit_code=124, timed_out=True)
+            cleanup = {'scope': 'owned_posix_process_group_members_only_detached_sessions_excluded',
+                       'signals_sent': [], 'leader_reaped': False}
+            record['timeout_cleanup'] = cleanup
+            # Retain the leader until after the final signal, so its PID cannot
+            # be reused between TERM and KILL to identify an unrelated group.
+            for group_signal in (signal.SIGTERM, signal.SIGKILL):
+                try:
+                    os.killpg(process.pid, group_signal)
+                    cleanup['signals_sent'].append(group_signal.name)
+                except ProcessLookupError:
+                    pass
+                except OSError as error:
+                    cleanup['group_cleanup_error'] = {
+                        'signal': group_signal.name, 'type': type(error).__name__, 'errno': error.errno}
+                    # The fallback can only address this Popen leader. It never
+                    # scans other PIDs or claims that detached children stopped.
+                    cleanup['fallback_scope'] = 'owned_unreaped_leader_only_group_cleanup_unconfirmed'
+                    if process.poll() is None:
+                        for action in ('terminate', 'kill'):
+                            try:
+                                getattr(process, action)()
+                                cleanup.setdefault('leader_actions_sent', []).append(action)
+                                if action == 'terminate':
+                                    try:
+                                        process.wait(timeout=0.5)
+                                        break
+                                    except subprocess.TimeoutExpired:
+                                        pass
+                            except ProcessLookupError:
+                                break
+                            except OSError as leader_error:
+                                cleanup.setdefault('leader_cleanup_errors', []).append({
+                                    'action': action, 'type': type(leader_error).__name__, 'errno': leader_error.errno})
+                    break
+                if group_signal == signal.SIGTERM:
+                    time.sleep(TERMINATION_GRACE_SECONDS)
+            try:
+                record['process_exit_code'] = process.wait(timeout=5)
+                cleanup['leader_reaped'] = True
+            except subprocess.TimeoutExpired:
+                cleanup['error'] = 'Owned stage leader did not exit within cleanup budget'
+            record['log_sha256_scope'] = 'snapshot_after_cleanup_attempt_not_proof_all_descendants_stopped'
+    record['elapsed_seconds'] = time.monotonic() - started
+    record['log_sha256'] = hashlib.sha256(log.read_bytes()).hexdigest()
+    return record
 
 
 def main():
@@ -110,15 +185,11 @@ def main():
     try:
         for name, command, cwd in commands:
             print(f'Running {name}; log: {out / (name + ".log")}', flush=True)
-            started = time.monotonic()
-            log = out / (name + '.log')
-            with log.open('wb') as stream:
-                process = subprocess.run(command, cwd=cwd, env=env, stdout=stream, stderr=subprocess.STDOUT, timeout=900)
-            summary['steps'].append({'name': name, 'argv': command, 'cwd': str(cwd.relative_to(ROOT)),
-                                     'exit_code': process.returncode, 'elapsed_seconds': time.monotonic() - started,
-                                     'log': log.name, 'log_sha256': hashlib.sha256(log.read_bytes()).hexdigest()})
-            if process.returncode:
-                raise RuntimeError(f'{name} failed; inspect {log}')
+            record = run_stage(name, command, cwd, out, env, stage_timeout_seconds(name))
+            summary['steps'].append(record)
+            if record['exit_code']:
+                detail = f" after {record['timeout_seconds']}s timeout" if record['timed_out'] else ''
+                raise RuntimeError(f'{name} failed{detail}; inspect {out / record["log"]}')
         summary['source_unchanged'] = sources() == start
         if not summary['source_unchanged']:
             raise RuntimeError('Source changed during acceptance; preserve this run and rerun into a new directory')
