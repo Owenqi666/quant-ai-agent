@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Check complete recognized operator definitions and explicit boundaries, rejecting semantic-changing suffixes instead of accepting a correct prefix.
+- Add an original PDF-to-proposal fixture Agent demonstration, invalid-output rejection, original Worker execution and independent numerical checks.
+- Add public CI for locked dependencies, typed contracts, frontend builds, source/definition regressions and reliability checks.
+- Reorganize the project overview around the product, engineering decisions, contribution/reuse and reproducible commands.
+
 ## 0.27.2
 
 - Added optional extraction from selected PDF pages through the App Server transport, with exact source spans and component-specific support bindings.

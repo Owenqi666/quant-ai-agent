@@ -1,5 +1,30 @@
 # Publication checks
 
+## Current public patch: 13 October 2026
+
+A separate public checkout installed the locked dependencies in a new Python
+3.14.4 environment and used `npm ci` with Node 24.16.0 on macOS. It passed
+99 public Python tests, 505 frontend tests, TypeScript checking, the production
+build and the generated API contract comparison. The account-free Agent demo
+completed one original Worker run; its independent checker passed all 13 checks.
+A malformed fixture reply remained failed with `REQUEST_MISMATCH`. Browser
+readback and the screenshots use that generated workspace, not an old research
+database. Human scores, confirmations and timing measurements remain empty.
+
+The new [workflow](../.github/workflows/public-ci.yml) configures a fresh Ubuntu
+24.04 / Python 3.14 / Node 24 runner. Local passes are separate from its remote
+result: consult the exact commit run linked from the PR. Selected logs and
+reproducible demo artifacts are uploaded even on failure. The source definition
+regressions exercise full supported RHS grammar, altered suffixes, dependency
+coverage and preserved repair versions; they do not establish general semantic
+entailment.
+
+The maintained application and public export share the same production fix. The
+older frozen Runtime archives and their signoff records were preserved; they
+do not contain this later patch.
+
+## Historical 0.27.2 source publication
+
 Checked on 12 October 2026 in the isolated 0.27.2 public source directory using existing local dependencies: macOS, Python 3.14, Node.js 24.16.0. Dependencies were reused for efficiency; a fresh network installation and another operating system were not re-qualified.
 
 | Check | Result |

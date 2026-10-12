@@ -1,5 +1,11 @@
 # Public examples
 
+For the account-free Agent response-to-Worker workflow, start with the original
+[public teaching material](public_agent/teaching_note.md) and the
+[Agent demo instructions](../docs/public-agent-demo.md). It imports the source and
+creates the same saved research that the browser workbench can open. Model
+responses are fixtures; market data are synthetic.
+
 ## Original demo: no third-party download
 
 From the repository root, after installing the Python package:

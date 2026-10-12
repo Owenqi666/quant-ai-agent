@@ -39,7 +39,7 @@ Support bindings distinguish a claim, economic mechanism, calculation, mathemati
 
 Expression correction normalizes documented equivalents such as `correlation -> ts_corr` and approved integral window representations. Its policies preserve the formula's declared meaning.
 
-The source-definition check follows nested AST operator dependencies and a finite set of supported formal definitions and named formula patterns, including documented aliases. A literal quotation containing an operator name is insufficient when the calculation requires a definition that the citation omits. The check also considers the source formula, window, calculation binding, and inferred-direction support.
+The source-definition check follows nested AST operator dependencies and a finite set of supported formal definitions and named formula patterns, including documented aliases. The complete definition right-hand side must match a supported grammar; a correct prefix followed by altered arithmetic remains unresolved. Independent declaration boundaries and exact citation coverage are checked. A literal quotation containing an operator name is insufficient when the calculation requires a definition that the citation omits. The check also considers the source formula, window, calculation binding, and inferred-direction support.
 
 If the necessary definition already exists in the selected spans, the bounded repair appends its citations and bindings in a new automation version. It preserves the raw draft, earlier accepted versions, hypotheses, formula, data, and scientific unknowns. Absent definitions, incorrect formulas, and inconsistent windows produce `needs_information`; the checker does not manufacture source text. A complete input may produce a zero-change verification version rather than a citation repair.
 
@@ -51,7 +51,7 @@ The candidate is then validated and submitted through the ordinary revision, que
 
 ## Evidence scope
 
-The matching local Runtime recorded a bounded real extraction and candidate-generation journey followed by the original worker and saved report. It used one previously seen Alpha101 formula and synthetic data. The final extraction already contained the needed definitions, so its first automated definition check made no citation change; a separate historical counterexample was repaired through fixture/API replay without a new model call.
+The frozen 0.27.2 Runtime accepted on 12 October 2026 recorded a bounded real extraction and candidate-generation journey followed by the original worker and saved report. It used previously seen Alpha012 from Alpha101, selecting physical pages 9, 15 and 16, and synthetic data. This is historical Runtime evidence, not validation of this later source patch or the public fixture protocol. The final extraction already contained the needed definitions, so its first automated definition check made no citation change; a separate historical counterexample was repaired through fixture/API replay without a new model call.
 
 This establishes that these scoped components can connect. It does not establish general paper understanding, general model-driven repair, semantic quality approved by a human, time savings, or profitable trading. Underlying backend model identity, request totals, and monetary cost remain unknown where the native receipts cannot establish them. The private acceptance inputs, research records, permissions, and raw model responses remain outside this publication.
 

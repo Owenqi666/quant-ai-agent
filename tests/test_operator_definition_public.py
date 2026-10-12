@@ -1,8 +1,7 @@
-"""Curated synthetic operator-definition regressions from the maintained test suite.
+"""Public synthetic preservation, window, and complete-definition regressions.
 
-The two preservation/window regressions use explicit synthetic source text in
-place of private historical responses. All other selected cases are unchanged.
-No model calls, private research records, or human-quality claims are included.
+Every case supplies explicit source text, without private historical responses,
+model calls, or claims of human research-quality review.
 """
 import ast
 from copy import deepcopy
@@ -29,28 +28,36 @@ COVARIANCE = 'covariance(x, y, d) = time-serial covariance of x and y for the pa
 
 
 def synthetic(formula=FORMULA, definitions=(SIGN, DELTA), *, cited_definition_pages=None,
-              selected_pages=None, calculation=None, source_formula=None):
+              selected_pages=None, calculation=None, source_formula=None,
+              chunk_chars=4000, max_span_chars=600):
     """Each test provides its source statements explicitly, never a provider call."""
     texts = ['Alpha#12: ' + formula if source_formula is None else source_formula, *definitions]
     pages = list(range(1, len(texts) + 1)) if selected_pages is None else selected_pages
-    selection = segment_document(document(texts), pages)
-    evidence = [{'id': 'e' + str(c['page']), 'page': c['page'], 'chunk_id': c['id'],
-        'quote': c['text'], 'normalized_start': c['start'], 'normalized_end': c['end'],
-        'printed_page': None} for c in selection['chunks']]
+    selection = segment_document(document(texts), pages, chunk_chars=chunk_chars)
+    evidence = []
+    for index, chunk in enumerate(selection['chunks']):
+        start = len(chunk['text']) - len(chunk['text'].lstrip())
+        end = len(chunk['text'].rstrip())
+        evidence.append({'id': 'e' + str(chunk['page']) +
+            (f'_chunk{index}' if sum(x['page'] == chunk['page'] for x in selection['chunks']) > 1 else ''),
+            'page': chunk['page'], 'chunk_id': chunk['id'], 'quote': chunk['text'][start:end],
+            'normalized_start': chunk['start'] + start, 'normalized_end': chunk['start'] + end,
+            'printed_page': None})
+    formula_ids = [e['id'] for e in evidence if e['page'] == 1]
     cited = ([e['id'] for e in evidence] if cited_definition_pages is None else
-             ['e1', *('e' + str(page) for page in cited_definition_pages)])
+             [*formula_ids, *(e['id'] for e in evidence if e['page'] in cited_definition_pages)])
     material = {'title': 'Explicit definition-grounding test fixture', 'evidence': evidence,
         'hypotheses': [{'id': 'h', 'claim': 'Alpha#12 is the displayed source formula.',
             'claim_attribution': 'paper_original', 'evidence_ids': [e['id'] for e in evidence],
             'economic_mechanism': None, 'mechanism_attribution': 'unresolved',
             'signal_direction': 'Mathematical sign only; predictive validity is unknown.',
             'required_data': [{'name': name, 'semantics': 'Explicit fixture variable ' + name,
-                               'evidence_ids': ['e1']} for name in ['close', 'volume']],
+                               'evidence_ids': list(formula_ids)} for name in ['close', 'volume']],
             'calculation': formula if calculation is None else calculation,
             'conditions': [], 'unresolved_rules': []}],
         'unresolved_rules': [], 'limitations': ['Fixture only, not scientific interpretation.'],
         'grounding_version': 1, 'paper_statistics': [],
-        'support_bindings': [{'hypothesis_id': 'h', 'component': name, 'evidence_ids': ['e1'],
+        'support_bindings': [{'hypothesis_id': 'h', 'component': name, 'evidence_ids': list(formula_ids),
             'status': 'direct', 'explanation': 'Explicit fixture source assertion.'}
             for name in ['claim', 'data:close', 'data:volume']] + [
             {'hypothesis_id': 'h', 'component': 'calculation', 'evidence_ids': list(cited),
@@ -60,7 +67,7 @@ def synthetic(formula=FORMULA, definitions=(SIGN, DELTA), *, cited_definition_pa
             {'hypothesis_id': 'h', 'component': 'economic_mechanism', 'evidence_ids': [],
              'status': 'unresolved', 'explanation': 'Economic mechanism is unknown.'}]}
     validate_material_draft(selection, material)
-    return selection, material, build_span_catalog(selection)
+    return selection, material, build_span_catalog(selection, max_span_chars=max_span_chars)
 
 
 def missing(result):
@@ -176,6 +183,132 @@ class PublicOperatorDefinitionTests(unittest.TestCase):
                 self.assertEqual(result['status'], 'needs_information')
                 self.assertEqual(missing(result), {'delta'})
                 self.assertFalse(plan_operator_definition_repair(selection, material, catalog)['changed'])
+
+    def test_correct_delta_prefix_with_division_suffix_is_not_complete_definition(self):
+        selection, material, catalog = synthetic(definitions=(SIGN, DELTA + ' divided by d'))
+        result = assess_operator_definitions(selection, material, catalog)
+        self.assertEqual(result['status'], 'needs_information')
+        self.assertEqual(missing(result), {'delta'})
+        repair = plan_operator_definition_repair(selection, material, catalog)
+        self.assertFalse(repair['changed'])
+        self.assertEqual(repair['material'], material)
+
+    def test_exact_delta_division_by_old_value_counterexample_is_unresolved(self):
+        declaration = DELTA + ' divided by the value of x d days ago'
+        selection, material, catalog = synthetic(definitions=(SIGN, declaration))
+        result = assess_operator_definitions(selection, material, catalog)
+        self.assertEqual(result['status'], 'needs_information'); self.assertEqual(missing(result), {'delta'})
+        repair = plan_operator_definition_repair(selection, material, catalog)
+        self.assertFalse(repair['changed']); self.assertEqual(repair['material'], material)
+
+    def test_delta_rhs_keeps_arithmetic_and_sentence_suffixes_unresolved(self):
+        for suffix in [' multiplied by d', ' / d', ' * 2', ' plus the current value of x',
+                       '; divided by d', '. Divided by d', '\nmultiplied by d', '...']:
+            with self.subTest(suffix=suffix):
+                selection, material, catalog = synthetic(definitions=(SIGN, DELTA + suffix))
+                result = assess_operator_definitions(selection, material, catalog)
+                self.assertEqual(result['status'], 'needs_information')
+                self.assertEqual(missing(result), {'delta'})
+                plan = plan_operator_definition_repair(selection, material, catalog)
+                self.assertFalse(plan['changed']); self.assertEqual(plan['material'], material)
+
+    def test_full_rhs_matching_is_shared_by_other_definition_families(self):
+        cases = [('rank(close)', RANK, 'rank'),
+                 ('delay(close, 2)', 'delay(x, d) = value of x d days ago', 'delay'),
+                 ('correlation(close, volume, 5)', CORR, 'correlation'),
+                 ('covariance(close, volume, 5)', COVARIANCE, 'covariance'),
+                 ('ts_rank(close, 5)', TS_RANK, 'ts_rank'),
+                 ('ts_min(close, 5)', 'ts_min(x, d) = time-series min over the past d days', 'ts_min'),
+                 ('ts_max(close, 5)', 'ts_max(x, d) = time-series max over the past d days', 'ts_max'),
+                 ('ts_sum(close, 5)', 'ts_sum(x, d) = time-series sum over the past d days', 'ts_sum'),
+                 ('ts_mean(close, 5)', 'ts_mean(x, d) = time-series mean over the past d days', 'ts_mean'),
+                 ('stddev(close, 5)', 'stddev(x, d) = moving standard deviation over the past d days', 'stddev'),
+                 ('ts_std(close, 5)', 'ts_std(x, d) = time-series standard deviation over the past d days', 'ts_std')]
+        for formula, declaration, name in cases:
+            with self.subTest(operator=name):
+                selection, material, catalog = synthetic(formula, (declaration,))
+                self.assertEqual(assess_operator_definitions(selection, material, catalog)['status'], 'grounded')
+                for suffix in [' divided by d', ' multiplied by 2']:
+                    selection, material, catalog = synthetic(formula, (declaration + suffix,))
+                    result = assess_operator_definitions(selection, material, catalog)
+                    self.assertEqual(result['status'], 'needs_information'); self.assertEqual(missing(result), {name})
+
+    def test_grouped_and_single_standard_definitions_reject_modifiers(self):
+        for declaration in [SIGN, 'sign(x) = standard definitions']:
+            for suffix in [' divided by 2', ' * 2', '; multiplied by 2']:
+                with self.subTest(declaration=declaration, suffix=suffix):
+                    selection, material, catalog = synthetic(definitions=(declaration + suffix, DELTA))
+                    result = assess_operator_definitions(selection, material, catalog)
+                    self.assertEqual(result['status'], 'needs_information'); self.assertEqual(missing(result), {'sign'})
+
+    def test_punctuation_and_newlines_before_independent_declarations_are_boundaries(self):
+        for delimiter in ['; ', '.\n', ',\n', '\n']:
+            with self.subTest(delimiter=delimiter):
+                selection, material, catalog = synthetic(definitions=(SIGN + delimiter + DELTA + delimiter + RANK + '.',))
+                result = assess_operator_definitions(selection, material, catalog)
+                self.assertEqual(result['status'], 'grounded'); self.assertFalse(missing(result))
+
+    def test_dangling_comma_at_selected_page_end_is_not_a_complete_definition(self):
+        selection, material, catalog = synthetic(definitions=(SIGN, DELTA + ','))
+        result = assess_operator_definitions(selection, material, catalog)
+        self.assertEqual(result['status'], 'needs_information'); self.assertEqual(missing(result), {'delta'})
+        self.assertFalse(plan_operator_definition_repair(selection, material, catalog)['changed'])
+
+    def test_quoted_nested_and_chained_headers_are_not_independent_declarations(self):
+        for declaration in ['“' + DELTA + ' ' + RANK + '”',
+                            '(' + DELTA + ' ' + RANK + ')',
+                            'outer(x) = ' + DELTA,
+                            DELTA + ' * sign(x) = standard definitions']:
+            with self.subTest(declaration=declaration):
+                selection, material, catalog = synthetic(definitions=(SIGN, declaration))
+                result = assess_operator_definitions(selection, material, catalog)
+                self.assertEqual(result['status'], 'needs_information'); self.assertEqual(missing(result), {'delta'})
+                self.assertFalse(plan_operator_definition_repair(selection, material, catalog)['changed'])
+
+    def test_standard_operator_annotation_is_a_closed_clause_not_ignored_prose(self):
+        annotation = '; same for the operators “+”, “-”, “*”, “/”, “>”, “<”, “==”, “||”, “x ? y : z”'
+        selection, material, catalog = synthetic(definitions=(SIGN + annotation + '; ' + DELTA,))
+        result = assess_operator_definitions(selection, material, catalog)
+        self.assertEqual(result['status'], 'grounded')
+        sign = next(row for row in operators(result) if row['source_name'] == 'sign')
+        self.assertIn(annotation, sign['definition']['declaration'])
+        for tail in [annotation + ' divided by d', '; same for the operators “magic”']:
+            with self.subTest(tail=tail):
+                selection, material, catalog = synthetic(definitions=(SIGN + tail + '; ' + DELTA,))
+                result = assess_operator_definitions(selection, material, catalog)
+                self.assertEqual(result['status'], 'needs_information'); self.assertEqual(missing(result), {'sign'})
+
+    def test_complete_definition_across_catalog_spans_repairs_exact_available_fragments(self):
+        declaration = DELTA.replace(' days ago', ' observations ago')
+        selection, material, catalog = synthetic(definitions=(SIGN, declaration),
+            cited_definition_pages=[2], max_span_chars=64)
+        material['evidence'] = [e for e in material['evidence'] if e['id'] != 'e3']
+        material['hypotheses'][0]['evidence_ids'].remove('e3')
+        original = deepcopy(material)
+        result = assess_operator_definitions(selection, material, catalog)
+        self.assertEqual(result['status'], 'repairable')
+        delta = next(row for row in operators(result) if row['source_name'] == 'delta')
+        self.assertGreaterEqual(len(delta['definition_span_ids']), 2)
+        plan = plan_operator_definition_repair(selection, material, catalog)
+        self.assertEqual(plan['after']['status'], 'grounded'); self.assertTrue(plan['changed'])
+        self.assertEqual(material, original)
+        self.assertEqual(plan['material']['hypotheses'][0]['calculation'], original['hypotheses'][0]['calculation'])
+        self.assertEqual(set(plan['repair']['added_span_ids']), set(delta['definition_span_ids']))
+
+    def test_source_chunk_cut_cannot_hide_a_contradictory_suffix(self):
+        prefix = DELTA
+        self.assertEqual(len(prefix), 64)
+        selection, material, catalog = synthetic('delta(close, 1)', (prefix + ' divided by d',), chunk_chars=64)
+        result = assess_operator_definitions(selection, material, catalog)
+        self.assertEqual(result['hypotheses'][0]['formula_support']['status'], 'matches')
+        self.assertEqual(result['status'], 'needs_information'); self.assertEqual(missing(result), {'delta'})
+        self.assertFalse(plan_operator_definition_repair(selection, material, catalog)['changed'])
+
+    def test_declaration_across_source_chunks_is_explicitly_outside_single_chunk_v1(self):
+        selection, material, catalog = synthetic('delta(close, 1)', ('P' * 20 + ' ' + DELTA,), chunk_chars=64)
+        result = assess_operator_definitions(selection, material, catalog)
+        self.assertEqual(result['status'], 'needs_information'); self.assertEqual(missing(result), {'delta'})
+        self.assertFalse(plan_operator_definition_repair(selection, material, catalog)['changed'])
 
     def test_definition_in_material_but_unbound_requires_binding_repair(self):
         selection, material, catalog = synthetic(cited_definition_pages=[2])

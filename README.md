@@ -1,161 +1,113 @@
-# Paper-to-Alpha Research Agent
+# Paper-to-Alpha
 
-A local research workbench that connects paper evidence, alpha hypotheses, executable factor expressions, and reproducible evaluation results.
+An evidence-linked factor research workbench: turn selected source material into reviewable model proposals, then validate and evaluate them with deterministic tools.
 
-The project grew from a personal research workflow used during WorldQuant competition participation: find a paper, extract an idea, implement a factor, evaluate it, and revise the research. It turns those steps into a full-stack application with explicit versions, execution records, and review decisions. WorldQuant is the research context, not an employment relationship or project affiliation.
+[![Public CI](https://github.com/Owenqi666/quant-ai-agent/actions/workflows/public-ci.yml/badge.svg?branch=codex%2Fpublic-agent-ci)](https://github.com/Owenqi666/quant-ai-agent/actions/workflows/public-ci.yml?query=branch%3Acodex%2Fpublic-agent-ci)
 
-**Version:** 0.27.2 | **Database:** schema 29 | **Delivery scope:** local macOS, single user, loopback access. The default workflow requires no model account.
+![The running workbench with a completed fixture research and original Worker run](docs/assets/public-agent-workbench.png)
 
-## What the project demonstrates
+The project grew from my WorldQuant competition research workflow: read a paper, form an alpha idea, implement a factor, evaluate it, and revise the research. I built a local workbench to keep the source, assumptions, implementation and results connected. WorldQuant is the research context, not a project affiliation or employment relationship.
 
-- **Full-stack workflow:** React and TypeScript connect materials, evidence, candidates, experiments, and result review through typed FastAPI contracts.
-- **Reliable background execution:** a SQLite queue and a separate Python worker retain attempts, events, failures, cancellation, and execution budgets after the browser closes.
-- **Traceable research:** selected PDF pages, exact quotation spans, component-level source bindings, scientific attribution, saved revisions, input and code snapshots, result hashes, and frozen reports remain linked.
-- **Controlled factor execution:** an AST-based expression whitelist checks fields, operators, windows, complexity, and exact panel alignment before calculation.
-- **Recoverable state:** transactional idempotency receipts prevent duplicate writes after lost responses; offline backup and restore preserve research history.
-- **Bounded automation:** an optional model adapter extracts source-bound material and proposes candidate drafts under host-controlled permissions and budgets. Deterministic checks repair supported representation errors and incomplete operator-definition citations through new versions.
+## See a complete example
 
-## What changed in 0.27.2
+The public Agent demo uses an original teaching note defining a simple `close - open` signal and deterministic synthetic OHLCV. It runs without a model account or an external paper download.
 
-See the [release notes](CHANGELOG.md) for the source changes.
+| Input / stage | Output you can inspect |
+| --- | --- |
+| Select pages from the original teaching PDF | File digest, physical pages and extracted text |
+| Fixture extraction response | Parsed quotations, evidence IDs, structured hypothesis and unresolved scientific questions |
+| Explicit host configuration | Separate automation binding version, saved material and recorded timing/data assumptions |
+| Fixture candidate response | Expression, source hypothesis and required fields |
+| Deterministic validation and persisted execution | AST checks, queued run, original Worker, calculated factor and evaluation results |
+| Result verification and export | Independent numerical checks and a frozen report |
 
-The optional model workflow now connects selected PDF pages to structured material extraction, source-definition checks, formula engineering, candidate generation, and the existing worker. Component-level bindings distinguish a claim, calculation, signal direction, data meaning, and conditions. Missing economic explanations stay unresolved.
+**Fixture** means hand-authored response fixtures replace inference. **Synthetic** describes the market data. The response parser, source checks, experiment controller, queue, Worker and reporting code are the application paths. Component bindings are explicitly authored by the demo host in a new version; they are not claimed as fixture model output. An additional response with invalid request identity fails the same parser; it never creates a successful experiment. See [the reproducible demo](docs/public-agent-demo.md).
 
-A finite deterministic check follows formula operator dependencies and can append missing definition citations from the already selected source spans. It saves a separate automation version and preserves the original draft, formula, data, and scientific unknowns. A successful mechanical check remains distinct from human semantic approval.
+## Engineering decisions
 
-The matching local Runtime completed a bounded installation and model-to-worker acceptance workflow on one previously seen Alpha101 formula with synthetic data. This curated source publication excludes its private records and third-party paper. General paper understanding, human research quality, time savings, and profitability remain unmeasured. See [the model and source workflow](docs/model-workflow.md).
+- **Constrained execution.** An AST whitelist checks data fields, operators, windows and complexity before factor calculation. Exact panel alignment and execution timing prevent silent broadcasting or use of future information. [Expression engine](paper_alpha/expressions.py) · [evaluation semantics](docs/evaluation.md).
+- **Requests that survive lost responses.** Transactional idempotency receipts return the original result for a repeated request. A SQLite queue separates browser activity from execution, and the Worker retains attempts, events, cancellation and interrupted state. [Mutation receipts](paper_alpha/server/mutations.py) · [Worker](paper_alpha/server/runner.py) · [recovery](docs/recovery.md).
+- **Traceability across revisions.** PDF locations, evidence, hypotheses, expressions, input/code snapshots and result hashes remain linked. Review decisions produce new records; they do not silently rewrite old results. [Material versions](paper_alpha/server/paper_materials.py) · [result verification](paper_alpha/workflow.py).
+- **Model drafts behind deterministic gates.** Models propose evidence/hypotheses and candidates. Programs parse responses, check citations and expressions, run calculations and verify outputs. A finite definition recognizer can repair missing references from already selected spans in a separate automation version. Unsupported or ambiguous definition text remains unresolved; this is not a general semantic entailment checker. [Provider workflow](docs/model-workflow.md) · [definition checks](paper_alpha/server/operator_definition_grounding.py).
 
-## Five-stage workflow
+## My contribution and reuse
 
-| Stage | User action | Saved output |
-| --- | --- | --- |
-| 1. Material | Register a text-extractable PDF, select pages, and declare a dataset | Source identity, checksum, bounded text spans, dataset metadata |
-| 2. Hypotheses and evidence | Record material or inspect optional extracted drafts and definition checks | Exact quotations, component bindings, material versions, attribution, and unresolved questions |
-| 3. Candidates | Define expressions or adopt optional drafts; inspect execution requirements | Validated definitions, explicit formula-engineering assumptions where applicable, and an immutable research revision |
-| 4. Experiments | Explicitly submit a saved revision | Queued run, execution attempts, events, tool results, and diagnostics |
-| 5. Result review | Inspect charts and evidence; accept, revise, or reject | Reviews, issues, approved regression cases, new revisions, and frozen reports |
+I implemented the full-stack workbench, typed API contracts, source/material versions, bounded proposal workflow, persisted experiment handoff, execution/recovery lifecycle, review/reporting interfaces and reproducible verification tooling. The integration connects model-generated drafts to controlled factor evaluation rather than letting the model invent metrics or approve its own output.
 
-Reports export the saved research and experiment facts. A revision or review does not overwrite an earlier result.
+The factor/operator implementation includes code adapted from my earlier personal factor project. React, FastAPI, pandas, NumPy and other dependencies provide the underlying libraries. The reuse boundary and checksums are documented in [component provenance](THIRD_PARTY_NOTICES.md); this is not a claim that every numerical primitive was written from scratch.
 
-## Architecture
+## Architecture and stack
 
 ```mermaid
 flowchart LR
-    UI["React / TypeScript"] --> API["FastAPI: contracts and research actions"]
-    API --> DB["SQLite WAL: revisions, queue, attempts, reviews"]
-    API --> Files["Local workspace: inputs, snapshots, results, reports"]
-    Worker["Python worker"] --> DB
-    Worker --> Tools["Expression and evaluation subprocesses"]
-    Tools --> Files
-    Host["Optional host permissions and budgets"] -.-> Model["Codex CLI / App Server"]
-    Model -.-> Draft["Source-bound material / candidate draft"]
-    Draft -.-> API
+    Browser[React + TypeScript] --> API[FastAPI]
+    Source[Selected PDF pages] --> Proposal[Model or fixture response]
+    Proposal --> Gate[Schema, citation and AST checks]
+    Gate --> API
+    API --> Store[SQLite + immutable revisions]
+    Store --> Queue[Persistent queue]
+    Queue --> Worker[Python Worker]
+    Worker --> Tools[Factor evaluation tools]
+    Tools --> Artifacts[Verified artifacts + reports]
+    Artifacts --> API
 ```
 
-The API serves the built frontend and JSON endpoints on the same origin. The browser polls saved status and events; the worker owns computation. Model proposals pass contract, exact-span, source-binding, attribution, expression, and field checks before adoption and normal worker execution. Material and research versions preserve the source and the assumptions used by each experiment.
+Python / pandas / NumPy calculate factors and evaluation metrics; FastAPI exposes typed endpoints; React / TypeScript / Vite provide the workbench. SQLite WAL and filesystem artifacts support a **local, single-user** workflow. The queue is not a distributed service. [Detailed architecture](docs/architecture.md).
 
-| Layer | Technology |
-| --- | --- |
-| Interface | React 19, TypeScript, Vite, SVG charts, KaTeX/MathML |
-| API and contracts | Python, FastAPI, Uvicorn, Pydantic, OpenAPI, generated TypeScript contracts |
-| Calculation and evidence | pandas, NumPy, pypdf, restricted expression DSL |
-| State and execution | SQLite WAL, transactions, filesystem locks, subprocesses, worker heartbeats |
-| Optional model transport | Codex CLI Exec or App Server over stdio JSON-RPC; fixture provider |
-| Verification | Python unittest, FastAPI TestClient/HTTPX, Vitest, Playwright |
+## Quick start
 
-See [architecture and execution design](docs/architecture.md) for object relationships and failure handling. Some factor and operator code was adapted from the author's earlier personal project; its provenance is retained in [third-party and reuse notices](THIRD_PARTY_NOTICES.md).
-
-## Install from source
-
-The locally accepted environment uses **Python 3.14 on macOS**. The package declares Python `>=3.11`, but that declaration is not acceptance evidence for every interpreter or OS. Vite requires `^20.19.0` or `>=22.12.0`. Node and npm are used for frontend development and build, not as the backend server.
+The public CI targets **Ubuntu 24.04, Python 3.14 and Node.js 24**. Local development also uses Python 3.14 on macOS. The package's wider interpreter declaration does not establish acceptance for other combinations.
 
 ```sh
 git clone https://github.com/Owenqi666/quant-ai-agent.git
 cd quant-ai-agent
+# This PR's reproducible revision; main stays unchanged until review/merge.
+git switch codex/public-agent-ci
 python3.14 -m venv .venv
 .venv/bin/python -m pip install -r requirements-web-lock.txt
-.venv/bin/python -m pip install -e '.[web,test]'
-cd frontend
-npm ci
-npm run build
-cd ..
+.venv/bin/python -m pip install --no-deps -e .
+npm --prefix frontend ci
+npm --prefix frontend run build
 ```
 
-The locks pin the Python and frontend dependencies. The runtime has no CDN dependency after the frontend is built.
-
-## Quick experience
-
-An original tutorial document and synthetic OHLCV data provide a complete CLI example without a model call or a third-party paper download:
+Run the Agent demonstration and its independent check:
 
 ```sh
-.venv/bin/python scripts/prepare_public_demo.py --output-dir .demo/inputs
-.venv/bin/python -m paper_alpha run .demo/inputs/task.json --mode fixed --out .demo/run
-.venv/bin/python -m paper_alpha verify .demo/run
+.venv/bin/python scripts/demo_public_agent.py --output-dir .demo/agent
+.venv/bin/python scripts/check_public_agent_demo.py --output-dir .demo/agent
 ```
 
-Read `.demo/run/report.md` for computed results and diagnostics. The preparation script creates inputs; the ordinary worker tools calculate the metrics. Use fresh output directories for another run. The candidate is a toy definition, and the data are synthetic.
+The demo saves its source, requests/responses, material versions, validation, run and computed report under `.demo/agent`. It retains the rejected response alongside the successful chain. Output directories are exclusive; use another path for a new run.
 
-To open the full interface, start a separate local workspace:
+Open that same research in the browser:
 
 ```sh
-.venv/bin/python -m paper_alpha.server.launcher --home ./var/demo --port 8765
+.venv/bin/python -m paper_alpha.server.launcher --home .demo/agent/workspace --port 8765
 ```
 
-Open [the local workbench](http://127.0.0.1:8765/) and [the API reference](http://127.0.0.1:8765/docs). The launcher starts the API and worker together. `Ctrl+C` stops both; submitted state remains in `var/demo`. Use the material and research creation forms for your own prepared inputs; the CLI demo does not automatically seed a browser research record.
+Visit [the workbench](http://127.0.0.1:8765) or [the API reference](http://127.0.0.1:8765/docs). The launcher serves the built frontend and starts the existing Worker. `Ctrl+C` stops the services; saved research remains in the workspace. No real-model permission is enabled by this command. Product review controls remain available; the public demo records no participant approval.
 
-For the built-in Alpha101 browser example, obtain the fixed original paper from [arXiv, version 3](https://arxiv.org/abs/1601.00991v3), subject to its terms, and prepare it locally before importing the example:
+The earlier fixed-candidate CLI example is also available via `scripts/prepare_public_demo.py`; it is separate from the Agent demonstration above.
+
+## Tests and CI
 
 ```sh
-.venv/bin/python scripts/prepare_alpha101.py --pdf /path/to/1601.00991v3.pdf
+.venv/bin/python scripts/export_api_contract.py --check
+.venv/bin/python -m unittest tests.test_expressions tests.test_evaluation \
+  tests.test_formula_presentation tests.test_paper_segments \
+  tests.test_formula_engineering_material tests.test_operator_definition_public \
+  tests.test_public_reliability tests.test_public_agent_demo
+npm --prefix frontend run typecheck
+npm --prefix frontend test
+npm --prefix frontend run build
 ```
 
-The script verifies the pinned PDF before extracting source material for the existing templates. The paper PDF and extracted full text are not distributed here. Alpha101 examples use synthetic data; they do not reproduce the paper's trading results. See [example preparation](examples/README.md).
+[Public CI](.github/workflows/public-ci.yml) installs locked Python and npm dependencies in a fresh runner, checks API contract drift, runs public regressions and reliability tests, builds the frontend, and runs the Agent demo plus its numerical check. Logs and selected demonstration artifacts are uploaded for inspection. These tests require no model credentials, private database or third-party paper. [Validation scope](docs/publication-validation.md).
 
-## Evaluation and automation boundaries
+## Scope and further reading
 
-The main daily workflow performs **factor research evaluation**. Signals formed after session `t` close are evaluated against `open[t+2] / open[t+1] - 1`, with all three sessions inside the selected validation interval. Outputs include mean Rank IC, daily gross returns, coverage, and explicit valid/skipped/boundary counts. Cumulative gross return is an arithmetic sum, not compounded NAV.
+Model dispatch is disabled by default. The optional real App Server transport supports evidence/hypothesis extraction and candidate generation under explicit host permissions and budgets. The public demonstration exercises the supported fixture response protocol; it does not count as a real LLM call. Historical local real-call evidence is described separately in [the model workflow](docs/model-workflow.md) and is not a new-version CI result.
 
-Costs, slippage, borrow, fills, liquidity, and capacity are not modeled. These results are not a complete trading backtest, WorldQuant BRAIN simulation, or evidence of a profitable strategy. The public demo is synthetic. See [evaluation semantics](docs/evaluation.md).
+The application performs **factor evaluation**, not a complete trading backtest. Synthetic results do not prove investment returns, general paper understanding or research efficiency gains. Human research-quality and time-comparison evaluation remain unmeasured. Automated exact-text or definition checks are separate from a person's semantic judgment.
 
-Two deterministic checks serve different purposes. Expression correction handles declared equivalents such as `correlation -> ts_corr` and policy-approved integral window representations. Source-definition checking follows a finite set of known operator patterns and can append existing selected-span citations and bindings in a new automation version. Missing or inconsistent source definitions remain blocked; these checks cannot invent data, replace required fields, change economic mechanisms, or optimize financial results.
-
-Formula-engineering mode can evaluate a source formula while preserving an unstated economic mechanism as null and unresolved. It requires an explicit execution policy, supported calculation and data definitions, and a disposition for each original unknown. An execution gap cannot be reclassified as a scientific unknown. This mode verifies computation under declared assumptions; it does not establish the hypothesis's scientific validity.
-
-Model dispatch is **off by default**. The App Server transport supports optional `extract_material` and `generate_candidates`; host configuration, current qualification, and call budgets are required. `repair_candidate` and `decide_next_action` are not supported by this transport. The latest bounded local acceptance connects real material extraction and candidate generation to deterministic validation, the original worker, and a saved report. The deterministic citation repair is separately verified and is not general LLM self-repair. Exact citations and binding coverage do not prove semantic entailment, and automated versions do not imply human approval.
-
-Automated retrieval/RAG/OCR, automatic BRAIN simulation, certified point-in-time real equity data, and multiuser production operation remain outside the delivered scope. Actual backend model identity, total underlying requests, and monetary cost are not established by the dispatch receipts.
-
-Advanced monthly, author-material, and archived evaluation workflows require separately prepared source inputs. Private historical research material is excluded from this publication; those workflows are not preloaded demonstrations in a clean clone.
-
-## Tests and recovery
-
-This publication includes representative tests for expression safety and alignment, evaluation timing and missing-data behavior, exact source spans, operator-definition coverage, formula-engineering unknowns, formula presentation, mutation idempotency, and workspace backup/restore. It does not bundle historical validation outputs or configure remote CI. Bounded checks of this export are documented in [publication validation](docs/publication-validation.md).
-
-The following tests do not require a third-party paper:
-
-```sh
-.venv/bin/python -m unittest discover -s tests -p 'test_expressions.py'
-.venv/bin/python -m unittest discover -s tests -p 'test_evaluation.py'
-.venv/bin/python -m unittest discover -s tests -p 'test_formula_presentation.py'
-.venv/bin/python -m unittest discover -s tests -p 'test_paper_segments.py'
-.venv/bin/python -m unittest discover -s tests -p 'test_formula_engineering_material.py'
-.venv/bin/python -m unittest discover -s tests -p 'test_operator_definition_public.py'
-```
-
-After local Alpha101 preparation, run the paper-dependent integration and recovery tests:
-
-```sh
-.venv/bin/python -m unittest discover -s tests -p 'test_mutation_idempotency.py'
-.venv/bin/python -m unittest discover -s tests -p 'test_backup.py'
-.venv/bin/python -m unittest discover -s tests -p 'test_formula_engineering_readback.py'
-```
-
-Test results establish software behavior within their fixtures, not financial effectiveness or measured user productivity.
-
-Stop all processes using a workspace before maintenance. Backups use a consistent SQLite snapshot and a checksummed file manifest; restore always targets a new directory. See [backup, restore, and upgrade](docs/recovery.md) for commands and recovery limits.
-
-## Repository scope
-
-This repository is a curated source publication of the maintained application, dependency locks, build and preparation tools, selected tests, and public examples. User databases, research records, accounts, credentials, permissions, enabled host configurations, logs, environments, historical experiments, validation artifacts, and local version backups are excluded.
-
-See the [publication inventory and optional-source requirements](docs/publication-scope.md) for the exact classification. The separately accepted local Runtime and its frozen signoff remain local. Public source availability does not grant redistribution rights for external papers or datasets. No project-wide open-source license has been selected; dependency licenses remain with their respective owners. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+[Evaluation rules](docs/evaluation.md) · [backup/recovery](docs/recovery.md) · [public source boundary](docs/publication-scope.md) · [change history](CHANGELOG.md).

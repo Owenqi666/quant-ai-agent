@@ -1,2901 +1,2992 @@
 {
+  "base_public_commit": "90d658c73dbda40df7cd2db6f48e0a6a83dee0ef",
   "database_schema": 29,
   "excluded_categories": [
-    "user_state",
-    "external_paper_originals_and_full_text",
-    "market_originals",
-    "accounts_secrets_and_authority",
-    "enabled_provider_configs",
-    "logs_and_validation_outputs",
-    "dependency_environments",
-    "historical_experiments_and_version_backups",
-    "private_local_paths"
+    ".agents",
+    ".aws",
+    ".codex",
+    ".git",
+    ".venv",
+    "__pycache__",
+    "accounts_secrets",
+    "artifacts",
+    "backups",
+    "build",
+    "deliveries",
+    "dist",
+    "enabled_native_model_configuration",
+    "external_paper_originals",
+    "installations",
+    "node_modules",
+    "personal_research",
+    "research",
+    "runs",
+    "var"
   ],
-  "export_changes": [
-    "Public English documentation replaces local development manuals.",
-    "Private vendor source path omitted; reuse hashes retained.",
-    "Personal Alpha101 confirmations omitted.",
-    "Original public tutorial and user-supplied PDF preparation scripts added.",
-    "Private monthly/author/semantic catalogs and old evaluation resources omitted.",
-    "Public finite-definition tests curate synthetic cases only; historical real-response fixtures excluded.",
-    "Public formula-engineering fixture includes a complete original named toy formula for the stricter source-support gate."
-  ],
-  "file_count_excluding_manifest": 574,
+  "exporter_sha256": "9889753c6a7e33f956a254a174052262053803f8b6c83a095afac8d784173c1c",
+  "file_count_excluding_manifest": 591,
   "files": {
     ".gitattributes": {
       "bytes": 27,
-      "category": "dependency_metadata_or_ignore_rules",
+      "origin": "maintained_public_overlay",
       "sha256": "9ef873a5f85a831cd765561c142080e913ec6bf4c993cc1a350aacf4f68a1873"
+    },
+    ".github/workflows/public-ci.yml": {
+      "bytes": 6265,
+      "origin": "main_project_source",
+      "sha256": "44f31ace92679f4fa0a6613ea31757c871d6ae37ea44a2a41e4653a165f8a1a8"
     },
     ".gitignore": {
       "bytes": 436,
-      "category": "dependency_metadata_or_ignore_rules",
+      "origin": "maintained_public_overlay",
       "sha256": "7dcef5837ad49a62aaf114feea9efed6c09574a4925fd4df9da5cfb8f215d9bc"
     },
     "CHANGELOG.md": {
-      "bytes": 1286,
-      "category": "public_english_documentation",
-      "sha256": "0a79ba30a19bc1bda0242b6d42d1be255e604b27c5d242abbea7f8cff45b035c"
+      "bytes": 1853,
+      "origin": "main_project_source",
+      "sha256": "52201b29c20f3ebf77d3a22f0609e724e90fc611385738d32bfa04afd22785ca"
     },
     "README.md": {
-      "bytes": 13914,
-      "category": "public_english_documentation",
-      "sha256": "107df36b4ff17e773df419579a5f4a06f29c1fd128eb6300560be7fc1852104e"
+      "bytes": 9258,
+      "origin": "main_project_source",
+      "sha256": "dc1cb7a56b7e2d140ed905329396b12046da83b5872fc398bcb8c822293b2323"
     },
     "THIRD_PARTY_NOTICES.md": {
       "bytes": 3881,
-      "category": "public_english_documentation",
+      "origin": "main_project_source",
       "sha256": "686fc88023c969ee5af5cff68b0b0f015fdc31eb5697d51215f605d12222da84"
     },
     "contracts/codex_cli_provider_v1/disabled_config.json": {
       "bytes": 295,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "f3cbb2f3683f7ebe8ebae1c3c04e7d9463cd04b4889f3a22834f9310f65f0a37"
     },
     "contracts/codex_cli_provider_v1/manifest.json": {
       "bytes": 1832,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "a40307c3cd6d47497c299fa53906b909f7bf6573e34ef97678a2ef60aa23f578"
     },
     "contracts/codex_cli_provider_v1/model_output.schema.json": {
       "bytes": 6976,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "986f8c3d83779b2713dfe77dcb8ee4c8d802f6e8492dbd68442e681512e6f6c7"
     },
     "contracts/codex_cli_provider_v1/prompt.txt": {
       "bytes": 1055,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "dc7aedb1ae594b41cbe4660fbc1bb41632f3c8bbc10f4ff933b410bd8b7a706d"
     },
     "contracts/codex_cli_provider_v1/proposal_budget.schema.json": {
       "bytes": 1973,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "1b8dd9fa1b4af40b38bff29f6788d2126252ddb0071e29a16439dc11b3593a3f"
     },
     "contracts/codex_cli_provider_v1/proposal_create.schema.json": {
       "bytes": 3978,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "5b699c558156b3f277c950cc4bd2d381721551916a221eb7b49f8ee8559d9346"
     },
     "contracts/codex_cli_provider_v1/proposal_handoff.schema.json": {
       "bytes": 1815,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "2d13fc308053136aab400965a6359e9e2538255f4f390fc9217da681b96d8b43"
     },
     "contracts/codex_cli_provider_v1/provider_config.schema.json": {
       "bytes": 1711,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "cad7a856322b63dc676064dcda0acab9def445f211471d03bec3af1da0d6c25c"
     },
     "contracts/codex_cli_provider_v1/provider_context.schema.json": {
       "bytes": 10512,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "ec149b7faf0d917860c9282dc7f17d9fa9b063af1a08c0c223aa2b0f3b5a4083"
     },
     "contracts/codex_cli_provider_v1/provider_readiness.schema.json": {
       "bytes": 1927,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "f5a3730600988b392c5658d56c4a616fea440f81a54c515dfd491b68d866b469"
     },
     "contracts/codex_cli_provider_v1/provider_receipt.schema.json": {
       "bytes": 5003,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "88d3b974e4291e4cbedc09595e6b20ab4ab5a88943708a4d588ff5ece6a839cb"
     },
     "contracts/research_formula_engineering_v1/canonical_output.schema.json": {
       "bytes": 9295,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "c5f8cf078eb6490255e4f792e6a0b22d1da78ca9402d27706063555c6a42574c"
     },
     "contracts/research_formula_engineering_v1/manifest.json": {
       "bytes": 972,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "dac366b571375b2d258999372a7327e4815ccf3ee1d2017dfb90f7a3982bbf79"
     },
     "contracts/research_formula_engineering_v1/model_output.schema.json": {
       "bytes": 4391,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "5dce328709c69a919c44d5690dec322ac657fb84ec8a5db77b994c836c3f06ce"
     },
     "contracts/research_formula_engineering_v1/prompt.txt": {
       "bytes": 1676,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "22318be24f49d8ddf6c77c99bd7cc4e3d58eb96ed3b2bdcda73cad013b992cd6"
     },
     "contracts/research_grounded_material_v1/canonical_output.schema.json": {
       "bytes": 9295,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "c5f8cf078eb6490255e4f792e6a0b22d1da78ca9402d27706063555c6a42574c"
     },
     "contracts/research_grounded_material_v1/data_variables_only_v1.txt": {
       "bytes": 562,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "dbbe903c93ef1034c6a2b7d71c9957069916a6d945108364b48d7f2623730549"
     },
     "contracts/research_grounded_material_v1/manifest.json": {
       "bytes": 1748,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "4aad259e143074c4d0cddb36af7cba5f069c5a9d8993afbc8838ad45f617e56c"
     },
     "contracts/research_grounded_material_v1/model_output.schema.json": {
       "bytes": 6082,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "428035085473eeb99fe4d90aabcc957d5b89ade2a7b48c029e6668b1e576efb5"
     },
     "contracts/research_grounded_material_v1/operator_definitions_v1.txt": {
       "bytes": 979,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "f4d6cc2f76fdaf11c6f0768cc2d1da59d86ff540f08954709392d3c1d883dadc"
     },
     "contracts/research_grounded_material_v1/prompt.txt": {
       "bytes": 2488,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "90e7748e855e02f448ac08c3fec01b386af9bfa674a0b58d795a2337b09b8bf8"
     },
     "contracts/research_grounded_material_v1/span_catalog.schema.json": {
       "bytes": 1771,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "290725954d60df0289032d389543d4d550939ce0a0be088e3b32fca8162f52e1"
     },
     "contracts/research_material_spans_v1/manifest.json": {
       "bytes": 1180,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "33a1b54817c018a29ae244e34826665411170afd7d006223ed162dde703de6d3"
     },
     "contracts/research_material_spans_v1/model_output.schema.json": {
       "bytes": 4529,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "fbc268f10b15b8c6669204530536ac62fd4f420d26de55e81f0891376a5dcc1c"
     },
     "contracts/research_material_spans_v1/prompt.txt": {
       "bytes": 1633,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "c60fff9cedb73a68d193c0473d97349a0ea6891f1f639a6a247259fa14b2ef67"
     },
     "contracts/research_material_spans_v1/span_catalog.schema.json": {
       "bytes": 1771,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "290725954d60df0289032d389543d4d550939ce0a0be088e3b32fca8162f52e1"
     },
     "contracts/research_operator_definitions_v1/policy.json": {
       "bytes": 871,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "cd9f545e84e4d4f507372e43ecfa255d36f08b3c7d2223ef23fb435a1d95fe84"
     },
     "contracts/research_output_policy_v1/manifest.json": {
       "bytes": 339,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "8fd76e1eeb6ea73dbb86f7bd389a3e8a6d1150e4a419853583afb7dd41fc0ff7"
     },
     "contracts/research_output_policy_v1/policy.json": {
       "bytes": 2372,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "3fbd33f26644c9f80c8cabec6ab28c1c26954b4ad47d1f786c467caefd930807"
     },
     "contracts/research_provider_v2/manifest.json": {
       "bytes": 902,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "0c75ec613d2c1ac8c5857cd429a00053043fa6da5a5454ba867927307bdd8b15"
     },
     "contracts/research_provider_v2/model_output.schema.json": {
       "bytes": 16040,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "5e44b0936d70e8e5dce82ff77412ae88f38343eadd036e38db9fc47ac91020d6"
     },
     "contracts/research_provider_v2/prompt.txt": {
       "bytes": 2204,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "2d6ece1423e8b7ff391cc362b347e2b169600f392a7f50516c912c228c22743f"
     },
     "contracts/research_provider_v2/proposal_create.schema.json": {
       "bytes": 10194,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "5b5916d93a4174a0275b1c217caf6489617a3c696fa3a0a626a262fe22f26263"
     },
     "contracts/research_workflow_g3b_v1/capabilities.json": {
       "bytes": 688,
-      "category": "application_contract_resource",
+      "origin": "main_project_source",
       "sha256": "02cbf78c0c699c2a27f5b053bdeb9858b0bc202008d5d8fe7a087324fcc978f2"
     },
     "docs/architecture.md": {
       "bytes": 8904,
-      "category": "public_english_documentation",
+      "origin": "main_project_source",
       "sha256": "c45809729eecde88ea518ffa985f4194583ac3f0b2cddf64679831e148a4aca9"
+    },
+    "docs/assets/public-agent-results.png": {
+      "bytes": 419127,
+      "origin": "main_project_source",
+      "sha256": "23bde1c6a4e819274dc47611bdc5f2af57973d06ffc4b7aa7c5aaa916772cfcb"
+    },
+    "docs/assets/public-agent-workbench.png": {
+      "bytes": 412274,
+      "origin": "main_project_source",
+      "sha256": "fddf3184f06fad245aff85fc8896213ca1c68ecbf086b4c6a2c546ed03bbeeb7"
     },
     "docs/evaluation.md": {
       "bytes": 6715,
-      "category": "public_english_documentation",
+      "origin": "main_project_source",
       "sha256": "ab2406a23609a06bea1f5f0656da7306032076b92c8eaafc58c8d9cbdb63cb7d"
     },
     "docs/model-workflow.md": {
-      "bytes": 5762,
-      "category": "public_english_documentation",
-      "sha256": "6b89b8026741a424d6434b75edcaad371526f5d33c974a51127a4723d60498a8"
+      "bytes": 6158,
+      "origin": "main_project_source",
+      "sha256": "32a2062db1ff70d94e13377d8da874529855d30aaadc531142290f41d1c16d74"
+    },
+    "docs/public-agent-demo.md": {
+      "bytes": 4040,
+      "origin": "main_project_source",
+      "sha256": "537494b4560b3009ec68db40ecec31704660d418111f12d991a2272698cb2902"
+    },
+    "docs/public-ci.md": {
+      "bytes": 3012,
+      "origin": "main_project_source",
+      "sha256": "ba2989920bf73f5e2221bebdc480deeae179dac5570d2f5af1a1708651e8bfe5"
     },
     "docs/publication-scope.md": {
-      "bytes": 4260,
-      "category": "public_english_documentation",
-      "sha256": "ff9fdae3e0a518e20e8dc75fb1237849a3a1a078081705b802fa0925e59b3365"
+      "bytes": 5100,
+      "origin": "main_project_source",
+      "sha256": "14649d0efe04114fbd38b944c954f8a21d680fbb4e1b68ea63dc019f5563df3f"
     },
     "docs/publication-validation.md": {
-      "bytes": 3142,
-      "category": "public_english_documentation",
-      "sha256": "3b1d549849bafee11512f84757b2f024a82dab49734cd0b2fd520b656cd4c6ea"
+      "bytes": 4523,
+      "origin": "main_project_source",
+      "sha256": "50ab4637f33361aec8a8fb98498fbbb110fbd7b3719ca7a931a1174d5c3fda88"
     },
     "docs/recovery.md": {
       "bytes": 4420,
-      "category": "public_english_documentation",
+      "origin": "main_project_source",
       "sha256": "922656a7b2aafca4bae8b9519ada0308a08153a6739263692eb8caa25bcb6da5"
     },
     "evaluation_suites/v05/material_confirmation.json": {
       "bytes": 335,
-      "category": "sanitized_public_fixture_declaration",
+      "origin": "main_project_source:no_personal_confirmation",
       "sha256": "0a85a8d154e26fd72cedb99c6390abb059a2cb684f8be838ab292ba6a7ba5ff2"
     },
     "examples/README.md": {
-      "bytes": 3969,
-      "category": "example_documentation_or_disabled_configuration",
-      "sha256": "6f41d6216d66d7841f0576967484b1c7001fa599fdc6ceaa182f1413c687c2aa"
+      "bytes": 4325,
+      "origin": "main_project_source",
+      "sha256": "991ce0edff6f8ab8a0d821710b7179429b206995eed6d65f7b29283eb0cc50a6"
     },
     "examples/alpha101/evaluation.json": {
       "bytes": 221,
-      "category": "synthetic_data_or_short_formula_fixture",
+      "origin": "main_project_source",
       "sha256": "fb4cd72491c4ab1560b9cd04feedee0fa1a3a4ffa9cfe851198b1b7904d924f2"
     },
     "examples/alpha101/market.csv": {
       "bytes": 323782,
-      "category": "synthetic_data_or_short_formula_fixture",
+      "origin": "main_project_source",
       "sha256": "fbb4353e6fffb1b84292d8ca50085df65500b275759336eec7c54a09b27b0d00"
     },
     "examples/alpha101/metadata.json": {
       "bytes": 9054,
-      "category": "synthetic_data_or_short_formula_fixture",
+      "origin": "main_project_source",
       "sha256": "b77d32c273bc694605ffb464bf068567d97c56ff0c0c19d66480c3e757655257"
     },
     "examples/alpha101/source_evidence.json": {
       "bytes": 898,
-      "category": "synthetic_data_or_short_formula_fixture",
+      "origin": "main_project_source:personal_assertions_removed",
       "sha256": "f6a329de8405ce44147dbf7c5f229102c0b0696b09f4bb9afcadc07f1dc9371c"
     },
     "examples/alpha101/task.json": {
       "bytes": 6346,
-      "category": "synthetic_data_or_short_formula_fixture",
+      "origin": "main_project_source:personal_assertions_removed",
       "sha256": "22765d3724a0b00477c664b854878d26159b2b6f4dd6fe5e5f4c60a337542311"
     },
     "examples/provider-app-server-disabled.json": {
       "bytes": 449,
-      "category": "example_documentation_or_disabled_configuration",
+      "origin": "main_project_source",
       "sha256": "ebce635fbe6d67c777a03c80fe554468d20980120da87437367e1c0357f08189"
+    },
+    "examples/public_agent/build_teaching_pdf.py": {
+      "bytes": 2262,
+      "origin": "main_project_source",
+      "sha256": "18598c7855faba53c90253dc1b5ce7d723e0df6d61ce82848468ab797e670313"
+    },
+    "examples/public_agent/evaluation.json": {
+      "bytes": 275,
+      "origin": "main_project_source",
+      "sha256": "cb2c1b7dda2e81c93019312128cdc97e5100b3f2bbe618fd7e849257e37212f8"
+    },
+    "examples/public_agent/generate_inputs.py": {
+      "bytes": 2538,
+      "origin": "main_project_source",
+      "sha256": "93adc3bd2c640b3bf4b24e4d354bf12f78c2d3ede3f83525cd9c4001281fafcb"
+    },
+    "examples/public_agent/market.csv": {
+      "bytes": 13862,
+      "origin": "main_project_source",
+      "sha256": "dec9e44092b196d9dc8bac71044f024b22e87c32e08a5978ac53f1591a9733b7"
+    },
+    "examples/public_agent/metadata.json": {
+      "bytes": 1850,
+      "origin": "main_project_source",
+      "sha256": "df5fc8376a5d5c60531366b65d95164720cedc4d9fe65456dfd97f55c68bb4ea"
+    },
+    "examples/public_agent/spec.json": {
+      "bytes": 940,
+      "origin": "main_project_source",
+      "sha256": "2cb7f37ecfa4a3c4549112bc08f4f388f5b3bfe74542ecaa420c67b847c38608"
+    },
+    "examples/public_agent/teaching_note.md": {
+      "bytes": 2611,
+      "origin": "main_project_source",
+      "sha256": "155e6ced4ab742b05706a49ca9f9d938b702fc914927d06beff7c0c8eca99cfe"
+    },
+    "examples/public_agent/teaching_note.pdf": {
+      "bytes": 4297,
+      "origin": "main_project_source",
+      "sha256": "80b385528b1a76b150a376dcedf44f2dac074a7607dc60e2de034a69e162b078"
     },
     "examples/public_demo/engineering_note.md": {
       "bytes": 1038,
-      "category": "original_public_engineering_fixture",
+      "origin": "main_project_source",
       "sha256": "cf47074e3e1d7c2a01787f2a62aa93d6126f205470eec043c7290ded5b4ecdf1"
     },
     "examples/public_demo/engineering_note.pdf": {
       "bytes": 4207,
-      "category": "original_public_engineering_fixture",
+      "origin": "main_project_source",
       "sha256": "70e2fdcbc1fccc26be1ff4be447e5552fb9a62b35a14a7dc9f7cec09c3b10bd1"
     },
     "examples/public_demo/provenance.json": {
       "bytes": 681,
-      "category": "original_public_engineering_fixture",
+      "origin": "main_project_source",
       "sha256": "4ab3bc620fbde0e1540711be1ac7f07bce4799dac65c41336f82f67171df63ef"
     },
     "examples/public_demo/task.json": {
       "bytes": 1975,
-      "category": "original_public_engineering_fixture",
+      "origin": "main_project_source",
       "sha256": "a186617e9ddb4f2440d8a917b7018b76ab8a7bfb21a61f7d547d71538edb3c7b"
     },
     "frontend/e2e/industry-material-plan-fixtures.ts": {
       "bytes": 7765,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "e37f0055304bede8b1b410b2123515101813bac165df22a6c2da4af22649a673"
     },
     "frontend/e2e/workflow.spec.ts": {
       "bytes": 43589,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "2b2e0daf1534420baf439df83952ba5b67fb3ab2879130784f12553d9f110b8d"
     },
     "frontend/index.html": {
       "bytes": 494,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "601425661d1f84eaf3c8d46c7d2e920fe600fb67409d18b646dbbb909c8eef3e"
     },
     "frontend/package-lock.json": {
       "bytes": 77837,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "6e529aaa419cb3a9bcbef26a3c863644ed5617b245d4b47a4d79c229f1fa8a8d"
     },
     "frontend/package.json": {
       "bytes": 690,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "305a974dc1921363caaaedede6b640948803ae720f1ea6db5d0bb829759a320b"
     },
     "frontend/playwright.config.ts": {
       "bytes": 1045,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "ba1b458e9988d5c60ebfa7e259b8d6b493f7126f8c9fb10be1be487de40aa0c2"
     },
     "frontend/public/art/research-signal.webp": {
       "bytes": 60110,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "d66314a5e1ebfbe22794fcf06e0389c670835f8e5272219ea20dd19e9de4736c"
     },
     "frontend/public/licenses/katex-MIT.txt": {
       "bytes": 1107,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3"
     },
     "frontend/src/App.experimentRevision.test.ts": {
       "bytes": 2150,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "68e343c17901b553b0ebf550b021a12417645713c28edc698b691b45d0c609fd"
     },
     "frontend/src/App.tsx": {
       "bytes": 66679,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "eb81c7dcb03cb93033f3e29d034c739cad4e52ffe30df7238ad27d7ae945a480"
     },
     "frontend/src/MaterialAdoptionPanel.test.ts": {
       "bytes": 3652,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "258a46469f9890eef298b1f2d931d9715199505f4da816e6de84b122c960cb5f"
     },
     "frontend/src/api.test.ts": {
       "bytes": 5067,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "5d9db69c69d81b0f61d9bfcf931d4f0752d83aad16dca4d50d88507853ca8c7b"
     },
     "frontend/src/api.ts": {
       "bytes": 6040,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "ff6c5f6e0e9476162d36c0fb9ddeff945900de88416e19e1b0110caef395d2e8"
     },
     "frontend/src/apiDeadline.test.ts": {
       "bytes": 11925,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "b2d9e75b88d300517a71ba018319e5ea7abbc78eae405c97f379fefa5cfbb319"
     },
     "frontend/src/apiDiscriminator.test.ts": {
       "bytes": 6682,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "245ae2dc99ed7f729c18b376e07544328e6398734f67dc73d0be9cd565d23f02"
     },
     "frontend/src/authorPanels.test.ts": {
       "bytes": 2123,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "1398d659e8b8fac5aec27005ce7ca0ed76cd17b1b6e06e1935d1238561e21ad0"
     },
     "frontend/src/authorPanels.ts": {
       "bytes": 2589,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "fc9731b8f2f0c3c5e31b87eca72f4b794995cd8e1d70800e0350fcc452923e91"
     },
     "frontend/src/authorStudies.test.ts": {
       "bytes": 3507,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "40526b85ebd195e04891c43af79de7fcad3e463c3ba7ce107f32ab929349ee21"
     },
     "frontend/src/authorStudies.ts": {
       "bytes": 3624,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "da413c2b51b1165188f7e75e93a4a941959af006154f3f079a91f1e1a9d09bb2"
     },
     "frontend/src/candidateSeries.test.ts": {
       "bytes": 5698,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "4bd9defefa65c560f55d238a4a55a36b2b88e14665fee259dbaabebd180d0140"
     },
     "frontend/src/candidateSeries.ts": {
       "bytes": 3902,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "3694019b5aa4f95fddf8b8541ae06980bbd43421d15f52e6d825597cfd1df00d"
     },
     "frontend/src/components/AuthorPanels.tsx": {
       "bytes": 14235,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "1fa9003cc544c63e6386b5529bfd0ac53a37b1a226182be8eb31bf7f79ff676f"
     },
     "frontend/src/components/AuthorStudies.tsx": {
       "bytes": 20653,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "5efccfe060deeed1f0695da2df957c797a5d0c771eb56dc38ea752b677722f55"
     },
     "frontend/src/components/CandidateCharts.tsx": {
       "bytes": 12656,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "54ba39f4d2b0910c33c979d3da7e75005dc3c11635a8db3af73d050e46cbafa6"
     },
     "frontend/src/components/CatalogPanel.tsx": {
       "bytes": 6068,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "b566d585b8087d354ce66df68ffeda0d1af1b68b337d02a5bbe4376703c2fb39"
     },
     "frontend/src/components/CatalogSelect.tsx": {
       "bytes": 3349,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "9ec121314911eb8a1a85ea0dbdbf2de7b2e2c9a4dc2f2935df827add32b9e509"
     },
     "frontend/src/components/ClaimReviews.tsx": {
       "bytes": 13352,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "3c716473a88a8058cc34785becb52326e9c73d0964af790634782f4cda4229d7"
     },
     "frontend/src/components/CreateResearch.tsx": {
       "bytes": 27087,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "29c99aac2b68f2a97566d87eeda93bb1e2057d4fb0d17c2ea3e86ba5998be3b0"
     },
     "frontend/src/components/CreationDraftInbox.tsx": {
       "bytes": 3959,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "2fd776085509b19a3235a26069a6dc04e11777304b95deb1d255bdc1d676233c"
     },
     "frontend/src/components/CreationProposalDiagnostics.tsx": {
       "bytes": 4462,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "f6999191b899e942ef3d3f92d4e956eaca5e8206ecf0d5bfce20fe09b8d7ac75"
     },
     "frontend/src/components/DailySnapshotImportPanel.tsx": {
       "bytes": 6984,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "e117c5740e55c2c402c9fc968d10aab7167782dfbc7da69322ae4f717a51ff2c"
     },
     "frontend/src/components/DailyWorkflow.tsx": {
       "bytes": 5904,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "3e20f20f5d08286180b2797cee96cdfce7c6cfe368f8c139ce38910d6d4e8f5f"
     },
     "frontend/src/components/DatasetImportPanel.tsx": {
       "bytes": 10127,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "6a48ba55958e0a75323f3a436920d8e9e7337ed19af7f55ba8d7cc685d1daa62"
     },
     "frontend/src/components/DomainResearchJobs.tsx": {
       "bytes": 13893,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a41876e5500674fd8c153570707b58c504b621d97e3b08d42392a080fc3b7a21"
     },
     "frontend/src/components/DraftNotice.tsx": {
       "bytes": 1752,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "4c120cf2302e9dda867b7b32d7c44e06bf146ee64d353f7e4d93e803ac527df9"
     },
     "frontend/src/components/EvaluationPresetPicker.tsx": {
       "bytes": 5933,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a14be0b980f519f9d6f6d9e9168a8e71684a07d91b9dd1cffde7dd982765fb67"
     },
     "frontend/src/components/EvidenceLineage.tsx": {
       "bytes": 10164,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "846f136a001626231466bc034fa75dda411ef480bf87bd1bf4fdaa608ee67772"
     },
     "frontend/src/components/ExplicitDimensions.tsx": {
       "bytes": 1097,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "7b0cf3871a9ab171fd2ff84e301dbb08a05762146ce04e2ed5edf8f5ca3b1648"
     },
     "frontend/src/components/FeedbackPanel.tsx": {
       "bytes": 19110,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "6d45a7d00e21534d40b55e0b94c559e7eaa8af2237d0e716a94b09ca8c9e70b7"
     },
     "frontend/src/components/FormulaAlignment.tsx": {
       "bytes": 13208,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "3eb823c09c09f7211f47820b094801c184b57441f93dad34a9f06dd4f4f3f798"
     },
     "frontend/src/components/FormulaPresentation.tsx": {
       "bytes": 6661,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "b01cb8401a37bbd4afffa9c5734d6b3956c6915d878004b0a738b26c2c9a93ea"
     },
     "frontend/src/components/GuidedObservation.tsx": {
       "bytes": 25702,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "7cbcf888598d4f53b07acd46bb835b4932962effef0fa6a15affb32c9602414c"
     },
     "frontend/src/components/IndustryMomExperiments.tsx": {
       "bytes": 23838,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "d84480c3fda0d476f167db794a4d81595b8c45da07f6e462edee9cca143c0b4b"
     },
     "frontend/src/components/IndustryMomMaterialPlans.tsx": {
       "bytes": 31999,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "b861eaf3b73503fd3bddf1a05699075f0c851a1a13d5fd6a031be0f429ecd79a"
     },
     "frontend/src/components/MainDailyWorkflow.tsx": {
       "bytes": 27003,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "39b930864e9f10344d2e14e14258a5280a83e1e57d9e529f7b46b3762a413ae4"
     },
     "frontend/src/components/MaterialAdoptionPanel.tsx": {
       "bytes": 15497,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "50b0532e2e6793eec95ebaf9ccb20cde633fd847c32568ff803fecbb682fcbaf"
     },
     "frontend/src/components/MonthlyExperiments.tsx": {
       "bytes": 28487,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "5a0e25e72a8fd66079074d69ca75bae625df02bb112f3fca20fe503de1acbe1e"
     },
     "frontend/src/components/MutationRecovery.tsx": {
       "bytes": 2790,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "24e6d31178b57d7998f36b2a74782aceb34a2a9ac35985c638a66d9d110043a4"
     },
     "frontend/src/components/ProviderRuntimeStatusView.tsx": {
       "bytes": 3481,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "e22858991a142d3b6dc93cdaeefda3b33f64ba22d1c56f9ecb327ccac5b64f5c"
     },
     "frontend/src/components/ProviderTasks.tsx": {
       "bytes": 24911,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "8953fb79000e3c03b3b5bb337fa21e101e08051940cc8d476ad71705ebff670e"
     },
     "frontend/src/components/QualityPanel.tsx": {
       "bytes": 23231,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "6604025b5c8272f967396af21394179d11206ad47741c667297da7e1476a967d"
     },
     "frontend/src/components/ResearchArt.tsx": {
       "bytes": 1106,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "bf9db099710a82e84145686ca1667f0a6e8893966b6bd53b0e3aae699f355a9a"
     },
     "frontend/src/components/ResearchBindings.tsx": {
       "bytes": 7939,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a8f92bbc3117d8dd594cfd47394c6fb4dc27acf3262b6b2398da3125c4465bbd"
     },
     "frontend/src/components/ResearchCases.tsx": {
       "bytes": 13835,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a3b6b915e73d2165e8e0b065f59328ec6c45fbad34273b02e05ffdd5c31ee2c5"
     },
     "frontend/src/components/ResearchClaims.tsx": {
       "bytes": 7082,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "3608ea8ad9b4acbb7f563af9f6e8a5032f57aee967849ea252897da9e00fa13f"
     },
     "frontend/src/components/ResearchCorrectionLoop.tsx": {
       "bytes": 52410,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "8ce3bf722f3cb4b4c8d908d3b8cf22f64185434f6b975b83182a77cb2e348b1b"
     },
     "frontend/src/components/ResearchCreationAI.tsx": {
       "bytes": 39265,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "3074912bc07130d111b527e914653828d3b4bd5c3ad2cfd20ef379242252eab8"
     },
     "frontend/src/components/ResearchInsights.tsx": {
       "bytes": 21937,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "1e0a4a29638a7491b9b1c530005ec9c2fe7093fe8e342b73539ba7e49427616b"
     },
     "frontend/src/components/ResearchJobs.tsx": {
       "bytes": 16566,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "50e20c699c3e8de1fcd3227823767388034068b001d063e9139298d956253b0f"
     },
     "frontend/src/components/ResearchProtocols.css": {
       "bytes": 699,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "d5de643418e6a1faef383bfef622ff5e0b3d92365c5418a2010d393452ba8f16"
     },
     "frontend/src/components/ResearchProtocols.tsx": {
       "bytes": 18915,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "362048497b7a7a61b44564588c58ad66f5a1a763457f53e4a3d457aa6da0011c"
     },
     "frontend/src/components/ResearchReviewForm.tsx": {
       "bytes": 26838,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "8496210e8ef66f5f7fd6edc3777d67f6a0836333b67140b6db8e05e36ef6f634"
     },
     "frontend/src/components/ResearchStageContent.tsx": {
       "bytes": 22032,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "41cb5249a30fc2cb0ed17f13d2f75c88eba6c71a8b49ad0dc5ebe64da6930d57"
     },
     "frontend/src/components/ResearchToolSession.tsx": {
       "bytes": 9607,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a517c274bc6baf3eb225bec11c6ccbf0ff9d46d447f9aaf0b88a1b4efaac2085"
     },
     "frontend/src/components/ReviewEvidence.tsx": {
       "bytes": 19810,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a26e128c8a3deff8f54c2189b610c47f484f1369499860a8736f59ba5e8bf749"
     },
     "frontend/src/components/ReviewFollowup.tsx": {
       "bytes": 18185,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "0bf582f1cd9acd27ef02066e21170139e36dcb660b05ac96212f15463a92bdf5"
     },
     "frontend/src/components/RevisionEditor.tsx": {
       "bytes": 6340,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "810b3eea407a7fff04d3412bfdc9698cef400235cb949edcb938d69f3e9aa7b6"
     },
     "frontend/src/components/RevisionSubmission.tsx": {
       "bytes": 4127,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "07c4860a13fd7e8a71015163edc4c3dd921b041f8bf714dee1c2cc02ae0f32bc"
     },
     "frontend/src/components/RunDetail.tsx": {
       "bytes": 13638,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "866bfb767205a2e70fa385378cbdcd5e0ad450ce5fe85b0b087c950b68c5a870"
     },
     "frontend/src/components/RunSubmission.tsx": {
       "bytes": 8231,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "051b11ad2ed23ffa2f9061131b9659a584740fdd396b3e19add36b9c7b602ad7"
     },
     "frontend/src/components/SemanticEvaluationSets.tsx": {
       "bytes": 10860,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a17b39ff6279fbce05935b89b8798d3abbff37a709e280ddfc0fdbe0cecf4ea8"
     },
     "frontend/src/components/SemanticMaterials.tsx": {
       "bytes": 13075,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "c28aa90a76baecf49a5c6fcdc346591ef66e8b10caf80c2ba0a95682bfb9c88f"
     },
     "frontend/src/components/TaskEditor.tsx": {
       "bytes": 28536,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "0a8a458c955a6c5c8ff7fedf2b07291acdc149e787e60305062257094301fcf2"
     },
     "frontend/src/components/WorkflowObservations.tsx": {
       "bytes": 24940,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "1b3163eb5f6e013004c0831115c697741e668a7cec3b57530952ee0ade0cd065"
     },
     "frontend/src/components/candidate-charts.css": {
       "bytes": 1610,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "b15a4fcd2f260c1642b5990930f9e61d9e1e040d572aa9774b9a585ba4dfd88c"
     },
     "frontend/src/components/experimentFlow.css": {
       "bytes": 7515,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "c00fffe71a1650cce42df5485895167738bb7a11b8972a8eec4611de1bdfd8d6"
     },
     "frontend/src/components/formulaPresentation.css": {
       "bytes": 613,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "21604730b96521ac88179d8e8375da8c081444b24024a94491d3a7b14664eb1f"
     },
     "frontend/src/components/researchStages.css": {
       "bytes": 11705,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "c4fd9815e98312ebea24b12b90435a127938a1354d73bfa9bc72925ef4d5f984"
     },
     "frontend/src/components/resultReview.css": {
       "bytes": 11068,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "6d445194f40249e830efe1063e2d08e27b6f938efbfdd69da3992c88731e6767"
     },
     "frontend/src/components/reviewFollowup.css": {
       "bytes": 502,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "f01b08abe57b0f07d47ac11ee12f6ea8779c7feb1b185e5a99d60d13ebc9b343"
     },
     "frontend/src/components/ui.tsx": {
       "bytes": 1542,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "6d22af7f13c79e8ffe4ade28caafc85118c1d4a1b14dab14d8eab2b33832a628"
     },
     "frontend/src/creationDrafts.test.ts": {
       "bytes": 4594,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "7e189aaad5f7cb2c363b7b3ffa3495417ab951337b441d238dfd0eb737afb9bd"
     },
     "frontend/src/creationDrafts.ts": {
       "bytes": 5570,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "d06adbe6bc49a48ad12cb4d18395e8dd09b88c166aac49a5a61309205f00ad05"
     },
     "frontend/src/creationProposalDiagnostics.test.ts": {
       "bytes": 5689,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "bd27971b893c526f175ad76f7165da4d49a7cd018d0e15dcbb86d8de52659843"
     },
     "frontend/src/dailySnapshotUpload.test.ts": {
       "bytes": 2844,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "37405566ee254bb1f9dd04adf7082fde5a8fb094714160e297fc66eb09041f05"
     },
     "frontend/src/dailySnapshotUpload.ts": {
       "bytes": 3463,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "e08ca9bebcff716801561da5b357ec1e9b3cb36654cf0ce6f4a3bd428df6e4d0"
     },
     "frontend/src/dailyWorkflow.test.ts": {
       "bytes": 2857,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "b9ec7e19ddc9717fb1fa8e41aa8a29691e3f77e82274511e9189151ef30b2aa4"
     },
     "frontend/src/dailyWorkflow.ts": {
       "bytes": 1236,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "f95b7f66d6be773c631d3e6d482036b21c59c02e8bce8ee0fb14e6b5fe7c5634"
     },
     "frontend/src/datasetImports.test.ts": {
       "bytes": 6627,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "910d2bf2e7c98feeed2a06d8cfc3f9092e8b38eeeae5f9849a33032ccb5e5478"
     },
     "frontend/src/datasetImports.ts": {
       "bytes": 6290,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "bca0f916b9c56798947ca44e6408d65635ae91a6f0a05e47db2e340de22c96b8"
     },
     "frontend/src/domain.test.ts": {
       "bytes": 8110,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "ac4e3e78e2dd018858e126dba35a927de413b755b263ef8b81ac5d20ba2ede89"
     },
     "frontend/src/domain.ts": {
       "bytes": 9637,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "4cac73c6e61505dd30b5bea2188a0013b984fbe989ed2d18df376bacabafa4ee"
     },
     "frontend/src/drafts.ts": {
       "bytes": 3188,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "351b4cdb7c241d9642dfe5e1bd8c40193a24799f9ac44c03d3e7827ddead81db"
     },
     "frontend/src/evaluationPresets.test.ts": {
       "bytes": 5129,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "597a3ac76c93bef3a58a8954b665f19fcd299716a1fd09dfcd013d8cbfbb4804"
     },
     "frontend/src/evaluationPresets.ts": {
       "bytes": 3163,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "188037fa97ca0c7e2ff5d7b60ae942d8867e1cc10faaee4dc7b1b93b0ea1e103"
     },
     "frontend/src/events.test.ts": {
       "bytes": 8663,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a653daf30e0dbf495d88a1fcf63256c55bed96befa21bea8460a6c158e4f99cd"
     },
     "frontend/src/events.ts": {
       "bytes": 7953,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "6319c9326b0d25f353831048643d748346c9608d4b06466ffc32cfa04b2c2375"
     },
     "frontend/src/evidenceLineage.test.ts": {
       "bytes": 10587,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "cb8d47785031344b24d83d9099328203bf25bf0fc77b5c9e7d77d1462985384d"
     },
     "frontend/src/evidenceLineage.ts": {
       "bytes": 8548,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "17e8abce5df9e1d588b27c5815b081cbbcb17616f2147497835fa45afbb54fd0"
     },
     "frontend/src/experimentFlow.test.ts": {
       "bytes": 6951,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "8a32eacdaf567d4d6910c7385a01ccf2184fcc83b5abcd46e17c6b9d30e0913f"
     },
     "frontend/src/experimentHandoffStatus.test.ts": {
       "bytes": 5392,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "8639051e28afd65f4b537d4dd22cc4ef50b3d0ad12f38bf56c0de27f15d4a610"
     },
     "frontend/src/experimentHandoffStatus.ts": {
       "bytes": 2073,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "ad73bfdd8ad654d7761538d86d5606236ee2d84ebb4f9c5d9353cc64da1e0ac1"
     },
     "frontend/src/feedback.test.ts": {
       "bytes": 5162,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "2252503b862c764e7b0e705bf50c34382be59d6f40e1a10ea7dceab063c0309c"
     },
     "frontend/src/feedback.ts": {
       "bytes": 5627,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "e36f08dba3959e238cc6c9a1fc13baf234311065fdfed33b3f69e04e71a6018c"
     },
     "frontend/src/fixtures/researchLoopDiscriminatorV2.json": {
       "bytes": 7361,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "19cb49f8c2cf12ebf0de6901b4b94754dfab92f3036005275821b66851ba88dd"
     },
     "frontend/src/formulaAlignment.test.ts": {
       "bytes": 14260,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "e8036176fbf64c33c2fb5ca98048b82322102fcf332f14bf2cffccd35824fb96"
     },
     "frontend/src/formulaAlignment.ts": {
       "bytes": 5638,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "904692aab46f6eca5f2db8d2e918d4042f2b9e10cfb84c3c506f066595ae6a54"
     },
     "frontend/src/formulaPresentation.test.ts": {
       "bytes": 5696,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "0f4a1c60c36e2cf4af88ba8dfac2b1d0dbae1cc762161ba550c30cfd5518c984"
     },
     "frontend/src/formulaPresentation.ts": {
       "bytes": 3351,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a59151efc6816c584449a66268d38eb674faefa24f06e41a9c5c5a525e9d2df9"
     },
     "frontend/src/generated/api-contract.ts": {
       "bytes": 786384,
-      "category": "generated_api_contract",
+      "origin": "main_project_source",
       "sha256": "4d19158d008ace5eeacb349b79112e128f444d6a55ad08aa125e9ba0ff86f3a3"
     },
     "frontend/src/generated/openapi.json": {
       "bytes": 1869457,
-      "category": "generated_api_contract",
+      "origin": "main_project_source",
       "sha256": "4fcbf5fbb124d498548480ac07fa05b4cf556332018909f83f289655919d3c81"
     },
     "frontend/src/guidedObservation.test.ts": {
       "bytes": 7548,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a5ddff32372bedb3abbd93f8f5f361411b37a41cb399ffec8cbfc3e8844182db"
     },
     "frontend/src/guidedObservation.ts": {
       "bytes": 14158,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "7c9160516ec2b90fd4275dd06304fde101afa82328c0b80f8a8613b8da7ab2d6"
     },
     "frontend/src/i18n.tsx": {
       "bytes": 2143,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "00a0ae38ec0c915eed15fadec9b43e575df141a378db0b2ff98f328fc82dc4b1"
     },
     "frontend/src/industryMomExperiments.test.ts": {
       "bytes": 7823,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "69260bbc1d60ae7c98047680e0d00ce6893e0480d43eb1e4a8c1134e2c0a926f"
     },
     "frontend/src/industryMomExperiments.ts": {
       "bytes": 11435,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "25e4097fe1c63c2934c80ce24d30f886e07d3629212c8b0c4833f3e33ee90efd"
     },
     "frontend/src/industryMomMaterialPlans.test.ts": {
       "bytes": 6114,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "6c911ab71fdbc561186f9bac35b714fef75df569caaa837698a8d3fbf7c9a0f3"
     },
     "frontend/src/industryMomMaterialPlans.ts": {
       "bytes": 6175,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "e30182d58e850927da7740e10dccf39f4e621297863d5ce79e7ad8452293cc27"
     },
     "frontend/src/main.tsx": {
       "bytes": 344,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "99a4cc1b1e19a3d4172d93807547b9aa413842af0e1b8e56e9f40d7e3e95874d"
     },
     "frontend/src/mainDailyWorkflow.test.ts": {
       "bytes": 10508,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "d43bc19492608dd74a2feff6030b6c617255540add0b45caad52b480dd412ba5"
     },
     "frontend/src/mainDailyWorkflow.ts": {
       "bytes": 8756,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "d5ee122a8145c8d9f2de479c7659b1925fe1825f11126165b2475eec68956bbc"
     },
     "frontend/src/materialEditingDraft.test.ts": {
       "bytes": 3347,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "393612e5f5605c6b2464d7b15dc035539b6d035233180c7a11d0ed4d0c533159"
     },
     "frontend/src/materialEditingDraft.ts": {
       "bytes": 3669,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "0bda913dcb5336b89f8c7bf166a72abe992d504ac482bec2344467f6a0d3b82b"
     },
     "frontend/src/materialEngineering.test.ts": {
       "bytes": 3310,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "86a6d0b52aede5ca0ffe52cc248fb79b7a1bfc01ab2c452550aedd3743f7f451"
     },
     "frontend/src/materialEngineering.ts": {
       "bytes": 1823,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a660aadbfe99b22d3306d4ff0822992ad7f97947ae0351bdf114ee55c300ac8e"
     },
     "frontend/src/mathmlRenderer.ts": {
       "bytes": 1769,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "d5222888bf9877930352245710b348c6f20438fd3e97297e9e060c5751c4dea8"
     },
     "frontend/src/monthlyExperiments.test.ts": {
       "bytes": 4221,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "94944ee8cb8e6c841063093ddd099512d017f57d40a82e4b51a98811d3719867"
     },
     "frontend/src/monthlyExperiments.ts": {
       "bytes": 2570,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "af4f4223c7383a1ca3938381e091cbbed1bd194d79f09e369fd5b6140fc843d7"
     },
     "frontend/src/nativeCorrectionStart.test.ts": {
       "bytes": 29510,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "872274ef41a1081f9ca7ebc0e96b9141d55358b9486b3648f3e7be7dd88117a1"
     },
     "frontend/src/nativeCorrectionStart.ts": {
       "bytes": 30493,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "fce11f4d7b5376e366c5bed958d6872540cbf3dda13ebf4ad5b656902357b3d1"
     },
     "frontend/src/nullableHypothesis.test.ts": {
       "bytes": 3191,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "61cfba7cd4c0a2072c51337b6c95b5834f4e9d7f1d689965eb106199d6b2acb4"
     },
     "frontend/src/providerReading.test.ts": {
       "bytes": 2732,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "e4140ce68a060dee87a05f5d020052beced83238ac2a8105ed101ee4513c9d00"
     },
     "frontend/src/providerWorkflow.test.ts": {
       "bytes": 5009,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "908cf5ec84535a162c5e861bd8ce4e22131ddc9b5f643ccb2d4e682c13806a66"
     },
     "frontend/src/providerWorkflow.ts": {
       "bytes": 4137,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "0b13e3b4b75f93d71fa3badbbcd48d1f29c14070a22a6a537f19dcaf7b78e6b0"
     },
     "frontend/src/reportDownloads.test.ts": {
       "bytes": 1514,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "3c891b4ddafd932d7bc503b2f74512a0fe198e8503bfbb57496dc1381f8ee815"
     },
     "frontend/src/researchAssessment.test.ts": {
       "bytes": 1838,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "ea0c701d3b1625c04b4a0f457fea55762409d479981d1b6837e16ecac4331fd1"
     },
     "frontend/src/researchAssessment.ts": {
       "bytes": 2353,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "9a96939bef7b3401e35410c91d7eb274e3e2448d0f21ff4808dcc09d3803830b"
     },
     "frontend/src/researchCases.test.ts": {
       "bytes": 1722,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "ab87f314f050a95ba72fba46fffd295fc87bd4102473e0bf10bee759791060b9"
     },
     "frontend/src/researchCases.ts": {
       "bytes": 5400,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "8b7797364bf7021c6334a15c6821475bd93b431681b36df59238bbdbb7450c3c"
     },
     "frontend/src/researchCorrectionLoop.test.ts": {
       "bytes": 20075,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "552c45ddd29ab8c8aa923379fc5d355b042b9e171e34823c740b43da36a80493"
     },
     "frontend/src/researchCorrectionLoop.ts": {
       "bytes": 16471,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "1b7fe4ad70d16ae060829dfa79fa741e6a19447ff18c9bcad2ef67de87155f3f"
     },
     "frontend/src/researchCreationFlow.test.ts": {
       "bytes": 10257,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a3ae9c7df3219ac20570a6410d09b9c4b87dc7699453699508a3a3f0fc085fc7"
     },
     "frontend/src/researchCreationFlow.ts": {
       "bytes": 8706,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "6c637ded6fc9f9abc2f100b100b8e4540ca812fc264be5cdf86b4526b2213312"
     },
     "frontend/src/researchInsights.test.ts": {
       "bytes": 4275,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "ff1d0c135ed3cd52e84e22d3739970d9d27b803a567f025406a02d6ae2efc9e0"
     },
     "frontend/src/researchInsights.ts": {
       "bytes": 1490,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "4655c729f573d8144c043fbf8e8190f2342ec83cb5656837ae487c257aa9cf11"
     },
     "frontend/src/researchProtocols.test.ts": {
       "bytes": 3553,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "0d1c929a7e7703463d1def20b2beb496ac235785f28832249141a522d2141f63"
     },
     "frontend/src/researchProtocols.ts": {
       "bytes": 5311,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "769b0554d079f14b4a0cafc88e271eda2ea762e1df4a75749e514802eb999d10"
     },
     "frontend/src/researchSelection.test.ts": {
       "bytes": 4379,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "bc93c96fccf074a765dea05a9734837da1826f5e4023891a0e9f3897236e50cd"
     },
     "frontend/src/researchSelection.ts": {
       "bytes": 1606,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "2b4aa796fc8ab80bcb9748bb5dfbea3c773cf0e1d1f7411cb673fc5fd7d59b4b"
     },
     "frontend/src/researchStages.test.ts": {
       "bytes": 8632,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "6094355a92c17647eb3ff416abf667ba4d9e658c8274ded5ea15acde7dad3ea4"
     },
     "frontend/src/resultReview.test.ts": {
       "bytes": 9262,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "2e3374cc683f36c50508a53cdd2496d9f91b39c276f7a38b299acafce5e4c568"
     },
     "frontend/src/reviewEvidence.test.ts": {
       "bytes": 26115,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "8a7194e812ce537b1cc4ed609900b4fe27289ab67653b0804d742c2f69552ce2"
     },
     "frontend/src/reviewEvidence.ts": {
       "bytes": 12236,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "a3dcaf890cd2656a664ddb4256e9f253f27134de6af0db373b9867fd2dec2375"
     },
     "frontend/src/reviewFollowup.test.ts": {
       "bytes": 1824,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "cb0d3d26348c1b985c6ca0e5f18a8923fb8bbd45ec08fc1b9d5ae017d2b60543"
     },
     "frontend/src/reviewFollowup.ts": {
       "bytes": 1027,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "25ac96e632e29ae18bdc8318ebdd4d941b6b725515dee34623631444a91d5ca1"
     },
     "frontend/src/reviewRecovery.test.ts": {
       "bytes": 4987,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "e642f7b5bf9179a0ba75ba3cdd136f4042ecfe06b80b585723ea4f5bca04cb2c"
     },
     "frontend/src/reviewRecovery.ts": {
       "bytes": 6153,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "3fdf608e4e885d896cedb9ce1615b68a03a437fb63e171a79ecbe108334d4ee3"
     },
     "frontend/src/reviewWorkflow.test.ts": {
       "bytes": 3192,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "cb5807ffd8263321c11774e542a89a38f76bc2245b9ce38851cc80f6ce9e1462"
     },
     "frontend/src/semanticAnnotationDraft.test.ts": {
       "bytes": 1488,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "ac58f9e5345891778cb96ca3ce6a37e5d337173f57f308efc2a3de1ff1827429"
     },
     "frontend/src/semanticAnnotationDraft.ts": {
       "bytes": 1961,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "0d4507709fd8ae63a378406eb04e1df587dc8c28e2114d7e6a8cdf96b3d079b8"
     },
     "frontend/src/styles.css": {
       "bytes": 23792,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "be2481f13d4307ac86e7caf58170d331ad871a9f42b108466ece535ab9994941"
     },
     "frontend/src/submissionRecovery.test.ts": {
       "bytes": 3097,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "4b2d4ae8b8fe54bef8805725ba2c1b040a2e57fd334d6ee6a47b346d2aca43cf"
     },
     "frontend/src/submissionRecovery.ts": {
       "bytes": 522,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "33a67bd10e3919be350f68a208ce7f1afd5762f92a45feb543148d4c94fccaec"
     },
     "frontend/src/taskEditor.test.ts": {
       "bytes": 9090,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "defdfbe1aebfefa1abee29b5b3b3a7f8d3cc45974c3fc1b16ab72fe765d19151"
     },
     "frontend/src/taskEditor.ts": {
       "bytes": 8194,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "0678a4d6e5d90cf9d30fea0d73afeeb0bca3d93edc12f0d1093d31e32370a9c7"
     },
     "frontend/src/taskRecovery.test.ts": {
       "bytes": 2644,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "971c7e67a40249460a7361280247e79ce89c1605c236c8101f48895db3573c12"
     },
     "frontend/src/taskRecovery.ts": {
       "bytes": 1413,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "042deb22f46b2236d7ae5fbf9b893748620ff9abbbf06ceff4d086532c5acc87"
     },
     "frontend/src/testFixtures/nativeCorrectionCrossAction.json": {
       "bytes": 14835,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "68d11aabb427878b08bb05cb38f6c8d8e3f41407a7c265c508d793b644d6e119"
     },
     "frontend/src/testFixtures/nativeCorrectionFinalOriginal.json": {
       "bytes": 20388,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "d104adb5edf0bd4801a4129c6875e5665e98a4bd9d7319368d8a971e0ba46704"
     },
     "frontend/src/useExperimentMonitor.ts": {
       "bytes": 3634,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "39304af8dca3f3faef95946b1628179385a769be85749194dea7edb52fd8fba6"
     },
     "frontend/src/usePaperScope.test.ts": {
       "bytes": 6385,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "0efdf6588cb0d5d6a6d1e99c2a48a18ee03b4a077b2191aad938d43d4b86b459"
     },
     "frontend/src/useRecoverableMutation.ts": {
       "bytes": 4240,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "31640860d8b2224d23693e15f04f06226062da1eaf0426cbea1621c68e471d2b"
     },
     "frontend/src/useRecoverableMutationOptions.test.ts": {
       "bytes": 1542,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "17416c610a33ae1294af79b28781ebcadbfe2d5c42aec3bd81a125740083e93a"
     },
     "frontend/src/useReviewDraft.ts": {
       "bytes": 1658,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "fb9d1157618a3e76473a7f0a555afd518f855994bbfc15315290c06549ad5479"
     },
     "frontend/src/useRunEvents.ts": {
       "bytes": 2643,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "628dd149c49c137765670bbb7cdbb5c7ebd193d1c9f41c55381014dc1335fedb"
     },
     "frontend/src/useWorkPosition.test.ts": {
       "bytes": 4644,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "17d719f0a45737ab1ede01e54bf59ac59515aee6bea9c0eabb027c85c25e207c"
     },
     "frontend/src/useWorkPosition.ts": {
       "bytes": 3782,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "35a59faca56207d5b1ea44817ca247800fda073bac736a0d5a55120302fa74d4"
     },
     "frontend/src/useWorkspaceHealth.ts": {
       "bytes": 1160,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "067aad0ff3d13bd0bc3f9c11efdf063132594a00964670266ae7c950db5d9aae"
     },
     "frontend/src/validatedCurrentAbstention.test.ts": {
       "bytes": 8562,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "49d2ac535933934e2aeaeaea6e69ea7e53917581c98504aa9f891bfa23b0560c"
     },
     "frontend/src/validatedCurrentAbstention.ts": {
       "bytes": 978,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "acec946078c9b203b6645d8de8a837ce74d7d20df122c1cf3452e942c659aaa6"
     },
     "frontend/src/workPosition.test.ts": {
       "bytes": 12196,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "ec3eb040d905a6d1d42340d064a0bc4db397634ebfaf9bea04b0f52e2be90bbe"
     },
     "frontend/src/workPosition.ts": {
       "bytes": 10450,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "828bd5425304816d7f0126b2d9b00831cba9252332b35a33461f013501be43c5"
     },
     "frontend/src/workPositionDiscovery.test.ts": {
       "bytes": 2531,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "cf1cde163ff076c905867b956893f0f7af46bcaa00ade36f93340b9c17e17c77"
     },
     "frontend/src/workbench.css": {
       "bytes": 8246,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "0c5538042bcb741c27448b80721ba1ff0ed9b89de8b077b430049997dab56529"
     },
     "frontend/src/workflowObservations.test.ts": {
       "bytes": 4972,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "836f2bae73589f0e94cb506e3ca2c104106bf5b77a2c0006ba81b9a4c082fa90"
     },
     "frontend/src/workflowObservations.ts": {
       "bytes": 5080,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "9d11e200ea0f19c26ba67d872e7595cdcc9e507d0e63c9a67630cfa8b62ecc0b"
     },
     "frontend/src/workspaceScope.test.ts": {
       "bytes": 2130,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "43925222ef101a8343dcd5680b00beac69c426425721a33cdea86fc793aec11a"
     },
     "frontend/src/workspaceScope.ts": {
       "bytes": 1070,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "e05cf4913e3ccf9328f00eabbd803f761a93e37fd57250b2ed2eff82ffa3d5f6"
     },
     "frontend/tsconfig.json": {
       "bytes": 661,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "208c86e6bfbbaa0c9b1885da25d60069bcc24a21354d2fd726d9b0bfce0723d9"
     },
     "frontend/vite.config.ts": {
       "bytes": 416,
-      "category": "frontend_source_build_config_or_fixture",
+      "origin": "main_project_source",
       "sha256": "65611cce411435075e5e869d44409fd52978c2545a91eb86f58eda9e25c004c0"
     },
     "paper_alpha/__init__.py": {
       "bytes": 0,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "paper_alpha/__main__.py": {
       "bytes": 48,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d"
     },
     "paper_alpha/alpha101_maintenance.py": {
       "bytes": 6065,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "56c35d369940121bcae6c2592526fc668cb467598f529adbbda7c1db9f26b49f"
     },
     "paper_alpha/alpha_vantage.py": {
       "bytes": 35404,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6143a5770d33948d959051688accba1706d1baeee47799434aff972be375be8d"
     },
     "paper_alpha/alpha_vantage_set.py": {
       "bytes": 23929,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "92604926f50256fa43122a5f29d88516947ee9788d97f530b05a5c54e391902c"
     },
     "paper_alpha/author_archive.py": {
       "bytes": 16513,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "94cdd9b6d0ad11ef6f1dda62323e6facaa259c72fb13c71f80de703a6b623acc"
     },
     "paper_alpha/author_archive_contract.py": {
       "bytes": 1868,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "9cccdbd1dd956c264ee1dd6bfa32238db112922c26d5ef5d78b5ccab988480c8"
     },
     "paper_alpha/author_panel.py": {
       "bytes": 9080,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "15bd9d98f27b75943b5d13f967f69d36dcdb569c3afef5efe142c5f80e3b5e79"
     },
     "paper_alpha/author_panel_schema.py": {
       "bytes": 3221,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "5c1f057a9db7f3987003f6221d18cd1686925c79cf0822370f312f9ce60165fe"
     },
     "paper_alpha/author_reference.py": {
       "bytes": 4620,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "0019c8c8db6ff176e83c173ba847db3f18e1a17cdedbc8864c1be6f942402d39"
     },
     "paper_alpha/author_research_workflow.py": {
       "bytes": 15987,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "36995cc3503b8383b338ff018c790354aea6bd235ca612d8ba3baaccad7531c4"
     },
     "paper_alpha/author_workflow.py": {
       "bytes": 9408,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "320a1c8839518ffced96792de030fbccd88be7673ca3c32eb10fb5a87950a7b0"
     },
     "paper_alpha/benchmark.py": {
       "bytes": 18124,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6c96f9ed3c803654199dd74249330a970389bf81c405bf380deaf33a8fe1d1bc"
     },
     "paper_alpha/cli.py": {
       "bytes": 4960,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "fa8bc80a0a9435b3e5b15b77ba80d779a1bacebf98b9fee378724a3cd7e218d1"
     },
     "paper_alpha/contracts.py": {
       "bytes": 6047,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "7882b8c6365e76f0a4e88790d921d18205252b09b0a3019754dbd973a07d8a7e"
     },
     "paper_alpha/daily_adapter.py": {
       "bytes": 16956,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "0e1f33028bcb4b7f8e367f46b8524562b3143fbd3cbd8235e8fbfda7f5c0e422"
     },
     "paper_alpha/daily_contract.py": {
       "bytes": 17127,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "5d517410669784100282424e34b91f6dd00bce0f842f81446593cccadd5e7059"
     },
     "paper_alpha/daily_event_review.py": {
       "bytes": 16295,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "541a53208843dc51df26a53233a576a9f06b45e2a1eaaa917297403b934f4356"
     },
     "paper_alpha/daily_real_preparation.py": {
       "bytes": 21578,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "bead2c39ae5db5d7a669f7497a82ccf421d1378751da091307d1989ce1d58f4b"
     },
     "paper_alpha/daily_real_selection.py": {
       "bytes": 15421,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3983f3ebf2f693b6c8476028f3e815c25078bcdcad1eed3f99a4200c56b3247b"
     },
     "paper_alpha/daily_research.py": {
       "bytes": 12256,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "0f7286888e76874d024fc7ac46e284e99eedc940c19ab66d9bf620c225a721a8"
     },
     "paper_alpha/daily_source_onboarding_v1.py": {
       "bytes": 13498,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "1839c0cf0a50e915ea28c30178eeb2e86b4e61539ce91b93df248a6301e0a178"
     },
     "paper_alpha/daily_task_v2.py": {
       "bytes": 4133,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "858f9fc0386410aba68e5bf152d9b95fca241c0c75f917ce361a8704b104a462"
     },
     "paper_alpha/daily_workflow_v2.py": {
       "bytes": 20235,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "61ee48aa49366a1e25a9c8160cf9036dc9432b0a7a97b10b89b7ac1a87a72b34"
     },
     "paper_alpha/eligibility.py": {
       "bytes": 10905,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "882ded87716cebedd37f074d3546502c9bd81334ec5f3815da0c0d4673ff3b33"
     },
     "paper_alpha/eligibility_archive.py": {
       "bytes": 4270,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3d1958b4b7f547ee17af9ad2d8a2668aa7fd812c14843df40a2c0320dd72474e"
     },
     "paper_alpha/eligibility_schema.py": {
       "bytes": 2793,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "1feedb2aae8787c13e135d84e8322a6b5ef2db2f4003b65a6e303ddee15966f7"
     },
     "paper_alpha/eligibility_workflow.py": {
       "bytes": 9623,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "61c1cd8c1e76781452e93695946dbbf737c6874e82aaeb8fba5b2a20540fd248"
     },
     "paper_alpha/evaluation.py": {
       "bytes": 26264,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "113e14a383bd8cde842cfe826bda7b12b5ee8524fc9d5a993ca6c14eed8aa511"
     },
     "paper_alpha/evaluation_suite.py": {
       "bytes": 34369,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "04a90b683f10d25f66ac8f88d66410978b5e24c45be6318abfe65c9dc037f17d"
     },
     "paper_alpha/evidence.py": {
       "bytes": 2335,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "7bb9f3d03b47574518d70dd8942f0a058f5fb83dc780eabdf00332b3661265f5"
     },
     "paper_alpha/expressions.py": {
       "bytes": 18519,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "c8aba5dee72d17996cd4fa8120dd7372884d74120ea038084c2826b925c77203"
     },
     "paper_alpha/feedback_metrics.py": {
       "bytes": 17582,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "17c8ce276ca40a7a1c4477f50ac786441d83e2556096c54c6892d34d8e0d9918"
     },
     "paper_alpha/formula_alignment.py": {
       "bytes": 16663,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "042b0fc466532ebaf12e1a4fbe20091ea66e9ae045aeb28365c33ca758802573"
     },
     "paper_alpha/formula_presentation.py": {
       "bytes": 5860,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "036a799e3f06a37f6212dea19b7e91a258736ec9641f1d7e532bc67ebb0bbc67"
     },
     "paper_alpha/formula_provenance.py": {
       "bytes": 3998,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "7ac55f5cc6395c9a789308fed9a2f8d6b3dff173b3ad1cf0d1ba4129788c0e21"
     },
     "paper_alpha/french_industry.py": {
       "bytes": 11093,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "d612bec23b4371ce19b906f2391f241ea8696b5fdfdf68ec0056f5a1f6d5ed3e"
     },
     "paper_alpha/market_diagnostics.py": {
       "bytes": 4454,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "cd69fcd281695e40a29b833d335323b5ada558778d60a644559896a38692239b"
     },
     "paper_alpha/mom_only.py": {
       "bytes": 16775,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "8efbbf931c794fa48b1ce67df94b989e67ac1da017f9186883b6561390c9c109"
     },
     "paper_alpha/mom_only_reference.py": {
       "bytes": 18506,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a45dfd9c495763c4ddd881c8907d64e106825b7b6065a1516bea323362e17119"
     },
     "paper_alpha/mom_only_workflow.py": {
       "bytes": 26217,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "9f110e27418cac653d020ab875e00c125d87dd571117ac6f7ccadeebbe6882df"
     },
     "paper_alpha/monthly_evaluation.py": {
       "bytes": 14242,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "2e4b5036fa68351672002cdef08063b4fbfbabd26ede82550ab31b539032cdd6"
     },
     "paper_alpha/monthly_reference.py": {
       "bytes": 23590,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "82d648f4b94f10cb86f4b92edd254c3406c08d92ccb9d9f0470d4b5f9005749a"
     },
     "paper_alpha/monthly_workflow.py": {
       "bytes": 11571,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "c0af3e76a610a7a5b27650db07b19fc2104e6bcbe4f171b002beb6dbb3bc879e"
     },
     "paper_alpha/paper_research_evaluation.py": {
       "bytes": 7627,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6b5bfabb5a96fea2c2f526df6568ac1a2a006e9366768db650bb9dcfc8e5c813"
     },
     "paper_alpha/paper_research_preflight.py": {
       "bytes": 12217,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "ead757e80f8f8aedd00d7282ccc9a713e635e52bdee9e6a7577e236cefc99015"
     },
     "paper_alpha/proposals.py": {
       "bytes": 6240,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "4c40acefee8260abd64f1493a4a3f0b36ce642d031e9134f32d8387e4d26e9b2"
     },
     "paper_alpha/provider_evaluation.py": {
       "bytes": 24712,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "ef69892a78a509016aa9ed963b626f7a47b8cd498a754599b509880ec6b614c1"
     },
     "paper_alpha/provider_evaluation_schema.py": {
       "bytes": 7600,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "c0b5a6ddbe2e1c23ed7e25a51d6e4c1151895dcedf06821a9366427c560b7bd7"
     },
     "paper_alpha/provider_evaluation_v2.py": {
       "bytes": 28736,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a7ee7eb7f481ae7f332ffd66b5fce46b7140b85958ba38fb16a53a3156f1a7b1"
     },
     "paper_alpha/provider_evaluation_v2_schema.py": {
       "bytes": 4463,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "d0b8701ff22d69e5449eb2fbfcd41093baa18f3e916e8670fe3beb28688675f4"
     },
     "paper_alpha/real_daily_admission.py": {
       "bytes": 34797,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3f75590082bec3c3a38aa0c6a31972d88ddfc7084fcddb1c7a1950862c0bfc62"
     },
     "paper_alpha/real_daily_capture_builder.py": {
       "bytes": 19788,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "16264cea18d51e2784b7b5b82a16b029bd46014c61c348f41ac2ffe02b5aadcb"
     },
     "paper_alpha/real_daily_main_demo.py": {
       "bytes": 5596,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f52f7af1ad7cc73ba9a458fe26180c373a204a696bc62e971299e332882f7302"
     },
     "paper_alpha/real_daily_main_history.py": {
       "bytes": 961,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "fde5ee921ac16ed60a262564e5b0daaf7076aea105fe92273bc75b165ae83d4a"
     },
     "paper_alpha/real_daily_main_metadata.py": {
       "bytes": 9073,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "517f6b262a2d60894181834b542ccb9c9a3ba41335bcf019244473cc838675e7"
     },
     "paper_alpha/real_daily_main_task.py": {
       "bytes": 6320,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3bd97d3d8d228138e83efbba1ebe46428b81a4e180edb3363d4e11e1edc780ce"
     },
     "paper_alpha/real_daily_main_workflow.py": {
       "bytes": 19004,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "12c2a48f1874f09c96a9c2300fed5183ad4ed6542f88605d3f2166471db9438f"
     },
     "paper_alpha/real_daily_method.py": {
       "bytes": 21425,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "53aedd9ffa9c8eb1f51293a70d2d2dd51f0a68fe6469afe7c15297b43d748a79"
     },
     "paper_alpha/real_daily_normalizer.py": {
       "bytes": 17725,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "c1db6381ccec9c4443262143085ed2ed1f59942db4325618e18f4d5e63fd7a1f"
     },
     "paper_alpha/real_daily_web_contract.py": {
       "bytes": 23660,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "bba9d3116e0bb0a3892b4a259383ce16990950daa4e05b76ffc1e426e76e9fd3"
     },
     "paper_alpha/real_daily_web_history.py": {
       "bytes": 35047,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "22242995c2d4cb4d5bce555a0007449c66a74d4b8bcfe219005cba89ae8db102"
     },
     "paper_alpha/real_daily_workflow.py": {
       "bytes": 31841,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3243137fd20e2e95269b1cf2c90854f1f2c8955c589025b0dc72df864bc2d539"
     },
     "paper_alpha/registered_daily_development.py": {
       "bytes": 23536,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "c24f540ff928592c2dc6bab36cf1ed3ba6435facbea1f6ef26bccc190c7bee50"
     },
     "paper_alpha/reporting.py": {
       "bytes": 5531,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "25c33459898dfb9300708069769b50363432eba35424951b89b5c2591b118b53"
     },
     "paper_alpha/research_binding.py": {
       "bytes": 8057,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "2eec51212be1aa4c1e8693915ee5f9cd263174fe0cb27a300fbfe26d05c7b02e"
     },
     "paper_alpha/research_evaluation.py": {
       "bytes": 37975,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "c0a9268cd678c9b91f529e4552698fcb89ab1a80c4be438484486aa631a94fbd"
     },
     "paper_alpha/research_evaluation_schema.py": {
       "bytes": 4329,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "c548e2cf1bdb754e19a5cfa51caa9bd2b4e5b79531acedeba39355112c7c684f"
     },
     "paper_alpha/research_protocol.py": {
       "bytes": 21566,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "4eb1467aafe61826d67ccaaf1569d6112d69b761f91cdc8a6afee77568fcdfbc"
     },
     "paper_alpha/research_quality.py": {
       "bytes": 26198,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "44877c8b39089821034c2ad017c4ebe8b1ebd4edcf55456eab6cbe826f0bf45b"
     },
     "paper_alpha/research_quality_binding.py": {
       "bytes": 28742,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "e12e62303fca9e1c3a3de145bf27abf258fc6e751c817045163dc4e761000ade"
     },
     "paper_alpha/research_quality_v2.py": {
       "bytes": 21475,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "66caa9be8fc54b598fc71e186b46c633b0052805f4f8894e2108b320208a687a"
     },
     "paper_alpha/research_quality_v2_binding.py": {
       "bytes": 29512,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "8a791e84381c44b5c87e04ddff367994d6c33ad9b47f1e0e6d4a3d7645aa39d7"
     },
     "paper_alpha/research_quality_v2_reference.py": {
       "bytes": 7972,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "92903e17cefa12cbb172e57c24a9a0994c9fdf461d5f4fbb3ee4e8f337d90fb4"
     },
     "paper_alpha/research_quality_v3.py": {
       "bytes": 12243,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "5516ca87a9498eff7b7904d9e97e4ff2c9b04905fa64f1a7079659a1a739e652"
     },
     "paper_alpha/research_quality_v3_binding.py": {
       "bytes": 12739,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f0c517e2e11f4a047dea6a11afb009089fdd9484059deb582d05c540595ab024"
     },
     "paper_alpha/research_readiness.py": {
       "bytes": 25165,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "d31386085a1b8e1abe9b1e78361a65075ba2b728cefbbf0a41ec54fb19498ddd"
     },
     "paper_alpha/research_semantic_review.py": {
       "bytes": 20758,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "01a3c61558b37964791465be92da7e3504177ea5304a8ee2074331500c9b0dd4"
     },
     "paper_alpha/review_material_packet.py": {
       "bytes": 28181,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "e4b57a9a41d7b3bb4d2e213b97161000fa66c27f6ea7fb462279cca2ebc5f117"
     },
     "paper_alpha/semantic_evaluation.py": {
       "bytes": 21129,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "37c422e1628eedf416a55e860951e34fbf9ff64df03c9bc04b3fad94721b0cab"
     },
     "paper_alpha/semantic_materials.py": {
       "bytes": 8371,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "5e7e148ccef905f02af5e35f648a1e6cf90e51ae583f9066d63eaa19f490b32a"
     },
     "paper_alpha/server/__init__.py": {
       "bytes": 90,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "ee3d68817a11cb0d6c2afe66d4ccd2fd854a9ad4523104970bdf2d3eb6a68d03"
     },
     "paper_alpha/server/api.py": {
       "bytes": 61238,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "c11a4bc59c03108d12d5ca8631d77f1743466bf00069add2e44d37e14c8d51fc"
     },
     "paper_alpha/server/author_panel_api_schema.py": {
       "bytes": 1634,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f5c01116b14c5277267d76719eb7670dd4041339a11ebfca4b817010a22e5847"
     },
     "paper_alpha/server/author_panels.py": {
       "bytes": 12688,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "40206e05e7fcee0567923e3c1132d341e8d662e6de335eb97b520c0060708895"
     },
     "paper_alpha/server/author_studies.py": {
       "bytes": 23675,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "40fec1f32b1827f83b3d9ccaa10931c68818642446a063b8e992b881c3daac8e"
     },
     "paper_alpha/server/author_study_api_schema.py": {
       "bytes": 2773,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "39513e9b0da2a338c7f8820d610881244e34972463be8143785852a4193e3f13"
     },
     "paper_alpha/server/backup.py": {
       "bytes": 49524,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "030a4f9e9c323f0adce4199e9db573664684effc9c0e6b00ff59b91313573cd3"
     },
     "paper_alpha/server/candidate_series.py": {
       "bytes": 16435,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "d206364bb03cbcf8e3b635454db148209f6a94c946de586a84a39b6a1e69f3cf"
     },
     "paper_alpha/server/candidate_series_schema.py": {
       "bytes": 2291,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "72666892462acce44b81bc1ddfc130d8635f0defe72f63d6586ea10d4aa1f26a"
     },
     "paper_alpha/server/claim_reviews.py": {
       "bytes": 24869,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "8a3d33b87eaf0d5df2cc72608bffb77d47a181a65685dbc59c6b6020389c9a88"
     },
     "paper_alpha/server/claim_reviews_schema.py": {
       "bytes": 5063,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "7ef774aa0c2380b70c5a52d41dd02e90a84b422b9c5d2ddb2ebacfe56ab18559"
     },
     "paper_alpha/server/codex_cli_provider.py": {
       "bytes": 37005,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "9b1d06b4547d12f8abaa59ee16547f8b3e05134985af06c7bc304f3b26e0ae6c"
     },
     "paper_alpha/server/daily_context_v2.py": {
       "bytes": 8772,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "e250badb0dedc9b7dddb0644c40dde91b0f1ed8aca83de3022bf8757b60ab909"
     },
     "paper_alpha/server/daily_holdout.py": {
       "bytes": 19085,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "8cc69c6401486eb12cc774a130431c166dff9700ebc0abb9e06b615eaf455fa6"
     },
     "paper_alpha/server/daily_holdout_executor.py": {
       "bytes": 33556,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6cc427ad3cb0ae06b524111026a83b9dac13f173e74054307a5a94a5b595ad21"
     },
     "paper_alpha/server/daily_holdout_schema.py": {
       "bytes": 5266,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "248f0dd655c00222b61b92639754759b07da96434d353616676d30614c09fd9f"
     },
     "paper_alpha/server/daily_research_v2.py": {
       "bytes": 9265,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6615c9ff7be6553b3b4e4a4623ccd69f23c06bd0c631a5daa65b525408538433"
     },
     "paper_alpha/server/daily_revision_bindings.py": {
       "bytes": 8750,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3862c53f222580dd8594be8d3dd9e2978eee87a3108283c5ec2d87ef4bc0b356"
     },
     "paper_alpha/server/daily_snapshot_guard.py": {
       "bytes": 41957,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "e0b19f1f955940434128ec384d3a585ed98302bfc7f21e7d7da3c9cda7ae6313"
     },
     "paper_alpha/server/daily_snapshot_schema.py": {
       "bytes": 6215,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "2c6c4cf8f98a17a59b1033ba59957653fa8a801e989a90ed2e5c40d2ca5b51d5"
     },
     "paper_alpha/server/daily_snapshots.py": {
       "bytes": 27825,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6bb5f7b921a188462b9d14c3b4e95b34fd48ce20f7eb4c7a43a7ea8b3746478a"
     },
     "paper_alpha/server/daily_source_qualification_v2.py": {
       "bytes": 2790,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "54ea330d12a1a8b5572b889d21588188036e82d4a410f7fd8a1c9933793cc057"
     },
     "paper_alpha/server/dataset_imports.py": {
       "bytes": 32560,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "aa6ba1fb90779bb09b8eee0c70ab105e76c365c7def978a59ed79277f346b48c"
     },
     "paper_alpha/server/dataset_validation.py": {
       "bytes": 8834,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "69d85bae50714c201702c321b70d97deb8460ee010c64bdfcf45b5f83935f115"
     },
     "paper_alpha/server/db.py": {
       "bytes": 33270,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "4dcae589a6ca04ac6bb7fdb242b88e3a58872d9c3317696e32c0b2978d7b53b2"
     },
     "paper_alpha/server/diagnostics.py": {
       "bytes": 11156,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6f94713913ffcde5d91880f09d45809d53326b671e63cfe4c3133e9fbb099d26"
     },
     "paper_alpha/server/domain_research_jobs.py": {
       "bytes": 33708,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "fcc9aa85c6c184f5a1ec5b22c64fa8462d4b72ad349df5df9c6276b613fc59c4"
     },
     "paper_alpha/server/domain_research_jobs_schema.py": {
       "bytes": 2594,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "dbad3158812760325c7f8a0c36b06d3e6ee23cd2471fb1aaa5b723843c110552"
     },
     "paper_alpha/server/evaluation_presets.py": {
       "bytes": 5705,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "39c96f504b74dc12f428b2b54526c420e70b4fc96273e13bb55a683264581c85"
     },
     "paper_alpha/server/evaluation_presets_schema.py": {
       "bytes": 2184,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6056fbe769d9d663b5cb83acbb15660c9aacf590f0b461af7714aa83626e024d"
     },
     "paper_alpha/server/evidence_lineage.py": {
       "bytes": 29741,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f4306b38c61e2ecd1b57c0956ba16784687792f7d495d9640d94139454e16cc9"
     },
     "paper_alpha/server/evidence_lineage_schema.py": {
       "bytes": 3593,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "22c1924e86ca6bf4abfe5a263b143e76b1691a0d35de94d9301ffb41a71fc936"
     },
     "paper_alpha/server/execution_lifecycle.py": {
       "bytes": 22912,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "30e43ff1ad7acad4f4a4b7913a3ff156d2df2506b6a9ca8e0952dc29edcbf154"
     },
     "paper_alpha/server/experiment_autofinalization.py": {
       "bytes": 6305,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "430f57e4badd98dd0826c4d577a804e58a5c99f1576b7f30a6055ea52323d7bc"
     },
     "paper_alpha/server/feedback.py": {
       "bytes": 23441,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "fa1ff0804c4bfd2c640d5dda9c4dc2833544252391a7fbedaaa3426acf431fb6"
     },
     "paper_alpha/server/formula_alignment.py": {
       "bytes": 6855,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "d362033fba63592cbe4cc71c622461908063420cb94ed0a52b28575dc1afdbea"
     },
     "paper_alpha/server/formula_alignment_schema.py": {
       "bytes": 4439,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "639d9d9bc970bea715329570e532864ff5c4798b12bb5e37a64a978ec1398603"
     },
     "paper_alpha/server/formula_presentation.py": {
       "bytes": 3125,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3852b561e1ca45af32b9faee146cbf13b7fb292329cb5a8ca9e192b36def9681"
     },
     "paper_alpha/server/formula_presentation_schema.py": {
       "bytes": 1965,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "90b027315056e40938e1e7f9eec32c7f6493b62d3e461e1f17134fff0415703f"
     },
     "paper_alpha/server/frozen_review_source.py": {
       "bytes": 3214,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "d4f3367dfe18b29ef77c5746e2a49c7efbfdfca9171379479ae254b0fae213ef"
     },
     "paper_alpha/server/grounded_material_schema.py": {
       "bytes": 8854,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "90d092a6a94673a2b0af277613ebe5071fb3f8fd92163604484d11ba6e49ca35"
     },
     "paper_alpha/server/industry_mom.py": {
       "bytes": 53064,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "dc3a2b33bc9c89241205ea360c3eecb86e5eca3dd899dc2f2716c2bc3f37d415"
     },
     "paper_alpha/server/industry_mom_material_api.py": {
       "bytes": 20490,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "7707f963f25a76c27b9130aed30ec252c9f1f77fe1164db42c2d7ca721773b9a"
     },
     "paper_alpha/server/industry_mom_material_schema.py": {
       "bytes": 8508,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "455e38e7ef6874c77f94e6c6feecb74b30069653d07fd5e2b41371cf5e468066"
     },
     "paper_alpha/server/industry_mom_runner.py": {
       "bytes": 3879,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "34c9078e2c66fb80cbf282090656638fac6831c93402ee9c419a645e7ade2f01"
     },
     "paper_alpha/server/industry_mom_schema.py": {
       "bytes": 4142,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "93d51180dc4508351123c22fe5b18532e7893d4d757ee7c040ab7259ab57954e"
     },
     "paper_alpha/server/industry_mom_storage_schema.py": {
       "bytes": 2323,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "96ae8dddf5fec48f7ca30c09abcd8f0d1f4fa7aa135f4f72e457af66304975e7"
     },
     "paper_alpha/server/launcher.py": {
       "bytes": 5782,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "4177e474d296a3a30bd9ac09000eff9c3d150147879309e87c11a64a5c9b4ceb"
     },
     "paper_alpha/server/llm_report_provenance.py": {
       "bytes": 6504,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6ca3dfa3635ba793b5131276bae2eda459a5c9986995fcab6fd4809eed21cbf0"
     },
     "paper_alpha/server/maintenance.py": {
       "bytes": 2048,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "2b2bb23f278dbc6815a8d7ba9bb8f6c11306ed9369d0961f3ad8a4c73895280c"
     },
     "paper_alpha/server/material_context.py": {
       "bytes": 15945,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "e07070ff43584f0c0dfa865cdae82b37bea4336546dee89a20a4ab5b2e7cca6e"
     },
     "paper_alpha/server/monthly_experiments.py": {
       "bytes": 32331,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "ca0b6aded12dc7a919290c9452edebe6baafad66c736dc637dbc1ece07943312"
     },
     "paper_alpha/server/monthly_runner.py": {
       "bytes": 4106,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "ecd7eefe5327244714c0fc47e0cec1973b52dba40fdca6675bd432e22964d259"
     },
     "paper_alpha/server/monthly_schema.py": {
       "bytes": 6293,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "58d42591dd22369a32bf6ca615f785655faa4d491b6d99c2564762cbdbabcd5e"
     },
     "paper_alpha/server/monthly_storage_schema.py": {
       "bytes": 2344,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "39ad834a18fc3360fc27145e6a411bee84957aaa943171b8c90d28d3258bc696"
     },
     "paper_alpha/server/mutations.py": {
       "bytes": 6218,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "e09a453760f8a6c8f22ebf6b1447935682c7d56e8074479bfabf8ce93dc64863"
     },
     "paper_alpha/server/native_correction_start.py": {
       "bytes": 27931,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "d8c4c5f3f292c64343848dd393dafc111004c743888682ce5fa8c9e6a0552b13"
     },
     "paper_alpha/server/native_correction_start_schema.py": {
       "bytes": 4854,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f5cd815c20f9f0cd4fabbc7c63b930e1805eb0da639039da8a51c33425cc059b"
     },
     "paper_alpha/server/observation_context.py": {
       "bytes": 19699,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "dd350307bab8da8db570d7e93b1974199135b9f69b2bed04fc8b939ec7daf45f"
     },
     "paper_alpha/server/observation_context_schema.py": {
       "bytes": 2179,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6eddfc9b82bceffe4c36fe35887e34cd41caa8f3aca099fbc932128f23f9718e"
     },
     "paper_alpha/server/observation_identity.py": {
       "bytes": 19663,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "4fab86e11d928968e8728eb20beddf87bf0228ac9f5255ab25bc3893d6e0695c"
     },
     "paper_alpha/server/operator_definition_grounding.py": {
-      "bytes": 17037,
-      "category": "backend_source_and_reuse_provenance",
-      "sha256": "8e8c2f1694c1dea12eb085ff347dc900c8c79678fc67e28784ecd2ada457badd"
+      "bytes": 19922,
+      "origin": "main_project_source",
+      "sha256": "4c6389f1a0527a8da414100edac97895c16a733150d102ad6359e19904946b08"
     },
     "paper_alpha/server/oracle_temporal.py": {
       "bytes": 2131,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "ce93707eae9109938a9fe399c7ecb94a7ecb767863fc40d6ca70610f57131bff"
     },
     "paper_alpha/server/paper_material_spans.py": {
       "bytes": 8027,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "dc024613ee37695a1f925c055cee8071a5a2c1b6cd00d56f1f80cc1b13f8a8e5"
     },
     "paper_alpha/server/paper_materials.py": {
       "bytes": 27537,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f826a964f0adbcbb90dbf180b5ba996e78564a55b163ad336f06b60ec4c5bbc5"
     },
     "paper_alpha/server/paper_materials_schema.py": {
       "bytes": 6207,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "896a9df70b87b31753455f538b244464885f560e3910add2fbe4a76cdcb5c44d"
     },
     "paper_alpha/server/paper_segments.py": {
       "bytes": 8286,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "8fbfca4b95e1ad0fe6286cfd5c0aff0f58c790595a53c73721180f3604689a4c"
     },
     "paper_alpha/server/preflight.py": {
       "bytes": 2985,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "2ddc53e9ca2e3f93e62a0391879a826f626b0ae943bfcdd84d7b04edaf6a165f"
     },
     "paper_alpha/server/proposal_requests.py": {
       "bytes": 53073,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "cfe904248d78cb86b940a6a73a329f87256ac9d0e336b0c0e5a3b321b9f43da9"
     },
     "paper_alpha/server/proposal_worker.py": {
       "bytes": 16492,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "04a8d4a845c14e37c355c3d6fbb912927c1877fd0050a37e6c0345e958bd6a9e"
     },
     "paper_alpha/server/provider_api.py": {
       "bytes": 19909,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "052359dc191f2701d1a280bfdad81f7b6030d2c7b0937dbb77625297068539bb"
     },
     "paper_alpha/server/provider_api_schema.py": {
       "bytes": 9996,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "d822b901a16a0241fa8891b6011ceb0589500cfaaf45c360b67bb37a628a73c4"
     },
     "paper_alpha/server/provider_app_server_business_context.py": {
       "bytes": 26794,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "516b0bb05b68388047455acb8ee538c2ce6ee2e3f6994578d50d9e55bb672762"
     },
     "paper_alpha/server/provider_app_server_business_identity.py": {
       "bytes": 28764,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "24c1636cf21ff56578d41d0e07d08b4dc7af946f0d5579b070470026f5779ed3"
     },
     "paper_alpha/server/provider_app_server_capture.py": {
       "bytes": 13206,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "75ee6ebb5841c97d43191cdcd011abb47c2070ed0f8c0749d08869b63b12245e"
     },
     "paper_alpha/server/provider_app_server_evidence.py": {
       "bytes": 16435,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "02fd0a927f58e0ef53ceb345f1f290d8f29d11aeb388caf0e1b50c3db69c3fd1"
     },
     "paper_alpha/server/provider_app_server_fresh_probe.py": {
       "bytes": 36058,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3520427f13401029417a51539231f7f0f5f94c7107a8ca6e5a8eb9f87f2db610"
     },
     "paper_alpha/server/provider_app_server_invocation.py": {
       "bytes": 39663,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "61e4474de3d547c7536bca705f97bfb83ba4f51987a38a7596caebfb6d647642"
     },
     "paper_alpha/server/provider_app_server_probe.py": {
       "bytes": 34502,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3ee2c2efd2393d8620fb5858215f1cc6c6106605e271cd01bf2c119a48d89b9f"
     },
     "paper_alpha/server/provider_app_server_profile.py": {
       "bytes": 38536,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "75919c63cba46ac8e05d46f2b4d0fbdb45524db4afa3941642aa9336e9abdc56"
     },
     "paper_alpha/server/provider_app_server_protocol.py": {
       "bytes": 26038,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "11027e5ecbc680c74e5e9f795c99c2d3b6b0bd729bd1f0cb3b83b6da4d05ec91"
     },
     "paper_alpha/server/provider_app_server_qualification.py": {
       "bytes": 4359,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a9b766b0a8da822479e4b929092e01698fd458c064c8d33f454a389e11e8565d"
     },
     "paper_alpha/server/provider_app_server_write_intervention_probe.py": {
       "bytes": 47090,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "bded5bca356fba99b1f6fc7356cd4449bec8ec7b37bfcc311fdaea5d038b116d"
     },
     "paper_alpha/server/provider_app_server_write_observability.py": {
       "bytes": 41360,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "87013309114f788184ad6f31325ef815326105976b2e6607019e83297d01b2ae"
     },
     "paper_alpha/server/provider_authority_router.py": {
       "bytes": 4148,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a59d600ea96d9801e40c9fa2868e6851929906e89080706fe866e34a0a166a73"
     },
     "paper_alpha/server/provider_canary_result.py": {
       "bytes": 22787,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "0146fd2143b5d2b96843be2f9873e04abb9610f9274289a5f31001316560a577"
     },
     "paper_alpha/server/provider_catalog.py": {
       "bytes": 14252,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "2ce2989d4f524d7772b6cf91e7c16a948e7d435b2fd36a8cb836b0ee0c99bdce"
     },
     "paper_alpha/server/provider_cli_probe.py": {
       "bytes": 20334,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "1ed60c43ecd32b5bd1e7d8216f76d155579dd605daa42a18d30b21b6e9a88a89"
     },
     "paper_alpha/server/provider_cli_profile.py": {
       "bytes": 25896,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "ec9f5cd7e1ef0c00bf92cfafe627d332bcfa7f84f921f7a0aefe5421c98fc51b"
     },
     "paper_alpha/server/provider_cli_state.py": {
       "bytes": 10494,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "0daa29f64c0dbaa4032f2e4d0380a57a0b4baccd19a287fcb54607445f338aba"
     },
     "paper_alpha/server/provider_context.py": {
       "bytes": 15028,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "61d7d7f8a71b0c149b6f0e26dde677f98dccfd3c090b0a08848aa2fa18e2cf79"
     },
     "paper_alpha/server/provider_contract.py": {
       "bytes": 5243,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6157c3423f89a1e1e849881b0dbe665f3e6dc4f6458ac58a80ac3572f0ac49ac"
     },
     "paper_alpha/server/provider_contract_registry.py": {
       "bytes": 6427,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "4482253f5770197ee3c26f5ad99b64d905ba146ec6649c1888e018cdfeb3432d"
     },
     "paper_alpha/server/provider_correction_native.py": {
       "bytes": 18780,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "49f098391ccd2c80c533dade522d189f1adda3b38f7cf8bf604392e338387665"
     },
     "paper_alpha/server/provider_correction_public_projection.py": {
       "bytes": 17397,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "fefbef71692e1828563386ffdc1db656e2f85ec528637adc3e4531dafa9a1214"
     },
     "paper_alpha/server/provider_correction_public_schema.py": {
       "bytes": 11239,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f1d6daa739e1a9c98c9e0fee97d9f31b6527cef8054bbdc80a3ff8b7f60a5436"
     },
     "paper_alpha/server/provider_evaluation_runs.py": {
       "bytes": 30715,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "bf9fe57323fa0a70ded07a4a4798f6e5372b01d40a3929de318ebeaedceedd5c"
     },
     "paper_alpha/server/provider_experiment_api.py": {
       "bytes": 4285,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a8861a1fc513b2e60229406bd9a4c7f21933ef8ad765cb8d0269168079d6d246"
     },
     "paper_alpha/server/provider_experiment_api_schema.py": {
       "bytes": 1448,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "0e26ff0e87fec49f6239e8ec41fa3acff9aa901828c92a8e54579cf406be63d8"
     },
     "paper_alpha/server/provider_experiment_results.py": {
       "bytes": 16873,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "fab2b1c038f1c6c9367bbcfd6684e1cd25d9c7998bf789bdfcca1b2969e28ee1"
     },
     "paper_alpha/server/provider_experiment_source.py": {
       "bytes": 13377,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "cf0c8ba5219dc7c22f9abeb34eb310e7b63e4684d69ab64c73a78ad3c9735ba7"
     },
     "paper_alpha/server/provider_field_semantics.py": {
       "bytes": 2815,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "226ed4600767edf80e6e171b64bdc7c700edc3354807a904022f4b45b4aa6d87"
     },
     "paper_alpha/server/provider_grounded_contract.py": {
       "bytes": 20771,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "b377497a12d7cead465192fb844ba089bcde8e5cb490f22033a7a15516c290c3"
     },
     "paper_alpha/server/provider_host_authority.py": {
       "bytes": 31360,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "de689727818038c71b5fea997b65049f9b5eef2ab06a9a10a944209f0cb99e96"
     },
     "paper_alpha/server/provider_host_schema.py": {
       "bytes": 3979,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a86623112400f5f53a04433731a1390bd1200e1f2503e7e5dd358ae750b271a0"
     },
     "paper_alpha/server/provider_industry_mom_bridge.py": {
       "bytes": 24677,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "e9def84bcb523960e9e695f896feb83b85e8a6800338f6b125f4d25ba69e27c2"
     },
     "paper_alpha/server/provider_loop_api.py": {
       "bytes": 16135,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "16e4f53b99486320942bf10d66f6760e962494fdc9e4943e4af016de84ce4a58"
     },
     "paper_alpha/server/provider_loop_api_schema.py": {
       "bytes": 2258,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f571081e5d08092b412e14f59fed798396529f7f1c526138c00b1d1c2740fb15"
     },
     "paper_alpha/server/provider_loop_authority.py": {
       "bytes": 39875,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "d7ca81352a3f1f90b922c9c623dd06aefac287c1970a729e696a10a6f7bb4d40"
     },
     "paper_alpha/server/provider_loop_authority_schema.py": {
       "bytes": 10985,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3e28f42b9b7867777a6cbb292df41aa6c7f1c998fe960cf41b9356aaafe153c6"
     },
     "paper_alpha/server/provider_loop_host_proof.py": {
       "bytes": 20527,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "5c6b2f014c44e0146a5cf4bb924b71b3df50a1e27b96460bd5bd73944a7c36da"
     },
     "paper_alpha/server/provider_loop_host_proof_schema.py": {
       "bytes": 3318,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "41c7fdca3b409d186c0613ef974add1e48c0077629b50ef164d012333114e4bc"
     },
     "paper_alpha/server/provider_loop_native_authority.py": {
       "bytes": 47963,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "57e2d17f626f8bea9d90359c3c186c04cd20c40d4525c08c82747dbc821db9bc"
     },
     "paper_alpha/server/provider_loop_native_authority_schema.py": {
       "bytes": 8606,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f04b7f308bcb58afc3273df536f45bba874e05c1be22b0fa9c4458de66ea7efd"
     },
     "paper_alpha/server/provider_loop_offline_adapter.py": {
       "bytes": 5463,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "8ff82bc6b6113f593e31a8c2882a89aa8d9cd3b6aebe9fefc93de24f0cf5576b"
     },
     "paper_alpha/server/provider_material_bridge.py": {
       "bytes": 7120,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "7378a0dca3edbad49075de817d3d23ccfe5fddb81d6f559d358cf08be55a5647"
     },
     "paper_alpha/server/provider_material_spans_contract.py": {
       "bytes": 12129,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "b7cc0442d4e581024a2fb8e1c89ca600ffbd25c07fb35cd49a8c8b0c21a2c2f3"
     },
     "paper_alpha/server/provider_native.py": {
       "bytes": 53391,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "0d79ed589a3a808f1926bfb425491e2a27af4f9f3264c36e703d74d394925ba4"
     },
     "paper_alpha/server/provider_native_transport_identity.py": {
       "bytes": 3847,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "97de84e0699b09070c6128db3f4f5403cc16defd84e95edce3a1b67bee939733"
     },
     "paper_alpha/server/provider_outer_sandbox.py": {
       "bytes": 33564,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f1cb38380f27d7931ecafcf6f7b83f5615bda6e653d32f78c8f4d6c60a7dcf07"
     },
     "paper_alpha/server/provider_output_policy.py": {
       "bytes": 11406,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "34ff969a80ea674dd0a4ce750c56bef02e46ea68c42d92c67b675d06301d0f88"
     },
     "paper_alpha/server/provider_qualification.py": {
       "bytes": 16632,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "e46e86217e228c15e4fef904a5d2319a48dbc2ab2662769b011541bb94d581a9"
     },
     "paper_alpha/server/provider_read_boundary.py": {
       "bytes": 6973,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6af48046512b4e63486533e9e77eb7177fb0bbce095ee6a3ed126aeaacec50d4"
     },
     "paper_alpha/server/provider_read_probe.py": {
       "bytes": 46431,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "90154a2c0e46ac0475fbfc698cb830c85d3c19ab1951854f16798b35faa65159"
     },
     "paper_alpha/server/provider_recovery.py": {
       "bytes": 13224,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "5e8c563cd13ae55d78a2058efbfaf0fff077ab83f9205c9c04de21bc52beba01"
     },
     "paper_alpha/server/provider_recovery_schema.py": {
       "bytes": 3004,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "99c683caae240e3436eb65fc14be5d88552a217a1742f06de6a84defa7ec2a8f"
     },
     "paper_alpha/server/provider_repair_semantics.py": {
       "bytes": 6620,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6fc70c59a342c6ba292f9856ca0d420b0d0cf5bbdf4eabc8d7cd48201523779c"
     },
     "paper_alpha/server/provider_research_api.py": {
       "bytes": 25801,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "529977e7d69020ce674c83381d054c11d95b7f781dcd37e3f44de38ea4624d99"
     },
     "paper_alpha/server/provider_research_api_schema.py": {
       "bytes": 9014,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "1f99d517139e8c059ae5d1e9beeebe21642fa269d67803ac557e086553f94c01"
     },
     "paper_alpha/server/provider_research_capabilities.py": {
       "bytes": 1736,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a903bf022d80ccfe4f10fc331a8ff53be503bb200f9eb3af91828f60bac50782"
     },
     "paper_alpha/server/provider_research_context.py": {
       "bytes": 22423,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "96ed151126e520cba9189c19d89a7c470fb6ee6a83f19ca711b15589356321cd"
     },
     "paper_alpha/server/provider_research_contract.py": {
       "bytes": 5905,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "5f64160ef9262895e432f31aec7c42095758b2170b65e3080a2928a950fbb0c4"
     },
     "paper_alpha/server/provider_research_qualification.py": {
       "bytes": 46013,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "612583340951f53d4c72e46e89bcd1606f34f4e7c9110644093e166246baeef6"
     },
     "paper_alpha/server/provider_research_review.py": {
       "bytes": 19852,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "10742d3f0837d0ade7947a266ef440907d069beec65322fdb415a36606529193"
     },
     "paper_alpha/server/provider_research_schema.py": {
       "bytes": 8718,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "8eaa50ea7dbc5deced913a14f673f5549ff57f0257a0ad509b29d2640b7e40b1"
     },
     "paper_alpha/server/provider_research_source_schema.py": {
       "bytes": 2065,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "e3af4fe6c2a5f65b783050d8e2978f740bf57a37a0ef329a86214d2aa84be2b8"
     },
     "paper_alpha/server/provider_research_targets.py": {
       "bytes": 16656,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "5ada417c5b5bb99bd9617448ba56e7c2115db28c957a6219e150e65e9263a6b9"
     },
     "paper_alpha/server/provider_runtime.py": {
       "bytes": 10850,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "4d2989b89a55353d30adae171b0dc64b91aa4b33f772ae373fc710ce41ac549a"
     },
     "paper_alpha/server/provider_runtime_status.py": {
       "bytes": 5503,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "77966e0d12b04b264baa21aa21290732de6f0c254a8445b3bc38bf35bb0374ca"
     },
     "paper_alpha/server/provider_schema.py": {
       "bytes": 7601,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "fa1a694f610976779c86b4c72bf3f573457a33d647deb89ed93090bd11b719f6"
     },
     "paper_alpha/server/provider_supervision_journal.py": {
       "bytes": 18914,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "1d8548af4949ea70657a425739b4a68c322bea7710ccc26b480f14e6c01d3aea"
     },
     "paper_alpha/server/provider_supervisor.py": {
       "bytes": 23263,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "98df2a387918b2364374c34fecf8250a182e4f0ec5866dc08599862a53ed511c"
     },
     "paper_alpha/server/provider_write_probe.py": {
       "bytes": 23746,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f093d0483abec55acdcc07976bcee1652461386894d0e4d5d872e9d4af894c2d"
     },
     "paper_alpha/server/providers.py": {
       "bytes": 1580,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "31bfb069b8652016ba5adb2ecc3979c7134a7c6140ec90fdae95b72bd690b1df"
     },
     "paper_alpha/server/real_daily_main_api.py": {
       "bytes": 6158,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "c79143afd89ef1e6af4354ef05ffc64c7da2d59e26ee8c62526f562e0588af17"
     },
     "paper_alpha/server/real_daily_main_api_schema.py": {
       "bytes": 8268,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a08847b814ba0c471beb982991bff706e5e368c1bff4a2727c32cf2432f7f4f8"
     },
     "paper_alpha/server/real_daily_main_execution.py": {
       "bytes": 10902,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "ef5f5088704e572a12588d138ec768e6374db4ab73801a4633fa3ecf52e760cd"
     },
     "paper_alpha/server/real_daily_main_research.py": {
       "bytes": 10079,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "9f59a901cb0c7f1bb6bc65f9c0d35905a28f479335b31e6b154e6c558c1c7092"
     },
     "paper_alpha/server/real_daily_main_series.py": {
       "bytes": 3686,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "41aaa89d54fd24fb65df9a897f7bbed14fc60947ed713aef8c4dc597ad78eaec"
     },
     "paper_alpha/server/real_daily_prefix_registration.py": {
       "bytes": 44052,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "7680f238d4366f8e20bc8ab7fdb3399101c028b3806c8c2ddde976e6f0bd750d"
     },
     "paper_alpha/server/real_daily_prefix_schema.py": {
       "bytes": 3590,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "2a2b734d7d46aa46b2f797e3abceda19d05679d7cc3ebb661b83d93dc075670f"
     },
     "paper_alpha/server/real_daily_source_handles.py": {
       "bytes": 14652,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a77742f65d17dda4c426f1ca8d8fd4da8940930d6ef0942807df32508c17f1f6"
     },
     "paper_alpha/server/real_daily_workspace_authority.py": {
       "bytes": 44073,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "71710f0042401fc26434bcdcf0be04ac099db7762aec4eaf8363eb3e22fdc40c"
     },
     "paper_alpha/server/real_daily_workspace_authority_schema.py": {
       "bytes": 4447,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3331dc1128894cb68c8814de3736a55864caf3b18795ac7da08b0856316576b8"
     },
     "paper_alpha/server/regression.py": {
       "bytes": 31085,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3c1005b7539b50374fead384c511c27dcea303fc332b32a6246327b4f2c0c047"
     },
     "paper_alpha/server/research_assessments.py": {
       "bytes": 4573,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "8856726d2b02c78d6337c87b9090a0d2b067f7e2a979f7f3ca62d05340b59d07"
     },
     "paper_alpha/server/research_bindings.py": {
       "bytes": 17939,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3472d94ccaa8945361557b996cb2270061f588374765c5eb9538008df66fa91c"
     },
     "paper_alpha/server/research_bindings_schema.py": {
       "bytes": 4936,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "9a7c14293ff5374665a75684a6a693d9ffee7a83cda13abc1897368edc132446"
     },
     "paper_alpha/server/research_cases.py": {
       "bytes": 34845,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "f625c2192e38bc87ceb960e81e40c8e91337ce6012aaf990f951d8e4ce342236"
     },
     "paper_alpha/server/research_cases_schema.py": {
       "bytes": 4427,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "1693e932aeb059d5c3b6afdc06bfc966a3d0acf00b67d2730027505d75775e87"
     },
     "paper_alpha/server/research_claims.py": {
       "bytes": 18666,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "2a012e10e32d0df6efa88c9eba63b6589d2542c3a47a9ddac7c06abd9c18ded6"
     },
     "paper_alpha/server/research_claims_schema.py": {
       "bytes": 3540,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "7a72ed71855207ed036edf7e42dd74c36e44449abe9601c0be9fb5d9841ff2bc"
     },
     "paper_alpha/server/research_completion_models.py": {
       "bytes": 60151,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "eb61274e80973d372d78d3555bbf0d07ab9aeef6a83295bb332d2fd81cf9d9b1"
     },
     "paper_alpha/server/research_correction_policy.py": {
       "bytes": 16622,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "8515e6c2f0cc58136d1578d6e298b1779648773b50fd0ab22a07d385c9fa9387"
     },
     "paper_alpha/server/research_correction_schema.py": {
       "bytes": 9033,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "2e393cf5bfbd47abfcf5e4bf9af926e2b86ec83fc84b64066e38dae76afa4a64"
     },
     "paper_alpha/server/research_draft_validation.py": {
       "bytes": 6897,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "21d86aa3489542739dfe68aa8e87cffa2ddc5d14a2127d89ba10a638a332fd55"
     },
     "paper_alpha/server/research_guard.py": {
       "bytes": 33483,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "28494f2a49e03dced244f9249f8dafb971b60939c9d8c2a3148468025622f028"
     },
     "paper_alpha/server/research_guard_schema.py": {
       "bytes": 1746,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "b2ec11066ccdf992bd597d23c1083c0e2bdc64e94c45a13bb7e30afbc2c35d91"
     },
     "paper_alpha/server/research_insights.py": {
       "bytes": 34456,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "01351c42d9f92b4e66617c5926450ba4b622e7248f78c1700c08b73619340be9"
     },
     "paper_alpha/server/research_insights_schema.py": {
       "bytes": 3663,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "cb90eed38b3330e0847bc7538a4328fb2dd35f856c397b87f3ad767522ed2a5e"
     },
     "paper_alpha/server/research_jobs.py": {
       "bytes": 38901,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "84bf2c16f7edf4940d417e202ba1751514bbb00fe5ce203fc8ead7d37a49317b"
     },
     "paper_alpha/server/research_jobs_schema.py": {
       "bytes": 4916,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "859f03397c0e71aa938c11e75832bb162744035fdaecf12bb19ac18ac78e12d3"
     },
     "paper_alpha/server/research_loop_correction.py": {
       "bytes": 34420,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "7bc843751b26c16859c17ddcc78bef29ad05272ad044a023b467ad6737ea6c24"
     },
     "paper_alpha/server/research_loops.py": {
       "bytes": 65770,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "637ac16e50db59c87854872849b76ad9b7069f376731183bc76484a4f71dc9b0"
     },
     "paper_alpha/server/research_loops_schema.py": {
       "bytes": 3858,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "964f0e7538f015bee30ec84e6b0ab5e602f7c26b407493e3a87565d3ab427904"
     },
     "paper_alpha/server/research_protocol_schema.py": {
       "bytes": 3511,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "ce62fc5cfa8dbbfdb190d40b24ddb4f8bbdc3f21d0c1e301ba5423edc101dfc6"
     },
     "paper_alpha/server/research_protocols.py": {
       "bytes": 10935,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a1d98e2df15fb1402ad93efc015036bc31bb86ee7fb05bb5b8e38d2af903fb6b"
     },
     "paper_alpha/server/research_report_readable.py": {
       "bytes": 23232,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a368eea88ec8cbed8a40b752f0a7b452be68b2816ad89bf81c408dc4114befbd"
     },
     "paper_alpha/server/research_session_context.py": {
       "bytes": 7180,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "fa37a311b5ad3ba50be7b485b2b49d4a8e6a1c2a04e9fd2bf4673fc84b693647"
     },
     "paper_alpha/server/research_session_execution.py": {
       "bytes": 18035,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "a76f5691ba6a810daf1e7fe7f6a4c111fbbf8a0932c6d6f0630184abb48edd0f"
     },
     "paper_alpha/server/research_session_experiments.py": {
       "bytes": 41701,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "eb6e950d8dbad6affc118f8903ef96db79d058dd6ebdf2fda2408c981f91ca39"
     },
     "paper_alpha/server/research_session_experiments_schema.py": {
       "bytes": 3574,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "7226b7897567f7d47b28f66f5c2e83f2f9feb285e62708b44ca0739f0777f16d"
     },
     "paper_alpha/server/research_sessions.py": {
       "bytes": 42337,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "0bf6faf8f7620117da33718b08921051cee61a9829642f241dfe01ed6f79ed52"
     },
     "paper_alpha/server/research_sessions_schema.py": {
       "bytes": 6252,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "1386f341b4526f27995f0b9e771fcfe78f28437426de7c43ca4b56a90b3c19ab"
     },
     "paper_alpha/server/research_tools.py": {
       "bytes": 24303,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "94142603b164202ebf7877fb4ce1393d6f1c5617ec2317e0eb4bfacf16a46273"
     },
     "paper_alpha/server/research_tools_schema.py": {
       "bytes": 2738,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "af8443b992acb90bc6d7af85acdaacd242119d1b194d3578681071f6e4a59d87"
     },
     "paper_alpha/server/response_schemas.py": {
       "bytes": 18600,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "8714a753d61c8f65b9b8b157d70bd6ce700bf1f8fbbfd9ed4cf47492bbf849ef"
     },
     "paper_alpha/server/review_materials.py": {
       "bytes": 10654,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "e0f1ccc20e2617f9d8bcf0d901369e48f6fb30ec47e50367def060e75a9ca745"
     },
     "paper_alpha/server/review_materials_schema.py": {
       "bytes": 1537,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "b1b8315d96ef97947c6682bb18e8e38f3d7cb7bdf2109a6e0fa8296110089628"
     },
     "paper_alpha/server/runner.py": {
       "bytes": 15754,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "06e1b1b25d47430bee24d55cd74079cfe8815646a93358eada8217c92c96f848"
     },
     "paper_alpha/server/schemas.py": {
       "bytes": 4078,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "55e3687dbe2451ed1c04acc28d56e000f3616cc31a96110e7129f3ba0d2b381f"
     },
     "paper_alpha/server/semantic_annotations.py": {
       "bytes": 22661,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "c4df371487e40c3e0cee8a0e7c5284fe61c2fe3fa15e4260bca08b04be3c2637"
     },
     "paper_alpha/server/semantic_annotations_schema.py": {
       "bytes": 3421,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "cb5ad0a918c77f214d5aefbed4c7778ee1fc436cb56d22ff7765d784b06e9085"
     },
     "paper_alpha/server/semantic_evaluation_sets.py": {
       "bytes": 20467,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "be8f4fca8b838c91b6614aef678e1ef6c266064c7cc893e88b264bec778cbfc0"
     },
     "paper_alpha/server/semantic_evaluation_sets_schema.py": {
       "bytes": 8212,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "fb5eb4ee8e7312df627e98f6796186dd98438d415da6b6c016e1f9bd18e8f112"
     },
     "paper_alpha/server/service.py": {
       "bytes": 72402,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "3ca4bb516c25370125849ae479d7730c13cc025fd6a0dd482d39e7ae8caa89c4"
     },
     "paper_alpha/server/workflow_observations.py": {
       "bytes": 31846,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "d2baa734a310939e2d18cce308d6416dbad393d77af0f24b87023106f1200c9a"
     },
     "paper_alpha/server/workflow_observations_schema.py": {
       "bytes": 9353,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "1b0e2eaa1ee62a8fbf37aa496baf1f2cbcf06c47492e151be870eff773df3dfe"
     },
     "paper_alpha/source_identity.py": {
       "bytes": 6177,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "dadd8aa8bbd427d387c59783dd65287c1c763edaf36d55eabbff32d89fd6d696"
     },
     "paper_alpha/storage.py": {
       "bytes": 1800,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "cd099e0d36ff4f01461beab75b2af19b2400cdcb17339547995d31d4cf1122d9"
     },
     "paper_alpha/synthetic_revision_fixture.py": {
       "bytes": 16305,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "6631912c9c36694d71e495ba832e7638f4b3233fb17099258041fa5f7e7e7feb"
     },
     "paper_alpha/vendor/PROVENANCE.json": {
       "bytes": 991,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source:private_path_redacted",
       "sha256": "cc229ed5cbffc94c710f19970c37c968b100934197e9a449b4c05c3c836a229f"
     },
     "paper_alpha/vendor/__init__.py": {
       "bytes": 70,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "801f537586b8c13f4877e2e67202d1aac2e5dec5a79348fc1e3e81a65c04514e"
     },
     "paper_alpha/vendor/factors.py": {
       "bytes": 4982,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "ef331da3d3df75b8421ca982e110877bb8cc22eeeacef754cda50c9a32b2bb0d"
     },
     "paper_alpha/vendor/operators.py": {
       "bytes": 2985,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "1318a9a6be88639efd2a3a1431b63574d7682a896eb1bb69435bbcd07aa68773"
     },
     "paper_alpha/worker.py": {
       "bytes": 3085,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "65b2d8976b5b86f7f674d8110b1be8c552e8e7bfe109e027acc44e668258264e"
     },
     "paper_alpha/workflow.py": {
       "bytes": 20809,
-      "category": "backend_source_and_reuse_provenance",
+      "origin": "main_project_source",
       "sha256": "0fed93c72613b92552a24a3d6274a353a73e9be380d638084bb2000d42721937"
     },
     "pyproject.toml": {
       "bytes": 654,
-      "category": "dependency_metadata_or_ignore_rules",
+      "origin": "main_project_source",
       "sha256": "afab99726ee0ee14839dfb8c3203a8a8965a9139f6c28f700891d43ee78f0cd7"
     },
     "requirements-lock.txt": {
       "bytes": 82,
-      "category": "dependency_metadata_or_ignore_rules",
+      "origin": "main_project_source",
       "sha256": "9465a4e97aaa3af7742a5960d1aa2c516cc739d7d28a7db3958e9b60f6d21912"
     },
     "requirements-web-lock.txt": {
       "bytes": 372,
-      "category": "dependency_metadata_or_ignore_rules",
+      "origin": "main_project_source",
       "sha256": "9e2839d4b9c2ad7af0532a8f9101af931e6a74f24ef8b436e7047524cd3249d0"
     },
     "scripts/case_review_packet.py": {
       "bytes": 482,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "a45965de489ebb2c8ff14ec1d5fd70bf5fd8cbdb1f4b1e62c3904dd9a4c524d1"
     },
     "scripts/check_provider_readiness.py": {
       "bytes": 6910,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "ee329747ba7ce205c1c5c6b820d521488efd87befda05b08f572a66e173ee735"
+    },
+    "scripts/check_public_agent_demo.py": {
+      "bytes": 14123,
+      "origin": "main_project_source",
+      "sha256": "1a3a1e5ca16791bff6c4a371d0ca2f50132b5d8e3356b32ee881ef1f5172d3e5"
     },
     "scripts/check_research_readiness.py": {
       "bytes": 3111,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "1c91af084cc11ce64e2a033e653c264e3e314b64e7bbd529b1c711c30620ddc4"
     },
     "scripts/demo_mom_only.py": {
       "bytes": 1535,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "b634cd726fb4049096a9d8bfadbe0a20471402085cd0102cbeeee740c40c1b20"
+    },
+    "scripts/demo_public_agent.py": {
+      "bytes": 21653,
+      "origin": "main_project_source",
+      "sha256": "a077c4b16d9b39c4e6cd81d34ea338330534ed0255ee47d32907e5ef0bde32b4"
     },
     "scripts/evaluate_daily_development.py": {
       "bytes": 1559,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "1d3f34558484ef0413495df6413988ce5ae7b3f56c339990b33356708ecdd005"
     },
     "scripts/evaluate_research_sample.py": {
       "bytes": 1066,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "343d308969159220503415109393b426de7937b32e0c734932d1ae3cfdf9110d"
     },
     "scripts/execute_daily_holdout.py": {
       "bytes": 2799,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "1c126c4fee84b346c8e1610527f740a744bbf0611b6827e210f9de6bc52a9250"
     },
     "scripts/execute_daily_holdout_fixture.py": {
       "bytes": 1998,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "03b98b424ce037b9b9caa45d8c766ad048affd3b7255cbe724d936addf34dc6a"
     },
     "scripts/export_api_contract.py": {
       "bytes": 13199,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "0c50c906b2e5fef0d151e744c13edd5a51adafa7828230f6dfc0d552c009ec8b"
     },
     "scripts/export_semantic_set.py": {
       "bytes": 2238,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "4a2f27b2ba85987ca096bde2fb1c17c5dc525eefec487691c04d99c2ecab3572"
     },
     "scripts/inspect_daily_source.py": {
       "bytes": 2510,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "f7f878608811494dc441e77066372edac74e538c8f1bb1698b892f021c57aa5d"
     },
     "scripts/make_fixture.py": {
       "bytes": 5488,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "d4ec35256d2a1bd3d2e6ce41b10182d53649a5778c381bf038456e36eba3a1a1"
     },
     "scripts/manage_loop_native_grant.py": {
       "bytes": 3183,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "68b74c99bd8e07ce3b6aa5356bac7f9fc2a6cab9f8caf516e7f67648e39d861d"
     },
     "scripts/manage_research_host_grant.py": {
       "bytes": 3480,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "088c2d60b40bfd915dc6cae737bd6e12e909d4fba726e1738634464952c13203"
     },
     "scripts/prepare_alpha101.py": {
       "bytes": 3191,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "6423129157b63b3d971229129215e1902a624abc3707008977ff3c71a2803c64"
     },
     "scripts/prepare_case_review.py": {
       "bytes": 15049,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "fe7b675c8a08557342b07b566af399a4e12820fdf97da1c4ef2cc46caaf51c1b"
     },
     "scripts/prepare_daily_real_source.py": {
       "bytes": 5149,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "a3ebe0765abd5b6b306dc625863b17a7c5abdac3f140794bbcff4568cd458594"
     },
     "scripts/prepare_native_correction_start.py": {
       "bytes": 5172,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "251d84a7d80aaf3bfda5dd10b4be11d87f69bd5bcd2a88302e2d5752fae71fe6"
     },
     "scripts/prepare_public_demo.py": {
       "bytes": 2408,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "08e3c318ef8938f828296c04d46fcdc4169f01959556c8bb6e4e96cab977ee1c"
     },
     "scripts/register_industry_mom.py": {
       "bytes": 1909,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "277e553160aa0b092acd6db214519c63c452c51223d8d098bf3df3368a06bcb5"
     },
     "scripts/run_daily_research.py": {
       "bytes": 257,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "f41fe01465e564ba428da8636f14ecb219c4f8442b900ba3adc024b8aeecea02"
     },
     "scripts/run_registered_daily.py": {
       "bytes": 5059,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "5edfbc71203cfbd4e13a986c6e1886f9b8e87555cb433535cd608d451413b18f"
     },
     "scripts/validate_daily_source.py": {
       "bytes": 890,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "332e4e01a36771192563df4abab9d895f419f314cd2df5afb2e7e05ff880196a"
     },
     "scripts/verify_semantic_set.py": {
       "bytes": 1994,
-      "category": "selected_application_or_preparation_tool",
+      "origin": "main_project_source",
       "sha256": "289199c6c6e482382e7fdba6f61265a44e7a546dd60a4bed4e9ac56b853827e6"
     },
     "tests/__init__.py": {
       "bytes": 0,
-      "category": "representative_test",
+      "origin": "main_project_source",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "tests/test_backup.py": {
       "bytes": 13546,
-      "category": "representative_test",
+      "origin": "main_project_source",
       "sha256": "85939fba3b00d8b4beffc73c222cffba95a5980e2664d9c6891a368ffb79193a"
     },
     "tests/test_evaluation.py": {
       "bytes": 14584,
-      "category": "representative_test",
+      "origin": "main_project_source",
       "sha256": "22de073c1ae6a2135b445087abca26e813e8300047e0f81b32080620ac603be1"
     },
     "tests/test_expressions.py": {
       "bytes": 10033,
-      "category": "representative_test",
+      "origin": "main_project_source",
       "sha256": "062057eb339378bc8be58a5349a206b81cc15c6635b6f6f021e78048faf33200"
     },
     "tests/test_formula_engineering_material.py": {
       "bytes": 6320,
-      "category": "representative_test",
+      "origin": "maintained_public_overlay",
       "sha256": "60e35d696b5e269f4392c933509a007bc235ac7a02c8b5781855931b440e159a"
     },
     "tests/test_formula_engineering_readback.py": {
       "bytes": 7239,
-      "category": "representative_test",
+      "origin": "main_project_source",
       "sha256": "fefcb68366a42790fad6dcc953c80fc702f5dc7767c5b5ab904c62582ba25960"
     },
     "tests/test_formula_presentation.py": {
       "bytes": 6399,
-      "category": "representative_test",
+      "origin": "main_project_source",
       "sha256": "450b98dd4f8589a05a22e0c03ec7225a79b8a9a32e40bd70b121938ef427fe6c"
     },
     "tests/test_mutation_idempotency.py": {
       "bytes": 21783,
-      "category": "representative_test",
+      "origin": "main_project_source",
       "sha256": "3846862cfed02dad33763716e739708f3a4b8ccaa4f39d380b1133555a4187e7"
     },
     "tests/test_operator_definition_public.py": {
-      "bytes": 18900,
-      "category": "representative_test",
-      "sha256": "0beeb9eff2cabc6dccd67fd7b3bc204be911bc029a42d3674a514c028dbaefc0"
+      "bytes": 28751,
+      "origin": "main_project_source",
+      "sha256": "71ef0bddf85d9df7ea8d05c9d9b5d98151fd23c878040dd25973048f540cc07c"
     },
     "tests/test_paper_material_spans.py": {
       "bytes": 7120,
-      "category": "representative_test",
+      "origin": "main_project_source",
       "sha256": "a25ca3bc7ef5b797ce59547bf97427b3deafa175ed8a15a701227906d54f402e"
     },
     "tests/test_paper_segments.py": {
       "bytes": 7179,
-      "category": "representative_test",
+      "origin": "main_project_source",
       "sha256": "51d2200af752ae06a201698e4f013c7152a817b3ae9cf71e0d2c79876ee51086"
     },
     "tests/test_provider_native_transport_identity.py": {
       "bytes": 5929,
-      "category": "representative_test",
+      "origin": "main_project_source",
       "sha256": "21ba47e8300ed633c914f31e77066962c3703c949fd6da97ed3055fec88dd5b6"
+    },
+    "tests/test_public_agent_demo.py": {
+      "bytes": 7856,
+      "origin": "main_project_source",
+      "sha256": "66b4092392f42812af19b9d3a52d5b8a2e083605f20f09c79630b842942f4c44"
+    },
+    "tests/test_public_reliability.py": {
+      "bytes": 9708,
+      "origin": "main_project_source",
+      "sha256": "4e0f926c56e0733ef5b633319fe8045e16217c49f521485f3c97a4c775886bf2"
     }
   },
   "format": "curated-public-source-inventory",
+  "policy_sha256": "81e254a3f8cbd88a59e0335e8e397bfaa4844b71f02774ec1cf5442944f4c8d5",
   "schema_version": 1,
-  "scope": "Public source export, not the byte-identical accepted local Runtime. No model access or private research is included.",
-  "total_bytes_excluding_manifest": 9844979,
+  "scope": "Current source development after the 0.27.2 Runtime freeze. Public fixture validation is separate from historical real-model acceptance; no claim that the older portable archive includes later fixes.",
+  "source_inventory_sha256": "d7a7e944cc154457fb99500c0504484589358cd1294199d5065b75666e11babc",
+  "total_bytes_excluding_manifest": 10783292,
   "version": "0.27.2"
 }
