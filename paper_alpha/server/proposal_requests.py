@@ -72,11 +72,15 @@ def validate_proposal_output(store, request, context, output):
 
 
 class ProposalRequests:
-    def __init__(self, store, *, configs: dict[str, ProviderConfig], research_authority=None, enable_material_span_references=False):
+    def __init__(self, store, *, configs: dict[str, ProviderConfig], research_authority=None,
+                 enable_material_span_references=False, enable_grounded_material=False):
         if type(enable_material_span_references) is not bool:
             raise ValueError('Material span references require an explicit host boolean')
         self.store = store
         self.enable_material_span_references = enable_material_span_references
+        if type(enable_grounded_material) is not bool:
+            raise ValueError('Grounded material requires an explicit host boolean')
+        self.enable_grounded_material = enable_grounded_material
         # An isolated host runner may inject a verified evaluation authority.
         # Configuration booleans and ordinary HTTP requests never create one.
         self.research_authority = research_authority
@@ -181,6 +185,8 @@ class ProposalRequests:
             if source_request.schema_version == 2:
                 from .paper_material_spans import validate_context_mode
                 validate_context_mode(body['context'], operation=source_request.operation)
+                from .provider_grounded_contract import mode_for_context
+                mode_for_context(body['context'], source_request.operation)
                 if provider_digest(body['context']) != body['context_digest']:
                     raise ValueError('Frozen research context digest differs')
             if (digest(body) != row['payload_digest'] or digest(body['request']) != row['request_digest']
@@ -290,7 +296,8 @@ class ProposalRequests:
             config = self.configs.get(body.provider_config_id)
             if config is None or not config.enabled:
                 raise ProposalServiceError('Provider is not configured and enabled', 503, code='PROVIDER_DISABLED')
-            context = handler.build_context(self.store, body, enable_material_span_references=self.enable_material_span_references)
+            context = handler.build_context(self.store, body, enable_material_span_references=self.enable_material_span_references,
+                                            enable_grounded_material=self.enable_grounded_material and config.mode == 'codex_cli')
             if context['source_digest'] != body.expected_source_digest:
                 raise ProposalServiceError('Proposal source changed', code='SOURCE_CHANGED')
             if len(json_text(context).encode('utf-8')) > body.budget.max_context_bytes:
@@ -559,8 +566,12 @@ class ProposalRequests:
                     from .paper_material_spans import validate_context_mode
                     span_mode = (validate_context_mode(value['context'], operation=value['request'].get('operation'))
                                  if handler.schema_version == 2 else False)
+                    from .provider_grounded_contract import mode_for_context
+                    grounded_mode = (mode_for_context(value['context'], value['request'].get('operation')) == 'grounded_extract_material'
+                                     if handler.schema_version == 2 else False)
                     current = handler.build_context(self.store, handler.parse_request(value['request']),
-                                                    enable_material_span_references=span_mode)
+                                                    enable_material_span_references=span_mode,
+                                                    enable_grounded_material=grounded_mode)
                     if current['source_digest'] != value['context']['source_digest']:
                         raise ProposalServiceError('Frozen source changed', code='SOURCE_CHANGED')
                     diagnostic = validate_proposal_output(self.store, value['request'], value['context'], response)
@@ -693,7 +704,14 @@ class ProposalRequests:
                 # Recheck the original exposure before authorizing a new effect.
                 try:
                     handler = request_handler(value['request'])
-                    current = handler.build_context(self.store, handler.parse_request(value['request']))
+                    from .paper_material_spans import validate_context_mode
+                    from .provider_grounded_contract import mode_for_context
+                    span_mode = (validate_context_mode(value['context'], value['request'].get('operation'))
+                                 if handler.schema_version == 2 else False)
+                    grounded_mode = (mode_for_context(value['context'], value['request'].get('operation')) == 'grounded_extract_material'
+                                     if handler.schema_version == 2 else False)
+                    current = handler.build_context(self.store, handler.parse_request(value['request']),
+                        enable_material_span_references=span_mode, enable_grounded_material=grounded_mode)
                     if current != value['context']:
                         raise ProposalServiceError('Proposal context changed before handoff', code='SOURCE_CHANGED')
                 except (ServiceError, ValueError, OSError) as exc:

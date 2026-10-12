@@ -179,7 +179,7 @@ def run_task(task_path, output_dir, mode="agent", resume=False):
                         "snapshot_files": {str(p.relative_to(out)): sha256(p) for p in snapshots},
                         "source_note": "Source-file SHA256 inventory; no Git commit is invented."}
             atomic_json(out / "manifest.json", manifest)
-            state = {"schema_version": 1, "task": raw, "mode": mode, "status": "running",
+            state = {"schema_version": 1, "report_renderer_version": 2, "task": raw, "mode": mode, "status": "running",
                      "tool_calls": 0, "elapsed_seconds": 0.0, "events": [],
                      "candidates": [{**asdict(c), "status": "pending", "attempts": []} for c in task.candidates]}
             _write_projections(out, state)

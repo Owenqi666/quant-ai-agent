@@ -415,6 +415,11 @@ def contract_id_for_schema(schema: dict) -> str:
     if schema_digest == digest(span_schema()):
         check_frozen_contract()
         return RESEARCH_CONTRACT_ID
+    from .provider_grounded_contract import model_output_schema as grounded_schema, check_frozen_contract as check_grounded
+    for mode in ('grounded_extract_material', 'formula_engineering_generate_candidates'):
+        if schema_digest == digest(grounded_schema(mode)):
+            check_grounded(mode)
+            return RESEARCH_CONTRACT_ID
     raise ValueError('Output schema does not match a supported business contract')
 
 

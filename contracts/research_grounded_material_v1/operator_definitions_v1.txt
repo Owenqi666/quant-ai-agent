@@ -1,0 +1,9 @@
+For direct calculation support cite the complete named source formula, preserving its fields,
+operators and every window/parameter exactly; a generic function definition does not prove a changed formula.
+Also cite complete formal operator-definition declarations for every nested call, including documented aliases.
+A function name/call or truncated definition is insufficient. Keep cross-sectional rank distinct from time-series rank.
+Calculation and mathematical direction-inference bindings must include the actual complete definition spans,
+using multiple supplied spans when a declaration crosses a span boundary. Use only the selected input catalog.
+Return a complete mathematical expression in calculation; keep narrative explanations in the binding explanation.
+If a complete formula or required definition is unavailable, retain it as an engineering unresolved gap,
+use null/unresolved for unsupported calculation, and do not invent definitions or infer review approval.

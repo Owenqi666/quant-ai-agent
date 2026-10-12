@@ -113,7 +113,11 @@ def verify_current_selection(store, selection):
 
 def validate_material_draft(selection, draft, *, accepted=False):
     selection = validate_selection(selection)
-    model = AcceptedMaterialDraft if accepted else MaterialDraft
+    if isinstance(draft, dict) and draft.get('grounding_version') == 1:
+        from .grounded_material_schema import material_model
+        model = material_model(draft, accepted=accepted)
+    else:
+        model = AcceptedMaterialDraft if accepted else MaterialDraft
     value = model.model_validate(draft).model_dump()
     chunks = {item['id']: item for item in selection['chunks']}
     for evidence in value['evidence']:

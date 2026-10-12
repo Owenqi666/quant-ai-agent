@@ -3,8 +3,10 @@ from __future__ import annotations
 
 from contextlib import closing
 from copy import deepcopy
+import json
 
 from fastapi import APIRouter, Query
+from fastapi.responses import Response
 
 from ..storage import digest, json_text
 from .db import connect
@@ -18,7 +20,9 @@ from .provider_research_api_schema import (
     PublicResearchSession, ResearchSessionPage, ResearchSessionCancel,
     ResearchSessionReconcile, PublicSessionReconciliation, ResearchV2ProposalSummary,
     ResearchV2ProposalPage, ResearchV2ProposalDetail, MaterialAdoptRequest,
-    PublicMaterialVersion, PublicMaterialDetail, ResearchMaterialPage)
+    PublicMaterialVersion, PublicMaterialDetail, ResearchMaterialPage,
+    MaterialEngineeringRequest, PublicMaterialEngineering, PublicMaterialDiagnostic,
+    MaterialDefinitionRepairRequest, PublicMaterialDefinitionRepair)
 from .provider_research_context import resolve_research_source
 from .provider_research_schema import ResearchProposalCreate, CONTRACT_ID
 from .proposal_requests import ProposalRequests, ProposalServiceError
@@ -134,6 +138,8 @@ class _ResearchViews(_PublicViews):
         keys = ('id', 'material_id', 'version', 'digest', 'draft_digest', 'parent_version_id',
                 'parent_digest', 'material', 'actor', 'citation_integrity', 'semantic_fidelity', 'created_at')
         original = {key: value[key] for key in keys}
+        if 'definition_repair' in value:
+            original['definition_repair'] = value['definition_repair']
         original['changes'] = [{'path': item['path'], 'before_json': json_text(item['before']),
                                 'after_json': json_text(item['after'])} for item in value['changes']]
         public = self.material(original)
@@ -155,6 +161,7 @@ def create_research_provider_router(store, registry):
     # Code-owned transport choice for new extraction only; frozen requests are
     # parsed according to their saved context by all readers and workers.
     proposals.enable_material_span_references = True
+    proposals.enable_grounded_material = True
     authority = proposals.research_authority
     sessions = ResearchSessions(store)
     execution = SessionExecution(store, proposals, sessions=sessions)
@@ -307,5 +314,81 @@ def create_research_provider_router(store, registry):
         edited = body.edited_material.model_dump() if body.edited_material is not None else None
         return views.version(views.call(materials.adopt, material_id, body.expected_digest, edited,
                                       idempotency_key=body.idempotency_key))
+
+    @router.post('/materials/{material_id}/engineering', response_model=PublicMaterialEngineering, status_code=201)
+    def configure_formula_engineering(material_id: str, body: MaterialEngineeringRequest):
+        from .material_context import (ENGINEERING_CONDITIONS, build_material_projection,
+                                       formula_engineering_method_policy, engineering_disposition_condition)
+        current = views.call(materials.get, material_id)
+        original = current['latest_version']['material'] if current['latest_version'] else current['draft']
+        configured = deepcopy(original)
+        dispositions = [item.model_dump() for item in body.unresolved_dispositions]
+        disposition_condition = views.call(engineering_disposition_condition, dispositions)
+        for hypothesis in configured['hypotheses']:
+            if not all(condition in hypothesis['conditions'] for condition in ENGINEERING_CONDITIONS):
+                hypothesis['conditions'].extend([*ENGINEERING_CONDITIONS, disposition_condition])
+        policy = views.call(formula_engineering_method_policy, configured, dispositions)
+        # Check the proposed source rules before committing the material version.
+        preview = {'selection': current['selection'], 'material': configured,
+                   'actor': 'automation', 'semantic_fidelity': 'unverified',
+                   'material_id': material_id, 'id': 'preview', 'digest': body.expected_digest,
+                   'draft_digest': current['draft_digest']}
+        views.call(build_material_projection, preview, policy)
+        version = views.call(materials.adopt, material_id, body.expected_digest, configured,
+                             idempotency_key=body.idempotency_key, actor='automation')
+        return {'version': views.version(version), 'method_policy': policy,
+                'verification_scope': 'formula_engineering_only',
+                'human_review_status': 'pending_human', 'human_approval': False}
+
+    @router.post('/materials/{material_id}/definition-repair', response_model=PublicMaterialDefinitionRepair, status_code=201)
+    def repair_operator_definitions(material_id: str, body: MaterialDefinitionRepairRequest):
+        result = views.call(materials.repair_operator_definitions, material_id, body.expected_digest,
+                            idempotency_key=body.idempotency_key)
+        return {**result, 'version': views.version(result['version']) if result['version'] else None,
+                'diagnostic': views.material(result['diagnostic'])}
+
+    def material_diagnostic(material_id, dataset_id=None):
+        from ..paper_research_preflight import assess
+        current = views.call(materials.get, material_id)
+        value = current['latest_version']['material'] if current['latest_version'] else current['draft']
+        fields = None
+        if dataset_id:
+            metadata = json.loads(store._fetch('datasets', dataset_id)['metadata'])
+            fields = [name for name in metadata.get('columns', []) if name not in {'date', 'asset'}]
+        checked = views.call(assess, value, {'kind': 'daily_synthetic' if dataset_id else 'source_only'},
+                             available_fields=fields, accepted=bool(current['latest_version']))
+        if value.get('grounding_version') == 1:
+            definition = views.call(materials.operator_definition_diagnostic, material_id)
+            checked['automatic_checks']['operator_definitions'] = definition
+            if definition['status'] in {'repairable', 'needs_information'}:
+                for blocker in definition['blockers']:
+                    if blocker['code'] not in checked['details']['blocking_reasons']:
+                        checked['details']['blocking_reasons'].append(blocker['code'])
+                if checked['stop_reason'] not in {'UNSUPPORTED_OPERATOR', 'FIELD_UNAVAILABLE', 'INVALID_EXPRESSION'}:
+                    checked['status'] = 'needs_information'
+                    checked['stop_reason'] = definition['blockers'][0]['code']
+        return {'material_id': material_id, 'material_digest': current['current_digest'],
+                'source': current['source'], **checked}
+
+    @router.get('/materials/{material_id}/diagnostics', response_model=PublicMaterialDiagnostic)
+    def get_material_diagnostic(material_id: str, dataset_id: str | None = None):
+        return views.material(material_diagnostic(material_id, dataset_id))
+
+    @router.get('/materials/{material_id}/report', response_class=Response,
+                responses={200: {'content': {'text/markdown': {'schema': {'type': 'string'}}}}})
+    def export_material_report(material_id: str, dataset_id: str | None = None):
+        current = views.call(materials.get, material_id)
+        checked = views.material(material_diagnostic(material_id, dataset_id))
+        source = views.paper_material(current)
+        text = ('# Paper research material report\n\n'
+                'Human review: pending_human. Human quality, approval and time: null.\n\n'
+                'Extraction: the saved proposal/attempt below identifies the actual Provider stage. '
+                'These automatic source/data checks do not establish citation support or research validity.\n\n'
+                'No experiment metrics are included in this material-only report. Any paper_statistics '
+                'belong to the cited original paper, not a current experiment.\n\n'
+                '## Saved source and material\n\n```json\n' + json.dumps(source, ensure_ascii=False, indent=2) +
+                '\n```\n\n## Automatic diagnostics\n\n```json\n' + json.dumps(checked, ensure_ascii=False, indent=2) + '\n```\n')
+        return Response(text, media_type='text/markdown',
+                        headers={'Content-Disposition': f'attachment; filename="{material_id}-material.md"'})
 
     return router

@@ -1,19 +1,24 @@
 # Publication checks
 
-Checked on 12 October 2026 in the isolated public source directory with existing local dependencies: macOS, Python 3.14, Node.js 24.16.0. Dependencies were reused for efficiency; a fresh internet installation and another operating system were not re-qualified.
+Checked on 12 October 2026 in the isolated 0.27.2 public source directory using existing local dependencies: macOS, Python 3.14, Node.js 24.16.0. Dependencies were reused for efficiency; a fresh network installation and another operating system were not re-qualified.
 
 | Check | Result |
 | --- | --- |
-| Original expression, evaluation, and formula presentation tests | 47 passed |
-| Selected mutation replay and portable backup/restore integration tests | 2 passed after local Alpha101 preparation |
-| Selected task editor, review recovery, and formula presentation frontend tests | 26 passed in 3 files |
+| Native transport identity, selected PDF spans, span catalog, formula-engineering material, and curated finite definition tests | 46 passed across 5 modules |
+| Formula-engineering response, persisted experiment, and historical readback tests | 3 passed after local Alpha101 preparation |
+| Material configuration, material adoption, nullable hypotheses, and research creation frontend tests | 18 passed in 4 files |
 | Generated OpenAPI / TypeScript contract comparison | Passed without rewriting contracts |
 | TypeScript check and Vite production build | Passed; existing large-chunk warning retained |
-| Original public CLI demo | Prepared synthetic inputs, computed an evaluated candidate, verified saved outputs; resume readback also passed |
-| Alpha101 input preparation | Exact PDF and 3 citations accepted; repeat preparation accepted; a different PDF rejected |
-| Launcher smoke check | Temporary empty workspace, separate free loopback port, schema 29, worker online, built frontend served; stopped after check |
-| Public inventory | Explicit file selection, private-path and secret-pattern inspection, external-paper/full-text exclusion, link inspection |
+| Original public CLI demo | Prepared synthetic inputs, computed an evaluated candidate, verified saved outputs |
+| New grounded-material and formula-engineering contracts | Frozen resource hashes verified |
+| Native profile source closure | All 119 declared source inputs present |
+| Launcher smoke check | Temporary empty workspace, separate free loopback port, version 0.27.2/schema 29, Worker online, model dispatch off, built frontend served; stopped after check |
+| Public inventory | Explicit source selection, external-paper/full-text and private-record exclusion, sensitive-pattern inspection, and document link inspection |
 
-These are bounded publication checks, not the complete project test suite, remote CI, new live-model qualification, real-market research acceptance, or measured human efficiency. Validation outputs, temporary workspaces, locally prepared external documents, and environment links stay outside the published inventory.
+The first formula-engineering fixture check exposed an old synthetic source that lacked the complete named formula required by the newer source-support gate. Only the public test fixture was completed with an original toy formula and matching claim; the validator and original development tests were unchanged. The selected tests then passed.
 
-The separately frozen local Runtime's earlier software signoff is scoped to that exact archive. The public source export changes documentation, omits private/source-restricted material, and adds an original tutorial; it is not a byte-identical redistribution of that Runtime.
+These are bounded publication checks, not the full project test suite, remote CI, new real-model calls, real-market research acceptance, or measured human efficiency. Temporary workspaces, locally prepared external documents, environment links, and raw validation outputs are outside the published inventory.
+
+The 0.27.2 local Runtime has separate frozen software, real-model, numerical, and restart evidence. Its recorded live journey covers selected-page extraction and candidate generation for one previously seen Alpha012 case using synthetic data; independent numerical consistency and restart/readback checks passed. The final extraction already had complete definition bindings, so its first automation version records a zero-change check. Actual missing-definition repair is separately evidenced by a preserved historical counterexample replay. These observations do not establish general paper understanding or human research quality. Human approval and efficiency measurements remain pending/unmeasured.
+
+The curated public source changes documentation and test fixtures, omits private/source-restricted material, and retains the original tutorial. It is not a byte-identical redistribution of the accepted Runtime archive.

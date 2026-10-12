@@ -1,0 +1,7 @@
+required_data contains input data variables only, never operators or functions.
+For example, close and volume are data; delta(x, d), sign(x), correlation(x, y, d)
+and registered operator aliases are calculation functions, not required_data names.
+Bind formula and operator-definition evidence to the calculation component.
+Use data:<name> bindings only for the actual input variables and their semantics.
+Keep paper logical data names such as %neg and %pos as stated; do not silently
+delete, rename or substitute data, fill unknowns, or turn operators into data.

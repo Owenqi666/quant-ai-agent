@@ -101,6 +101,16 @@ def import_accepted_material(store, proposal_id):
         packet, selection, draft = _accepted_material(store, connection, proposal_id)
     # PaperMaterials re-resolves the packet under its commit transaction, as
     # well as verifying current PDF bytes before a new material is created.
-    return PaperMaterials(store, accepted_packet_resolver=accepted_packet_resolver(store)).create_from_proposal(
+    materials = PaperMaterials(store, accepted_packet_resolver=accepted_packet_resolver(store))
+    imported = materials.create_from_proposal(
         proposal_id=packet['proposal_id'], attempt_id=packet['attempt_id'],
         accepted_response_digest=packet['accepted_response_digest'], selection=selection, draft=draft)
+    from .proposal_requests import ProposalRequests
+    from .operator_definition_grounding import POLICY_VERSION
+    with closing(connect(store.db_path)) as connection:
+        context = ProposalRequests(store, configs={})._load(connection, proposal_id)['context']
+    if context.get('grounding_policy', {}).get('operator_definitions') == POLICY_VERSION:
+        materials.repair_operator_definitions(imported['id'], imported['draft_digest'],
+            idempotency_key='definition_import_' + digest({'proposal': proposal_id, 'policy': POLICY_VERSION})[:48])
+        return materials.get(imported['id'])
+    return imported

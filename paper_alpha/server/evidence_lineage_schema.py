@@ -4,7 +4,8 @@ from pydantic import Field
 
 from ..author_panel_schema import AuthorModel
 from .paper_materials_schema import AcceptedMaterialHypothesis, MaterialHypothesis
-from .research_jobs_schema import DraftEvidence, DraftHypothesis
+from .grounded_material_schema import AcceptedGroundedMaterialHypothesis
+from .research_jobs_schema import DraftEvidence, DraftHypothesis, FormulaEngineeringHypothesis
 
 SHA = r'^[0-9a-f]{64}$'
 ChangeStatus = Literal['unchanged', 'edited', 'added', 'unknown']
@@ -88,8 +89,8 @@ class LineageHypothesis(AuthorModel):
     status: ChangeStatus
     inheritance_intact: bool
     original: MaterialHypothesis | None
-    adopted: AcceptedMaterialHypothesis | None
-    final: DraftHypothesis | None
+    adopted: AcceptedMaterialHypothesis | AcceptedGroundedMaterialHypothesis | None
+    final: DraftHypothesis | FormulaEngineeringHypothesis | None
     changes: list[str] = Field(max_length=30)
 
 

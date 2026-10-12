@@ -153,6 +153,19 @@ class HypothesisResponse(ResponseModel):
     assumptions: list[str]
 
 
+class FormulaEngineeringHypothesisResponse(HypothesisResponse):
+    """Explicit formula verification preserves the unresolved scientific state."""
+    economic_mechanism: None
+    mechanism_attribution: Literal['unresolved']
+
+    @model_validator(mode='after')
+    def engineering_marker(self):
+        from .research_jobs_schema import ENGINEERING_ONLY_ASSUMPTION
+        if ENGINEERING_ONLY_ASSUMPTION not in self.assumptions:
+            raise ValueError('Unknown mechanism requires the exact formula engineering assumption')
+        return self
+
+
 class CandidateResponse(ResponseModel):
     id: str
     hypothesis_id: str
@@ -180,7 +193,7 @@ from ..real_daily_web_contract import ExecutionBinding as MainDailyExecutionBind
 
 class ResearchTask(ResponseModel):
     evidence: list[EvidenceResponse]
-    hypotheses: list[HypothesisResponse]
+    hypotheses: list[HypothesisResponse | FormulaEngineeringHypothesisResponse]
     candidates: list[CandidateResponse]
     evaluation: JsonObject
     budget: JsonObject

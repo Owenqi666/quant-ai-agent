@@ -17,6 +17,7 @@ function originName(value: string, t: Translate) {
     paper_original: t("论文原文", "Paper source"),
     user_modification: t("用户修改 / 解释", "User modification / interpretation"),
     model_conjecture: t("模型推测", "Model conjecture"),
+    unresolved: t("未决", "Unresolved"),
   };
   return names[value] || value;
 }
@@ -122,7 +123,7 @@ function ResearchStageView({ stage, research, revision, paper: loadedPaper, data
           </section>
           <section className="rs-interpretation-column"><h4>{t("假说与解释", "Hypothesis and interpretation")}</h4>
             <span className="rs-tag">{t("主张归属：", "Claim attribution: ")}{originName(hypothesis.attribution, t)}</span><p className="rs-original-text">{hypothesis.claim}</p>
-            <div className="rs-mechanism"><h4>{t("经济机制", "Economic mechanism")}</h4><span className="rs-tag warning">{originName(hypothesis.mechanism_attribution, t)}</span><p className="rs-original-text">{hypothesis.economic_mechanism}</p></div>
+            <div className="rs-mechanism"><h4>{t("经济机制", "Economic mechanism")}</h4><span className="rs-tag warning">{originName(hypothesis.mechanism_attribution, t)}</span><p className="rs-original-text">{hypothesis.economic_mechanism ?? t("未提供 / 未决；仅公式工程验证，研究有效性仍待评定。", "Not provided / unresolved; formula engineering verification only, with research validity unassessed.")}</p></div>
             <h4>{t("信号方向", "Signal direction")}</h4><p className="rs-original-text">{hypothesis.signal_direction}</p>
           </section>
         </div>

@@ -223,13 +223,23 @@ class NativeResearchProvider:
         from .provider_host_authority import HostResearchAuthority
         from .provider_loop_native_authority import LoopNativeResearchAuthority
         span_variant = False
+        codec_mode = None
         if request.input_text.startswith(PROMPT_TEMPLATE):
             template, version = PROMPT_TEMPLATE, PROMPT_VERSION
         else:
             from .provider_material_spans_contract import PROMPT_TEMPLATE as SPAN_TEMPLATE, PROMPT_VERSION as SPAN_VERSION
-            if not request.input_text.startswith(SPAN_TEMPLATE):
-                raise _Stopped('RESEARCH_PREPARED_MISMATCH')
-            template, version, span_variant = SPAN_TEMPLATE, SPAN_VERSION, True
+            if request.input_text.startswith(SPAN_TEMPLATE):
+                template, version, span_variant = SPAN_TEMPLATE, SPAN_VERSION, True
+            else:
+                from .provider_grounded_contract import prompt_contract
+                for candidate_mode in ('grounded_extract_material', 'formula_engineering_generate_candidates'):
+                    template, version, operation, _ = prompt_contract(candidate_mode)
+                    if request.input_text.startswith(template):
+                        codec_mode = candidate_mode
+                        span_variant = operation == 'extract_material'
+                        break
+                else:
+                    raise _Stopped('RESEARCH_PREPARED_MISMATCH')
         try:
             payload = strict_json(request.input_text[len(template):].encode(),
                                   max_bytes=request.budget.max_context_bytes)
@@ -245,17 +255,24 @@ class NativeResearchProvider:
             if matched:
                 context = payload['context']
                 actual_span = validate_context_mode(context, operation=payload.get('operation'))
+                from .provider_grounded_contract import mode_for_context
                 handler = contract_handler(schema_version=2, contract_id=RESEARCH_CONTRACT_ID)
                 matched = (actual_span == span_variant
+                    and mode_for_context(context, payload.get('operation')) == codec_mode
                     and request.output_schema == handler.output_schema(context))
         except (ValueError, TypeError, RecursionError):
             matched = False
         if not matched:
             raise _Stopped('RESEARCH_PREPARED_MISMATCH')
-        if self.config.native_transport == 'app_server' and payload.get('operation') != 'generate_candidates':
+        if codec_mode is not None and request.config.native_transport != 'app_server':
+            raise _Stopped('APP_SERVER_OPERATION_UNSUPPORTED')
+        if request.config.native_transport == 'app_server' and (payload.get('operation') not in {'generate_candidates', 'extract_material'}
+                or (payload.get('operation') == 'extract_material' and not span_variant)):
             raise _Stopped('APP_SERVER_OPERATION_UNSUPPORTED')
         is_host = type(self._research_authorization) is HostResearchAuthority
         is_loop = type(self._research_authorization) is LoopNativeResearchAuthority
+        if request.config.native_transport == 'app_server' and payload.get('operation') == 'extract_material' and not is_host:
+            raise _Stopped('RESEARCH_OPERATION_UNQUALIFIED')
         if span_variant and (not (is_host or is_loop) or payload.get('operation') != 'extract_material'):
             raise _Stopped('RESEARCH_OPERATION_UNQUALIFIED')
         allowed_operations = {'extract_material', 'generate_candidates'} if is_host else {'generate_candidates'}
@@ -594,7 +611,7 @@ class NativeResearchProvider:
             if len(input_bytes) > request.budget.max_context_bytes:
                 stop('INPUT_LIMIT')
             self._research_operation(request)
-            # The strict pure generation-plan validator rejects other operations
+            # The exact generation/compact-extraction plan rejects other operations
             # before even static identity, artifacts, native auth or probes.
             from .provider_app_server_invocation import business_runtime_plan
             business_runtime_plan(self.config, '/private/tmp/app-server-validation-work',

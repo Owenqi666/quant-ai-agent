@@ -1,5 +1,19 @@
 import { parseTask } from "./domain";
-import type { Paper, Task } from "./domain";
+import type { Hypothesis, Paper, Task } from "./domain";
+
+export const FORMULA_ENGINEERING_ASSUMPTION = "Formula engineering verification only; economic mechanism and research validity remain unresolved.";
+export function isFormulaEngineeringHypothesis(hypothesis: Hypothesis): boolean {
+  return hypothesis.economic_mechanism === null && hypothesis.mechanism_attribution === "unresolved" &&
+    hypothesis.assumptions.includes(FORMULA_ENGINEERING_ASSUMPTION);
+}
+/** A new explanation is a user modification; other saved conditions are retained. */
+export function editEconomicMechanism(hypothesis: Hypothesis, text: string): Hypothesis {
+  if (!text.trim() && hypothesis.assumptions.includes(FORMULA_ENGINEERING_ASSUMPTION)) {
+    return { ...hypothesis, economic_mechanism: null, mechanism_attribution: "unresolved" };
+  }
+  return { ...hypothesis, economic_mechanism: text, mechanism_attribution: "user_modification",
+    assumptions: hypothesis.assumptions.filter(item => item !== FORMULA_ENGINEERING_ASSUMPTION) };
+}
 
 export const attributionNames: Record<string, string> = {
   paper_original: "论文原文", user_modification: "我的修改 / 解释", model_conjecture: "模型推测（需人工核对）",
@@ -28,7 +42,11 @@ export function formTask(text: string): Task {
     for (const value of rows) {
       if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error(`${name} 包含无效对象。`);
       const row = value as unknown as Record<string, unknown>;
-      for (const key of stringKeys) if (typeof row[key] !== "string") throw new Error(`${name}.${key} 必须为文本。`);
+      for (const key of stringKeys) {
+        if (name === "hypotheses" && key === "economic_mechanism" && row[key] === null && row.mechanism_attribution === "unresolved" &&
+          Array.isArray(row.assumptions) && row.assumptions.includes(FORMULA_ENGINEERING_ASSUMPTION)) continue;
+        if (typeof row[key] !== "string") throw new Error(`${name}.${key} 必须为文本；空机制仅限明确标记的公式工程未决分支。`);
+      }
       for (const key of listKeys) if (!Array.isArray(row[key]) || !(row[key] as unknown[]).every((v) => typeof v === "string")) throw new Error(`${name}.${key} 必须为文本数组。`);
     }
   }
@@ -51,8 +69,9 @@ export function taskFormIssues(task: Task, paper?: Paper | null, section: TaskEd
     else if (paper?.pages && !quoteMatches(e.quote, paper.pages.find((p) => p.page === e.page)?.text || "")) errors.push(`证据 ${i + 1}：引用未在所选页提取文本中匹配，请核对 PDF。`);
   }
   if (section === "all" || section === "evidence") for (const [i, h] of task.hypotheses.entries()) {
-    if (![h.claim, h.economic_mechanism, h.signal_direction].every((x) => x.trim())) errors.push(`假设 ${i + 1}：请填写主张、经济机制和信号方向。`);
-    if (!attributionNames[h.attribution] || !attributionNames[h.mechanism_attribution]) errors.push(`假设 ${i + 1}：请选择主张及机制归属。`);
+    const engineering = isFormulaEngineeringHypothesis(h);
+    if (![h.claim, h.signal_direction].every((x) => x.trim()) || (!engineering && !(typeof h.economic_mechanism === "string" && h.economic_mechanism.trim()))) errors.push(`假设 ${i + 1}：请填写主张、经济机制和信号方向。`);
+    if (!attributionNames[h.attribution] || (!engineering && !attributionNames[h.mechanism_attribution])) errors.push(`假设 ${i + 1}：请选择主张及机制归属。`);
     if (!h.evidence_ids.length || h.evidence_ids.some((id) => !task.evidence.some((e) => e.id === id))) errors.push(`假设 ${i + 1}：请关联至少一条现存证据。`);
   }
   if (section === "all" || section === "candidates") for (const [i, c] of task.candidates.entries()) {

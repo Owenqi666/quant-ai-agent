@@ -305,10 +305,16 @@ class ResearchJobs:
     def _validate(self, body):
         from .research_draft_validation import validate_research_draft
         request = body['request']
-        return validate_research_draft(
+        state, error, output = validate_research_draft(
             self.store, source=body['source'], draft=request['draft'],
             allow_partial_execution=request['allow_partial_execution'],
             method_status=request['method_status'], unresolved_rules=request['unresolved_rules'])
+        if state == 'validated' and any(h['economic_mechanism'] is None for h in request['draft']['hypotheses']):
+            # The typed request and core Task retain null/unresolved plus the
+            # exact marker. All ordinary data/AST/time gates above still apply.
+            output = {**output, 'verification_scope': 'formula_engineering_only',
+                      'scientific_validity': 'unresolved', 'human_approval': False}
+        return state, error, output
 
     def _validated_task(self, job):
         step = next(s for s in job['steps'] if s['action'] == 'validate' and s['status'] == 'completed')

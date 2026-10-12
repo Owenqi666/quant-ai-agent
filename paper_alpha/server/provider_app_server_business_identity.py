@@ -266,6 +266,8 @@ def _validated_dispatch_identity(value, *, historical=False):
     allowed = {
         'codex_app_server_business_stdio_v3', 'codex_app_server_business_stdio_v4',
         'codex_app_server_business_stdio_v5', 'codex_app_server_business_stdio_v6',
+        'codex_app_server_business_stdio_v7',
+        'codex_app_server_business_stdio_v8', 'codex_app_server_business_stdio_v9', 'codex_app_server_business_stdio_v10',
     } if historical else {BUSINESS_DISPATCH_TRANSPORT_VERSION}
     if type(transport) is not str or transport not in allowed:
         raise AppServerPreparationError('APP_SERVER_DISPATCH_IDENTITY_INVALID')
@@ -296,7 +298,7 @@ def _validated_dispatch_identity(value, *, historical=False):
     if historical:
         saved_outer_policy = (
             'macos_outer_read_boundary_v5'
-            if transport == 'codex_app_server_business_stdio_v6' else
+            if transport in {'codex_app_server_business_stdio_v6', 'codex_app_server_business_stdio_v7', 'codex_app_server_business_stdio_v8', 'codex_app_server_business_stdio_v9', 'codex_app_server_business_stdio_v10'} else
             'macos_outer_read_boundary_v4'
             if transport == 'codex_app_server_business_stdio_v5'
             else 'macos_outer_read_boundary_v3'
@@ -405,7 +407,26 @@ def business_dispatch_invocation_boundaries_match(invocation, expected_identity,
         boundary, plan, argv = invocation['outer_boundary'], invocation['rpc_plan'], invocation['argv']
         if type(boundary) is not dict or type(plan) is not dict:
             return False
-        rebuilt = business_runtime_plan(profile['config_snapshot'], plan.get('cwd'), plan.get('prompt'), plan.get('output_schema'))
+        if historical and invocation['transport_version'] == 'codex_app_server_business_stdio_v8':
+            from .provider_app_server_invocation import business_runtime_v8_plan
+            rebuilt = business_runtime_v8_plan(profile['config_snapshot'], plan.get('cwd'), plan.get('prompt'), plan.get('output_schema'))
+            schema_digest = digest(rebuilt['output_schema'])
+        elif historical and invocation['transport_version'] == 'codex_app_server_business_stdio_v10':
+            from .provider_app_server_invocation import business_runtime_v10_plan
+            rebuilt = business_runtime_v10_plan(profile['config_snapshot'], plan.get('cwd'), plan.get('prompt'), plan.get('output_schema'))
+            schema_digest = digest(rebuilt['output_schema'])
+        elif historical and invocation['transport_version'] == 'codex_app_server_business_stdio_v9':
+            from .provider_app_server_invocation import business_runtime_v9_plan
+            rebuilt = business_runtime_v9_plan(profile['config_snapshot'], plan.get('cwd'), plan.get('prompt'), plan.get('output_schema'))
+            schema_digest = digest(rebuilt['output_schema'])
+        elif historical:
+            rebuilt = business_plan(profile['config_snapshot'], plan.get('cwd'), plan.get('prompt'), plan.get('output_schema'))
+            schema_digest = profile['wire_schema_digest']
+        else:
+            from .provider_app_server_invocation import business_runtime_contract
+            rebuilt = business_runtime_plan(profile['config_snapshot'], plan.get('cwd'), plan.get('prompt'), plan.get('output_schema'))
+            lane = business_runtime_contract(rebuilt['prompt'], rebuilt['output_schema'])
+            schema_digest = profile['rpc_policy']['operation_contracts'][lane]['schema_digest']
         context = validate_business_context_descriptor(invocation['business_context'])
         if (context['context_version'] != 2
                 or context['context_policy_version'] != BUSINESS_CONTEXT_POLICY_VERSION
@@ -428,7 +449,7 @@ def business_dispatch_invocation_boundaries_match(invocation, expected_identity,
             and context['home'] == context['codex_home'] == boundary['cli_state']
             and context['auth_exact_path'] == boundary['auth_exact_path']
             and invocation['prompt_sha256'] == hashlib.sha256(rebuilt['prompt'].encode('utf-8')).hexdigest()
-            and invocation['output_schema_digest'] == profile['wire_schema_digest'] == digest(rebuilt['output_schema'])
+            and invocation['output_schema_digest'] == schema_digest == digest(rebuilt['output_schema'])
             and boundary['work'] == plan['cwd']
             and canonical_json(boundary['inner_argv']) == canonical_json(profile['argv_template'])
             and invocation['argv_digest'] == digest(argv)

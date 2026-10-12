@@ -188,10 +188,15 @@ def verify_app_server_attempt_transport(store, proposal, attempt, result=None, *
         _require(scope in {'legacy', 'host', 'loop'}, 'Unsupported qualification scope')
         request = proposal['request']
         _require(request.get('schema_version') == 2 and request.get('contract_id') == CONTRACT_ID
-                 and request.get('operation') == 'generate_candidates',
-                 'App Server qualification supports only the original generation operation')
+                 and request.get('operation') in {'generate_candidates', 'extract_material'},
+                 'App Server qualification supports only candidate generation and compact extraction')
+        if request['operation'] == 'extract_material':
+            _require(scope == 'host' and request['source']['kind'] == 'paper_selection'
+                     and proposal['context'].get('citation_mode') == 'material_span_ids_v1',
+                     'Compact extraction requires an exact Host paper selection')
         if scope == 'host':
-            _require(request['source']['kind'] == 'accepted_material', 'App Server host scope differs')
+            expected_kind = 'paper_selection' if request['operation'] == 'extract_material' else 'accepted_material'
+            _require(request['source']['kind'] == expected_kind, 'App Server host scope differs')
         if scope == 'loop':
             _require(request['source']['kind'] in {'research_revision', 'accepted_material'},
                      'App Server loop source is outside the generation scope')
@@ -341,7 +346,8 @@ def verify_app_server_attempt_transport(store, proposal, attempt, result=None, *
                  'Copied RPC prepared/PID/binding differs from the original persistent journal')
         _require(current_native_identity(config, contract_id=CONTRACT_ID)[0] == identity,
                  'App Server source changed during persisted evidence verification')
-        return {'qualification_kind': 'app_server_generation_transport_v1', 'contract_id': CONTRACT_ID,
+        return {'qualification_kind': ('app_server_material_transport_v1' if body.operation == 'extract_material'
+                                       else 'app_server_generation_transport_v1'), 'contract_id': CONTRACT_ID,
             'transport_version': BUSINESS_DISPATCH_TRANSPORT_VERSION, 'operation': body.operation,
             'proposal_id': proposal['id'], 'attempt_id': attempt['id'],
             'context_digest': proposal['context_digest'], 'prepared_digest': attempt['prepared_digest'],

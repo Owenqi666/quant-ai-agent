@@ -59,7 +59,8 @@ def _parse(payload, keys):
             value[name] = item
         return value
     body = json.loads(payload, object_pairs_hook=pairs, parse_constant=lambda _: (_ for _ in ()).throw(ValueError('Nonfinite material JSON')))
-    if not isinstance(body, dict) or set(body) != keys or body.get('schema_version') != 1 or type(body.get('schema_version')) is not int or json_text(body) != payload:
+    allowed = (set(body) == keys or keys == _VERSION_KEYS and set(body) == keys | {'definition_repair'}) if isinstance(body, dict) else False
+    if not allowed or body.get('schema_version') != 1 or type(body.get('schema_version')) is not int or json_text(body) != payload:
         raise MaterialError('Stored material contract differs', code='STORAGE_INTEGRITY')
     return body
 
@@ -75,7 +76,7 @@ def _changes(before, after, path=''):
     return [{'path': path, 'before': before, 'after': after}]
 
 
-def _validate_edit_attribution(before, after):
+def _validate_edit_attribution(before, after, *, actor='user'):
     previous = {item['id']: item for item in before['hypotheses']}
     prior_evidence = {item['id']: item for item in before['evidence']}
     changed_evidence = {item['id'] for item in after['evidence'] if prior_evidence.get(item['id']) != item}
@@ -83,6 +84,19 @@ def _validate_edit_attribution(before, after):
     scientific = ('claim', 'evidence_ids', 'signal_direction', 'required_data', 'calculation', 'conditions', 'unresolved_rules')
     for item in after['hypotheses']:
         old = previous.get(item['id'])
+        if actor == 'automation' and old is not None:
+            # Appending an explicitly labelled execution configuration does not
+            # rewrite the paper's claim or resolve its scientific unknowns.
+            from .material_context import ENGINEERING_CONDITIONS, DISPOSITIONS_PREFIX, engineering_disposition_condition
+            unchanged = all(item[key] == old[key] for key in item if key != 'conditions')
+            appended = item['conditions'][len(old['conditions']):]
+            if (unchanged and item['conditions'][:len(old['conditions'])] == old['conditions']
+                    and appended[:len(ENGINEERING_CONDITIONS)] == ENGINEERING_CONDITIONS
+                    and len(appended) == len(ENGINEERING_CONDITIONS) + 1
+                    and appended[-1].startswith(DISPOSITIONS_PREFIX) and not global_change and not changed_evidence):
+                saved = json.loads(appended[-1][len(DISPOSITIONS_PREFIX):])
+                if engineering_disposition_condition(saved) == appended[-1]:
+                    continue
         changed = old is None or global_change or bool(set(item['evidence_ids']) & changed_evidence) or any(old[key] != item[key] for key in scientific)
         promoted = old is not None and old['claim_attribution'] != 'paper_original' and item['claim_attribution'] == 'paper_original'
         if (changed or promoted) and item['claim_attribution'] != 'user_modification':
@@ -134,7 +148,7 @@ class PaperMaterials:
                 or body['material_id'] != draft['id'] or row['material_id'] != draft['id'] or body['draft_digest'] != draft['draft_digest']
                 or type(body['version']) is not int or body['version'] != row['version']
                 or body['parent_version_id'] != row['parent_version_id'] or body['semantic_fidelity'] != 'unverified'
-                or body['citation_integrity'] != 'verified' or body['actor'] != 'user'):
+                or body['citation_integrity'] != 'verified' or body['actor'] not in {'user', 'automation'}):
             raise MaterialError('Material version identity differs', code='STORAGE_INTEGRITY')
         validate_material_draft(draft['selection'], body['material'], accepted=True)
         if body['version'] == 1:
@@ -150,7 +164,13 @@ class PaperMaterials:
             previous = parent['material']
         if body['changes'] != _changes(previous, body['material']):
             raise MaterialError('Material change record differs', code='STORAGE_INTEGRITY')
-        _validate_edit_attribution(previous, body['material'])
+        if 'definition_repair' in body:
+            plan = self._definition_plan(connection, draft, previous)
+            if (body['actor'] != 'automation' or body['material'] != plan['material']
+                    or body['definition_repair'] != plan['repair'] or plan['after']['status'] != 'grounded'):
+                raise MaterialError('Recorded definition repair differs from selected source', code='STORAGE_INTEGRITY')
+        else:
+            _validate_edit_attribution(previous, body['material'], actor=body['actor'])
         return {**body, 'id': row['id'], 'digest': row['digest'], 'created_at': row['created_at'],
                 'source': deepcopy(draft['source']), 'selection': deepcopy(draft['selection'])}
 
@@ -229,11 +249,78 @@ class PaperMaterials:
                                (material_id, selection['paper_id'], proposal_id, attempt_id, accepted_response_digest, json_text(body), fingerprint, created, _metadata(row)))
             return self._get(connection, material_id)
 
-    def adopt(self, material_id, expected_digest, edited_material=None, *, idempotency_key, actor='user'):
+    def _definition_input(self, connection, current):
+        from .provider_material_bridge import _accepted_material
+        from .proposal_requests import ProposalRequests
+        source = current['source']
+        packet, selection, original = _accepted_material(self.store, connection,
+                                                       source['proposal_id'], source['attempt_id'])
+        if (packet['accepted_response_digest'] != source['accepted_response_digest']
+                or selection != current['selection'] or original != current['draft']):
+            raise MaterialError('Definition input differs from the original accepted packet', code='ACCEPTED_PACKET_UNVERIFIED')
+        proposal = ProposalRequests(self.store, configs={})._load(connection, current['source']['proposal_id'])
+        context = proposal['context']
+        catalog = context.get('material_span_catalog')
+        if catalog is None:
+            raise MaterialError('Original sent span catalog is unavailable', code='OPERATOR_DEFINITION_INPUT_UNAVAILABLE')
+        return context, catalog
+
+    def _definition_plan(self, connection, current, previous):
+        from .operator_definition_grounding import plan_operator_definition_repair
+        from .provider_contract import digest as context_digest
+        context, catalog = self._definition_input(connection, current)
+        plan = plan_operator_definition_repair(current['selection'], previous, catalog)
+        plan['repair'].update(source_proposal_id=current['source']['proposal_id'],
+            source_attempt_id=current['source']['attempt_id'], source_context_digest=context_digest(context))
+        return plan
+
+    def operator_definition_diagnostic(self, material_id):
+        from .operator_definition_grounding import assess_operator_definitions
+        _key(material_id)
+        with closing(connect(self.store.db_path)) as connection:
+            connection.execute('BEGIN')
+            current = self._get(connection, material_id)
+            _, catalog = self._definition_input(connection, current)
+            value = current['latest_version']['material'] if current['latest_version'] else current['draft']
+            return assess_operator_definitions(current['selection'], value, catalog)
+
+    def repair_operator_definitions(self, material_id, expected_digest, *, idempotency_key):
         _key(material_id); _key(idempotency_key, 'idempotency key')
-        if actor != 'user' or not isinstance(expected_digest, str) or not re.fullmatch('[a-f0-9]{64}', expected_digest):
-            raise MaterialError('Adoption requires an explicit user and exact current digest', 422)
-        request_digest = digest({'material_id': material_id, 'expected_digest': expected_digest, 'edited_material': edited_material, 'actor': actor})
+        if not isinstance(expected_digest, str) or not re.fullmatch('[a-f0-9]{64}', expected_digest):
+            raise MaterialError('Definition repair requires the exact current digest', 422)
+        with closing(connect(self.store.db_path)) as connection:
+            connection.execute('BEGIN')
+            receipt = connection.execute('SELECT * FROM paper_material_versions WHERE idempotency_key=?', (idempotency_key,)).fetchone()
+            current = self._get(connection, material_id)
+            if receipt:
+                if receipt['material_id'] != material_id:
+                    raise MaterialError('Definition repair key conflicts', code='IDEMPOTENCY_CONFLICT')
+                saved = self._version(receipt, current, connection=connection)
+                if (saved['material_id'] != material_id or saved['parent_digest'] != expected_digest
+                        or 'definition_repair' not in saved):
+                    raise MaterialError('Definition repair key conflicts', code='IDEMPOTENCY_CONFLICT')
+                from .operator_definition_grounding import assess_operator_definitions
+                _, catalog = self._definition_input(connection, current)
+                return {'version': saved, 'status': 'grounded', 'diagnostic': assess_operator_definitions(
+                    current['selection'], saved['material'], catalog), 'human_approval': False, 'human_review_status': 'pending_human'}
+            if current['current_digest'] != expected_digest:
+                raise MaterialError('Material changed before definition repair', code='MATERIAL_VERSION_CHANGED')
+            previous = current['latest_version']['material'] if current['latest_version'] else current['draft']
+            plan = self._definition_plan(connection, current, previous)
+        if plan['after']['status'] != 'grounded':
+            return {'version': None, 'status': plan['after']['status'], 'diagnostic': plan['after'],
+                    'human_approval': False, 'human_review_status': 'pending_human'}
+        version = self.adopt(material_id, expected_digest, plan['material'], idempotency_key=idempotency_key,
+                             actor='automation', definition_repair=plan['repair'])
+        return {'version': version, 'status': 'grounded', 'diagnostic': plan['after'],
+                'human_approval': False, 'human_review_status': 'pending_human'}
+
+    def adopt(self, material_id, expected_digest, edited_material=None, *, idempotency_key, actor='user', definition_repair=None):
+        _key(material_id); _key(idempotency_key, 'idempotency key')
+        if actor not in {'user', 'automation'} or not isinstance(expected_digest, str) or not re.fullmatch('[a-f0-9]{64}', expected_digest):
+            raise MaterialError('Adoption requires an explicit actor and exact current digest', 422)
+        request_digest = digest({'material_id': material_id, 'expected_digest': expected_digest, 'edited_material': edited_material, 'actor': actor,
+                                 **({'definition_repair': definition_repair} if definition_repair is not None else {})})
         # Replay precedes source revalidation: acknowledge an existing immutable effect.
         with closing(connect(self.store.db_path)) as connection:
             receipt = connection.execute('SELECT * FROM paper_material_versions WHERE idempotency_key=?', (idempotency_key,)).fetchone()
@@ -247,12 +334,21 @@ class PaperMaterials:
         verify_current_selection(self.store, current['selection'])
         previous = current['latest_version']['material'] if current['latest_version'] else current['draft']
         value = validate_material_draft(current['selection'], previous if edited_material is None else edited_material, accepted=True)['material']
-        _validate_edit_attribution(previous, value)
+        if definition_repair is not None:
+            with closing(connect(self.store.db_path)) as connection:
+                connection.execute('BEGIN')
+                plan = self._definition_plan(connection, current, previous)
+            if actor != 'automation' or value != plan['material'] or definition_repair != plan['repair'] or plan['after']['status'] != 'grounded':
+                raise MaterialError('Only the exact bounded selected-span repair is permitted', code='DEFINITION_REPAIR_INVALID')
+        else:
+            _validate_edit_attribution(previous, value, actor=actor)
         body = {'schema_version': 1, 'material_id': material_id, 'draft_digest': current['draft_digest'],
                 'version': (current['latest_version']['version'] + 1) if current['latest_version'] else 1,
                 'parent_version_id': current['latest_version']['id'] if current['latest_version'] else None,
-                'parent_digest': expected_digest, 'material': value, 'actor': 'user', 'changes': _changes(previous, value),
+                'parent_digest': expected_digest, 'material': value, 'actor': actor, 'changes': _changes(previous, value),
                 'citation_integrity': 'verified', 'semantic_fidelity': 'unverified'}
+        if definition_repair is not None:
+            body['definition_repair'] = definition_repair
         if body['version'] > 100 or len(json_text(body).encode()) > MAX_BYTES:
             raise MaterialError('Material version/size limit reached', 422)
         fingerprint = digest(body); version_id = 'material_version_' + fingerprint

@@ -256,6 +256,7 @@ class ResearchInsights:
                 'conditions': conditions, 'candidates': candidates, 'limitations': LIMITATIONS}
 
     def _report_snapshot(self, connection, research_id, run_ids, identity, created):
+        from .llm_report_provenance import freeze_stage_provenance, human_review_status
         research = self.store._one(connection, 'researches', research_id)
         snapshot_at = now()  # The first SELECT above established this WAL view.
         paper = self.store._one(connection, 'papers', research['paper_id'])
@@ -292,9 +293,11 @@ class ResearchInsights:
                 raise ServiceError('Referenced reviews exceed the report row limit', 413)
             reviews.extend(self.store._review_public(row) for row in related_reviews)
         runs = []
-        candidate_count, candidate_attempt_count, run_attempt_count, run_event_count, unreviewed = 0, 0, 0, 0, 0
+        stage_scoped_rendering = False
+        candidate_count, candidate_attempt_count, run_attempt_count, run_event_count, unreviewed, pending_human = 0, 0, 0, 0, 0, 0
         for run_id in run_ids:
             source = self._source(connection, run_id)
+            stage_scoped_rendering = stage_scoped_rendering or source['state'].get('report_renderer_version', 1) == 2
             if source['run']['research_id'] != research_id:
                 raise ServiceError('Every selected report run must belong to this research', 422)
             attempts = _bounded_rows(connection, 'SELECT * FROM attempts WHERE run_id=? ORDER BY number', (run_id,))
@@ -323,6 +326,9 @@ class ResearchInsights:
                     and review['candidate_id'] == item['id'] and review['result_digest'] == original_digest]
                 if not item['current_review_ids']:
                     unreviewed += 1
+                current_reviews = [review for review in reviews if review['id'] in item['current_review_ids']]
+                item['human_review'] = human_review_status(current_reviews)
+                pending_human += item['human_review']['status'] == 'pending_human'
                 candidate_attempt_count += len(item.get('attempts', []))
                 candidates.append(item)
             candidate_count += len(candidates)
@@ -332,17 +338,25 @@ class ResearchInsights:
                 'manifest_signature': source['signature'], 'candidates': candidates,
                 'attempts': [_clean_record(row) for row in attempts], 'events': run_events,
                 'artifacts': [_clean_record(row) for row in source['artifacts']],
-                'preflight': source['state'].get('preflight') if source['summary']['source_verified'] else None})
+                'preflight': source['state'].get('preflight') if source['summary']['source_verified'] else None,
+                'stage_provenance': freeze_stage_provenance(self.store, connection, source)})
         total_runs = connection.execute('SELECT COUNT(*) FROM runs WHERE research_id=?', (research_id,)).fetchone()[0]
         counts = {'revisions': len(revisions), 'selected_runs': len(runs), 'total_research_runs': total_runs,
             'unselected_runs': total_runs - len(runs), 'candidates': candidate_count,
             'candidate_attempts': candidate_attempt_count, 'run_attempts': run_attempt_count, 'run_events': run_event_count,
             'reviews': len(reviews), 'issues': len(issues), 'issue_events': len(issue_events),
             'regression_cases': len(cases), 'regression_checks': len(checks), 'unreviewed_current_candidates': unreviewed,
+            'pending_human_candidates': pending_human,
             'external_referenced_reviews': len(external_review_ids),
             'external_referenced_cases': sum(row['research_id'] != research_id for row in cases),
             'external_referenced_checks': sum(row['owning_research_id'] != research_id for row in checks),
             'source_verified_runs': sum(item['summary']['source_verified'] for item in runs)}
+        rendering_limitation = (
+            'This report rendering is deterministic and makes no LLM call. '
+            'Upstream extraction and generation are recorded separately in saved stage provenance; unknown model use remains unknown. '
+            'No unrecorded human judgment, quality scores or active research time is inferred.'
+            if stage_scoped_rendering else
+            'No narrative is model-generated and no unrecorded human judgment or active research time is inferred.')
         payload = {
             'schema_version': 1, 'report_id': identity, 'research_id': research_id, 'created_at': created,
             'snapshot_at': snapshot_at, 'selected_run_ids': run_ids, 'counts': counts,
@@ -358,7 +372,7 @@ class ResearchInsights:
             'dataset': {'id': dataset['id'], 'title': dataset['title'], 'sha256': dataset['sha256'], 'metadata': loads(dataset['metadata'])},
             'revisions': revisions, 'runs': runs,
             'feedback': {'reviews': reviews, 'issues': issues, 'regression_cases': cases, 'regression_checks': checks},
-            'limitations': [*LIMITATIONS, 'No narrative is model-generated and no unrecorded human judgment or active research time is inferred.',
+            'limitations': [*LIMITATIONS, rendering_limitation,
                             'Source checks establish stored artifact integrity, not independent numerical or economic correctness; consult saved regression checks and declared review sources.'],
         }
         # Redact while freezing, never at download: relocation must not change

@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { creationFlowMutationKey, emptyCreationFlow, isResearchCreationFlow, persistCreationFlow, readCreationFlowMutation, selectMaterialHypotheses } from "./researchCreationFlow";
+import { applyEngineeringConfiguration, creationFlowMutationKey, emptyCreationFlow, isResearchCreationFlow, persistCreationFlow, proposalExecutionKind, readCreationFlowMutation, selectMaterialHypotheses } from "./researchCreationFlow";
 import { draftKey } from "./drafts";
 import { stageMutation } from "./reviewRecovery";
 import { discoverCreationDrafts, discardCreationDraft } from "./creationDrafts";
-import type { AcceptedMaterialDraft } from "./generated/api-contract";
+import type { AcceptedMaterialDraft, AcceptedGroundedMaterialDraft, PublicMaterialEngineering, ResearchV2ProposalDetail } from "./generated/api-contract";
 function storage() { const data = new Map<string, string>(); return { get length() { return data.size; }, key: (index: number) => [...data.keys()][index] ?? null, getItem: (key: string) => data.get(key) ?? null, setItem: (key: string, value: string) => { data.set(key, value); }, removeItem: (key: string) => { data.delete(key); } }; }
 const key = draftKey("workspace", "create:blank");
 function draft(store: ReturnType<typeof storage>) { store.setItem(key, JSON.stringify({ version: 1, scope: key, savedAt: "2026-10-09T10:00:00Z", value: { title: "Preserve title", paperId: "paper", datasetId: "data", taskText: "{unchanged}", note: "", creationStage: "evidence" } })); }
@@ -42,6 +42,43 @@ describe("AI creation durable references and source boundaries", () => {
     const selected = selectMaterialHypotheses(material, ["h1"]);
     expect(selected.evidence.map(item => item.id)).toEqual(["e1", "e2"]); expect(selected.unresolved_rules).toEqual(["unknown"]); expect(material.hypotheses).toHaveLength(2);
     expect(() => selectMaterialHypotheses(material, [])).toThrow(/至少/);
+  });
+  it("grounded selection retains linked support and paper-statistic evidence without inventing human review", () => {
+    const material = { title: "Grounded", grounding_version: 1, evidence: [{ id: "e1" }, { id: "e2" }, { id: "stat" }],
+      hypotheses: [{ id: "h1", evidence_ids: ["e1"], required_data: [] }, { id: "h2", evidence_ids: ["e2"], required_data: [] }],
+      support_bindings: [{ hypothesis_id: "h1", evidence_ids: ["e1"] }, { hypothesis_id: "h2", evidence_ids: ["e2"] }],
+      paper_statistics: [{ label: "Original number", evidence_ids: ["stat"] }], unresolved_rules: ["unknown"], limitations: [] } as unknown as AcceptedGroundedMaterialDraft;
+    const selected = selectMaterialHypotheses(material, ["h1"]) as AcceptedGroundedMaterialDraft;
+    expect(selected.support_bindings.map(item => item.hypothesis_id)).toEqual(["h1"]);
+    expect(selected.evidence.map(item => item.id)).toEqual(["e1", "stat"]);
+    expect(selected.paper_statistics).toEqual(material.paper_statistics);
+  });
+});
+
+describe("bounded formula-engineering recovery and provider observations", () => {
+  const policy = { schema_version: 1, kind: "daily_formula_engineering_v1", operator_semantics_version: "local-panel-v3-scaled-corr-exact-boundaries", allow_field_substitution: false, evaluation_period: "validation" };
+  const response = { version: { id: "engineering-version", material_id: "material", digest: "new-digest", actor: "automation" }, method_policy: policy,
+    verification_scope: "formula_engineering_only", human_review_status: "pending_human", human_approval: false } as unknown as PublicMaterialEngineering;
+  it("persists server-confirmed engineering policy, invalidates old candidates and safely replays the same request", () => {
+    const store = storage(); draft(store);
+    const before = emptyCreationFlow();
+    const after = applyEngineeringConfiguration({ ...before, generation: { inputKey: "old", sourceDigest: "old", sessionId: "old" }, experimentId: "old-experiment" }, response);
+    persistCreationFlow(store, key, after, before);
+    const restored = JSON.parse(store.getItem(key)!).value.creationFlow;
+    expect(isResearchCreationFlow(restored)).toBe(true); expect(restored.engineeringMethodPolicy).toEqual(policy);
+    expect(restored.generation).toBeUndefined(); expect(restored.experimentId).toBeUndefined();
+    const receiptKey = creationFlowMutationKey("workspace", key);
+    const receipt = stageMutation(store, receiptKey, "/research-v2/materials/material/engineering", { expected_digest: "old-digest", unresolved_dispositions: [] }, "engineering-request", { action: "configure_engineering", inputKey: "original" });
+    expect(readCreationFlowMutation(store, receiptKey)?.body).toEqual(receipt.body);
+    expect(() => applyEngineeringConfiguration(before, { ...response, human_approval: true } as unknown as PublicMaterialEngineering)).toThrow(/范围不一致/);
+    expect(isResearchCreationFlow({ ...after, engineeringMethodPolicy: { ...policy, allow_field_substitution: true } })).toBe(false);
+  });
+  it("distinguishes fixture, unobserved requests and native invocation receipts without claiming real inference", () => {
+    const proposal = { provider_mode: "codex_cli", attempts: [] } as unknown as ResearchV2ProposalDetail;
+    expect(proposalExecutionKind(proposal)).toBe("not_observed");
+    proposal.attempts = [{ receipt: { invocation_started: true, fixture: false } }] as ResearchV2ProposalDetail["attempts"];
+    expect(proposalExecutionKind(proposal)).toBe("native_provider_invocation");
+    expect(proposalExecutionKind({ ...proposal, provider_mode: "fixture" })).toBe("fixture");
   });
 });
 

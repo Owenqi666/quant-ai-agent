@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { AcceptedMaterialDraft, PaperSelection, PublicExperiment, PublicMaterialDetail, PublicMaterialVersion, PublicResearchSession, ResearchSourcePreview, ResearchV2ProposalDetail, ResearchV2ProposalSummary } from "../generated/api-contract";
+import type { AcceptedMaterialDraft, HostCapability, PaperSelection, PublicExperiment, PublicMaterialDetail, PublicMaterialEngineering, PublicMaterialVersion, PublicResearchSession, ResearchSourcePreview, ResearchV2ProposalDetail, ResearchV2ProposalSummary } from "../generated/api-contract";
 import type { Dataset, JsonObject, Paper } from "../domain";
 import type { CreationStage } from "../creationDrafts";
 import { api, ApiError, post } from "../api";
@@ -9,22 +9,15 @@ import { experimentHandoffStatus } from "../experimentHandoffStatus";
 import { acknowledgeMutation, rejectMutation, stageMutation } from "../reviewRecovery";
 import type { PendingMutation } from "../reviewRecovery";
 import { notifyDraftChanged } from "../drafts";
-import { creationFlowMutationKey, creationInputKey, creationMutationBody, generationReconciliationToken, emptyCreationFlow, nextExperimentAction, persistCreationFlow, readCreationFlowMutation } from "../researchCreationFlow";
+import { applyEngineeringConfiguration, creationFlowMutationKey, creationInputKey, creationMutationBody, generationReconciliationToken, emptyCreationFlow, nextExperimentAction, persistCreationFlow, proposalExecutionKind, readCreationFlowMutation } from "../researchCreationFlow";
 import type { ResearchCreationFlowState } from "../researchCreationFlow";
 import MaterialAdoptionPanel from "./MaterialAdoptionPanel";
 import CreationProposalDiagnostics from "./CreationProposalDiagnostics";
 import MutationRecovery from "./MutationRecovery";
 import { Field, JsonDetails } from "./ui";
+import type { EngineeringDisposition } from "../materialEngineering";
 
-export interface CreationCapability {
-  provider_config_id: string; provider_mode: "fixture" | "codex_cli";
-  operation: "extract_material" | "generate_candidates"; source_kind: "paper_selection" | "accepted_material";
-  supported: boolean; real_qualified: boolean; available: boolean; reason_code: string; message: string;
-  host_grant_id: string | null; authorization_kind: "fixture" | "bounded_qualification" | "qualified" | "none";
-  remaining_dispatches: number | null; remaining_operation_dispatches: number | null;
-  deadline_at: string | null; max_proposal_seconds: number | null;
-  scope?: { paper_selections: { kind: "paper_selection"; paper_id: string; selected_pages: number[] }[]; generation_policy: JsonObject | null } | null;
-}
+export type CreationCapability = HostCapability;
 export interface CreationExperimentTarget { researchId: string; revisionId: string; runId?: string; jobId: string; experimentId: string }
 interface Props {
   workspaceId: string; draftKey: string; paper: Paper | null; dataset?: Dataset; title: string;
@@ -51,6 +44,8 @@ export default function ResearchCreationAI(props: Props) {
   const { t } = useI18n();
   const { workspaceId, draftKey, paper, dataset, title, evaluation, stage, configurationConfirmed, methodPolicy } = props;
   const flow = props.value ?? empty;
+  const effectiveMethodPolicy = flow.engineeringMethodPolicy ?? methodPolicy;
+  const engineeringOnly = effectiveMethodPolicy.kind === "daily_formula_engineering_v1";
   const flowRef = useRef(flow); flowRef.current = flow;
   const mutationKey = creationFlowMutationKey(workspaceId, draftKey);
   const [capabilities, setCapabilities] = useState<CreationCapability[]>([]);
@@ -68,7 +63,7 @@ export default function ResearchCreationAI(props: Props) {
   const liveInput = useRef(inputKey); liveInput.current = inputKey;
   const operationInput = useRef(inputKey);
   const extractKey = creationInputKey({ paperId: paper?.id, paperDigest: paper?.sha256, pages: flow.selectedPages, focus: flow.researchFocus ?? "", provider: flow.providerConfigId, grant: flow.hostGrantId });
-  const generateKey = creationInputKey({ materialId: flow.materialId, versionId: flow.materialVersionId, datasetId: dataset?.id, dataDigest: dataset?.sha256, title, evaluation, methodPolicy, provider: flow.providerConfigId, grant: flow.hostGrantId });
+  const generateKey = creationInputKey({ materialId: flow.materialId, versionId: flow.materialVersionId, datasetId: dataset?.id, dataDigest: dataset?.sha256, title, evaluation, methodPolicy: effectiveMethodPolicy, provider: flow.providerConfigId, grant: flow.hostGrantId });
   const extractCurrent = flow.extraction?.inputKey === extractKey;
   const generationCurrent = !!flow.generation && flow.generation.inputKey === generateKey && extractCurrent;
   const currentExtract = extract?.id === flow.extraction?.proposalId ? extract : null;
@@ -111,6 +106,8 @@ export default function ResearchCreationAI(props: Props) {
     currentExperiment?.id, currentExperiment?.job?.state, currentExperiment?.reservation.status,
     currentExperiment?.reservation.outcome?.status, handoffStatus?.poll, refresh]);
   function save(next: ResearchCreationFlowState, expected = flowRef.current) {
+    if (creationInputKey([next.selectedPages, next.researchFocus, next.providerConfigId, next.hostGrantId]) !==
+      creationInputKey([expected.selectedPages, expected.researchFocus, expected.providerConfigId, expected.hostGrantId])) next = { ...next, engineeringMethodPolicy: undefined };
     persistCreationFlow(localStorage, draftKey, next, expected);
     flowRef.current = next; props.onChange(next); notifyDraftChanged(draftKey);
   }
@@ -128,7 +125,7 @@ export default function ResearchCreationAI(props: Props) {
     if (action === "session_extract" || action === "session_generate") {
       const session = result as PublicResearchSession;
       const reference = { sessionId: session.id, sourceDigest: String(context.sourceDigest), inputKey: String(context.sourceKey) };
-      return action === "session_extract" ? { ...before, extraction: reference, materialId: undefined, materialVersionId: undefined, materialDigest: undefined, generation: undefined, experimentId: undefined } : { ...before, generation: reference, experimentId: undefined };
+      return action === "session_extract" ? { ...before, extraction: reference, materialId: undefined, materialVersionId: undefined, materialDigest: undefined, engineeringMethodPolicy: undefined, generation: undefined, experimentId: undefined } : { ...before, generation: reference, experimentId: undefined };
     }
     if (action === "proposal_extract" || action === "proposal_generate") {
       const proposal = result as ResearchV2ProposalSummary, key = action === "proposal_extract" ? "extraction" : "generation";
@@ -136,7 +133,8 @@ export default function ResearchCreationAI(props: Props) {
       return { ...before, [key]: { ...before[key], proposalId: proposal.id } };
     }
     if (action === "import_material") return { ...before, materialId: (result as PublicMaterialDetail).id };
-    if (action === "adopt_material") { const adopted = result as PublicMaterialVersion; return { ...before, materialId: adopted.material_id, materialVersionId: adopted.id, materialDigest: adopted.digest, generation: undefined, experimentId: undefined }; }
+    if (action === "adopt_material") { const adopted = result as PublicMaterialVersion; return { ...before, materialId: adopted.material_id, materialVersionId: adopted.id, materialDigest: adopted.digest, engineeringMethodPolicy: undefined, generation: undefined, experimentId: undefined }; }
+    if (action === "configure_engineering") return applyEngineeringConfiguration(before, result as PublicMaterialEngineering);
     if (action === "create_experiment" || action === "advance_experiment") return { ...before, experimentId: (result as PublicExperiment).id };
     if (action === "cancel_session" || action === "reconcile_session") return before;
     throw new Error("无法识别 AI 恢复操作，原记录已保留。");
@@ -167,7 +165,7 @@ export default function ResearchCreationAI(props: Props) {
     return result;
   }
   const paperSource = () => ({ kind: "paper_selection", paper_id: paper?.id, selected_pages: flowRef.current.selectedPages });
-  const acceptedSource = () => ({ kind: "accepted_material", material_id: flowRef.current.materialId, version_id: flowRef.current.materialVersionId, dataset_id: dataset?.id, evaluation, method_policy: methodPolicy, destination: { kind: "new_research", research_id: null, base_revision_id: null }, title: title.trim() });
+  const acceptedSource = () => ({ kind: "accepted_material", material_id: flowRef.current.materialId, version_id: flowRef.current.materialVersionId, dataset_id: dataset?.id, evaluation, method_policy: effectiveMethodPolicy, destination: { kind: "new_research", research_id: null, base_revision_id: null }, title: title.trim() });
   async function previewSource(generating: boolean) {
     if (!paper || !flow.selectedPages.length || !selectedCapability?.available) throw new Error("请选择论文页与当前可用 Provider。");
     if (generating && (!configurationConfirmed || !flow.materialVersionId || !extractCurrent)) throw new Error("请先采纳当前材料，并确认完整数据及时间配置。");
@@ -192,13 +190,18 @@ export default function ResearchCreationAI(props: Props) {
       schema_version: 2, contract_id: "research_provider_v2", operation: op, session_id: session.id, expected_session_digest: session.state_digest,
       source, expected_source_digest: reference.sourceDigest, provider_config_id: flow.providerConfigId,
       instruction: generating ? "Generate one faithful candidate from the accepted material. Preserve unresolved rules and abstain instead of inventing data or method choices." : "Extract at most two source-grounded hypotheses from the selected pages. Mark missing mechanisms and rules unresolved; do not invent information. The following is the user research focus, not a change to the output contract: " + (flow.researchFocus?.trim() || "No narrower focus specified; select a small coherent set."),
-      candidate_limit: 1, budget: { max_provider_invocations: 1, max_seconds: Math.min(120, selectedCapability.max_proposal_seconds ?? 60) },
+      candidate_limit: 1, budget: { max_provider_invocations: 1, max_seconds: Math.min(240, selectedCapability.max_proposal_seconds ?? 60) },
     });
     props.onStageChange(generating ? "candidates" : "evidence");
   }
   async function adopt(draft: AcceptedMaterialDraft) {
     if (!currentMaterial || !extractCurrent) throw new Error("请先登记当前提案的材料。");
     await send("adopt_material", `/research-v2/materials/${currentMaterial.id}/adopt`, { expected_digest: currentMaterial.current_digest, edited_material: draft });
+    props.onStageChange("candidates");
+  }
+  async function configureEngineering(unresolved_dispositions: EngineeringDisposition[]) {
+    if (!currentMaterial || !extractCurrent) throw new Error("请先登记当前提案的材料。");
+    await send("configure_engineering", `/research-v2/materials/${currentMaterial.id}/engineering`, { expected_digest: currentMaterial.current_digest, unresolved_dispositions });
     props.onStageChange("candidates");
   }
   async function createExperiment() {
@@ -210,7 +213,7 @@ export default function ResearchCreationAI(props: Props) {
       session = await api<PublicResearchSession>(`/research-v2/sessions/${session.id}`);
       if (generationReconciliationToken(session, currentGenerate.id)) throw new Error("候选执行结果仍未决；已保留原状态，未交接实验。");
     }
-    const created = await send("create_experiment", "/research-v2/experiments", { session_id: session.id, expected_session_digest: session.state_digest, proposal_id: currentGenerate.id, accepted_response_digest: currentGenerate.accepted_response_digest, budget: { max_steps: 8, max_failures: 2, max_seconds: 600 }, note: "Explicit handoff from the material-to-alpha workbench. Semantic fidelity remains unverified." });
+    const created = await send("create_experiment", "/research-v2/experiments", { session_id: session.id, expected_session_digest: session.state_digest, proposal_id: currentGenerate.id, accepted_response_digest: currentGenerate.accepted_response_digest, budget: { max_steps: 8, max_failures: 2, max_seconds: 600 }, note: engineeringOnly ? "Formula engineering acceptance; actor=automation; human_approval=false. Economic mechanism and research validity remain unresolved." : "Explicit handoff from the material-to-alpha workbench. Semantic fidelity remains unverified." });
     await submitExistingExperiment(created as PublicExperiment);
   }
   async function submitExistingExperiment(initial: PublicExperiment) {
@@ -229,7 +232,11 @@ export default function ResearchCreationAI(props: Props) {
     await send("cancel_session", `/research-v2/sessions/${id}/cancel`, { expected_digest: session.state_digest });
   }
   const extractionOptions = capabilities.filter(item => item.operation === "extract_material");
-  const readonlyProposal = (proposal: ResearchV2ProposalDetail | null) => proposal && <div className="info-note"><p>{t("状态", "Status")}: {proposal.status} · {t("实际 Provider 执行", "Provider invocations")}: {proposal.provider_invocations} · {proposal.provider_mode === "fixture" ? t("固定演示输出", "Fixture demonstration") : t("真实 Provider 请求", "Real provider request")}</p>{proposal.error && <p role="alert">{proposal.error.code}: {proposal.error.message}</p>}<CreationProposalDiagnostics proposal={proposal} /><JsonDetails label={t("提案、回执与失败记录", "Proposal, receipts and failures")} value={proposal} /></div>;
+  const readonlyProposal = (proposal: ResearchV2ProposalDetail | null) => {
+    if (!proposal) return null;
+    const kind = proposalExecutionKind(proposal);
+    return <div className="info-note"><p>{t("状态", "Status")}: {proposal.status} · {t("保存的 Provider 执行次数", "Recorded provider invocations")}: {proposal.provider_invocations} · {kind === "fixture" ? t("固定演示输出", "Fixture demonstration") : kind === "native_provider_invocation" ? t("已保存 Native 调用收据", "Native invocation receipt saved") : t("Native 执行尚无可观察收据", "Native execution receipt not observed")}</p>{kind !== "fixture" && <p>{t("进程调用记录与真实模型验收分开；需结合官方传输身份和验收证据。模型输出仍是草案，人工质量待审。", "Invocation records and real-model acceptance are separate; consult official transport identity and acceptance evidence. Model outputs remain drafts pending human quality review.")}</p>}{proposal.error && <p role="alert">{proposal.error.code}: {proposal.error.message}</p>}<CreationProposalDiagnostics proposal={proposal} /><JsonDetails label={t("提案、回执与失败记录", "Proposal, receipts and failures")} value={proposal} /></div>;
+  };
   const canGenerate = generationCurrent && currentGenerate?.status === "ready" && currentGenerate.accepted_response?.outcome === "draft";
   return <section aria-label={t("AI 辅助研究创建", "AI-assisted study creation")}>
     <p className="info-note">{t("AI 输出是待核对的研究提案。查看或刷新不调用模型；抽取、采纳、生成和实验交接分别由你明确触发。", "AI outputs are proposals for review. Viewing and refreshing never call the model. Extraction, adoption, generation and experiment handoff require explicit actions.")}</p>
@@ -237,7 +244,7 @@ export default function ResearchCreationAI(props: Props) {
     <button type="button" className="button small" disabled={busy} onClick={() => { setError(""); setNonce(value => value + 1); }}>{t("刷新已有状态", "Refresh existing state")}</button>
     {(stage === "materials" || stage === "evidence") && <>
       <fieldset disabled={loading}>
-        <Field label={t("论文研究 Provider", "Paper research provider")}><select value={creationInputKey([flow.providerConfigId, flow.hostGrantId])} onChange={event => { const [providerConfigId, hostGrantId] = JSON.parse(event.target.value); try { save({ ...flow, providerConfigId, hostGrantId }); setPreview(null); } catch (cause) { setError(describeError(cause)); } }}><option value={creationInputKey(["", null])}>{t("选择 Provider", "Select provider")}</option>{extractionOptions.map(item => <option key={creationInputKey([item.provider_config_id, item.host_grant_id])} value={creationInputKey([item.provider_config_id, item.host_grant_id])}>{item.provider_config_id} · {item.provider_mode === "fixture" ? t("演示", "Demo") : item.authorization_kind === "bounded_qualification" ? t("受控真实验收", "Bounded real qualification") : t("真实", "Real")} · {item.available ? t("可用", "Available") : item.reason_code}</option>)}</select></Field>
+        <Field label={t("论文研究 Provider", "Paper research provider")}><select value={creationInputKey([flow.providerConfigId, flow.hostGrantId])} onChange={event => { const [providerConfigId, hostGrantId] = JSON.parse(event.target.value); try { save({ ...flow, providerConfigId, hostGrantId }); setPreview(null); } catch (cause) { setError(describeError(cause)); } }}><option value={creationInputKey(["", null])}>{t("选择 Provider", "Select provider")}</option>{extractionOptions.map(item => <option key={creationInputKey([item.provider_config_id, item.host_grant_id])} value={creationInputKey([item.provider_config_id, item.host_grant_id])}>{item.provider_config_id} · {item.provider_mode === "fixture" ? t("演示", "Demo") : item.authorization_kind === "bounded_qualification" ? t("受限 Native 验收", "Bounded Native qualification") : item.authorization_kind === "qualified" ? t("Native 已有宿主资格证据", "Native with host qualification evidence") : t("Native 尚未授权", "Native not authorized")} · {item.available ? t("可用", "Available") : item.reason_code}</option>)}</select></Field>
         {selectedCapability && <p>{selectedCapability.message} {t("剩余授权调用", "Remaining authorized dispatches")}: {selectedCapability.remaining_dispatches ?? t("未提供", "Not provided")}</p>}
         {!extractionOptions.length && <p role="status">{t("尚无可读取的研究 Provider 能力；可继续手动研究。", "No research provider capability is available; manual research remains available.")}</p>}
         <Field label={t("本次研究关注点（可选）", "Research focus (optional)")}><textarea maxLength={2000} value={flow.researchFocus ?? ""} placeholder={t("例如：仅研究 Alpha101 的原始公式与适用条件", "For example: the original Alpha101 formula and conditions")} onChange={event => { try { save({ ...flow, researchFocus: event.target.value }); setPreview(null); } catch (cause) { setError(describeError(cause)); } }} /></Field>
@@ -250,10 +257,11 @@ export default function ResearchCreationAI(props: Props) {
       {readonlyProposal(currentExtract)}
       {activeProposal(currentExtract) && flow.extraction && <button type="button" className="button" disabled={loading} onClick={() => void perform(() => cancelSession(flow.extraction!.sessionId))}>{t("取消当前抽取", "Cancel extraction")}</button>}
       {extractCurrent && currentExtract?.status === "ready" && currentExtract.accepted_response?.outcome === "material" && !flow.materialId && <button type="button" className="button primary" disabled={loading} onClick={() => void perform(async () => { await send("import_material", `/research-v2/proposals/${currentExtract.id}/material`, {}); })}>{t("打开材料提案进行核对", "Open material for review")}</button>}
-      {extractCurrent && currentMaterial && <MaterialAdoptionPanel workspaceId={workspaceId} key={`${currentMaterial.id}:${currentMaterial.current_digest}`} material={currentMaterial} busy={loading} onAdopt={draft => perform(() => adopt(draft))} />}
+      {extractCurrent && currentMaterial && <MaterialAdoptionPanel workspaceId={workspaceId} key={`${currentMaterial.id}:${currentMaterial.current_digest}`} material={currentMaterial} datasetId={dataset?.id} busy={loading} onAdopt={draft => perform(() => adopt(draft))} onEngineering={items => perform(() => configureEngineering(items))} />}
       {currentVersion && <p>{t("已保存材料版本", "Saved material version")}: {shortId(currentVersion.id)} · {t("语义仍待评定", "Semantic fidelity remains unverified")}</p>}
     </>}
     {(stage === "candidates" || stage === "experiment") && <>
+      {engineeringOnly && <p role="status">{t("当前范围：仅公式工程验证。源论文科学问题仍未决，人工质量状态 pending_human；保存配置与核对候选不形成研究认可。", "Current scope: formula engineering verification only. Source science remains unresolved and human quality status is pending_human; saving settings or checking candidates supplies no research approval.")}</p>}
       {!flow.materialVersionId && <p role="status">{t("先在证据阶段核对并采纳材料，再生成候选。", "Review and adopt material before generating candidates.")}</p>}
       {selectedCapability?.scope?.generation_policy && <details><summary>{t("本次宿主授权的生成配置", "Host-authorized generation configuration")}</summary><JsonDetails value={selectedCapability.scope.generation_policy} label={t("固定输入范围", "Fixed input scope")} />{props.onApplyAuthorizedConfiguration && <button type="button" className="button" disabled={loading} onClick={() => props.onApplyAuthorizedConfiguration?.(selectedCapability.scope!.generation_policy!)}>{t("应用授权配置并重新确认", "Apply authorized settings and reconfirm")}</button>}</details>}
       <p>{t("候选生成前需确认数据、切分与方法；修改后旧候选来源将失效。", "Confirm data, time windows and method before generation. Changes invalidate the previous candidate source.")}</p>
@@ -263,7 +271,7 @@ export default function ResearchCreationAI(props: Props) {
       {readonlyProposal(currentGenerate)}
       {activeProposal(currentGenerate) && flow.generation && <button type="button" className="button" disabled={loading} onClick={() => void perform(() => cancelSession(flow.generation!.sessionId))}>{t("取消当前候选生成", "Cancel candidate generation")}</button>}
       {currentGenerate?.accepted_response?.draft?.candidates.map(candidate => <article key={candidate.id}><h4>{candidate.id}</h4><pre>{candidate.expression}</pre><p>{candidate.origin} · {t("假说", "Hypothesis")}: {candidate.hypothesis_id}</p><p>{candidate.changes.join("; ")}</p></article>)}
-      {canGenerate && <label><input type="checkbox" disabled={loading} checked={reviewedCandidate === currentGenerate?.accepted_response_digest} onChange={event => setReviewedCandidate(event.target.checked ? currentGenerate!.accepted_response_digest! : "")} />{t("已核对当前候选、来源材料与冻结配置", "I checked this candidate, its material source and frozen settings")}</label>}
+      {canGenerate && <label><input type="checkbox" disabled={loading} checked={reviewedCandidate === currentGenerate?.accepted_response_digest} onChange={event => setReviewedCandidate(event.target.checked ? currentGenerate!.accepted_response_digest! : "")} />{engineeringOnly ? t("已核对候选与冻结工程配置（不构成人工研究质量认可）", "Candidate and frozen engineering settings checked (no human research-quality approval)") : t("已核对当前候选、来源材料与冻结配置", "I checked this candidate, its material source and frozen settings")}</label>}
       {canGenerate && stage === "candidates" && <button type="button" className="button" disabled={loading || reviewedCandidate !== currentGenerate?.accepted_response_digest} onClick={() => props.onStageChange("experiment")}>{t("进入实验交接", "Continue to experiment handoff")}</button>}
       {stage === "experiment" && !flow.experimentId && <button type="button" className="button primary" disabled={loading || !canGenerate || !configurationConfirmed || reviewedCandidate !== currentGenerate?.accepted_response_digest} onClick={() => void perform(createExperiment)}>{t("保存此 AI 研究并提交实验", "Save this AI study and submit the experiment")}</button>}
       {currentExperiment && <section aria-label={t("AI 实验交接记录", "AI experiment handoff")}><p>{t("交接已保存；各执行步骤使用原实验身份，刷新不会提交新运行。", "Handoff is saved. Each execution step keeps this experiment identity; refreshing never submits a new run.")}</p><p>{currentExperiment.id} · {currentExperiment.job?.state}</p>{handoffStatus?.kind === "manual" && currentExperiment.job && ["created", "validated", "committed"].includes(currentExperiment.job.state) && <button type="button" className="button primary" disabled={loading} onClick={() => void perform(async () => { const current = await api<PublicExperiment>(`/research-v2/experiments/${currentExperiment.id}`); await submitExistingExperiment(current); })}>{t("继续提交原实验", "Continue submitting the original experiment")}</button>}{handoffStatus?.kind === "background" && <p role="status">{t("计算或后台收尾中；关闭本页面后，后台仍在原预算内继续。刷新仅读取已有实验。", "Calculation or finalization is in progress. The backend continues within the original budget after this page closes. Refresh only reads the existing experiment.")}</p>}{handoffStatus?.kind === "completed" && <p role="status">{t("实验执行与后台收尾均已完成，结果可进入审核。研究语义仍待评定。", "Experiment execution and finalization are complete. Results are ready for review; semantic fidelity remains unverified.")}</p>}{handoffStatus?.kind === "stopped" && <p role="alert">{t("原实验未完整完成：会话或执行已停止或失败。保留实际结果与停止原因，未自动重新提交。", "The original experiment did not fully complete: its session or execution stopped or failed. Its result and stop reason remain recorded; it was not automatically resubmitted.")}</p>}{handoffStatus?.kind === "unknown" && <p role="alert">{t("原实验结果仍未决，不能视为完整完成；保留原记录，不自动重建运行。", "The original experiment outcome is uncertain and cannot be treated as fully complete. Its record remains; no new run is created automatically.")}</p>}{handoffStatus && <p>{t("后台结算", "Finalization")}: {currentExperiment.reservation.status}{handoffStatus.reasons.length ? ` · ${handoffStatus.reasons.join(" · ")}` : ""}</p>}<button type="button" className="button" disabled={busy} onClick={() => { setError(""); setNonce(value => value + 1); }}>{t("读取已有实验状态", "Read existing experiment state")}</button>{currentExperiment.job?.run_id && currentExperiment.bootstrap && <button type="button" className="button" disabled={loading} onClick={() => props.onOpenExperiment({ researchId: currentExperiment.bootstrap!.research_id, revisionId: currentExperiment.job!.revision_id || currentExperiment.bootstrap!.revision_id, runId: currentExperiment.job!.run_id!, jobId: currentExperiment.job!.id, experimentId: currentExperiment.id })}>{t("打开实际实验与审核", "Open actual experiment and review")}</button>}<JsonDetails label={t("实验、研究和运行身份", "Experiment, study and run identities")} value={currentExperiment} /></section>}

@@ -87,7 +87,7 @@ class HostResearchAuthority:
     def _active(self,connection,grant,*,allow_spent=False,operation=None):
         request=grant['request']; config=self.registry.ensure_dispatchable(request['provider_config_id'])
         _need(operation is None or app_server_operation_supported(config,operation),
-              'App Server supports only generation in this version','APP_SERVER_OPERATION_UNSUPPORTED')
+              'App Server supports only compact extraction and generation in this version','APP_SERVER_OPERATION_UNSUPPORTED')
         _need(config.model_dump()==grant['config'] and _profile(config)==grant['profile'],'Host grant profile/configuration changed','HOST_PROFILE_CHANGED')
         revoked=connection.execute('SELECT * FROM provider_host_revocations WHERE grant_id=?',(grant['id'],)).fetchone()
         if revoked is not None:
@@ -189,7 +189,7 @@ class HostResearchAuthority:
         _need(binding['source']==request['source'] and binding['source_digest']==request['expected_source_digest'] and binding['operation']==request['operation'],'Proposal differs from the authorized session source','HOST_SOURCE_MISMATCH')
         _need(config==grant['config'],'Host grant uses another provider configuration','HOST_CONFIG_MISMATCH')
         _need(app_server_operation_supported(config, request['operation']),
-              'App Server supports only generation in this version', 'APP_SERVER_OPERATION_UNSUPPORTED')
+              'App Server supports only compact extraction and generation in this version', 'APP_SERVER_OPERATION_UNSUPPORTED')
         prior=connection.execute('SELECT * FROM provider_host_attempts WHERE session_id=?',(request['session_id'],)).fetchone()
         self._active(connection,grant,allow_spent=prior is not None,operation=request['operation'])
         if prior:
@@ -293,7 +293,7 @@ class HostResearchAuthority:
             reason=None; message='Fixture demonstration; no real model.' if request['authorization_kind']=='fixture' else 'Bounded real qualification; semantic fidelity remains unverified.' if request['authorization_kind']=='bounded_qualification' else 'Operation has current native transport evidence; semantic fidelity remains unverified.'
             qualified=False; supported=app_server_operation_supported(grant['config'],operation)
             try:
-                _need(supported,'App Server supports only generation in this version','APP_SERVER_OPERATION_UNSUPPORTED')
+                _need(supported,'App Server supports only compact extraction and generation in this version','APP_SERVER_OPERATION_UNSUPPORTED')
                 _need(grant['workspace_id']==_workspace(connection),'Host grant belongs to another workspace','HOST_WORKSPACE_MISMATCH')
                 if request['authorization_kind']=='qualified':
                     self._qualification(grant)
@@ -322,14 +322,14 @@ class HostResearchAuthority:
                 for op in PAIRS:
                     supported=app_server_operation_supported(config,op)
                     available=supported and config.mode=='fixture' and error is None
-                    result.append({'provider_config_id':config_id,'provider_mode':config.mode,'operation':op,'source_kind':PAIRS[op],'supported':supported,'real_qualified':False,'available':available,'reason_code':None if available else 'APP_SERVER_OPERATION_UNSUPPORTED' if not supported else getattr(error,'code','HOST_GRANT_REQUIRED'),'message':'Fixture demonstration; no real model.' if available else 'App Server supports only generation in this version' if not supported else str(error) if error else 'An explicit local host grant is required.','host_grant_id':None,'authorization_kind':'fixture' if config.mode=='fixture' else 'none','remaining_dispatches':0,'remaining_operation_dispatches':0,'deadline_at':None,'max_proposal_seconds':240,'scope':None})
+                    result.append({'provider_config_id':config_id,'provider_mode':config.mode,'operation':op,'source_kind':PAIRS[op],'supported':supported,'real_qualified':False,'available':available,'reason_code':None if available else 'APP_SERVER_OPERATION_UNSUPPORTED' if not supported else getattr(error,'code','HOST_GRANT_REQUIRED'),'message':'Fixture demonstration; no real model.' if available else 'App Server supports only compact extraction and generation in this version' if not supported else str(error) if error else 'An explicit local host grant is required.','host_grant_id':None,'authorization_kind':'fixture' if config.mode=='fixture' else 'none','remaining_dispatches':0,'remaining_operation_dispatches':0,'deadline_at':None,'max_proposal_seconds':240,'scope':None})
         return HostCapabilities(items=result).model_dump()
 
 
 def create_host_grant(store,registry,**kwargs):
     """Explicit local action only. Performs static checks; never invokes a CLI."""
     from .provider_research_context import resolve_research_source
-    from .material_context import _dataset_source,MaterialMethodPolicy
+    from .material_context import _dataset_source,parse_material_method_policy
     request=HostGrantCreate.model_validate(kwargs).model_dump()
     config=registry.ensure_dispatchable(request['provider_config_id'])
     if config.mode=='fixture': request['authorization_kind']='fixture'
@@ -339,7 +339,7 @@ def create_host_grant(store,registry,**kwargs):
         policy=request['generation_policy']
         generation_dataset = _dataset_source(store,policy['dataset_id'],policy['evaluation'])
         policy['evaluation']=generation_dataset['evaluation']
-        policy['method_policy']=MaterialMethodPolicy.model_validate(policy['method_policy']).model_dump()
+        policy['method_policy']=parse_material_method_policy(policy['method_policy'])
     authority=HostResearchAuthority(store,registry)
     with transaction(store.db_path) as connection:
         old=connection.execute('SELECT * FROM provider_host_grants WHERE idempotency_key=?',(request['idempotency_key'],)).fetchone()

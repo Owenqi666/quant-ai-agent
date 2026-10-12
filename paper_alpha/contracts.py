@@ -6,6 +6,10 @@ import math
 import re
 
 
+# Kept identical to research_jobs_schema without importing the server layer.
+ENGINEERING_ONLY_ASSUMPTION = 'Formula engineering verification only; economic mechanism and research validity remain unresolved.'
+
+
 def require(condition, message):
     if not condition:
         raise ValueError(message)
@@ -40,7 +44,7 @@ class Hypothesis:
     claim: str
     attribution: str
     evidence_ids: list[str]
-    economic_mechanism: str
+    economic_mechanism: str | None
     mechanism_attribution: str
     signal_direction: str
     required_fields: list[str]
@@ -48,16 +52,23 @@ class Hypothesis:
 
     def __post_init__(self):
         identifier(self.id)
-        for key in ("claim", "economic_mechanism", "signal_direction"):
+        for key in ("claim", "signal_direction"):
             nonempty(getattr(self, key), key)
-        for key in ("attribution", "mechanism_attribution"):
-            require(getattr(self, key) in {"paper_original", "user_modification", "model_conjecture"},
-                    f"Invalid {key}")
+        require(self.attribution in {"paper_original", "user_modification", "model_conjecture"},
+                "Invalid attribution")
         for key in ("evidence_ids", "required_fields", "assumptions"):
             value = getattr(self, key)
             require(isinstance(value, list) and all(isinstance(v, str) and v.strip() for v in value),
                     f"{key} must be a text list")
         require(bool(self.evidence_ids), "Hypothesis requires evidence")
+        if self.economic_mechanism is None:
+            require(self.mechanism_attribution == 'unresolved'
+                    and ENGINEERING_ONLY_ASSUMPTION in self.assumptions,
+                    'Null economic_mechanism requires the explicit formula-engineering assumption and unresolved attribution')
+        else:
+            nonempty(self.economic_mechanism, 'economic_mechanism')
+            require(self.mechanism_attribution in {"paper_original", "user_modification", "model_conjecture"},
+                    "Invalid mechanism_attribution")
 
 
 @dataclass(frozen=True)

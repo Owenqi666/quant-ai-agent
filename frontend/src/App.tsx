@@ -686,12 +686,12 @@ export default function App() {
           )}
           {section!=="protocols"&&section!=="monthly"&&section!=="author-panels"&&section!=="author-studies"&&section!=="research-cases"&&section!=="research-jobs"&&section!=="semantic-materials"&&<div className="scope-strip">
             <span className="scope-label">{t("当前范围", "Current scope")}</span>
-            <span>{t("人工定义候选", "Manually defined candidates")}</span>
+            <span>{t("候选保留人工或模型来源", "Candidates retain manual or model provenance")}</span>
             <i />
             <span>{currentDataset?.data_kind === "synthetic" ? t("合成数据验证", "Synthetic-data validation") : currentDataset?.data_kind || t("数据类型待确认", "Data kind not yet loaded")}</span>
             <i />
             <span>{t("按冻结配置评估", "Evaluate the frozen configuration")}</span>
-            <span className="scope-end">{t("手动主流程 · AI 按宿主能力启用", "Manual workflow · AI requires host capability")}</span>
+            <span className="scope-end">{t("工程执行与人工质量审核分开", "Engineering execution and human quality review are separate")}</span>
           </div>}
           {loaded && section !== "catalog" && section!=="protocols" && section!=="monthly" && section!=="author-panels" && section!=="author-studies" && section!=="research-cases" && section!=="research-jobs"&&section!=="semantic-materials" && <details className="flow-record-window"><summary>{t("记录范围与历史目录", "Record scope and history")}</summary><p className="fine-print">
             {t(`工作区只展示有界记录窗口：研究 ${researches.length}/${windowTotals.researches}；当前研究实验 ${researchRuns.length}/${windowTotals.runs}、案例 ${cases.length}/${windowTotals.cases}、检查 ${checks.length}/${windowTotals.checks}。`, `Bounded record window: studies ${researches.length}/${windowTotals.researches}; selected study runs ${researchRuns.length}/${windowTotals.runs}, cases ${cases.length}/${windowTotals.cases}, checks ${checks.length}/${windowTotals.checks}.`)}

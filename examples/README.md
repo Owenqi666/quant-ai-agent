@@ -33,7 +33,7 @@ Obtain the fixed [v3 PDF from its original source](https://arxiv.org/pdf/1601.00
 under terms applicable to your use, then run:
 
 ```bash
-python scripts/prepare_alpha101.py --pdf ~/Downloads/1601.00991v3.pdf
+python scripts/prepare_alpha101.py --pdf /path/to/1601.00991v3.pdf
 python -m paper_alpha run examples/alpha101/task.json --mode normalized_fixed --out .demo/alpha101
 python -m paper_alpha verify .demo/alpha101
 ```
@@ -57,9 +57,23 @@ WorldQuant BRAIN.
 ## Test inputs
 
 The default public tests cover expression restrictions, alignment, timing,
-synthetic evaluation, and formula presentation without requiring the
-third-party PDF. Evidence, workflow, provenance, and recovery tests that use
-Alpha101 require `prepare_alpha101.py` first. Synthetic-data limitations are
+synthetic evaluation, exact source spans, formula-engineering unknowns, and
+formula presentation without requiring the third-party PDF. Evidence, workflow, provenance, and recovery tests that use
+Alpha101, including formula-engineering HTTP readback, require
+`prepare_alpha101.py` first. Synthetic-data limitations are
 recorded in `alpha101/metadata.json`; weekday dates are not an exchange
 calendar, and the universe has no real survivorship, corporate-action, or
 point-in-time guarantees.
+
+## Optional model workflow
+
+The original demo and prepared Alpha101 templates remain deterministic. They
+do not activate or call a model. The optional App Server path supports bounded
+selected-page material extraction and candidate generation under separately
+qualified host access.
+
+The model workflow's mechanical citation checks, source-definition checks, and
+formula-engineering policy are explained in [the workflow guide](../docs/model-workflow.md).
+The private material and execution records used in local acceptance are not
+example data in this repository. A clean clone does not preload that research
+or redistribute its source paper.

@@ -63,8 +63,8 @@ def resolve_research_source(store, source_request, *, connection=None):
     verify_current_selection(store, version['selection'])
     # Also proves that adoption was explicit and required scientific rules were
     # resolved. This cannot silently invent mechanisms to satisfy a Task.
-    build_material_projection(version)
     policy = parse_material_method_policy(source['method_policy'])
+    build_material_projection(version, method_policy=policy)
     daily_source = None
     if policy['kind'] == 'registered_daily_v2':
         from .daily_research_v2 import source_for_dataset
@@ -144,10 +144,14 @@ def _registered_daily_target_context(session, context, operation, target):
     return value
 
 
-def build_research_context(store, request, *, connection=None, enable_material_span_references=False):
+def build_research_context(store, request, *, connection=None, enable_material_span_references=False,
+                           enable_grounded_material=False, grounding_data_policy='variables_only_v1',
+                           operator_definition_policy='selected_operator_definitions_v1'):
     request = ResearchProposalCreate.model_validate(request)
     if type(enable_material_span_references) is not bool:
         raise _error('Material span mode is selected only by an explicit host boolean', 'MATERIAL_SPAN_MODE_INVALID', 422)
+    if type(enable_grounded_material) is not bool:
+        raise _error('Grounded mode is selected only by an explicit host boolean', 'GROUNDED_CONTEXT_INVALID', 422)
     if request.operation not in ENABLED_OPERATIONS:
         raise _error('This research operation is not enabled',
                      'OPERATION_NOT_ENABLED', 422)
@@ -192,11 +196,24 @@ def build_research_context(store, request, *, connection=None, enable_material_s
     value.update(schema_version=2, context_version=context_version, operation=request.operation,
                  source_kind=request.source.kind, source_digest=digest(source),
                  semantic_fidelity='unverified')
-    if enable_material_span_references and request.operation == 'extract_material':
+    if (enable_material_span_references or enable_grounded_material) and request.operation == 'extract_material':
         from .paper_material_spans import build_span_catalog, validate_context_mode
         value.update(citation_mode='material_span_ids_v1',
                      material_span_catalog=build_span_catalog(value['paper_selection']))
         validate_context_mode(value, operation=request.operation)
+        if enable_grounded_material:
+            from .provider_grounded_contract import (GROUNDING_POLICY, DATA_COMPONENT_POLICY,
+                                                    OPERATOR_DEFINITION_POLICY, mode_for_context)
+            value['grounding_policy'] = deepcopy(GROUNDING_POLICY)
+            if grounding_data_policy is not None:
+                if grounding_data_policy != DATA_COMPONENT_POLICY:
+                    raise _error('Unknown data component policy', 'GROUNDED_CONTEXT_INVALID', 422)
+                value['grounding_policy']['data_components'] = grounding_data_policy
+            if operator_definition_policy is not None:
+                if operator_definition_policy != OPERATOR_DEFINITION_POLICY:
+                    raise _error('Unknown operator definition policy', 'GROUNDED_CONTEXT_INVALID', 422)
+                value['grounding_policy']['operator_definitions'] = operator_definition_policy
+            mode_for_context(value, request.operation)
     # The full serialized prompt is separately bounded by the contract codec.
     if len(json_text(value).encode()) > request.budget.max_context_bytes:
         raise _error('Research projection exceeds its byte budget; nothing was truncated',
@@ -221,7 +238,7 @@ def validate_material_candidate_task(store, request, context, draft):
     if digest(actual) != context['source_digest']:
         raise _error('Material validation source changed', 'SOURCE_CHANGED')
     adopted = build_material_projection(PaperMaterials(store).get_version(
-        request.source.material_id, request.source.version_id))
+        request.source.material_id, request.source.version_id), method_policy=request.source.method_policy)
     if any(context.get(key) != adopted[key] or draft.get(key) != adopted[key]
            for key in ('evidence', 'hypotheses')):
         raise _error('Candidate assertions differ from the explicitly adopted material',
@@ -246,7 +263,8 @@ def validate_research_output(store, request, context, output):
 
     try:
         request = ResearchProposalCreate.model_validate(request)
-        output = output_model().model_validate(output)
+        from .provider_grounded_contract import canonical_output_model, mode_for_context
+        output = canonical_output_model(context).model_validate(output)
         if request.operation not in ENABLED_OPERATIONS:
             raise _error('This operation has not passed its integration gate', 'OPERATION_NOT_ENABLED', 422)
         if (output.operation != request.operation or output.context_digest != wire_digest(context)
@@ -254,7 +272,11 @@ def validate_research_output(store, request, context, output):
             raise _error('Output differs from its exact frozen source or operation', 'REQUEST_MISMATCH')
         from .paper_material_spans import validate_context_mode
         span_mode = validate_context_mode(context, operation=request.operation)
-        if build_research_context(store, request, enable_material_span_references=span_mode) != context:
+        grounded_mode = mode_for_context(context, request.operation) == 'grounded_extract_material'
+        if build_research_context(store, request, enable_material_span_references=span_mode,
+                                  enable_grounded_material=grounded_mode,
+                                  grounding_data_policy=context.get('grounding_policy', {}).get('data_components'),
+                                  operator_definition_policy=context.get('grounding_policy', {}).get('operator_definitions')) != context:
             raise _error('Research projection changed since request creation', 'SOURCE_CHANGED')
         exposed = context.get('research_context', context)
         if output.outcome == 'abstain':
@@ -295,7 +317,10 @@ def validate_research_output(store, request, context, output):
                 checks = result.get('candidate_checks', [])
                 if state != 'validated':
                     problem(error['code'], error['message'])
-        if build_research_context(store, request, enable_material_span_references=span_mode) != context:
+        if build_research_context(store, request, enable_material_span_references=span_mode,
+                                  enable_grounded_material=grounded_mode,
+                                  grounding_data_policy=context.get('grounding_policy', {}).get('data_components'),
+                                  operator_definition_policy=context.get('grounding_policy', {}).get('operator_definitions')) != context:
             problem('SOURCE_CHANGED', 'Research source changed during output validation.')
     except (ValueError, KeyError, OSError, TypeError) as exc:
         problem(getattr(exc, 'code', 'DOMAIN_INVALID'), store._safe_error(exc))

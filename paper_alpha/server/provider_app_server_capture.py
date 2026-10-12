@@ -24,6 +24,10 @@ _TRANSPORT_CAPTURE_VERSIONS = {
     'codex_app_server_business_stdio_v5': CAPTURE_VERSION_V2,
     'codex_app_server_business_stdio_v6': CAPTURE_VERSION_V2,
     'codex_app_server_business_stdio_v7': CAPTURE_VERSION_V3,
+    'codex_app_server_business_stdio_v8': CAPTURE_VERSION_V3,
+    'codex_app_server_business_stdio_v9': CAPTURE_VERSION_V3,
+    'codex_app_server_business_stdio_v10': CAPTURE_VERSION_V3,
+    'codex_app_server_business_stdio_v11': CAPTURE_VERSION_V3,
 }
 MAX_CAPTURE_BYTES = 2 * 1024 * 1024
 MAX_RESPONSE_BYTES = 65536

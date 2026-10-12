@@ -1,6 +1,206 @@
 {
   "components": {
     "schemas": {
+      "AcceptedGroundedMaterialDraft": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/MaterialEvidence"
+            },
+            "maxItems": 30,
+            "minItems": 1,
+            "title": "Evidence",
+            "type": "array"
+          },
+          "grounding_version": {
+            "const": 1,
+            "title": "Grounding Version",
+            "type": "integer"
+          },
+          "hypotheses": {
+            "items": {
+              "$ref": "#/components/schemas/AcceptedGroundedMaterialHypothesis"
+            },
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "Hypotheses",
+            "type": "array"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "title": "Limitations",
+            "type": "array"
+          },
+          "paper_statistics": {
+            "items": {
+              "$ref": "#/components/schemas/PaperStatistic"
+            },
+            "maxItems": 30,
+            "title": "Paper Statistics",
+            "type": "array"
+          },
+          "support_bindings": {
+            "items": {
+              "$ref": "#/components/schemas/MaterialSupportBinding"
+            },
+            "maxItems": 512,
+            "minItems": 1,
+            "title": "Support Bindings",
+            "type": "array"
+          },
+          "title": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          },
+          "unresolved_rules": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "title": "Unresolved Rules",
+            "type": "array"
+          }
+        },
+        "required": [
+          "title",
+          "evidence",
+          "hypotheses",
+          "unresolved_rules",
+          "limitations",
+          "grounding_version",
+          "support_bindings",
+          "paper_statistics"
+        ],
+        "title": "AcceptedGroundedMaterialDraft",
+        "type": "object"
+      },
+      "AcceptedGroundedMaterialHypothesis": {
+        "additionalProperties": false,
+        "description": "An adopted host disposition record can exceed one ordinary rule's limit.",
+        "properties": {
+          "calculation": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Calculation"
+          },
+          "claim": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Claim",
+            "type": "string"
+          },
+          "claim_attribution": {
+            "enum": [
+              "paper_original",
+              "model_conjecture",
+              "unresolved",
+              "user_modification"
+            ],
+            "title": "Claim Attribution",
+            "type": "string"
+          },
+          "conditions": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "title": "Conditions",
+            "type": "array"
+          },
+          "economic_mechanism": {
+            "anyOf": [
+              {
+                "maxLength": 4000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Economic Mechanism"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "minItems": 1,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "id": {
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "title": "Id",
+            "type": "string"
+          },
+          "mechanism_attribution": {
+            "enum": [
+              "paper_original",
+              "model_conjecture",
+              "unresolved",
+              "user_modification"
+            ],
+            "title": "Mechanism Attribution",
+            "type": "string"
+          },
+          "required_data": {
+            "items": {
+              "$ref": "#/components/schemas/MaterialData"
+            },
+            "maxItems": 30,
+            "title": "Required Data",
+            "type": "array"
+          },
+          "signal_direction": {
+            "anyOf": [
+              {
+                "maxLength": 2000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signal Direction"
+          },
+          "unresolved_rules": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "title": "Unresolved Rules",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "claim",
+          "claim_attribution",
+          "evidence_ids",
+          "economic_mechanism",
+          "mechanism_attribution",
+          "signal_direction",
+          "required_data",
+          "calculation",
+          "conditions",
+          "unresolved_rules"
+        ],
+        "title": "AcceptedGroundedMaterialHypothesis",
+        "type": "object"
+      },
       "AcceptedMaterialDraft": {
         "additionalProperties": false,
         "properties": {
@@ -9563,6 +9763,194 @@
         "title": "FormulaDifferences",
         "type": "object"
       },
+      "FormulaEngineeringDraft": {
+        "additionalProperties": false,
+        "properties": {
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/DraftCandidate"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Candidates",
+            "type": "array"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/DraftEvidence"
+            },
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Evidence",
+            "type": "array"
+          },
+          "hypotheses": {
+            "items": {
+              "$ref": "#/components/schemas/FormulaEngineeringHypothesis"
+            },
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Hypotheses",
+            "type": "array"
+          }
+        },
+        "required": [
+          "evidence",
+          "hypotheses",
+          "candidates"
+        ],
+        "title": "FormulaEngineeringDraft",
+        "type": "object"
+      },
+      "FormulaEngineeringHypothesis": {
+        "additionalProperties": false,
+        "description": "Explicit unknown mechanism; never a claim of scientific approval.",
+        "properties": {
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "title": "Assumptions",
+            "type": "array"
+          },
+          "attribution": {
+            "enum": [
+              "paper_original",
+              "user_modification",
+              "model_conjecture"
+            ],
+            "title": "Attribution",
+            "type": "string"
+          },
+          "claim": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Claim",
+            "type": "string"
+          },
+          "economic_mechanism": {
+            "title": "Economic Mechanism",
+            "type": "null"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "id": {
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "title": "Id",
+            "type": "string"
+          },
+          "mechanism_attribution": {
+            "const": "unresolved",
+            "title": "Mechanism Attribution",
+            "type": "string"
+          },
+          "required_fields": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "title": "Required Fields",
+            "type": "array"
+          },
+          "signal_direction": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Signal Direction",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "claim",
+          "attribution",
+          "evidence_ids",
+          "economic_mechanism",
+          "mechanism_attribution",
+          "signal_direction",
+          "required_fields",
+          "assumptions"
+        ],
+        "title": "FormulaEngineeringHypothesis",
+        "type": "object"
+      },
+      "FormulaEngineeringHypothesisResponse": {
+        "additionalProperties": false,
+        "description": "Explicit formula verification preserves the unresolved scientific state.",
+        "properties": {
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Assumptions",
+            "type": "array"
+          },
+          "attribution": {
+            "enum": [
+              "paper_original",
+              "user_modification",
+              "model_conjecture"
+            ],
+            "title": "Attribution",
+            "type": "string"
+          },
+          "claim": {
+            "title": "Claim",
+            "type": "string"
+          },
+          "economic_mechanism": {
+            "title": "Economic Mechanism",
+            "type": "null"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "mechanism_attribution": {
+            "const": "unresolved",
+            "title": "Mechanism Attribution",
+            "type": "string"
+          },
+          "required_fields": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Required Fields",
+            "type": "array"
+          },
+          "signal_direction": {
+            "title": "Signal Direction",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "claim",
+          "attribution",
+          "evidence_ids",
+          "economic_mechanism",
+          "mechanism_attribution",
+          "signal_direction",
+          "required_fields",
+          "assumptions"
+        ],
+        "title": "FormulaEngineeringHypothesisResponse",
+        "type": "object"
+      },
       "FormulaExecution": {
         "additionalProperties": false,
         "properties": {
@@ -10156,6 +10544,181 @@
           "title"
         ],
         "title": "GenerationPolicy",
+        "type": "object"
+      },
+      "GroundedMaterialDraft": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/MaterialEvidence"
+            },
+            "maxItems": 30,
+            "minItems": 1,
+            "title": "Evidence",
+            "type": "array"
+          },
+          "grounding_version": {
+            "const": 1,
+            "title": "Grounding Version",
+            "type": "integer"
+          },
+          "hypotheses": {
+            "items": {
+              "$ref": "#/components/schemas/MaterialHypothesis"
+            },
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "Hypotheses",
+            "type": "array"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "title": "Limitations",
+            "type": "array"
+          },
+          "paper_statistics": {
+            "items": {
+              "$ref": "#/components/schemas/PaperStatistic"
+            },
+            "maxItems": 30,
+            "title": "Paper Statistics",
+            "type": "array"
+          },
+          "support_bindings": {
+            "items": {
+              "$ref": "#/components/schemas/MaterialSupportBinding"
+            },
+            "maxItems": 512,
+            "minItems": 1,
+            "title": "Support Bindings",
+            "type": "array"
+          },
+          "title": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          },
+          "unresolved_rules": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "title": "Unresolved Rules",
+            "type": "array"
+          }
+        },
+        "required": [
+          "title",
+          "evidence",
+          "hypotheses",
+          "unresolved_rules",
+          "limitations",
+          "grounding_version",
+          "support_bindings",
+          "paper_statistics"
+        ],
+        "title": "GroundedMaterialDraft",
+        "type": "object"
+      },
+      "GroundedResearchProviderOutput": {
+        "additionalProperties": false,
+        "properties": {
+          "abstention": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProposalAbstention"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "attempt_id": {
+            "pattern": "^proposal_attempt_[0-9a-f]{64}$",
+            "title": "Attempt Id",
+            "type": "string"
+          },
+          "context_digest": {
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Context Digest",
+            "type": "string"
+          },
+          "contract_id": {
+            "const": "research_provider_v2",
+            "title": "Contract Id",
+            "type": "string"
+          },
+          "decision": {
+            "title": "Decision",
+            "type": "null"
+          },
+          "draft": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FormulaEngineeringDraft"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "material": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GroundedMaterialDraft"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "operation": {
+            "enum": [
+              "extract_material",
+              "generate_candidates"
+            ],
+            "title": "Operation",
+            "type": "string"
+          },
+          "outcome": {
+            "enum": [
+              "material",
+              "draft",
+              "abstain"
+            ],
+            "title": "Outcome",
+            "type": "string"
+          },
+          "proposal_id": {
+            "pattern": "^proposal_[0-9a-f]{64}$",
+            "title": "Proposal Id",
+            "type": "string"
+          },
+          "schema_version": {
+            "const": 2,
+            "title": "Schema Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "schema_version",
+          "contract_id",
+          "operation",
+          "proposal_id",
+          "attempt_id",
+          "context_digest",
+          "outcome",
+          "material",
+          "draft",
+          "decision",
+          "abstention"
+        ],
+        "title": "GroundedResearchProviderOutput",
         "type": "object"
       },
       "GuardBoundary": {
@@ -13844,9 +14407,13 @@
                 "$ref": "#/components/schemas/AcceptedMaterialHypothesis"
               },
               {
+                "$ref": "#/components/schemas/AcceptedGroundedMaterialHypothesis"
+              },
+              {
                 "type": "null"
               }
-            ]
+            ],
+            "title": "Adopted"
           },
           "changes": {
             "items": {
@@ -13862,9 +14429,13 @@
                 "$ref": "#/components/schemas/DraftHypothesis"
               },
               {
+                "$ref": "#/components/schemas/FormulaEngineeringHypothesis"
+              },
+              {
                 "type": "null"
               }
-            ]
+            ],
+            "title": "Final"
           },
           "id": {
             "title": "Id",
@@ -16356,9 +16927,13 @@
                 "$ref": "#/components/schemas/AcceptedMaterialDraft"
               },
               {
+                "$ref": "#/components/schemas/AcceptedGroundedMaterialDraft"
+              },
+              {
                 "type": "null"
               }
-            ]
+            ],
+            "title": "Edited Material"
           },
           "expected_digest": {
             "pattern": "^[a-f0-9]{64}$",
@@ -16408,6 +16983,27 @@
           "evidence_ids"
         ],
         "title": "MaterialData",
+        "type": "object"
+      },
+      "MaterialDefinitionRepairRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_digest": {
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Expected Digest",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "pattern": "^[A-Za-z0-9_-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expected_digest",
+          "idempotency_key"
+        ],
+        "title": "MaterialDefinitionRepairRequest",
         "type": "object"
       },
       "MaterialDestination": {
@@ -16502,6 +17098,36 @@
           "limitations"
         ],
         "title": "MaterialDraft",
+        "type": "object"
+      },
+      "MaterialEngineeringRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "expected_digest": {
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Expected Digest",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "pattern": "^[A-Za-z0-9_-]{1,128}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "unresolved_dispositions": {
+            "items": {
+              "$ref": "#/components/schemas/UnresolvedDisposition"
+            },
+            "maxItems": 100,
+            "title": "Unresolved Dispositions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "expected_digest",
+          "idempotency_key",
+          "unresolved_dispositions"
+        ],
+        "title": "MaterialEngineeringRequest",
         "type": "object"
       },
       "MaterialEvidence": {
@@ -16761,6 +17387,54 @@
           "raw_pdf_reverified"
         ],
         "title": "MaterialSource",
+        "type": "object"
+      },
+      "MaterialSupportBinding": {
+        "additionalProperties": false,
+        "properties": {
+          "component": {
+            "maxLength": 116,
+            "minLength": 1,
+            "title": "Component",
+            "type": "string"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "explanation": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Explanation",
+            "type": "string"
+          },
+          "hypothesis_id": {
+            "pattern": "^[A-Za-z0-9_-]{1,64}$",
+            "title": "Hypothesis Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "direct",
+              "inference",
+              "unresolved"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "hypothesis_id",
+          "component",
+          "evidence_ids",
+          "status",
+          "explanation"
+        ],
+        "title": "MaterialSupportBinding",
         "type": "object"
       },
       "MetricDifference": {
@@ -20171,6 +20845,45 @@
           "selected_pages"
         ],
         "title": "PaperSelectionSource",
+        "type": "object"
+      },
+      "PaperStatistic": {
+        "additionalProperties": false,
+        "properties": {
+          "attribution": {
+            "const": "paper_original",
+            "title": "Attribution",
+            "type": "string"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 30,
+            "minItems": 1,
+            "title": "Evidence Ids",
+            "type": "array"
+          },
+          "label": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Label",
+            "type": "string"
+          },
+          "value": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "value",
+          "evidence_ids",
+          "attribution"
+        ],
+        "title": "PaperStatistic",
         "type": "object"
       },
       "PaperSummary": {
@@ -23704,6 +24417,49 @@
         "title": "PublicMaterialChange",
         "type": "object"
       },
+      "PublicMaterialDefinitionRepair": {
+        "additionalProperties": false,
+        "properties": {
+          "diagnostic": {
+            "additionalProperties": true,
+            "title": "Diagnostic",
+            "type": "object"
+          },
+          "human_approval": {
+            "const": false,
+            "title": "Human Approval",
+            "type": "boolean"
+          },
+          "human_review_status": {
+            "const": "pending_human",
+            "title": "Human Review Status",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PublicMaterialVersion"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "version",
+          "status",
+          "diagnostic",
+          "human_approval",
+          "human_review_status"
+        ],
+        "title": "PublicMaterialDefinitionRepair",
+        "type": "object"
+      },
       "PublicMaterialDetail": {
         "additionalProperties": false,
         "properties": {
@@ -23729,7 +24485,15 @@
             "type": "string"
           },
           "draft": {
-            "$ref": "#/components/schemas/MaterialDraft"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MaterialDraft"
+              },
+              {
+                "$ref": "#/components/schemas/GroundedMaterialDraft"
+              }
+            ],
+            "title": "Draft"
           },
           "draft_digest": {
             "title": "Draft Digest",
@@ -23787,6 +24551,103 @@
           "public_projection_redacted"
         ],
         "title": "PublicMaterialDetail",
+        "type": "object"
+      },
+      "PublicMaterialDiagnostic": {
+        "additionalProperties": false,
+        "properties": {
+          "automatic_checks": {
+            "additionalProperties": true,
+            "title": "Automatic Checks",
+            "type": "object"
+          },
+          "details": {
+            "additionalProperties": true,
+            "title": "Details",
+            "type": "object"
+          },
+          "human_review": {
+            "additionalProperties": true,
+            "title": "Human Review",
+            "type": "object"
+          },
+          "material_digest": {
+            "title": "Material Digest",
+            "type": "string"
+          },
+          "material_id": {
+            "title": "Material Id",
+            "type": "string"
+          },
+          "source": {
+            "additionalProperties": true,
+            "title": "Source",
+            "type": "object"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "stop_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stop Reason"
+          }
+        },
+        "required": [
+          "material_id",
+          "material_digest",
+          "source",
+          "status",
+          "stop_reason",
+          "details",
+          "automatic_checks",
+          "human_review"
+        ],
+        "title": "PublicMaterialDiagnostic",
+        "type": "object"
+      },
+      "PublicMaterialEngineering": {
+        "additionalProperties": false,
+        "properties": {
+          "human_approval": {
+            "const": false,
+            "title": "Human Approval",
+            "type": "boolean"
+          },
+          "human_review_status": {
+            "const": "pending_human",
+            "title": "Human Review Status",
+            "type": "string"
+          },
+          "method_policy": {
+            "additionalProperties": true,
+            "title": "Method Policy",
+            "type": "object"
+          },
+          "verification_scope": {
+            "const": "formula_engineering_only",
+            "title": "Verification Scope",
+            "type": "string"
+          },
+          "version": {
+            "$ref": "#/components/schemas/PublicMaterialVersion"
+          }
+        },
+        "required": [
+          "version",
+          "method_policy",
+          "verification_scope",
+          "human_review_status",
+          "human_approval"
+        ],
+        "title": "PublicMaterialEngineering",
         "type": "object"
       },
       "PublicMaterialSummary": {
@@ -23850,7 +24711,10 @@
         "additionalProperties": false,
         "properties": {
           "actor": {
-            "const": "user",
+            "enum": [
+              "user",
+              "automation"
+            ],
             "title": "Actor",
             "type": "string"
           },
@@ -23870,6 +24734,18 @@
             "title": "Created At",
             "type": "string"
           },
+          "definition_repair": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Definition Repair"
+          },
           "digest": {
             "title": "Digest",
             "type": "string"
@@ -23883,7 +24759,15 @@
             "type": "string"
           },
           "material": {
-            "$ref": "#/components/schemas/AcceptedMaterialDraft"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AcceptedMaterialDraft"
+              },
+              {
+                "$ref": "#/components/schemas/AcceptedGroundedMaterialDraft"
+              }
+            ],
+            "title": "Material"
           },
           "material_id": {
             "title": "Material Id",
@@ -25028,9 +25912,13 @@
                 "$ref": "#/components/schemas/ResearchProviderOutput"
               },
               {
+                "$ref": "#/components/schemas/GroundedResearchProviderOutput"
+              },
+              {
                 "type": "null"
               }
-            ]
+            ],
+            "title": "Output"
           },
           "receipt": {
             "anyOf": [
@@ -26257,7 +27145,15 @@
             "type": "string"
           },
           "draft": {
-            "$ref": "#/components/schemas/ResearchDraft"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResearchDraft"
+              },
+              {
+                "$ref": "#/components/schemas/FormulaEngineeringDraft"
+              }
+            ],
+            "title": "Draft"
           },
           "id": {
             "title": "Id",
@@ -26430,7 +27326,15 @@
             "$ref": "#/components/schemas/JobBudget"
           },
           "draft": {
-            "$ref": "#/components/schemas/ResearchDraft"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResearchDraft"
+              },
+              {
+                "$ref": "#/components/schemas/FormulaEngineeringDraft"
+              }
+            ],
+            "title": "Draft"
           },
           "idempotency_key": {
             "maxLength": 128,
@@ -28103,7 +29007,14 @@
           },
           "hypotheses": {
             "items": {
-              "$ref": "#/components/schemas/HypothesisResponse"
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/HypothesisResponse"
+                },
+                {
+                  "$ref": "#/components/schemas/FormulaEngineeringHypothesisResponse"
+                }
+              ]
             },
             "title": "Hypotheses",
             "type": "array"
@@ -28165,9 +29076,13 @@
                 "$ref": "#/components/schemas/ResearchProviderOutput"
               },
               {
+                "$ref": "#/components/schemas/GroundedResearchProviderOutput"
+              },
+              {
                 "type": "null"
               }
-            ]
+            ],
+            "title": "Accepted Response"
           },
           "accepted_response_digest": {
             "anyOf": [
@@ -33044,6 +33959,42 @@
         "title": "ToolUsage",
         "type": "object"
       },
+      "UnresolvedDisposition": {
+        "additionalProperties": false,
+        "properties": {
+          "disposition": {
+            "enum": [
+              "scientific_unresolved",
+              "project_configuration",
+              "blocked"
+            ],
+            "title": "Disposition",
+            "type": "string"
+          },
+          "original": {
+            "title": "Original",
+            "type": "string"
+          },
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "rationale": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Rationale",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "original",
+          "disposition",
+          "rationale"
+        ],
+        "title": "UnresolvedDisposition",
+        "type": "object"
+      },
       "ValidationMetrics": {
         "additionalProperties": false,
         "properties": {
@@ -33886,7 +34837,7 @@
   "info": {
     "description": "Local single-user research workflow with an optional supervised proposal transport. Real dispatch is disabled by default and requires explicit host authorization; each attempt verifies its execution boundary.",
     "title": "Paper-to-Alpha Workbench",
-    "version": "0.27.1"
+    "version": "0.27.2"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -57876,6 +58827,666 @@
           }
         },
         "summary": "Adopt Material",
+        "tags": [
+          "research-v2"
+        ]
+      }
+    },
+    "/api/research-v2/materials/{material_id}/definition-repair": {
+      "post": {
+        "operationId": "repair_operator_definitions_api_research_v2_materials__material_id__definition_repair_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "material_id",
+            "required": true,
+            "schema": {
+              "title": "Material Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaterialDefinitionRepairRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicMaterialDefinitionRepair"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "412": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Failed"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Repair Operator Definitions",
+        "tags": [
+          "research-v2"
+        ]
+      }
+    },
+    "/api/research-v2/materials/{material_id}/diagnostics": {
+      "get": {
+        "operationId": "get_material_diagnostic_api_research_v2_materials__material_id__diagnostics_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "material_id",
+            "required": true,
+            "schema": {
+              "title": "Material Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dataset_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Dataset Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicMaterialDiagnostic"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "412": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Failed"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Get Material Diagnostic",
+        "tags": [
+          "research-v2"
+        ]
+      }
+    },
+    "/api/research-v2/materials/{material_id}/engineering": {
+      "post": {
+        "operationId": "configure_formula_engineering_api_research_v2_materials__material_id__engineering_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "material_id",
+            "required": true,
+            "schema": {
+              "title": "Material Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaterialEngineeringRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicMaterialEngineering"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "412": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Failed"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Configure Formula Engineering",
+        "tags": [
+          "research-v2"
+        ]
+      }
+    },
+    "/api/research-v2/materials/{material_id}/report": {
+      "get": {
+        "operationId": "export_material_report_api_research_v2_materials__material_id__report_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "material_id",
+            "required": true,
+            "schema": {
+              "title": "Material Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dataset_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Dataset Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "405": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Method Not Allowed"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "412": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Precondition Failed"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Export Material Report",
         "tags": [
           "research-v2"
         ]

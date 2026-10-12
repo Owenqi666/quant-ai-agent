@@ -1,9 +1,20 @@
-import type { AcceptedMaterialDraft, PublicExperiment, PublicResearchSession } from "./generated/api-contract";
+import type { AcceptedMaterialDraft, AcceptedGroundedMaterialDraft, PublicExperiment, PublicMaterialEngineering, PublicResearchSession, ResearchV2ProposalDetail } from "./generated/api-contract";
+import type { JsonObject } from "./domain";
 import { isResearchDraft } from "./drafts";
 import { readMutation, recoveryKey, writeDurably } from "./reviewRecovery";
 import type { PendingMutation } from "./reviewRecovery";
 
 export interface FlowOperationReference { inputKey: string; sourceDigest: string; sessionId: string; proposalId?: string }
+export interface EngineeringMethodPolicy extends JsonObject {
+  schema_version: 1; kind: "daily_formula_engineering_v1"; operator_semantics_version: string;
+  allow_field_substitution: false; evaluation_period: "validation";
+}
+export function isEngineeringMethodPolicy(value: unknown): value is EngineeringMethodPolicy {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const row = value as EngineeringMethodPolicy;
+  return row.schema_version === 1 && row.kind === "daily_formula_engineering_v1" && typeof row.operator_semantics_version === "string" && !!row.operator_semantics_version &&
+    row.allow_field_substitution === false && row.evaluation_period === "validation";
+}
 export interface ResearchCreationFlowState {
   version: 1;
   selectedPages: number[];
@@ -14,6 +25,7 @@ export interface ResearchCreationFlowState {
   materialId?: string;
   materialVersionId?: string;
   materialDigest?: string;
+  engineeringMethodPolicy?: EngineeringMethodPolicy;
   generation?: FlowOperationReference;
   experimentId?: string;
 }
@@ -27,15 +39,20 @@ export function isResearchCreationFlow(value: unknown): value is ResearchCreatio
     typeof row.providerConfigId !== "string" || !(row.hostGrantId === null || typeof row.hostGrantId === "string")) return false;
   for (const key of ["materialId", "materialVersionId", "materialDigest", "experimentId"] as const) if (row[key] !== undefined && typeof row[key] !== "string") return false;
   for (const ref of [row.extraction, row.generation]) if (ref !== undefined && (!ref || typeof ref.inputKey !== "string" || typeof ref.sourceDigest !== "string" || typeof ref.sessionId !== "string" || (ref.proposalId !== undefined && typeof ref.proposalId !== "string"))) return false;
+  if (row.engineeringMethodPolicy !== undefined && !isEngineeringMethodPolicy(row.engineeringMethodPolicy)) return false;
   return true;
 }
 export const creationInputKey = (value: unknown) => JSON.stringify(value);
+export function proposalExecutionKind(proposal: Pick<ResearchV2ProposalDetail, "provider_mode" | "attempts">): "fixture" | "native_provider_invocation" | "not_observed" {
+  if (proposal.provider_mode === "fixture") return "fixture";
+  return proposal.attempts.some(attempt => attempt.receipt?.invocation_started && attempt.receipt.fixture === false) ? "native_provider_invocation" : "not_observed";
+}
 export const creationFlowMutationKey = (workspace: string, draft: string) => recoveryKey(workspace, "creation-ai", draft);
 export function readCreationFlowMutation(storage: Pick<Storage, "getItem">, key: string): PendingMutation | null {
   const raw = storage.getItem(key);
   if (!raw) return null;
   const parsed = JSON.parse(raw);
-  if (typeof parsed.path !== "string" || !/^\/research-v2\/(sessions(?:\/[^/]+\/(?:cancel|reconcile))?|proposals(?:\/[^/]+\/material)?|materials\/[^/]+\/adopt|experiments(?:\/[^/]+\/(advance|cancel))?)$/.test(parsed.path)) throw new Error("AI 恢复请求路径无效；已保留原记录。");
+  if (typeof parsed.path !== "string" || !/^\/research-v2\/(sessions(?:\/[^/]+\/(?:cancel|reconcile))?|proposals(?:\/[^/]+\/material)?|materials\/[^/]+\/(?:adopt|engineering)|experiments(?:\/[^/]+\/(advance|cancel))?)$/.test(parsed.path)) throw new Error("AI 恢复请求路径无效；已保留原记录。");
   const item = readMutation(storage, key, parsed.path);
   if (!item?.context || typeof item.context.action !== "string" || typeof item.context.inputKey !== "string") throw new Error("AI 恢复请求缺少来源信息；已保留原记录。");
   return item;
@@ -50,11 +67,22 @@ export function persistCreationFlow(storage: Pick<Storage, "getItem" | "setItem"
   if (!isResearchCreationFlow(flow)) throw new Error("AI 流程引用格式无效。");
   writeDurably(storage, key, { ...draft, savedAt: new Date().toISOString(), value: { ...draft.value, creationFlow: flow } });
 }
-export function selectMaterialHypotheses(material: AcceptedMaterialDraft, selected: string[]): AcceptedMaterialDraft {
+export function selectMaterialHypotheses(material: AcceptedMaterialDraft | AcceptedGroundedMaterialDraft, selected: string[]): AcceptedMaterialDraft | AcceptedGroundedMaterialDraft {
   const hypotheses = material.hypotheses.filter(item => selected.includes(item.id));
   if (!hypotheses.length) throw new Error("请至少选择一条假说。");
   const evidenceIds = new Set(hypotheses.flatMap(item => [...item.evidence_ids, ...item.required_data.flatMap(field => field.evidence_ids)]));
+  if ("support_bindings" in material) {
+    material.paper_statistics.forEach(item => item.evidence_ids.forEach(id => evidenceIds.add(id)));
+    return { ...material, hypotheses, support_bindings: material.support_bindings.filter(item => selected.includes(item.hypothesis_id)),
+      evidence: material.evidence.filter(item => evidenceIds.has(item.id)) };
+  }
   return { ...material, hypotheses, evidence: material.evidence.filter(item => evidenceIds.has(item.id)) };
+}
+export function applyEngineeringConfiguration(before: ResearchCreationFlowState, result: PublicMaterialEngineering): ResearchCreationFlowState {
+  if (!isEngineeringMethodPolicy(result.method_policy) || result.version.actor !== "automation" || result.human_approval !== false ||
+    result.verification_scope !== "formula_engineering_only" || result.human_review_status !== "pending_human") throw new Error("工程配置回执范围不一致，未覆盖原流程。");
+  return { ...before, materialId: result.version.material_id, materialVersionId: result.version.id, materialDigest: result.version.digest,
+    engineeringMethodPolicy: result.method_policy, generation: undefined, experimentId: undefined };
 }
 export function nextExperimentAction(experiment: PublicExperiment): "validate" | "commit" | "submit" | "observe" | "complete" | null {
   const next = { created: "validate", validated: "commit", committed: "submit", submitted: "observe", observed: "complete" } as const;

@@ -1,11 +1,12 @@
 """Closed provider-independent research execution contracts; no file paths."""
 from typing import Literal
-from pydantic import Field
+from pydantic import Field, model_validator
 from ..author_panel_schema import AuthorModel
 
 Origin = Literal['paper_original', 'user_modification', 'model_conjecture']
 JobState = Literal['created', 'validated', 'committed', 'submitted', 'observed', 'completed', 'blocked', 'failed', 'cancelled', 'exhausted']
 JobAction = Literal['validate', 'commit', 'submit', 'observe', 'complete', 'cancel']
+ENGINEERING_ONLY_ASSUMPTION = 'Formula engineering verification only; economic mechanism and research validity remain unresolved.'
 
 
 class DraftEvidence(AuthorModel):
@@ -40,6 +41,22 @@ class ResearchDraft(AuthorModel):
     candidates: list[DraftCandidate] = Field(min_length=1, max_length=20)
 
 
+class FormulaEngineeringHypothesis(DraftHypothesis):
+    """Explicit unknown mechanism; never a claim of scientific approval."""
+    economic_mechanism: None = Field(...)
+    mechanism_attribution: Literal['unresolved'] = Field(...)
+
+    @model_validator(mode='after')
+    def engineering_marker(self):
+        if ENGINEERING_ONLY_ASSUMPTION not in self.assumptions:
+            raise ValueError('Formula engineering requires the exact engineering-only assumption')
+        return self
+
+
+class FormulaEngineeringDraft(ResearchDraft):
+    hypotheses: list[FormulaEngineeringHypothesis] = Field(min_length=1, max_length=100)
+
+
 class JobBudget(AuthorModel):
     max_steps: int = Field(ge=1, le=100)
     max_failures: int = Field(ge=1, le=20)
@@ -49,7 +66,7 @@ class JobBudget(AuthorModel):
 class ResearchJobCreate(AuthorModel):
     research_id: str = Field(min_length=1, max_length=64)
     base_revision_id: str = Field(min_length=1, max_length=64)
-    draft: ResearchDraft
+    draft: ResearchDraft | FormulaEngineeringDraft
     budget: JobBudget
     idempotency_key: str = Field(min_length=1, max_length=128)
     note: str = Field(default='', max_length=4000)
@@ -121,7 +138,7 @@ class ResearchJobSummary(AuthorModel):
 
 class ResearchJob(ResearchJobSummary):
     source_digest: str
-    draft: ResearchDraft
+    draft: ResearchDraft | FormulaEngineeringDraft
     allow_partial_execution: bool
     context_json: str
     candidate_checks: list[JobCandidateCheck]

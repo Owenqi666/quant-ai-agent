@@ -13,6 +13,7 @@ import hashlib
 import math
 import os
 from pathlib import Path
+import shutil
 import stat
 import time
 import uuid
@@ -30,13 +31,15 @@ from .provider_read_probe import READ_BOUNDARY_CASES
 from .provider_schema import ProviderCallControl, ProviderConfig
 from .provider_write_probe import CASES
 
-VERSION = 'native_app_server_fresh_control_v2'
+LEGACY_VERSION = 'native_app_server_fresh_control_v2'
+VERSION = 'native_app_server_fresh_control_v3'
 SCOPE = 'controller_bound_synthetic_observation_only_no_business_qualification'
 ROOT = Path(__file__).resolve().parents[2]
 MAX_NATIVE_ATTEMPTS = 11
-_IDENTITY_KEYS = {'version', 'scope', 'nonce', 'artifact_dir', 'business_static_identity',
+_LEGACY_IDENTITY_KEYS = {'version', 'scope', 'nonce', 'artifact_dir', 'business_static_identity',
     'config_snapshot', 'config_digest', 'controller', 'environment', 'context_policy_version',
     'business_rpc_policy_digest', 'synthetic_rpc_policy_digest', 'controlled_write_loader_version', 'identity_digest'}
+_IDENTITY_KEYS = _LEGACY_IDENTITY_KEYS | {'execution_root'}
 _REPORT_KEYS = {'report_version', 'scope', 'identity', 'legacy_report', 'write_report',
     'raw_manifest', 'resources', 'assessment', 'failure', 'business_activation_eligible'}
 
@@ -96,8 +99,10 @@ def prepare_fresh_identity(config, control):
     controller = _controller(control)
     _require(not control.cancel_event.is_set() and time.monotonic() < control.deadline_monotonic
         <= time.monotonic() + 600, 'FRESH_CONTROL_EXPIRED')
-    value = {'version': VERSION, 'scope': SCOPE, 'nonce': uuid.uuid4().hex,
+    nonce = uuid.uuid4().hex
+    value = {'version': VERSION, 'scope': SCOPE, 'nonce': nonce,
         'artifact_dir': str(parent), 'business_static_identity': static_identity,
+        'execution_root': str(Path('/private/tmp') / ('quant-agent-fresh-' + nonce)),
         'config_snapshot': snapshot, 'config_digest': digest(snapshot), 'controller': controller,
         'environment': _safe_environment(), 'context_policy_version': APP_SERVER_CONTEXT_POLICY_VERSION,
         'business_rpc_policy_digest': BUSINESS_RPC_POLICY_DIGEST,
@@ -109,7 +114,9 @@ def prepare_fresh_identity(config, control):
 
 def _validate_expected(value):
     from .provider_cli_state import APP_SERVER_CONTEXT_POLICY_VERSION
-    _require(isinstance(value, dict) and set(value) == _IDENTITY_KEYS and value['version'] == VERSION
+    current = isinstance(value, dict) and value.get('version') == VERSION
+    _require(isinstance(value, dict) and set(value) == (_IDENTITY_KEYS if current else _LEGACY_IDENTITY_KEYS)
+        and value['version'] in (VERSION, LEGACY_VERSION)
         and value['scope'] == SCOPE and type(value['nonce']) is str and len(value['nonce']) == 32
         and all(c in '0123456789abcdef' for c in value['nonce'])
         and value['identity_digest'] == digest({k: v for k, v in value.items() if k != 'identity_digest'})
@@ -118,6 +125,9 @@ def _validate_expected(value):
         and value['synthetic_rpc_policy_digest'] == CONTROLLED_RPC_POLICY_DIGEST
         and value['controlled_write_loader_version'] == CONTROLLED_WRITE_LOADER_VERSION,
         'FRESH_EXPECTED_IDENTITY_INVALID')
+    if current:
+        _require(value['execution_root'] == str(Path('/private/tmp') / ('quant-agent-fresh-' + value['nonce'])),
+                 'FRESH_EXECUTION_ROOT_INVALID')
     static = value['business_static_identity']
     _require(static['identity_digest'] == digest({k: v for k, v in static.items() if k != 'identity_digest'}),
         'FRESH_STATIC_IDENTITY_INVALID')
@@ -184,6 +194,56 @@ def _manifest(root):
         raw = _read(root, name)
         entries.append({'path': name, 'sha256': _sha(raw), 'size_bytes': len(raw)})
     return entries
+
+
+def _copy_classified_raw(source, archive):
+    """Snapshot only the fixed raw allowlist, never work or CLI-state files."""
+    source, archive = _private_dir(source), _private_dir(archive)
+    manifest = _manifest(source)
+    _require(sum(item['size_bytes'] for item in manifest) <= 32 * 1024 * 1024,
+             'FRESH_ARCHIVE_TOO_LARGE')
+    for entry in manifest:
+        raw = _read(source, entry['path'])
+        _require(len(raw) == entry['size_bytes'] and _sha(raw) == entry['sha256'], 'FRESH_ARCHIVE_SOURCE_DRIFT')
+        target = archive / entry['path']
+        if entry['path'] == 'expected-identity.json':
+            _require(_read(archive, entry['path']) == raw, 'FRESH_ARCHIVE_IDENTITY_DRIFT')
+            continue
+        directory = archive
+        for part in Path(entry['path']).parts[:-1]:
+            directory = directory / part
+            directory.mkdir(mode=0o700, exist_ok=True)
+            _private_dir(directory)
+        _atomic_bytes(target, raw)
+        target.chmod(0o600)
+    _require(_manifest(source) == manifest == _manifest(archive), 'FRESH_ARCHIVE_COPY_INCOMPLETE')
+    return manifest
+
+
+def _cleanup_scratch(root):
+    """Remove this attempt's scratch only after every created supervisor stopped."""
+    from .provider_app_server_write_intervention_probe import PHASES
+    root = _private_dir(root)
+    _require(root.parent == Path('/private/tmp') and root.name.startswith('quant-agent-fresh-'),
+             'FRESH_EXECUTION_ROOT_INVALID')
+    prefixes = ['legacy/' + case for case in READ_BOUNDARY_CASES + CASES]
+    prefixes += ['write/' + phase for phase in PHASES]
+    for prefix in prefixes:
+        directory = root / prefix / 'supervision'
+        if not directory.exists():
+            continue
+        try:
+            spec, ready = _json(directory, 'spec.json'), _json(directory, 'ready.json')
+            stop, _, _ = _read_stop(directory, spec['nonce'], ready['supervisor_pid'],
+                spec['deadline_monotonic'], spec['output_limit'], protocol_version=2)
+            _require(stop['process_stopped'] is True, 'FRESH_SCRATCH_STOP_UNCONFIRMED')
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            raise ValueError('FRESH_SCRATCH_STOP_UNCONFIRMED') from exc
+    try:
+        shutil.rmtree(root)
+        _require(not root.exists() and not root.is_symlink(), 'FRESH_SCRATCH_CLEANUP_FAILED')
+    except OSError as exc:
+        raise ValueError('FRESH_SCRATCH_CLEANUP_FAILED') from exc
 
 
 def _validate_controller_raw(root, name, expected, observation):
@@ -293,6 +353,9 @@ def _validate_legacy_records(root, legacy_reference, expected_identity):
     _require(type(legacy_reference) is dict and set(legacy_reference) == {'path', 'sha256'}
         and legacy_reference['path'] == 'legacy/report.json', 'FRESH_LEGACY_REFERENCE_INVALID')
     legacy = _json(root, legacy_reference['path'])
+    if expected_identity['version'] == VERSION:
+        _require(legacy['matrix_layout']['matrix_root'] == str(Path(expected_identity['execution_root']) / 'legacy'),
+                 'FRESH_MATRIX_EXECUTION_ROOT_DRIFT')
     _require(legacy_reference['sha256'] == _sha(_read(root, legacy_reference['path']))
         and legacy['scope'] == 'synthetic_transport_compatibility_only_no_business_qualification'
         and legacy['authorization_used'] is False and type(legacy['real_model_invocations']) is int
@@ -341,12 +404,22 @@ def _validate_legacy_records(root, legacy_reference, expected_identity):
     return rebuilt
 
 
-def _verify_fresh_report(root, report, *, expected_identity):
+def _verify_fresh_report(root, report, *, expected_identity, allow_uncleaned_scratch=False):
     _validate_expected(expected_identity)
-    _require(type(report) is dict and set(report) == _REPORT_KEYS
-        and report['report_version'] == VERSION and report['scope'] == SCOPE
+    current = expected_identity['version'] == VERSION
+    _require(type(report) is dict and set(report) == (_REPORT_KEYS | {'scratch_cleanup'} if current else _REPORT_KEYS)
+        and report['report_version'] == expected_identity['version'] and report['scope'] == SCOPE
         and canonical_json(report['identity']) == canonical_json(expected_identity)
         and report['business_activation_eligible'] is False, 'FRESH_REPORT_IDENTITY_INVALID')
+    if current:
+        execution = Path(expected_identity['execution_root'])
+        archive = Path(expected_identity['artifact_dir']) / ('fresh-' + expected_identity['nonce'])
+        _require(Path(root) == archive or allow_uncleaned_scratch and Path(root) == execution,
+                 'FRESH_ARCHIVE_ROOT_DRIFT')
+        cleanup = report['scratch_cleanup']
+        _require(type(cleanup) is dict and set(cleanup) == {'execution_root', 'removed'}
+            and cleanup['execution_root'] == str(execution) and type(cleanup['removed']) is bool
+            and (cleanup['removed'] is True or allow_uncleaned_scratch), 'FRESH_SCRATCH_CLEANUP_UNCONFIRMED')
     manifest = report['raw_manifest']
     _require(type(manifest) is list and len(manifest) <= 300, 'FRESH_MANIFEST_INVALID')
     paths = set()
@@ -402,20 +475,32 @@ def load_fresh_report(path, *, expected_identity):
 
 
 async def run_fresh_boundary(config, control, *, expected_identity, seconds=12):
-    """One complete current matrix. No retries; all outputs remain on failure."""
+    """New synthetic scratch; one matrix; durable raw archive before cleanup."""
     from .provider_app_server_probe import run_controlled_matrix
     from .provider_app_server_write_intervention_probe import run as run_write, SOURCE_FILES, CONTRACT_SHA256
     _require(type(seconds) in (int, float) and 0 < seconds <= 12, 'FRESH_CASE_LIMIT_INVALID')
     _dispatch_guard(config, control, expected_identity)
-    root = Path(expected_identity['artifact_dir']) / ('fresh-' + expected_identity['nonce'])
-    root.mkdir(mode=0o700)
-    _atomic_bytes(root / 'expected-identity.json', (canonical_json(expected_identity) + '\n').encode())
+    _require(expected_identity['version'] == VERSION, 'FRESH_CURRENT_IDENTITY_REQUIRED')
+    archive = Path(expected_identity['artifact_dir']) / ('fresh-' + expected_identity['nonce'])
+    archive.mkdir(mode=0o700)
+    root = Path(expected_identity['execution_root'])
+    _atomic_bytes(archive / 'expected-identity.json', (canonical_json(expected_identity) + '\n').encode())
+    (archive / 'expected-identity.json').chmod(0o600)
     report = {'report_version': VERSION, 'scope': SCOPE, 'identity': deepcopy(dict(expected_identity)),
         'legacy_report': None, 'write_report': None, 'raw_manifest': [], 'resources': {
             'native_attempts': 0, 'real_model_invocations': 0, 'auth_operations': 0, 'business_grants': 0},
-        'assessment': None, 'failure': None, 'business_activation_eligible': False}
-    guard = lambda: _dispatch_guard(config, control, expected_identity)
+        'assessment': None, 'failure': None, 'business_activation_eligible': False,
+        'scratch_cleanup': {'execution_root': str(root), 'removed': False}}
+    copy_attempted = created = False
+    def guard():
+        _dispatch_guard(config, control, expected_identity)
+        _private_dir(root)
     try:
+        root.mkdir(mode=0o700)
+        created = True
+        _private_dir(root)
+        _atomic_bytes(root / 'expected-identity.json', (canonical_json(expected_identity) + '\n').encode())
+        (root / 'expected-identity.json').chmod(0o600)
         legacy = await run_controlled_matrix(config, root / 'legacy', control=control, seconds=seconds, dispatch_guard=guard)
         legacy_raw = _read(root, 'legacy/report.json')
         report['legacy_report'] = {'path': 'legacy/report.json', 'sha256': _sha(legacy_raw)}
@@ -440,14 +525,28 @@ async def run_fresh_boundary(config, control, *, expected_identity, seconds=12):
         report['resources']['native_attempts'] += write['resources']['native_attempts']
         guard()
         report['raw_manifest'] = _manifest(root)
-        readback = _verify_fresh_report(root, report, expected_identity=expected_identity)
+        readback = _verify_fresh_report(root, report, expected_identity=expected_identity, allow_uncleaned_scratch=True)
         report['assessment'] = readback['assessment']
         _require(report['assessment']['fresh_matrix_observed'], 'FRESH_OBSERVATION_NOT_COMPLETE')
+        copy_attempted = True
+        _copy_classified_raw(root, archive)
+        _verify_fresh_report(archive, report, expected_identity=expected_identity, allow_uncleaned_scratch=True)
+        _cleanup_scratch(root)
+        report['scratch_cleanup']['removed'] = True
+        _verify_fresh_report(archive, report, expected_identity=expected_identity)
+        _dispatch_guard(config, control, expected_identity)
     except asyncio.CancelledError:
         report['failure'] = {'type': 'CancelledError', 'code': 'FRESH_CANCELLED'}
     except (OSError, ValueError, KeyError, TypeError) as exc:
         report['failure'] = {'type': type(exc).__name__, 'code': str(exc)[:160] if isinstance(exc, ValueError) else 'FRESH_EXECUTION_FAILED'}
     finally:
-        report['raw_manifest'] = _manifest(root)
-        _atomic_bytes(root / 'report.json', (canonical_json(report) + '\n').encode())
-    return {'report_path': str(root / 'report.json'), 'report': report}
+        if created and not copy_attempted:
+            try:
+                _copy_classified_raw(root, archive)
+            except (OSError, ValueError) as exc:
+                if report['failure'] is None:
+                    report['failure'] = {'type': type(exc).__name__, 'code': 'FRESH_ARCHIVE_COPY_INCOMPLETE'}
+        report['raw_manifest'] = _manifest(archive)
+        _atomic_bytes(archive / 'report.json', (canonical_json(report) + '\n').encode())
+        (archive / 'report.json').chmod(0o600)
+    return {'report_path': str(archive / 'report.json'), 'report': report}

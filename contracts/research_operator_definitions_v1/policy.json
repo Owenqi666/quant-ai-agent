@@ -1,0 +1,18 @@
+{
+  "aliases": {
+    "correlation": "ts_corr",
+    "delta": "ts_delta",
+    "stddev": "ts_std"
+  },
+  "coverage": "complete non-whitespace declaration range in calculation and inferred-direction bindings",
+  "definitions": "formal function declaration plus recognized complete meaning; not name occurrence",
+  "execution_validation": "existing engine; unsupported calls remain unsupported",
+  "formula_support": "unique explicit named Alpha reference; complete bound source expression; AST comparison with documented aliases only",
+  "human_approval": false,
+  "policy_version": "selected_operator_definitions_v1",
+  "repair": "append exact existing spans and binding references only; preserve formula/data/scientific unknowns",
+  "schema_version": 1,
+  "semantic_fidelity": "unverified",
+  "source_scope": "exact selected input chunks and verified span catalog only"
+}
+

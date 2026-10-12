@@ -2,7 +2,7 @@
 
 Application code and user state are separate. The launcher's `--home` selects a workspace containing the database and owned input/result files. Keep that workspace private; it contains research material and local paths.
 
-The current maintenance implementation supports schema 1–29 and rejects future schema versions. This is an implementation compatibility range, not evidence that every historical upgrade combination has been tested. Restore retains the saved schema; normal workspace initialization performs the ordered migrations.
+The current maintenance implementation supports schema 1-29 and rejects future schema versions. This is an implementation compatibility range, not evidence that every historical upgrade combination has been tested. Restore retains the saved schema; normal workspace initialization performs the ordered migrations.
 
 ## Offline maintenance
 
@@ -28,9 +28,9 @@ Open [the restored workbench](http://127.0.0.1:8766/) and inspect the original s
 
 The backup uses SQLite's backup API to capture committed state consistently, including WAL commits. It copies owned research assets and saves a manifest of file sizes and SHA256 digests. WAL/SHM files and active runtime locks are not copied as database state.
 
-Research revisions, attempts, snapshots, computed results, events, frozen reports, reviews, regression cases, and approved checks remain historical records. Required database-owned provider history is retained and verified. Restore rebases supported database path columns; saved engine snapshots and result/report content are not regenerated.
+Material drafts and immutable material versions, selected-source bindings, definition-repair records, research revisions, attempts, snapshots, computed results, events, frozen reports, reviews, regression cases, and approved checks remain historical records. Required database-owned provider history is retained and verified. Restore rebases supported database path columns; saved engine snapshots and result/report content are not regenerated.
 
-Browser drafts and pending requests are local browser state and are not included. Native model accounts, credentials, external authorization files, and current host execution access are managed separately. Restore pauses provider dispatch and changes recovery identity; it does not revive old authority or reset deadlines and call budgets. Reading restored history does not call a model.
+Browser drafts and pending requests are local browser state and are not included. Native model accounts, credentials, external authorization files, and current host execution access are managed separately. Restore pauses provider dispatch and changes recovery identity; it does not revive old authority or reset deadlines and call budgets. Reading restored history does not call a model. A restored automated material version retains its unresolved scientific content and recorded approval status; recovery does not convert mechanical verification into human approval.
 
 ## Failure behavior
 

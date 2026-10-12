@@ -224,8 +224,9 @@ adopted, and no HTTP handler can mint a grant by calling this helper.
         _need(spec['instruction_digest'] is None or spec['instruction_digest'] == digest(request['instruction']),
               'Instruction differs from its frozen call', 'LOOP_NATIVE_SCOPE_MISMATCH')
         _need(config == grant['config'], 'Native program configuration differs', 'LOOP_NATIVE_CONFIG_MISMATCH')
-        _need(app_server_operation_supported(config, request['operation']),
-              'App Server supports only generation in this version', 'APP_SERVER_OPERATION_UNSUPPORTED')
+        _need(app_server_operation_supported(config, request['operation'])
+              and (native_transport(config) != 'app_server' or request['operation'] == 'generate_candidates'),
+              'App Server Loop supports only generation; compact extraction requires a Host grant', 'APP_SERVER_OPERATION_UNSUPPORTED')
         budget = request['budget']
         _need(budget['max_provider_invocations'] == 1 and budget['max_seconds'] <= grant['request']['max_proposal_seconds']
               and request['candidate_limit'] == spec['candidate_limit']

@@ -19,7 +19,7 @@ class EvidenceV1:
         return ProposalCreate.model_validate(value)
 
     @staticmethod
-    def build_context(store, request, *, enable_material_span_references=False):
+    def build_context(store, request, *, enable_material_span_references=False, enable_grounded_material=False):
         from .provider_context import build_provider_context
         return build_provider_context(store, request.research_id, request.base_revision_id)
 
@@ -56,17 +56,22 @@ class ResearchV2:
         return ResearchProposalCreate.model_validate(value)
 
     @staticmethod
-    def build_context(store, request, *, enable_material_span_references=False):
+    def build_context(store, request, *, enable_material_span_references=False, enable_grounded_material=False):
         from .provider_correction_native import is_provider_correction, build_correction_context
         if is_provider_correction(request):
             if enable_material_span_references:
                 raise ProviderContractError('CORRECTION_CONTEXT_MODE_INVALID', 'Correction does not enable material spans')
             return build_correction_context(store, request)
         from .provider_research_context import build_research_context
-        return build_research_context(store, request, enable_material_span_references=enable_material_span_references)
+        return build_research_context(store, request, enable_material_span_references=enable_material_span_references,
+                                      enable_grounded_material=enable_grounded_material)
 
     @staticmethod
     def build_prompt(request, context, proposal_id, attempt_id):
+        from .provider_grounded_contract import mode_for_context
+        if mode_for_context(context, ResearchV2.parse_request(request).operation):
+            from .provider_grounded_contract import build_prompt
+            return build_prompt(request, context, proposal_id, attempt_id)
         from .paper_material_spans import validate_context_mode
         request = ResearchV2.parse_request(request)
         if validate_context_mode(context, operation=request.operation):
@@ -77,6 +82,10 @@ class ResearchV2:
 
     @staticmethod
     def output_schema(context=None):
+        from .provider_grounded_contract import mode_for_context
+        if context is not None and (mode := mode_for_context(context)):
+            from .provider_grounded_contract import model_output_schema
+            return model_output_schema(mode)
         from .paper_material_spans import validate_context_mode
         if context is not None and validate_context_mode(context):
             from .provider_material_spans_contract import model_output_schema
@@ -88,6 +97,10 @@ class ResearchV2:
     def parse_output(raw, *, request, context=None, **kwargs):
         from .paper_material_spans import validate_context_mode
         operation = ResearchV2.parse_request(request).operation
+        from .provider_grounded_contract import mode_for_context
+        if context is not None and mode_for_context(context, operation):
+            from .provider_grounded_contract import parse_model_output
+            return parse_model_output(raw, context=context, operation=operation, **kwargs)
         if context is not None and validate_context_mode(context, operation=operation):
             from .provider_material_spans_contract import parse_model_output
             return parse_model_output(raw, context=context, operation=operation, **kwargs)

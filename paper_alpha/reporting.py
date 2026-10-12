@@ -3,13 +3,25 @@ from __future__ import annotations
 
 import json
 
+from .contracts import ENGINEERING_ONLY_ASSUMPTION
+
 
 def render_report(state):
     task = state["task"]
+    # Historical engine reports remain byte-identical when current verification
+    # reads their unversioned state. New runs explicitly select this wording.
+    stage_scope = state.get('report_renderer_version', 1) == 2
+    call_scope = ("This deterministic calculation stage does not call an LLM or BRAIN API. "
+                  "Upstream model use is unknown to this engine report; consult the research report's saved provider receipts."
+                  if stage_scope else "No LLM or BRAIN API was called.")
+    usage_scope = (f"Calculation-stage tool calls: {state['tool_calls']}; calculation-stage LLM calls: 0. "
+                   "Upstream model calls and cost: unknown here; local compute cost is not measured."
+                   if stage_scope else
+                   f"Tool calls: {state['tool_calls']}; LLM calls: 0; external API cost: 0 (local compute cost not measured).")
     lines = [f"# {task.get('title', 'Paper-to-Alpha research task')}", "",
              f"Run status: **{state['status']}**. Policy: `{state['mode']}`.", "",
              "This is an offline engineering research prototype. The bundled market data is synthetic; "
-             "its metrics do not establish investment performance. No LLM or BRAIN API was called.", "",
+             "its metrics do not establish investment performance. " + call_scope, "",
              "## Provenance and review", "",
              "Paper quotes are checked against the exact PDF bytes and re-extracted page text. "
              "Quote matching does not verify economic reasoning or semantic fidelity. "
@@ -17,9 +29,14 @@ def render_report(state):
     for e in state.get("preflight", {}).get("evidence", []):
         lines += [f"- `{e['id']}` — physical PDF page {e['page']}: `{e['quote']}`"]
     for h in task.get("hypotheses", []):
+        mechanism = h["economic_mechanism"]
+        if stage_scope and mechanism is None:
+            mechanism = "Economic mechanism unresolved; formula engineering verification only. Research validity remains unassessed."
         lines += ["", f"### Hypothesis `{h['id']}`", "", h["claim"], "",
                   f"Claim attribution: `{h['attribution']}`; mechanism attribution: `{h['mechanism_attribution']}`.", "",
-                  h["economic_mechanism"], "", "Assumptions: " + "; ".join(h["assumptions"])]
+                  mechanism, "", "Assumptions: " + "; ".join(h["assumptions"])]
+        if stage_scope and ENGINEERING_ONLY_ASSUMPTION in h["assumptions"]:
+            lines += ["", "Verification scope: formula engineering only; economic mechanism and research validity remain unresolved."]
     lines += ["", "## Experiments", ""]
     for item in state.get("candidates", []):
         lines += [f"### `{item['id']}` — {item['status']}", "",
@@ -52,7 +69,7 @@ def render_report(state):
               "The local adapter's rank, missing-value, calendar and operator semantics are independent of BRAIN.", "",
               "Means use valid days only. Missing or constant signal days are skipped; IC also skips constant-return days. "
               "Compare coverage and sample counts before comparing candidates.", "",
-              f"Tool calls: {state['tool_calls']}; LLM calls: 0; external API cost: 0 (local compute cost not measured).", "",
+              usage_scope, "",
               "All rejected, failed, interrupted and budget-stopped attempts remain in state.json and events.jsonl.", "",
               "This policy is deterministic and handles only explicit task proposals and supported formula templates. "
               "Automatic literature search, general semantic paper reading, human-time comparison and live BRAIN simulation are not implemented.", ""]

@@ -203,7 +203,7 @@ def create_app(root: Path | None = None, *, provider_registry=None, native_start
         with workspace_lease(store.root):
             yield
 
-    app = FastAPI(title='Paper-to-Alpha Workbench', version='0.27.1', lifespan=lifespan,
+    app = FastAPI(title='Paper-to-Alpha Workbench', version='0.27.2', lifespan=lifespan,
                   responses={status: {'model': responses.ErrorResponse} for status in (400, 403, 404, 405, 409, 412, 413, 415, 422, 429, 500, 503)},
                   description='Local single-user research workflow with an optional supervised proposal transport. Real dispatch is disabled by default and requires explicit host authorization; each attempt verifies its execution boundary.')
     app.state.store = store
@@ -258,7 +258,7 @@ def create_app(root: Path | None = None, *, provider_registry=None, native_start
 
     @app.get('/api/health', response_model=responses.HealthResponse, response_model_exclude_unset=True)
     def health():
-        return {'status': 'ok', 'version': '0.27.1', 'workspace_id': hashlib.sha256(str(store.root.resolve()).encode()).hexdigest(),
+        return {'status': 'ok', 'version': '0.27.2', 'workspace_id': hashlib.sha256(str(store.root.resolve()).encode()).hexdigest(),
                 'database_schema': SCHEMA_VERSION, 'ai_enabled': provider_registry.public_status()['real_dispatch_enabled'],
                 'ai_status_scope': 'host_dispatch_permission_only', 'ai_inference_verified': False,
                 'worker': store.worker_health()}

@@ -4,6 +4,8 @@ import html
 import json
 import math
 import re
+
+from ..contracts import ENGINEERING_ONLY_ASSUMPTION
 from ..storage import digest
 
 RENDERER_VERSION = 1
@@ -112,6 +114,8 @@ def render_readable_report(report, *, locale="zh", renderer_version=1):
     for key in ("selected_runs", "total_research_runs", "unselected_runs", "revisions", "candidates",
                 "candidate_attempts", "run_attempts", "run_events", "reviews", "issues", "unreviewed_current_candidates"):
         row(key, counts.get(key))
+    if 'pending_human_candidates' in counts:
+        row(t("待人工质量审核的候选数", "Candidates pending human quality review"), counts['pending_human_candidates'])
     dataset = payload.get("dataset", {})
     row(t("数据名称", "Dataset"), dataset.get("title"))
     row(t("数据类型", "Data kind"), dataset.get("metadata", {}).get("data_kind"))
@@ -122,6 +126,10 @@ def render_readable_report(report, *, locale="zh", renderer_version=1):
            "Final test stays held out; synthetic-data results are not investment performance. Full calendars and events remain in the audit JSON."))
 
     section("研究问题与论文依据", "Research questions and paper evidence")
+    stage_report = any('stage_provenance' in item for item in payload.get('runs', []))
+    if stage_report:
+        line(t("本节的论文引文、主张及原论文数字属于来源材料；本次计算指标仅来自下节绑定的工具结果。",
+               "Paper quotations, claims and paper statistics in this section are source material; current calculation metrics come only from the bound tool results below."))
     revisions = payload.get("revisions", [])
     selected_revision_ids = {item.get("summary", {}).get("run", {}).get("revision_id") for item in payload.get("runs", [])}
     selected_revisions = [(i, revision) for i, revision in enumerate(revisions) if revision.get("id") in selected_revision_ids]
@@ -135,6 +143,10 @@ def render_readable_report(report, *, locale="zh", renderer_version=1):
             row(t("主张来源", "Claim attribution"), label(ATTRIBUTION, hypothesis.get("attribution")))
             row(t("机制与解释", "Mechanism / interpretation"), hypothesis.get("economic_mechanism"))
             row(t("机制来源", "Mechanism attribution"), label(ATTRIBUTION, hypothesis.get("mechanism_attribution")))
+            if stage_report and ENGINEERING_ONLY_ASSUMPTION in hypothesis.get("assumptions", []):
+                row(t("验证范围", "Verification scope"),
+                    t("仅公式工程验证；经济机制未决，研究有效性仍待评定。",
+                      "Formula engineering verification only; economic mechanism unresolved and research validity unassessed."))
             row(t("信号方向", "Signal direction"), hypothesis.get("signal_direction"))
             row(t("所需字段", "Required fields"), ", ".join(hypothesis.get("required_fields", [])))
             row(t("证据 ID", "Evidence IDs"), ", ".join(hypothesis.get("evidence_ids", [])))
@@ -154,6 +166,40 @@ def render_readable_report(report, *, locale="zh", renderer_version=1):
             row(t("来源问题", "Source issue"), summary["verification_error"])
         if run.get("error"):
             row(t("运行错误", "Run error"), run["error"])
+        stages = item.get('stage_provenance')
+        if stages:
+            line(); line("#### " + t("模型调用与采用来源", "Model calls and adoption provenance")); line()
+            row(t("来源依据", "Provenance basis"), stages.get('basis'))
+            line(t("调用记录来自已保存的主机收据；调用成功和采用记录均不等于人工质量认可。未知费用保持未知。",
+                   "Calls come from saved host receipts; successful calls and adoption do not imply human quality approval. Unknown costs stay unknown."))
+            for key, labels in (("extraction", ("材料／假说提取", "Material / hypothesis extraction")),
+                                ("generation", ("候选生成", "Candidate generation"))):
+                stage = stages.get(key, {})
+                row(labels[index] + t("状态／来源", " status / source"),
+                    str(stage.get('status', 'unknown')) + ' / ' + str(stage.get('execution_kind', 'unknown')))
+                if stage.get('status') != 'recorded':
+                    row(t("未记录原因", "Unrecorded reason"), stage.get('reason_code'))
+                    continue
+                receipt = stage['receipt']; usage = receipt.get('usage', {})
+                row(t("Provider 配置／模式／传输", "Provider configuration / mode / transport"),
+                    stage['provider_config_id'] + ' / ' + stage['provider_mode'] + ' / ' + stage['native_transport'])
+                line(t("Native 进程调用收据与真实模型验收分开；需结合保留的官方传输身份和验收证据。",
+                       "A native invocation receipt and real-model acceptance are separate; consult retained official transport identity and acceptance evidence."))
+                row(t("提案／尝试", "Proposal / attempt"), stage['proposal_id'] + ' / ' + stage['attempt_id'])
+                row(t("响应／收据摘要", "Response / receipt digest"),
+                    stage['accepted_response_digest'] + ' / ' + stage['receipt_digest'])
+                row(t("请求模型／实际报告模型", "Requested / reported model"),
+                    str(receipt.get('requested_model') or t('未知', 'Unknown')) + ' / ' +
+                    str(receipt.get('reported_model') or t('未知', 'Unknown')))
+                for name in ('input_tokens', 'output_tokens', 'cached_input_tokens', 'model_calls', 'cost'):
+                    row(name, usage.get(name) if usage.get(name) is not None else t('未知', 'Unknown'))
+                row(t("调用耗时（秒）", "Invocation seconds"), receipt.get('elapsed_seconds'))
+            adoption = stages.get('adoption', {})
+            row(t("采用状态／执行者", "Adoption status / actor"),
+                str(adoption.get('status', 'unknown')) + ' / ' + str(adoption.get('actor', 'unknown')))
+            row(t("计算阶段 LLM 调用数", "Calculation-stage LLM calls"), stages.get('calculation', {}).get('llm_calls'))
+            row(t("报告阶段 LLM 调用数", "Report-stage LLM calls"), stages.get('report', {}).get('llm_calls'))
+            row(t("完整来源索引", "Complete provenance index"), f"/payload/runs/{run_index}/stage_provenance")
         evaluation = summary.get("evaluation", {})
         for name in ("train", "validation", "test"):
             split = evaluation.get("splits", {}).get(name, {})
@@ -205,6 +251,10 @@ def render_readable_report(report, *, locale="zh", renderer_version=1):
             row(t("原始结果摘要", "Original result digest"), (metric_source or {}).get("result_digest"))
             row(t("冻结结果日数", "Frozen daily-result count"), candidate.get("result_daily_count"))
             row(t("当前结果绑定的审核 ID", "Review IDs bound to this result"), ", ".join(candidate.get("current_review_ids", [])))
+            if 'human_review' in candidate:
+                human = candidate['human_review']
+                row(t("人工质量审核状态", "Human quality review status"), human.get('status'))
+                row(t("当前结果的人工审核 ID", "Human review IDs for this result"), ", ".join(human.get('human_review_ids', [])))
         line(t(f"运行尝试 {len(item.get('attempts', []))} 项、事件 {len(item.get('events', []))} 项；完整失败与恢复索引：",
                f"{len(item.get('attempts', []))} run attempts and {len(item.get('events', []))} events; complete failure and recovery index: ")
              + text(f"/payload/runs/{run_index}/attempts; /payload/runs/{run_index}/events"))

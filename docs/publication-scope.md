@@ -1,6 +1,6 @@
 # Public source scope
 
-This is a curated source export of version 0.27.1, database schema 29. It preserves the main local workbench, typed contracts, expression engine, persistent worker, saved-result/report/review lifecycle, dependency locks, selected tests, and preparation tools. It is not the separately accepted local Runtime archive.
+This is a curated source export of version 0.27.2, database schema 29. It preserves the main local workbench, typed contracts, expression engine, persistent worker, saved-result/report/review lifecycle, dependency locks, selected tests, preparation tools, source-grounded material contracts, and finite operator-definition policies. It is not the separately accepted local Runtime archive.
 
 ## Included
 
@@ -13,7 +13,7 @@ This is a curated source export of version 0.27.1, database schema 29. It preser
 | `scripts/` | Selected application tools, synthetic generation, contract verification, and public input preparation |
 | `examples/public_demo/` | Original engineering note and toy task; no external paper or market data |
 | `examples/alpha101/` | Small formula fixtures, synthetic CSV and metadata, and pinned source locators |
-| `tests/` | Representative expression, evaluation, formula, mutation, and recovery tests |
+| `tests/` | Representative expression, evaluation, formula, mutation, recovery, selected-span, formula-engineering, and finite definition regressions |
 | `evaluation_suites/v05/material_confirmation.json` | Empty public fixture declaration; no personal user message or approval |
 | Root dependency files | Installation metadata and exact dependency versions |
 
@@ -31,4 +31,8 @@ The default daily workflow and the original CLI demonstration are usable from th
 
 Monthly industry-portfolio, author-archive, semantic-review catalog, historical benchmarking, and native qualification paths also exist in the code. Their private historical material, method registries, evaluation catalogs, original datasets, and qualification evidence are not shipped. A clean clone does not preload those studies or satisfy their source/hash contracts. Missing resources remain explicit blockers; public preparation does not manufacture authority, replace scientific input, or rewrite the original identity checks.
 
-In particular, the historical controlled-write qualification contract and its measurement artifacts are not published. Optional real App Server candidate generation needs current host configuration and qualification; no enabled configuration, credentials, or permission grant is included. Installing the package grants no real-model or reserved-data access.
+Optional real App Server material extraction and candidate generation need current host configuration and qualification; no enabled configuration, credentials, or permission grant is included. Installing the package grants no real-model or reserved-data access. The public source includes the 119 current Native profile inputs and the new grounded-material/formula-engineering contract resources; source availability does not confer execution authorization.
+
+## Publication test fixtures
+
+The operator-definition public test file curates synthetic cases from the existing regression suite. Historical real-response and research-report fixtures are excluded. The public formula-engineering fixture supplies an original, complete named formula (`Alpha#9001: close`) so the stricter source-support gate reaches the intended scientific-unknown and disposition checks. Product validation rules and the original development tests are unchanged.

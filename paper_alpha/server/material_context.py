@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Literal
 
-from pydantic import model_validator
+from pydantic import Field, model_validator
 
 from ..author_panel_schema import AuthorModel
 from ..evidence import sha256
@@ -17,7 +17,7 @@ from ..storage import digest, json_text, read_json
 from .paper_materials import PaperMaterials
 from .paper_segments import MaterialError, validate_material_draft, verify_current_selection
 from .provider_context import ProviderCapabilities, ProviderDevelopment
-from .research_jobs_schema import DraftEvidence, DraftHypothesis
+from .research_jobs_schema import DraftEvidence, DraftHypothesis, FormulaEngineeringHypothesis, ENGINEERING_ONLY_ASSUMPTION
 from .provider_catalog import synthetic_daily_projection
 
 
@@ -57,8 +57,53 @@ class RegisteredDailyMaterialMethodPolicy(AuthorModel):
         return value
 
 
+class UnresolvedDisposition(AuthorModel):
+    path: str
+    original: str
+    disposition: Literal['scientific_unresolved', 'project_configuration', 'blocked']
+    rationale: str = Field(min_length=1, max_length=2000)
+
+
+class FormulaEngineeringMethodPolicy(MaterialMethodPolicy):
+    """An explicit engineering experiment, with source unknowns kept intact."""
+    kind: Literal['daily_formula_engineering_v1']
+
+
+ENGINEERING_CONDITIONS = [
+    ENGINEERING_ONLY_ASSUMPTION,
+    'Project configuration: registered synthetic daily OHLCV, common synthetic price units and share volume; no corporate actions or field substitution.',
+    'Project configuration: complete trailing trading-session windows; missing/nonfinite signals are not filled.',
+    'Project configuration: signal after t close; enter at t+1 open and exit at t+2 open inside validation.',
+    'Project configuration: average cross-sectional ranks, centered and normalized by absolute sum; gross=1 and net=0; skip constant cross sections.',
+    'Project configuration: training rows supply trailing history, validation supplies results; final-test rows and results are excluded.',
+    'Project configuration: gross returns only; costs, financing, fills, capacity and original-paper performance are not established.',
+]
+DISPOSITIONS_PREFIX = 'Project configuration: unresolved dispositions v1='
+
+
+def unresolved_inventory(material):
+    items = {f'/unresolved_rules/{i}': rule for i, rule in enumerate(material['unresolved_rules'])}
+    for i, hypothesis in enumerate(material['hypotheses']):
+        items.update({f'/hypotheses/{i}/unresolved_rules/{j}': rule for j, rule in enumerate(hypothesis['unresolved_rules'])})
+    return items
+
+
+def formula_engineering_method_policy(material, dispositions):
+    return FormulaEngineeringMethodPolicy.model_validate({**default_material_method_policy(),
+        'kind': 'daily_formula_engineering_v1'}).model_dump()
+
+
+def engineering_disposition_condition(dispositions):
+    if not isinstance(dispositions, list) or len(dispositions) > 100:
+        raise MaterialError('Invalid unresolved disposition inventory', 422)
+    checked = [UnresolvedDisposition.model_validate(item).model_dump() for item in dispositions]
+    return DISPOSITIONS_PREFIX + json_text(checked)
+
+
 def parse_material_method_policy(value):
-    model = RegisteredDailyMaterialMethodPolicy if isinstance(value, dict) and value.get('kind') == 'registered_daily_v2' else MaterialMethodPolicy
+    kind = value.get('kind') if isinstance(value, dict) else None
+    model = {'registered_daily_v2': RegisteredDailyMaterialMethodPolicy,
+             'daily_formula_engineering_v1': FormulaEngineeringMethodPolicy}.get(kind, MaterialMethodPolicy)
     return model.model_validate(value).model_dump()
 
 
@@ -67,17 +112,53 @@ def default_material_method_policy():
             'allow_field_substitution': False, 'evaluation_period': 'validation'}
 
 
-def build_material_projection(material_version):
+def build_material_projection(material_version, method_policy=None):
     """Map only adopted content; an unknown mechanism remains a blocking unknown."""
     version = deepcopy(material_version)
     value = validate_material_draft(version['selection'], version['material'], accepted=True)['material']
-    if version.get('actor') != 'user' or version.get('semantic_fidelity') != 'unverified':
+    if value.get('grounding_version') == 1:
+        from .operator_definition_grounding import assess_operator_definitions
+        definitions = assess_operator_definitions(version['selection'], value)
+        if definitions['status'] in {'repairable', 'needs_information'}:
+            raise MaterialError('Calculation source formula or operator definition support is incomplete', 422,
+                                code=definitions['blockers'][0]['code'])
+    engineering = method_policy is not None and parse_material_method_policy(method_policy)['kind'] == 'daily_formula_engineering_v1'
+    if version.get('actor') not in {'user', 'automation'} or version.get('semantic_fidelity') != 'unverified':
         raise MaterialError('Candidate source requires an explicitly adopted material version', code='MATERIAL_NOT_ADOPTED')
-    if value['unresolved_rules'] or any(hypothesis['unresolved_rules'] or hypothesis['claim_attribution'] == 'unresolved'
+    if engineering:
+        policy = parse_material_method_policy(method_policy)
+        inventory = unresolved_inventory(value)
+        records = {condition for hypothesis in value['hypotheses'] for condition in hypothesis['conditions']
+                   if condition.startswith(DISPOSITIONS_PREFIX)}
+        if len(records) != 1:
+            raise MaterialError('An exact preserved unresolved disposition record is required', 422, code='MATERIAL_UNRESOLVED')
+        disposition_list = json.loads(next(iter(records))[len(DISPOSITIONS_PREFIX):])
+        engineering_disposition_condition(disposition_list)
+        dispositions = {item['path']: item for item in disposition_list}
+        if len(dispositions) != len(disposition_list) or set(dispositions) != set(inventory):
+            raise MaterialError('Every original unresolved rule requires an exact engineering disposition', 422, code='MATERIAL_UNRESOLVED')
+        for path, original in inventory.items():
+            disposition = dispositions[path]
+            if disposition['original'] != original or disposition['disposition'] == 'blocked':
+                raise MaterialError('An unresolved source rule still blocks this experiment', 422, code='MATERIAL_UNRESOLVED')
+            if disposition['disposition'] == 'scientific_unresolved' and not original.startswith('[scientific]'):
+                raise MaterialError('Execution gaps cannot be treated as scientific unknowns', 422, code='MATERIAL_UNRESOLVED')
+        for hypothesis in value['hypotheses']:
+            if (any(condition not in hypothesis['conditions'] for condition in ENGINEERING_CONDITIONS)
+                    or hypothesis['claim_attribution'] == 'unresolved'
+                    or hypothesis['signal_direction'] is None or hypothesis['calculation'] is None):
+                raise MaterialError('Formula engineering needs explicit conditions, a source calculation and signal direction', 422, code='MATERIAL_UNRESOLVED')
+        if value.get('grounding_version') != 1:
+            raise MaterialError('Formula engineering requires component-level source bindings', 422, code='EVIDENCE_SUPPORT_UNRESOLVED')
+        for binding in value['support_bindings']:
+            if binding['status'] == 'unresolved' and binding['component'] != 'economic_mechanism':
+                raise MaterialError('An executable hypothesis component lacks source support', 422, code='EVIDENCE_SUPPORT_UNRESOLVED')
+    elif value['unresolved_rules'] or any(hypothesis['unresolved_rules'] or hypothesis['claim_attribution'] == 'unresolved'
         or hypothesis['mechanism_attribution'] == 'unresolved' or any(hypothesis[name] is None for name in ('economic_mechanism', 'signal_direction', 'calculation')) for hypothesis in value['hypotheses']):
         raise MaterialError('Resolve required material rules before generating executable candidates', 422, code='MATERIAL_UNRESOLVED')
     evidence = [DraftEvidence.model_validate({key: item[key] for key in ('id', 'page', 'quote')}).model_dump() for item in value['evidence']]
-    hypotheses = [DraftHypothesis.model_validate({
+    hypothesis_model = FormulaEngineeringHypothesis if engineering else DraftHypothesis
+    hypotheses = [hypothesis_model.model_validate({
         'id': item['id'], 'claim': item['claim'], 'attribution': item['claim_attribution'], 'evidence_ids': item['evidence_ids'],
         'economic_mechanism': item['economic_mechanism'], 'mechanism_attribution': item['mechanism_attribution'],
         'signal_direction': item['signal_direction'], 'required_fields': [field['name'] for field in item['required_data']],
@@ -89,7 +170,11 @@ def build_material_projection(material_version):
                        'material_digest': version['digest'], 'draft_digest': version['draft_digest'],
                        'selection_digest': version['selection']['selection_digest'],
                        'selected_pages': version['selection']['selected_pages'], 'omitted_pages': version['selection']['omitted_pages'],
-                       'adoption_actor': 'user', 'semantic_fidelity': 'unverified'}}
+                       'adoption_actor': version['actor'], 'semantic_fidelity': 'unverified'},
+            **({'verification_scope': 'formula_engineering_only', 'scientific_validity': 'unresolved',
+                'human_approval': False, 'source_unresolved_rules': inventory,
+                'unresolved_dispositions': disposition_list,
+                'support_bindings': value['support_bindings']} if engineering else {})}
 
 
 def _dataset_source(store, dataset_id, evaluation):
@@ -122,7 +207,7 @@ def build_material_context(store, material_id, version_id, *, dataset_id, evalua
     materials = PaperMaterials(store)
     version = materials.get_version(material_id, version_id)
     verify_current_selection(store, version['selection'])
-    projection = build_material_projection(version)
+    projection = build_material_projection(version, policy)
     dataset = _dataset_source(store, dataset_id, evaluation)
     metadata = json.loads(store._fetch('datasets', dataset_id)['metadata'])
     if digest(metadata) != dataset['metadata_digest']:

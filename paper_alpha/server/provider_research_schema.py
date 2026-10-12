@@ -136,3 +136,42 @@ def output_model():
             return self
 
     return ResearchProviderOutput
+
+
+@lru_cache(maxsize=1)
+def _grounded_output_model():
+    from .grounded_material_schema import GroundedMaterialDraft
+    from .research_jobs_schema import FormulaEngineeringDraft
+
+    class GroundedResearchProviderOutput(AuthorModel):
+        schema_version: Literal[2]
+        contract_id: Literal['research_provider_v2']
+        operation: Literal['extract_material', 'generate_candidates']
+        proposal_id: str = Field(pattern=r'^proposal_[0-9a-f]{64}$')
+        attempt_id: str = Field(pattern=r'^proposal_attempt_[0-9a-f]{64}$')
+        context_digest: str = Field(pattern=DIGEST_PATTERN)
+        outcome: Literal['material', 'draft', 'abstain']
+        material: GroundedMaterialDraft | None
+        draft: FormulaEngineeringDraft | None
+        decision: None
+        abstention: ProposalAbstention | None
+
+        @model_validator(mode='after')
+        def one_branch(self):
+            expected = 'material' if self.operation == 'extract_material' else 'draft'
+            if self.outcome not in {expected, 'abstain'}:
+                raise ValueError('Outcome differs from requested grounded operation')
+            branch = 'abstention' if self.outcome == 'abstain' else self.outcome
+            if any((getattr(self, name) is not None) != (name == branch)
+                   for name in ('material', 'draft', 'decision', 'abstention')):
+                raise ValueError('Output must contain exactly its declared branch')
+            if self.draft and len(self.draft.candidates) > 3:
+                raise ValueError('At most three candidate definitions are permitted')
+            return self
+
+    return GroundedResearchProviderOutput
+
+
+def grounded_output_model(context=None):
+    """Additive canonical type for grounded extraction/formula engineering, including API unions."""
+    return _grounded_output_model()

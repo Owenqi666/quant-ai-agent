@@ -1,8 +1,8 @@
 import { readLocale, translate } from "./i18n";
-import type { ResearchAssessment, AssessmentSummary, ReviewTarget, CandidateResponse, DatasetResponse, EvidenceResponse, HealthResponse, HypothesisResponse, ResearchTask, RevisionResponse } from "./generated/api-contract";
+import type { ResearchAssessment, AssessmentSummary, ReviewTarget, CandidateResponse, DatasetResponse, EvidenceResponse, HealthResponse, ResearchTask, RevisionResponse } from "./generated/api-contract";
 export type JsonObject = Record<string, unknown>;
 export type Evidence = EvidenceResponse;
-export type Hypothesis = HypothesisResponse;
+export type Hypothesis = ResearchTask["hypotheses"][number];
 export type Candidate = CandidateResponse;
 export type Task = ResearchTask;
 export type Revision = RevisionResponse;

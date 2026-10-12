@@ -1,12 +1,14 @@
 """Closed public HTTP projections for the fixture-qualified research v2 chain."""
 from typing import Literal
-from pydantic import Field
+from pydantic import Field, model_serializer
 
 from ..author_panel_schema import AuthorModel
 from .paper_materials_schema import MaterialDraft, AcceptedMaterialDraft, PaperSelection
 from .provider_api_schema import (ProposalStatus, PublicProviderError, PublicProviderReceipt,
                                   PublicProposalValidation, ProposalArtifactReference)
-from .provider_research_schema import output_model
+from .provider_research_schema import output_model, grounded_output_model
+from .grounded_material_schema import GroundedMaterialDraft, AcceptedGroundedMaterialDraft
+from .material_context import UnresolvedDisposition
 from .provider_research_source_schema import ResearchSource
 from .provider_host_schema import HostCapability
 from .provider_schema import ProposalBudget
@@ -14,6 +16,7 @@ from .research_sessions_schema import (SessionBudget, SessionConfig, SessionUsag
                                       SessionStatus, SessionChildren, SessionOutcome)
 
 ResearchProviderOutput = output_model()
+GroundedResearchProviderOutput = grounded_output_model()
 
 
 class ResearchSourcePreviewRequest(AuthorModel):
@@ -151,7 +154,7 @@ class PublicResearchProposalAttempt(AuthorModel):
     finished_at: str | None
     error: PublicProviderError | None
     receipt: PublicProviderReceipt | None
-    output: ResearchProviderOutput | None
+    output: ResearchProviderOutput | GroundedResearchProviderOutput | None
     validation: PublicProposalValidation | None
     artifacts: list[ProposalArtifactReference]
 
@@ -160,7 +163,7 @@ class ResearchV2ProposalDetail(ResearchV2ProposalSummary):
     context_digest: str
     instruction: str
     budget: ProposalBudget
-    accepted_response: ResearchProviderOutput | None
+    accepted_response: ResearchProviderOutput | GroundedResearchProviderOutput | None
     attempts: list[PublicResearchProposalAttempt]
     artifacts: list[ProposalArtifactReference]
     public_projection_redacted: bool
@@ -169,8 +172,15 @@ class ResearchV2ProposalDetail(ResearchV2ProposalSummary):
 
 class MaterialAdoptRequest(AuthorModel):
     expected_digest: str = Field(pattern=r'^[a-f0-9]{64}$')
-    edited_material: AcceptedMaterialDraft | None = None
+    edited_material: AcceptedMaterialDraft | AcceptedGroundedMaterialDraft | None = None
     idempotency_key: str = Field(pattern=r'^[A-Za-z0-9_-]{1,128}$')
+
+
+class MaterialEngineeringRequest(AuthorModel):
+    expected_digest: str = Field(pattern=r'^[a-f0-9]{64}$')
+    idempotency_key: str = Field(pattern=r'^[A-Za-z0-9_-]{1,128}$')
+    # Explicit dispositions bind the original unresolved text. No source rule is deleted.
+    unresolved_dispositions: list[UnresolvedDisposition] = Field(max_length=100)
 
 
 class PublicMaterialChange(AuthorModel):
@@ -187,13 +197,53 @@ class PublicMaterialVersion(AuthorModel):
     draft_digest: str
     parent_version_id: str | None
     parent_digest: str
-    material: AcceptedMaterialDraft
-    actor: Literal['user']
+    material: AcceptedMaterialDraft | AcceptedGroundedMaterialDraft
+    actor: Literal['user', 'automation']
     changes: list[PublicMaterialChange]
     citation_integrity: Literal['verified']
     semantic_fidelity: Literal['unverified']
     created_at: str
     public_projection_redacted: bool
+    definition_repair: dict | None = None
+
+    @model_serializer(mode='wrap')
+    def preserve_legacy_projection(self, handler):
+        value = handler(self)
+        if self.definition_repair is None:
+            value.pop('definition_repair', None)
+        return value
+
+
+class MaterialDefinitionRepairRequest(AuthorModel):
+    expected_digest: str = Field(pattern=r'^[a-f0-9]{64}$')
+    idempotency_key: str = Field(pattern=r'^[A-Za-z0-9_-]{1,128}$')
+
+
+class PublicMaterialDefinitionRepair(AuthorModel):
+    version: PublicMaterialVersion | None
+    status: str
+    diagnostic: dict
+    human_approval: Literal[False]
+    human_review_status: Literal['pending_human']
+
+
+class PublicMaterialEngineering(AuthorModel):
+    version: PublicMaterialVersion
+    method_policy: dict
+    verification_scope: Literal['formula_engineering_only']
+    human_review_status: Literal['pending_human']
+    human_approval: Literal[False]
+
+
+class PublicMaterialDiagnostic(AuthorModel):
+    material_id: str
+    material_digest: str
+    source: dict
+    status: str
+    stop_reason: str | None
+    details: dict
+    automatic_checks: dict
+    human_review: dict
 
 
 class PublicMaterialSummary(AuthorModel):
@@ -216,7 +266,7 @@ class PublicMaterialDetail(AuthorModel):
     draft_digest: str
     current_digest: str
     selection: PaperSelection
-    draft: MaterialDraft
+    draft: MaterialDraft | GroundedMaterialDraft
     latest_version: PublicMaterialVersion | None
     citation_integrity: Literal['verified']
     semantic_fidelity: Literal['unverified']

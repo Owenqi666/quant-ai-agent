@@ -320,7 +320,7 @@ class EvidenceLineage:
                 or accepted['accepted_response_digest'] != draft['source']['accepted_response_digest']):
             _fail('Imported material differs from the original accepted extraction')
         extraction = ProposalRequests(self.store, configs={})._load(connection, draft['source']['proposal_id'])
-        adopted = build_material_projection(version)
+        adopted = build_material_projection(version, method_policy=plan['source_request'].get('method_policy'))
         if any(proposal['context'].get(key) != adopted[key] or packet['output']['draft'].get(key) != adopted[key]
                or state['task'].get(key) != adopted[key] for key in ('evidence', 'hypotheses')):
             _fail('Final evidence/hypotheses differ from their exact adopted projection')

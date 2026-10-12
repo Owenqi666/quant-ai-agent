@@ -14,7 +14,7 @@ from ..storage import digest
 from .db import connect
 from .paper_materials import PaperMaterials
 from .provider_contract import digest as wire_digest
-from .provider_research_contract import parse_model_output
+from .provider_contract_registry import request_handler
 from .provider_research_context import (build_research_context, resolve_research_source,
                                        validate_material_candidate_task, validate_research_output)
 from .provider_research_schema import ResearchProposalCreate
@@ -82,8 +82,8 @@ def load_accepted_candidate(store, connection, proposal_id, accepted_response_di
             or receipt.response_sha256 != hashlib.sha256(raw).hexdigest()):
         raise ExperimentSourceError('Accepted candidate receipt differs from its original response bytes',
                                     code='CANDIDATE_RECEIPT_MISMATCH')
-    output = parse_model_output(raw, proposal_id=proposal_id, attempt_id=attempt['id'],
-        context_digest=proposal['context_digest'], operation=request.operation,
+    output = request_handler(request).parse_output(raw, request=request, context=context, proposal_id=proposal_id, attempt_id=attempt['id'],
+        context_digest=proposal['context_digest'],
         candidate_limit=request.candidate_limit, max_bytes=request.budget.max_output_bytes).model_dump()
     accepted = proposals._json_path(folder / 'accepted' / 'response.json')
     if (output != accepted or output['outcome'] != 'draft'

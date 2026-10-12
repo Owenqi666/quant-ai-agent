@@ -93,7 +93,7 @@ export default function ReviewEvidence({ run, candidateId, artifacts }: {
         </div>
         <div><h5>{t("研究假设", "Research hypothesis")}</h5>{hypothesis && <>
           <p><strong>{t("研究假设（", "Hypothesis (")}{origins[hypothesis.attribution] || text(hypothesis.attribution) + t("（未识别声明）", " (unrecognized declaration)")}{t("）：", "): ")}</strong>{hypothesis.claim}</p>
-          <p><strong>{t("经济解释（", "Economic explanation (")}{origins[hypothesis.mechanism_attribution] || text(hypothesis.mechanism_attribution) + t("（未识别声明）", " (unrecognized declaration)")}{t("）：", "): ")}</strong>{hypothesis.economic_mechanism}</p>
+          <p><strong>{t("经济解释（", "Economic explanation (")}{hypothesis.mechanism_attribution === "unresolved" ? t("未决", "Unresolved") : origins[hypothesis.mechanism_attribution] || text(hypothesis.mechanism_attribution) + t("（未识别声明）", " (unrecognized declaration)")}{t("）：", "): ")}</strong>{hypothesis.economic_mechanism ?? t("未提供 / 未决；仅公式工程验证，研究有效性仍待评定。", "Not provided / unresolved; formula engineering verification only, with research validity unassessed.")}</p>
           <p><strong>{t("信号方向：", "Signal direction: ")}</strong>{hypothesis.signal_direction}</p>
           <p><strong>{t("所需字段：", "Required fields: ")}</strong>{(Array.isArray(hypothesis.required_fields) ? hypothesis.required_fields : []).join(t("、", ", "))}</p>
           <details><summary>{t("适用条件与字段语义", "Conditions and field semantics")}</summary><ul>{(Array.isArray(hypothesis.assumptions) ? hypothesis.assumptions : []).map((item, index) => <li key={index}>{item}</li>)}</ul>

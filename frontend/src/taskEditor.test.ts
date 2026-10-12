@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { editableTask } from "./domain";
 import type { Task } from "./domain";
 import { draftKey, isResearchDraft, readDraft } from "./drafts";
-import { formTask, nextId, quoteMatches, taskDifferences, taskFormIssues } from "./taskEditor";
+import { editEconomicMechanism, FORMULA_ENGINEERING_ASSUMPTION, formTask, nextId, quoteMatches, taskDifferences, taskFormIssues } from "./taskEditor";
 
 const task = () => editableTask(JSON.parse(readFileSync(new URL("../../examples/alpha101/task.json", import.meta.url), "utf8")) as Task);
 
@@ -79,6 +79,43 @@ describe("manual scientific authoring", () => {
     expect(all.some((message) => message.includes("现存证据"))).toBe(true);
     expect(all.some((message) => message.includes("候选标识"))).toBe(true);
     expect(all.some((message) => message.includes("max_seconds"))).toBe(true);
+  });
+});
+
+describe("explicit null mechanism editing", () => {
+  const source = () => {
+    const value = task();
+    value.hypotheses[0] = { ...value.hypotheses[0], economic_mechanism: null, mechanism_attribution: "unresolved",
+      assumptions: [...value.hypotheses[0].assumptions, FORMULA_ENGINEERING_ASSUMPTION,
+        "Project configuration: unresolved dispositions v1=" + JSON.stringify([{ path: "/unresolved_rules/0", original: "[scientific] " + "source text ".repeat(4000), disposition: "scientific_unresolved", rationale: "Retain science as unknown." }])] };
+    return value;
+  };
+  it("round-trips the exact null/unresolved branch and all long engineering conditions without an explanation", () => {
+    const original = source(), parsed = formTask(JSON.stringify(original));
+    expect(parsed).toEqual(original); expect(taskFormIssues(parsed)).toEqual([]);
+    const unchanged = editEconomicMechanism(parsed.hypotheses[0], "");
+    expect(unchanged).toEqual(original.hypotheses[0]);
+    expect(JSON.stringify({ ...parsed, hypotheses: [unchanged, ...parsed.hypotheses.slice(1)] })).toContain('"economic_mechanism":null');
+  });
+  it("requires exact engineering scope for null and keeps ordinary scientific validation strict", () => {
+    const invalid = source();
+    invalid.hypotheses[0].assumptions = [];
+    expect(() => formTask(JSON.stringify(invalid))).toThrow(/空机制仅限/);
+    const wrong = source();
+    wrong.hypotheses[0] = { ...wrong.hypotheses[0], mechanism_attribution: "paper_original" } as Task["hypotheses"][number];
+    expect(() => formTask(JSON.stringify(wrong))).toThrow(/空机制仅限/);
+    const blank = task(); blank.hypotheses[0].economic_mechanism = "";
+    expect(taskFormIssues(blank)).toContain("假设 1：请填写主张、经济机制和信号方向。");
+  });
+  it("labels a newly supplied mechanism as a user modification in the ordinary branch", () => {
+    const original = source(), before = original.hypotheses[0];
+    const edited = editEconomicMechanism(before, "My explicit interpretation, not a proven paper mechanism.");
+    expect(edited.economic_mechanism).toBe("My explicit interpretation, not a proven paper mechanism.");
+    expect(edited.mechanism_attribution).toBe("user_modification");
+    expect(edited.assumptions).toEqual(before.assumptions.filter(item => item !== FORMULA_ENGINEERING_ASSUMPTION));
+    expect(edited.assumptions.at(-1)).toBe(before.assumptions.at(-1));
+    expect(before.economic_mechanism).toBeNull();
+    expect(taskFormIssues({ ...original, hypotheses: [edited, ...original.hypotheses.slice(1)] })).toEqual([]);
   });
 });
 

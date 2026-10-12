@@ -51,8 +51,16 @@ Alpha101 is also a limited formula-template case. It does not show support for a
 
 The code also contains independent monthly MOM-only and real-daily admission tooling. The former uses precomputed industry portfolios and its own method, not this daily DSL. The latter includes source/field/authority diagnostics; it does not imply that certified point-in-time equity data or final-period research is available in the delivered main workflow. Required external source materials are not preloaded in this public export.
 
+## Formula engineering and scientific unknowns
+
+A paper can specify a calculable formula without explaining its economic mechanism. The explicit formula-engineering policy preserves that mechanism as null with unresolved attribution instead of inventing an explanation. The original source questions stay recorded, and each receives an explicit disposition.
+
+This policy still requires the source calculation, mathematical signal direction, data meaning, execution assumptions, and component-level support. Missing computational information remains a blocker. Exact source spans and the finite operator-definition check establish mechanical citation and definition coverage, not scientific validity or semantic entailment.
+
+The optional model proposes structured material and candidate definitions. Deterministic tools validate and calculate them. The limited local model acceptance used one previously seen Alpha101 case and synthetic data; it is scoped engineering evidence rather than an independent benchmark of model understanding.
+
 ## Verification boundaries
 
 Representative tests cover timing, grid/checksum validation, missing and constant data, exact alignment, and expression rules. Independent reference checks compare supported numerical cases. Backup tests verify artifact and history preservation.
 
-Those checks prove scoped software behavior. They do not measure profitability, general model quality, real-user time savings, or monetary efficiency. Deterministic corrections resolve supported representation errors; they are not financial optimization or validated general LLM self-repair.
+Those checks prove scoped software behavior. They do not measure profitability, general model quality, real-user time savings, or monetary efficiency. Deterministic corrections resolve supported representation errors and selected-source definition-citation gaps. They preserve scientific content and historical versions; they are not financial optimization or validated general LLM self-repair. Automated review remains separate from human semantic approval.
