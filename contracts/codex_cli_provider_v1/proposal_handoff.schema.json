@@ -1,0 +1,86 @@
+{
+  "$defs": {
+    "JobBudget": {
+      "additionalProperties": false,
+      "properties": {
+        "max_failures": {
+          "maximum": 20,
+          "minimum": 1,
+          "title": "Max Failures",
+          "type": "integer"
+        },
+        "max_seconds": {
+          "maximum": 600,
+          "minimum": 1,
+          "title": "Max Seconds",
+          "type": "integer"
+        },
+        "max_steps": {
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Max Steps",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "max_steps",
+        "max_failures",
+        "max_seconds"
+      ],
+      "title": "JobBudget",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "accepted_response_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Accepted Response Digest",
+      "type": "string"
+    },
+    "allow_partial_execution": {
+      "default": false,
+      "title": "Allow Partial Execution",
+      "type": "boolean"
+    },
+    "budget": {
+      "$ref": "#/$defs/JobBudget"
+    },
+    "idempotency_key": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Idempotency Key",
+      "type": "string"
+    },
+    "method_status": {
+      "default": "resolved",
+      "enum": [
+        "resolved",
+        "unresolved"
+      ],
+      "title": "Method Status",
+      "type": "string"
+    },
+    "note": {
+      "default": "",
+      "maxLength": 4000,
+      "title": "Note",
+      "type": "string"
+    },
+    "unresolved_rules": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Unresolved Rules",
+      "type": "array"
+    }
+  },
+  "required": [
+    "accepted_response_digest",
+    "budget",
+    "idempotency_key"
+  ],
+  "title": "ProposalHandoff",
+  "type": "object"
+}

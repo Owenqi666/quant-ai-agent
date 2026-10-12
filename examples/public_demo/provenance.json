@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "paper_id": "project:public-engineering-fixture-v1",
+  "title": "Synthetic intraday return: an engineering fixture",
+  "source_url": "https://github.com/Owenqi666/quant-ai-agent/tree/main/examples/public_demo",
+  "version": "v1",
+  "document_sha256": "70e2fdcbc1fccc26be1ff4be447e5552fb9a62b35a14a7dc9f7cec09c3b10bd1",
+  "page_numbering": "1-based physical PDF pages",
+  "rights": "Original project-authored content prepared for public distribution. No third-party paper, image, or data is embedded.",
+  "scope": "Software demonstration only; no predictive economic or investment performance claim.",
+  "synthetic_generator": "scripts/make_fixture.py"
+}

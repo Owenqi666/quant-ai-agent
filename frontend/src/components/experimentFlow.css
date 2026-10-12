@@ -1,0 +1,80 @@
+/* The real creation and submission flow shares the approved research-desk palette. */
+.experiment-flow { color: var(--ink, #24384a); min-width: 0; }
+.experiment-flow .editor-container, .experiment-flow .flow-launch-controls { border: 0; min-width: 0; margin: 0; padding: 0; }
+.experiment-flow .flow-editor-nav { gap: 0; border-bottom: 1px solid var(--line, #dbdedb); margin: 20px 0 24px; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 1px; }
+.experiment-flow .flow-editor-nav .button { border: 0; border-radius: 0; background: transparent; color: var(--muted, #596a78); padding: 12px 16px; flex-shrink: 0; min-height: 44px; }
+.experiment-flow .flow-editor-nav .button[aria-current="step"] { background: var(--soft, #edf2fc); color: var(--accent, #285dca); box-shadow: inset 0 -2px currentColor; }
+.experiment-flow .flow-editor-nav .button:hover:not(:disabled) { background: var(--soft, #edf2fc); }
+.experiment-flow h3 { font-size: 18px; margin: 28px 0 12px; font-weight: 650; }
+.experiment-flow h4 { font-size: 14px; margin: 0 0 8px; font-weight: 650; }
+.experiment-flow p { max-width: 75ch; line-height: 1.65; }
+.experiment-flow .task-editor-row { border: 0; border-top: 1px solid var(--line, #dbdedb); border-radius: 0; padding: 20px 0 24px; margin: 24px 0 0; background: transparent; min-width: 0; }
+.experiment-flow .task-editor-row legend { padding: 0 12px 0 0; font-size: 15px; font-weight: 650; max-width: 100%; overflow-wrap: anywhere; }
+.experiment-flow .task-editor-row legend code { font-size: 12px; color: var(--muted, #596a78); margin-left: 8px; font-weight: 400; }
+.experiment-flow .field { min-width: 0; }
+.experiment-flow :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) { width: 100%; min-width: 0; max-width: 100%; background: #fff; color: var(--ink, #24384a); border: 1px solid #bfc9d5; border-radius: 5px; caret-color: var(--accent, #285dca); }
+.experiment-flow :is(input:not([type="checkbox"]):not([type="radio"]), select) { min-height: 42px; }
+.experiment-flow :is(input, textarea)::placeholder { color: #697585; opacity: 1; }
+.experiment-flow input[type="checkbox"] { accent-color: var(--accent, #285dca); }
+.experiment-flow :is(input, select, textarea):disabled { color: #697585; background: #eff1f4; cursor: not-allowed; }
+.experiment-flow :is(button, input, select, textarea, summary):focus-visible, .flow-recovery button:focus-visible { outline: 3px solid #5083eb; outline-offset: 3px; }
+.experiment-flow .evidence-options { display: grid; gap: 10px; margin: 12px 0 20px; }
+.experiment-flow .evidence-options label { display: flex; align-items: flex-start; gap: 9px; line-height: 1.6; }
+.experiment-flow .evidence-options input { flex: 0 0 auto; margin-top: 5px; }
+.experiment-flow :is(.fine-print, .mode-description, .muted) { color: var(--muted, #596a78); font-size: 13px; }
+.experiment-flow .flow-calendar { color: var(--muted, #596a78); font-size: 13px; margin: 16px 0; font-variant-numeric: tabular-nums; }
+.experiment-flow .flow-split-editor { display: grid; gap: 18px; margin: 24px 0; }
+.experiment-flow .flow-window { border: 0; border-top: 1px solid var(--line, #dbdedb); min-width: 0; margin: 0; padding: 16px 0 0; }
+.experiment-flow .flow-window legend { padding-right: 12px; font-size: 15px; font-weight: 600; }
+.experiment-flow .flow-window .fine-print { margin: 0 0 12px; }
+.experiment-flow .task-editor-dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.experiment-flow .flow-window-validation legend { color: var(--accent, #285dca); }
+.experiment-flow .flow-error { color: #993d22; font-size: 13px; }
+.experiment-flow [aria-invalid="true"] { border-color: #993d22; }
+.flow-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 24px; margin: 0 0 24px; }
+.flow-summary div { min-width: 0; }
+.flow-summary dt { color: var(--muted, #596a78); font-size: 12px; margin-bottom: 5px; }
+.flow-summary dd { margin: 0; font-size: 14px; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.flow-summary dd :is(small, code) { display: block; margin-top: 4px; font-size: 12px; overflow-wrap: anywhere; }
+.flow-summary dd small { color: var(--muted, #596a78); }
+.flow-saved-windows { margin: 18px 0 24px; border-top: 1px solid var(--line, #dbdedb); }
+.flow-saved-windows section { display: grid; grid-template-columns: minmax(190px, 1fr) minmax(220px, 1fr); gap: 6px 24px; padding: 16px 0; border-bottom: 1px solid var(--line, #dbdedb); }
+.flow-saved-windows section h4, .flow-saved-windows section p { margin: 0; }
+.flow-saved-windows section .fine-print { grid-column: 1 / -1; }
+.flow-saved-windows time { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.flow-execution { margin: 24px 0; padding: 18px 0; border-block: 1px solid var(--line, #dbdedb); }
+.flow-timing { list-style: none; padding: 0; margin: 16px 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.flow-timing li { display: flex; flex-direction: column; gap: 4px; }
+.flow-timing strong { font-size: 14px; font-weight: 550; }
+.flow-timing span { font-size: 13px; color: var(--muted, #596a78); }
+.flow-budget-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; margin: 24px 0; }
+.experiment-flow .flow-launch-controls legend { font-weight: 650; font-size: 15px; margin-bottom: 12px; }
+.experiment-flow .flow-budget-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; margin: 24px 0; }
+.experiment-flow .flow-budget-summary div { background: transparent; border: 0; padding: 0; min-width: 0; }
+.experiment-flow .flow-budget-summary dt { font-size: 12px; color: var(--muted, #596a78); }
+.experiment-flow .flow-budget-summary dd { margin: 4px 0 0; font-size: 14px; font-variant-numeric: tabular-nums; }
+.experiment-flow .flow-version { flex: 0 0 auto; color: var(--accent, #285dca); background: var(--soft, #edf2fc); border-radius: 4px; padding: 4px 9px; font-size: 13px; }
+.flow-decision { border-top: 1px solid var(--line, #dbdedb); margin-top: 24px; padding-top: 20px; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.flow-decision p { flex: 1 1 260px; margin: 0; color: var(--muted, #596a78); font-size: 13px; }
+.flow-decision .button { flex: 0 0 auto; }
+.flow-recovery { margin: 16px 0; overflow-wrap: anywhere; }
+.flow-recovery .flow-summary { margin: 16px 0; }
+.flow-recovery .json-details { margin-bottom: 16px; }
+.experiment-flow .json-details { margin-top: 24px; }
+.experiment-flow .task-diff pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .experiment-flow .flow-editor-nav .button { padding: 12px 10px; }
+  .flow-saved-windows section { grid-template-columns: minmax(0, 1fr); }
+  .flow-saved-windows section .fine-print { grid-column: auto; }
+  .flow-summary, .flow-budget-grid { grid-template-columns: minmax(0, 1fr); }
+  .flow-timing { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .flow-timing li { flex-direction: row; justify-content: space-between; gap: 12px; }
+  .experiment-flow .task-editor-dates { gap: 10px; }
+  .flow-decision { align-items: stretch; }
+  .flow-decision .button { min-height: 44px; white-space: normal; }
+  .experiment-flow .panel-heading { align-items: flex-start; }
+}
+@media (max-width: 420px) {
+  .experiment-flow .task-editor-dates, .experiment-flow .flow-budget-summary { grid-template-columns: minmax(0, 1fr); }
+  .flow-decision .button.primary { width: 100%; }
+}

@@ -1,0 +1,454 @@
+{
+  "$defs": {
+    "DraftEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9_-]{1,64}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "page": {
+          "maximum": 500,
+          "minimum": 1,
+          "title": "Page",
+          "type": "integer"
+        },
+        "quote": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "page",
+        "quote"
+      ],
+      "title": "DraftEvidence",
+      "type": "object"
+    },
+    "DraftHypothesis": {
+      "additionalProperties": false,
+      "properties": {
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "attribution": {
+          "enum": [
+            "paper_original",
+            "user_modification",
+            "model_conjecture"
+          ],
+          "title": "Attribution",
+          "type": "string"
+        },
+        "claim": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Claim",
+          "type": "string"
+        },
+        "economic_mechanism": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Economic Mechanism",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9_-]{1,64}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "mechanism_attribution": {
+          "enum": [
+            "paper_original",
+            "user_modification",
+            "model_conjecture"
+          ],
+          "title": "Mechanism Attribution",
+          "type": "string"
+        },
+        "required_fields": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Required Fields",
+          "type": "array"
+        },
+        "signal_direction": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Signal Direction",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "claim",
+        "attribution",
+        "evidence_ids",
+        "economic_mechanism",
+        "mechanism_attribution",
+        "signal_direction",
+        "required_fields",
+        "assumptions"
+      ],
+      "title": "DraftHypothesis",
+      "type": "object"
+    },
+    "ProviderCapabilities": {
+      "additionalProperties": false,
+      "properties": {
+        "data_kind": {
+          "const": "synthetic",
+          "title": "Data Kind",
+          "type": "string"
+        },
+        "documented_aliases": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Documented Aliases",
+          "type": "object"
+        },
+        "fields": {
+          "items": {
+            "$ref": "#/$defs/ProviderField"
+          },
+          "maxItems": 30,
+          "title": "Fields",
+          "type": "array"
+        },
+        "maximum_window": {
+          "title": "Maximum Window",
+          "type": "integer"
+        },
+        "operator_semantics_version": {
+          "title": "Operator Semantics Version",
+          "type": "string"
+        },
+        "operators": {
+          "items": {
+            "$ref": "#/$defs/ProviderOperator"
+          },
+          "maxItems": 100,
+          "title": "Operators",
+          "type": "array"
+        },
+        "semantics": {
+          "title": "Semantics",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fields",
+        "operators",
+        "documented_aliases",
+        "operator_semantics_version",
+        "maximum_window",
+        "semantics",
+        "data_kind"
+      ],
+      "title": "ProviderCapabilities",
+      "type": "object"
+    },
+    "ProviderDevelopment": {
+      "additionalProperties": false,
+      "properties": {
+        "evaluation_period": {
+          "const": "validation",
+          "title": "Evaluation Period",
+          "type": "string"
+        },
+        "execution": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "title": "Execution",
+          "type": "object"
+        },
+        "final_test_policy": {
+          "const": "Final-test data and evaluation are unavailable to the provider.",
+          "title": "Final Test Policy",
+          "type": "string"
+        },
+        "min_assets": {
+          "title": "Min Assets",
+          "type": "integer"
+        },
+        "missing_policy": {
+          "title": "Missing Policy",
+          "type": "string"
+        },
+        "train": {
+          "$ref": "#/$defs/ProviderRange"
+        },
+        "validation": {
+          "$ref": "#/$defs/ProviderRange"
+        }
+      },
+      "required": [
+        "train",
+        "validation",
+        "min_assets",
+        "evaluation_period",
+        "execution",
+        "missing_policy",
+        "final_test_policy"
+      ],
+      "title": "ProviderDevelopment",
+      "type": "object"
+    },
+    "ProviderExposure": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "hypothesis_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Hypothesis Ids",
+          "type": "array"
+        },
+        "omitted": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Omitted",
+          "type": "array"
+        },
+        "scope": {
+          "const": "Implementation from already maintained paper assertions; not independent alpha discovery.",
+          "title": "Scope",
+          "type": "string"
+        },
+        "source_may_contain_formula_answers": {
+          "const": true,
+          "title": "Source May Contain Formula Answers",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "evidence_ids",
+        "hypothesis_ids",
+        "source_may_contain_formula_answers",
+        "scope",
+        "omitted"
+      ],
+      "title": "ProviderExposure",
+      "type": "object"
+    },
+    "ProviderField": {
+      "additionalProperties": false,
+      "properties": {
+        "available_at": {
+          "title": "Available At",
+          "type": "string"
+        },
+        "definition": {
+          "title": "Definition",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "raw",
+            "derived"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "available_at",
+        "unit",
+        "definition"
+      ],
+      "title": "ProviderField",
+      "type": "object"
+    },
+    "ProviderOperator": {
+      "additionalProperties": false,
+      "properties": {
+        "arity": {
+          "title": "Arity",
+          "type": "integer"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "arity"
+      ],
+      "title": "ProviderOperator",
+      "type": "object"
+    },
+    "ProviderRange": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "title": "End",
+          "type": "string"
+        },
+        "start": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "title": "Start",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "ProviderRange",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "base_revision_id": {
+      "title": "Base Revision Id",
+      "type": "string"
+    },
+    "capabilities": {
+      "$ref": "#/$defs/ProviderCapabilities"
+    },
+    "context_version": {
+      "const": "daily-proposal-context-v1",
+      "title": "Context Version",
+      "type": "string"
+    },
+    "data_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Data Sha256",
+      "type": "string"
+    },
+    "dataset_id": {
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "development": {
+      "$ref": "#/$defs/ProviderDevelopment"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/DraftEvidence"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "exposure_manifest": {
+      "$ref": "#/$defs/ProviderExposure"
+    },
+    "hypotheses": {
+      "items": {
+        "$ref": "#/$defs/DraftHypothesis"
+      },
+      "maxItems": 100,
+      "title": "Hypotheses",
+      "type": "array"
+    },
+    "paper_id": {
+      "title": "Paper Id",
+      "type": "string"
+    },
+    "paper_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Paper Sha256",
+      "type": "string"
+    },
+    "research_id": {
+      "title": "Research Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "semantic_fidelity": {
+      "const": "unverified",
+      "title": "Semantic Fidelity",
+      "type": "string"
+    },
+    "source_digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Source Digest",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "context_version",
+    "research_id",
+    "base_revision_id",
+    "paper_id",
+    "dataset_id",
+    "source_digest",
+    "paper_sha256",
+    "data_sha256",
+    "evidence",
+    "hypotheses",
+    "capabilities",
+    "development",
+    "exposure_manifest",
+    "semantic_fidelity"
+  ],
+  "title": "ProviderContext",
+  "type": "object"
+}

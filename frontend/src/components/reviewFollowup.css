@@ -1,0 +1,6 @@
+/* Keep long review notes and selector labels within the existing page layout. */
+.review-followup, .issue-feedback-tools { min-width: 0; overflow-wrap: anywhere; }
+.review-followup fieldset, .issue-feedback-tools fieldset { min-width: 0; max-width: 100%; }
+.review-followup .field, .issue-feedback-tools .field { min-width: 0; }
+.review-followup select, .issue-feedback-tools select { min-width: 0; max-width: 100%; }
+.review-followup .panel-heading, .review-followup .button-row { flex-wrap: wrap; }

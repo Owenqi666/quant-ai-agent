@@ -1,0 +1,100 @@
+{
+  "$defs": {
+    "ProviderError": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "retryable": {
+          "default": false,
+          "title": "Retryable",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "ProviderError",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "authenticated": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Authenticated"
+    },
+    "checked_at": {
+      "title": "Checked At",
+      "type": "string"
+    },
+    "cli_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cli Version"
+    },
+    "configured": {
+      "default": false,
+      "title": "Configured",
+      "type": "boolean"
+    },
+    "errors": {
+      "items": {
+        "$ref": "#/$defs/ProviderError"
+      },
+      "title": "Errors",
+      "type": "array"
+    },
+    "inference_verified": {
+      "default": false,
+      "title": "Inference Verified",
+      "type": "boolean"
+    },
+    "provider": {
+      "enum": [
+        "codex_cli",
+        "disabled",
+        "fixture"
+      ],
+      "title": "Provider",
+      "type": "string"
+    },
+    "tool_boundary_verified": {
+      "default": false,
+      "title": "Tool Boundary Verified",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "provider",
+    "checked_at"
+  ],
+  "title": "ProviderReadiness",
+  "type": "object"
+}

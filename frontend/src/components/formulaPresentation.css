@@ -1,0 +1,8 @@
+.formula-presentation { margin-top: 1rem; border-top: 1px solid var(--border, #dce2e8); padding-top: .8rem; }
+.formula-reading-item { padding: .75rem 0; min-width: 0; }
+.formula-reading-item h5 { margin: .4rem 0; }
+.formula-source-label { margin: .35rem 0; font-size: .78rem; color: var(--muted, #627086); }
+.formula-math { max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: .65rem .25rem; font-size: 1.15rem; }
+.formula-math:empty { display: none; }
+.formula-math math { display: block; min-width: min-content; }
+.formula-reading-item .expression { white-space: pre-wrap; overflow-wrap: anywhere; }

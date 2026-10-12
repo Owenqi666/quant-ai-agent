@@ -1,0 +1,190 @@
+{
+  "legacy_loop_v1": {
+    "actions": [],
+    "created_at": "2026-10-11T01:56:59.569085+00:00",
+    "decision": null,
+    "decision_applied": false,
+    "experiment": null,
+    "id": "research_loop_2207127dcff1378f7da9994978885ff063f3d749104e16333f41acce03bd4996",
+    "next_action": "proposal.create",
+    "policy": {
+      "allow_experiment": true,
+      "experiment_budget": {
+        "max_failures": 2,
+        "max_seconds": 180,
+        "max_steps": 10
+      },
+      "max_actions": 24,
+      "max_experiments": 1,
+      "max_repairs": 1
+    },
+    "proposals": [],
+    "public_projection_redacted": false,
+    "real_dispatch_qualified": false,
+    "reason": null,
+    "request_digest": "2207127dcff1378f7da9994978885ff063f3d749104e16333f41acce03bd4996",
+    "schema_version": 1,
+    "semantic_fidelity": "unverified",
+    "session": {
+      "budget": {
+        "max_experiments": 1,
+        "max_failures": 3,
+        "max_provider_dispatches": 1,
+        "max_seconds": 600,
+        "max_tool_actions": 3
+      },
+      "config": {
+        "contract_id": "research_provider_v2",
+        "provider_config_digest": "0d72b56401ac655cf39d65b1fcdfe22551afa5eee96c6df841bafcd80d28e59b",
+        "provider_config_id": "synthetic-alpha006-window-v1"
+      },
+      "created_at": "2026-10-11T01:56:59.441286+00:00",
+      "current_source": {
+        "kind": "research_revision",
+        "material_digest": null,
+        "material_id": null,
+        "paper_id": null,
+        "research_id": "3b4ded46-758a-4c36-a9bd-f720093c1b2b",
+        "revision_digest": "698947712c0c920bcec3b7a2f4296d3de2009c9b25f965f3e9b9746bc5115b94",
+        "revision_id": "c578d01f-2f0c-4d14-96d5-c4e856dbbcb7",
+        "selection_digest": null,
+        "source_digest": "b7518f3d4e17bb661aa76d4419034eb324e18db554ef9c24503c057a50ce9773",
+        "version_id": null
+      },
+      "deadline_at": "2026-10-11T02:06:59.441286+00:00",
+      "effective_state": "created",
+      "execution_scope": "provider_and_experiment_gated",
+      "id": "research_session_9e57a4ca8b7fe6137288ea3e61728cd05d5149fd2763e33bd815755f02e2c7f7",
+      "public_projection_redacted": false,
+      "purpose": "Explicit synthetic Alpha#006 workflow; deterministic representation correction; research quality remains unverified.",
+      "remaining_seconds": 599.870405,
+      "reservations": [],
+      "root_source": {
+        "kind": "research_revision",
+        "material_digest": null,
+        "material_id": null,
+        "paper_id": null,
+        "research_id": "3b4ded46-758a-4c36-a9bd-f720093c1b2b",
+        "revision_digest": "698947712c0c920bcec3b7a2f4296d3de2009c9b25f965f3e9b9746bc5115b94",
+        "revision_id": "c578d01f-2f0c-4d14-96d5-c4e856dbbcb7",
+        "selection_digest": null,
+        "source_digest": "b7518f3d4e17bb661aa76d4419034eb324e18db554ef9c24503c057a50ce9773",
+        "version_id": null
+      },
+      "schema_version": 2,
+      "semantic_fidelity": "unverified",
+      "state": "created",
+      "state_digest": "0f56d44bc087c4c25d39342aca07801fb812fe70382d75d90b8ca7be85442008",
+      "stop_reason": null,
+      "usage": {
+        "experiments": 0,
+        "failures": 0,
+        "provider_dispatches": 0,
+        "tool_actions": 0
+      },
+      "version": 1
+    },
+    "session_id": "research_session_9e57a4ca8b7fe6137288ea3e61728cd05d5149fd2763e33bd815755f02e2c7f7",
+    "state": "ready"
+  },
+  "loop_v2": {
+    "actions": [],
+    "created_at": "2026-10-11T01:56:59.569085+00:00",
+    "decision": null,
+    "decision_applied": false,
+    "experiment": null,
+    "id": "research_loop_2207127dcff1378f7da9994978885ff063f3d749104e16333f41acce03bd4996",
+    "next_action": "proposal.create",
+    "policy": {
+      "allow_experiment": true,
+      "correction_mode": "deterministic",
+      "correction_policy_digest": "1bef9bed7f37161cb910d2ab7dbaab7b35f8cf5be39f6575a1f83eecc4fd8c0d",
+      "correction_policy_id": "equivalent-expression-representation-v2",
+      "experiment_budget": {
+        "max_failures": 2,
+        "max_seconds": 180,
+        "max_steps": 10
+      },
+      "max_actions": 24,
+      "max_deterministic_passes": 1,
+      "max_experiments": 1,
+      "max_repairs": 1
+    },
+    "proposals": [],
+    "public_projection_redacted": false,
+    "real_dispatch_qualified": false,
+    "reason": null,
+    "request_digest": "2207127dcff1378f7da9994978885ff063f3d749104e16333f41acce03bd4996",
+    "schema_version": 2,
+    "semantic_fidelity": "unverified",
+    "session": {
+      "budget": {
+        "max_experiments": 1,
+        "max_failures": 3,
+        "max_provider_dispatches": 1,
+        "max_seconds": 600,
+        "max_tool_actions": 3
+      },
+      "config": {
+        "contract_id": "research_provider_v2",
+        "provider_config_digest": "0d72b56401ac655cf39d65b1fcdfe22551afa5eee96c6df841bafcd80d28e59b",
+        "provider_config_id": "synthetic-alpha006-window-v1"
+      },
+      "created_at": "2026-10-11T01:56:59.441286+00:00",
+      "current_source": {
+        "kind": "research_revision",
+        "material_digest": null,
+        "material_id": null,
+        "paper_id": null,
+        "research_id": "3b4ded46-758a-4c36-a9bd-f720093c1b2b",
+        "revision_digest": "698947712c0c920bcec3b7a2f4296d3de2009c9b25f965f3e9b9746bc5115b94",
+        "revision_id": "c578d01f-2f0c-4d14-96d5-c4e856dbbcb7",
+        "selection_digest": null,
+        "source_digest": "b7518f3d4e17bb661aa76d4419034eb324e18db554ef9c24503c057a50ce9773",
+        "version_id": null
+      },
+      "deadline_at": "2026-10-11T02:06:59.441286+00:00",
+      "effective_state": "created",
+      "execution_scope": "provider_and_experiment_gated",
+      "id": "research_session_9e57a4ca8b7fe6137288ea3e61728cd05d5149fd2763e33bd815755f02e2c7f7",
+      "public_projection_redacted": false,
+      "purpose": "Explicit synthetic Alpha#006 workflow; deterministic representation correction; research quality remains unverified.",
+      "remaining_seconds": 599.870405,
+      "reservations": [],
+      "root_source": {
+        "kind": "research_revision",
+        "material_digest": null,
+        "material_id": null,
+        "paper_id": null,
+        "research_id": "3b4ded46-758a-4c36-a9bd-f720093c1b2b",
+        "revision_digest": "698947712c0c920bcec3b7a2f4296d3de2009c9b25f965f3e9b9746bc5115b94",
+        "revision_id": "c578d01f-2f0c-4d14-96d5-c4e856dbbcb7",
+        "selection_digest": null,
+        "source_digest": "b7518f3d4e17bb661aa76d4419034eb324e18db554ef9c24503c057a50ce9773",
+        "version_id": null
+      },
+      "schema_version": 2,
+      "semantic_fidelity": "unverified",
+      "state": "created",
+      "state_digest": "0f56d44bc087c4c25d39342aca07801fb812fe70382d75d90b8ca7be85442008",
+      "stop_reason": null,
+      "usage": {
+        "experiments": 0,
+        "failures": 0,
+        "provider_dispatches": 0,
+        "tool_actions": 0
+      },
+      "version": 1
+    },
+    "session_id": "research_session_9e57a4ca8b7fe6137288ea3e61728cd05d5149fd2763e33bd815755f02e2c7f7",
+    "state": "ready"
+  },
+  "provenance": {
+    "events_sha256": "a70b39505c341a70bbfa6e1912ceb72218bde1cf329462bb8c0b29d409782630",
+    "legacy_v1_is_shape_fixture": true,
+    "loop_v2_is_saved_response": true,
+    "provider_calls_created_for_fixture": 0,
+    "source": "saved synthetic browser Loop POST201 before any provider dispatch",
+    "worker_calls_created_for_fixture": 0
+  }
+}

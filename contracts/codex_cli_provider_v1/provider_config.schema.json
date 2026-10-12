@@ -1,0 +1,82 @@
+{
+  "additionalProperties": false,
+  "description": "Trusted host configuration, never accepted as client/model output.",
+  "properties": {
+    "compatibility_verified": {
+      "default": false,
+      "title": "Compatibility Verified",
+      "type": "boolean"
+    },
+    "config_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,128}$",
+      "title": "Config Id",
+      "type": "string"
+    },
+    "enabled": {
+      "default": false,
+      "title": "Enabled",
+      "type": "boolean"
+    },
+    "executable": {
+      "default": "codex",
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Executable",
+      "type": "string"
+    },
+    "expected_cli_version": {
+      "default": "0.145.0",
+      "title": "Expected Cli Version",
+      "type": "string"
+    },
+    "inference_verified": {
+      "default": false,
+      "title": "Inference Verified",
+      "type": "boolean"
+    },
+    "mode": {
+      "default": "codex_cli",
+      "enum": [
+        "codex_cli",
+        "fixture"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "model": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Model"
+    },
+    "reasoning_effort": {
+      "default": "low",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "title": "Reasoning Effort",
+      "type": "string"
+    },
+    "tool_boundary_verified": {
+      "default": false,
+      "title": "Tool Boundary Verified",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "config_id"
+  ],
+  "title": "ProviderConfig",
+  "type": "object"
+}

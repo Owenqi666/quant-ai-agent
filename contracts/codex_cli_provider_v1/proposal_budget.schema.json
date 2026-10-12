@@ -1,0 +1,95 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "hard_cost_limit": {
+      "anyOf": [
+        {
+          "exclusiveMinimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Hard Cost Limit"
+    },
+    "hard_model_call_limit": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Hard Model Call Limit"
+    },
+    "hard_token_limit": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Hard Token Limit"
+    },
+    "max_context_bytes": {
+      "default": 131072,
+      "maximum": 131072,
+      "minimum": 1024,
+      "title": "Max Context Bytes",
+      "type": "integer"
+    },
+    "max_log_bytes": {
+      "default": 8388608,
+      "maximum": 8388608,
+      "minimum": 1024,
+      "title": "Max Log Bytes",
+      "type": "integer"
+    },
+    "max_output_bytes": {
+      "default": 65536,
+      "maximum": 65536,
+      "minimum": 1024,
+      "title": "Max Output Bytes",
+      "type": "integer"
+    },
+    "max_provider_invocations": {
+      "default": 1,
+      "maximum": 3,
+      "minimum": 1,
+      "title": "Max Provider Invocations",
+      "type": "integer"
+    },
+    "max_seconds": {
+      "default": 60,
+      "maximum": 600,
+      "minimum": 1,
+      "title": "Max Seconds",
+      "type": "integer"
+    },
+    "output_token_target": {
+      "default": 2000,
+      "maximum": 2000,
+      "minimum": 1,
+      "title": "Output Token Target",
+      "type": "integer"
+    },
+    "token_scheduling_threshold": {
+      "default": 12000,
+      "maximum": 12000,
+      "minimum": 1,
+      "title": "Token Scheduling Threshold",
+      "type": "integer"
+    }
+  },
+  "title": "ProposalBudget",
+  "type": "object"
+}

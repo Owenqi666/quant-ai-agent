@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "source": "public_engineering_fixture",
+  "paper_id": "arxiv:1601.00991v3",
+  "document_sha256": "1f9c21afe32dcb3ee77b31548acdaea00451fbfa1c0ee10c907867bcc736fce9",
+  "confirmed": [],
+  "not_confirmed": [
+    "human_review",
+    "research_quality",
+    "market_performance"
+  ],
+  "development_only": true
+}

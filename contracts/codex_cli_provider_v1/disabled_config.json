@@ -1,0 +1,12 @@
+{
+  "compatibility_verified": false,
+  "config_id": "codex-cli-v1-disabled",
+  "enabled": false,
+  "executable": "codex",
+  "expected_cli_version": "0.145.0",
+  "inference_verified": false,
+  "mode": "codex_cli",
+  "model": null,
+  "reasoning_effort": "low",
+  "tool_boundary_verified": false
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "title": "Original engineering fixture on deterministic synthetic data",
+  "paper": "paper.json",
+  "paper_pdf": "paper.pdf",
+  "data": "market.csv",
+  "data_metadata": "metadata.json",
+  "evidence": [
+    {"id": "intraday-return-definition", "page": 1, "quote": "close / open - 1"}
+  ],
+  "hypotheses": [
+    {
+      "id": "h-intraday-return-demo",
+      "claim": "The original engineering note defines close / open - 1.",
+      "attribution": "paper_original",
+      "evidence_ids": ["intraday-return-definition"],
+      "economic_mechanism": "No predictive economic mechanism is claimed. This definition is used to exercise the software pipeline.",
+      "mechanism_attribution": "user_modification",
+      "signal_direction": "Higher values are long under a local demo convention only.",
+      "required_fields": ["open", "close"],
+      "assumptions": [
+        "The cited document is an original engineering fixture, not academic research.",
+        "Data are entirely synthetic; metrics are not evidence of investment performance.",
+        "Daily close is available after the session closes; the local label enters at the next open and exits at the following open.",
+        "The long direction is a local demo convention and no predictive relationship is claimed.",
+        "This is factor evaluation without transaction costs, slippage, borrowing, or a complete execution model."
+      ]
+    }
+  ],
+  "candidates": [
+    {"id": "intraday-return-demo", "hypothesis_id": "h-intraday-return-demo", "expression": "close / open - 1", "origin": "paper_original", "changes": []}
+  ],
+  "evaluation": {
+    "min_assets": 5,
+    "splits": {
+      "train": {"start": "2022-01-03", "end": "2022-09-30"},
+      "validation": {"start": "2022-10-03", "end": "2023-03-31"},
+      "test": {"start": "2023-04-03", "end": "2023-07-14"}
+    }
+  },
+  "budget": {"max_candidates": 1, "max_attempts_per_candidate": 1, "max_tool_calls": 4, "max_seconds": 60}
+}

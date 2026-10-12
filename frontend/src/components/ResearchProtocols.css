@@ -1,0 +1,30 @@
+.research-protocols fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.research-protocols .protocol-windows {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 18px;
+}
+.research-protocols details {
+  margin: 12px 0;
+}
+.research-protocols li, .research-protocols article p {
+  overflow-wrap: anywhere;
+}
+.research-protocols td:last-child {
+  min-width: 200px;
+  max-width: 440px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.research-protocols fieldset:disabled input,
+.research-protocols fieldset:disabled textarea {
+  background: #f5f6f7;
+}
+@media (max-width: 650px) {
+  .research-protocols .protocol-windows { grid-template-columns: 1fr; }
+}

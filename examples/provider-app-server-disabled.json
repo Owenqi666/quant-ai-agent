@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "providers": [
+    {
+      "config_id": "local-app-server",
+      "mode": "codex_cli",
+      "native_transport": "app_server",
+      "enabled": false,
+      "executable": "/absolute/path/to/codex",
+      "expected_cli_version": "0.145.0",
+      "model": "gpt-5.5",
+      "reasoning_effort": "low",
+      "compatibility_verified": false,
+      "tool_boundary_verified": false,
+      "inference_verified": false
+    }
+  ]
+}

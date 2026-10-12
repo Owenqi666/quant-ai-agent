@@ -1,0 +1,435 @@
+{
+  "$defs": {
+    "AcceptedMaterialSource": {
+      "additionalProperties": false,
+      "properties": {
+        "dataset_id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "destination": {
+          "$ref": "#/$defs/MaterialDestination"
+        },
+        "evaluation": {
+          "additionalProperties": true,
+          "title": "Evaluation",
+          "type": "object"
+        },
+        "kind": {
+          "const": "accepted_material",
+          "title": "Kind",
+          "type": "string"
+        },
+        "material_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Material Id",
+          "type": "string"
+        },
+        "method_policy": {
+          "additionalProperties": true,
+          "title": "Method Policy",
+          "type": "object"
+        },
+        "title": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "version_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Version Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "material_id",
+        "version_id",
+        "dataset_id",
+        "evaluation",
+        "method_policy",
+        "destination",
+        "title"
+      ],
+      "title": "AcceptedMaterialSource",
+      "type": "object"
+    },
+    "MaterialDestination": {
+      "additionalProperties": false,
+      "properties": {
+        "base_revision_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Base Revision Id"
+        },
+        "kind": {
+          "enum": [
+            "new_research",
+            "existing_research"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "research_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Research Id"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "MaterialDestination",
+      "type": "object"
+    },
+    "PaperSelectionSource": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "paper_selection",
+          "title": "Kind",
+          "type": "string"
+        },
+        "paper_id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Paper Id",
+          "type": "string"
+        },
+        "selected_pages": {
+          "items": {
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Selected Pages",
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "paper_id",
+        "selected_pages"
+      ],
+      "title": "PaperSelectionSource",
+      "type": "object"
+    },
+    "ProposalBudget": {
+      "additionalProperties": false,
+      "properties": {
+        "hard_cost_limit": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hard Cost Limit"
+        },
+        "hard_model_call_limit": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hard Model Call Limit"
+        },
+        "hard_token_limit": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hard Token Limit"
+        },
+        "max_context_bytes": {
+          "default": 131072,
+          "maximum": 131072,
+          "minimum": 1024,
+          "title": "Max Context Bytes",
+          "type": "integer"
+        },
+        "max_log_bytes": {
+          "default": 8388608,
+          "maximum": 8388608,
+          "minimum": 1024,
+          "title": "Max Log Bytes",
+          "type": "integer"
+        },
+        "max_output_bytes": {
+          "default": 65536,
+          "maximum": 65536,
+          "minimum": 1024,
+          "title": "Max Output Bytes",
+          "type": "integer"
+        },
+        "max_provider_invocations": {
+          "default": 1,
+          "maximum": 3,
+          "minimum": 1,
+          "title": "Max Provider Invocations",
+          "type": "integer"
+        },
+        "max_seconds": {
+          "default": 60,
+          "maximum": 600,
+          "minimum": 1,
+          "title": "Max Seconds",
+          "type": "integer"
+        },
+        "output_token_target": {
+          "default": 2000,
+          "maximum": 2000,
+          "minimum": 1,
+          "title": "Output Token Target",
+          "type": "integer"
+        },
+        "token_scheduling_threshold": {
+          "default": 12000,
+          "maximum": 12000,
+          "minimum": 1,
+          "title": "Token Scheduling Threshold",
+          "type": "integer"
+        }
+      },
+      "title": "ProposalBudget",
+      "type": "object"
+    },
+    "ResearchRevisionSource": {
+      "additionalProperties": false,
+      "properties": {
+        "base_revision_id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Base Revision Id",
+          "type": "string"
+        },
+        "kind": {
+          "const": "research_revision",
+          "title": "Kind",
+          "type": "string"
+        },
+        "research_id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Research Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "research_id",
+        "base_revision_id"
+      ],
+      "title": "ResearchRevisionSource",
+      "type": "object"
+    },
+    "ResearchTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "attempt_id": {
+          "pattern": "^proposal_attempt_[0-9a-f]{64}$",
+          "title": "Attempt Id",
+          "type": "string"
+        },
+        "candidate_id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "proposal_id": {
+          "pattern": "^proposal_[0-9a-f]{64}$",
+          "title": "Proposal Id",
+          "type": "string"
+        },
+        "research_job_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Research Job Id"
+        },
+        "response_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Response Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        }
+      },
+      "required": [
+        "proposal_id",
+        "attempt_id",
+        "response_digest",
+        "candidate_id"
+      ],
+      "title": "ResearchTarget",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "budget": {
+      "$ref": "#/$defs/ProposalBudget"
+    },
+    "candidate_limit": {
+      "default": 1,
+      "maximum": 3,
+      "minimum": 1,
+      "title": "Candidate Limit",
+      "type": "integer"
+    },
+    "contract_id": {
+      "const": "research_provider_v2",
+      "default": "research_provider_v2",
+      "title": "Contract Id",
+      "type": "string"
+    },
+    "expected_session_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expected Session Digest",
+      "type": "string"
+    },
+    "expected_source_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expected Source Digest",
+      "type": "string"
+    },
+    "idempotency_key": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Idempotency Key",
+      "type": "string"
+    },
+    "instruction": {
+      "default": "",
+      "maxLength": 4000,
+      "title": "Instruction",
+      "type": "string"
+    },
+    "operation": {
+      "enum": [
+        "extract_material",
+        "generate_candidates",
+        "repair_candidate",
+        "decide_next_action"
+      ],
+      "title": "Operation",
+      "type": "string"
+    },
+    "provider_config_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Provider Config Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": 2,
+      "default": 2,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "session_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Session Id",
+      "type": "string"
+    },
+    "source": {
+      "discriminator": {
+        "mapping": {
+          "accepted_material": "#/$defs/AcceptedMaterialSource",
+          "paper_selection": "#/$defs/PaperSelectionSource",
+          "research_revision": "#/$defs/ResearchRevisionSource"
+        },
+        "propertyName": "kind"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PaperSelectionSource"
+        },
+        {
+          "$ref": "#/$defs/AcceptedMaterialSource"
+        },
+        {
+          "$ref": "#/$defs/ResearchRevisionSource"
+        }
+      ],
+      "title": "Source"
+    },
+    "target": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ResearchTarget"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "operation",
+    "session_id",
+    "expected_session_digest",
+    "source",
+    "expected_source_digest",
+    "provider_config_id",
+    "idempotency_key"
+  ],
+  "title": "ResearchProposalCreate",
+  "type": "object"
+}

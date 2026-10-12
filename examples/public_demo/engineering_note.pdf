@@ -1,0 +1,130 @@
+%PDF-1.3
+%“Œ‹ž ReportLab Generated PDF document (opensource)
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R /F3 4 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/BaseFont /Courier /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font
+>>
+endobj
+5 0 obj
+<<
+/Contents 9 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 8 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+6 0 obj
+<<
+/PageMode /UseNone /Pages 8 0 R /Type /Catalog
+>>
+endobj
+7 0 obj
+<<
+/Author (Paper-to-Alpha project) /CreationDate (D:20000101000000+00'00') /Creator (anonymous) /Keywords () /ModDate (D:20000101000000+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (Original software demonstration note; no financial research claims) /Title (Synthetic intraday return: an engineering fixture) /Trapped /False
+>>
+endobj
+8 0 obj
+<<
+/Count 1 /Kids [ 5 0 R ] /Type /Pages
+>>
+endobj
+9 0 obj
+<<
+/Length 2607
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+.1 .17 .25 rg
+BT /F2 20 Tf 24 TL ET
+BT 1 0 0 1 48 779.8898 Tm (Synthetic intraday return) Tj T* ET
+BT /F1 11 Tf 13.2 TL ET
+BT 1 0 0 1 48 757.8898 Tm (An original engineering fixture for Paper-to-Alpha) Tj T* ET
+.3 .5 .6 RG
+n 48 740.8898 m 547.2756 740.8898 l S
+BT /F2 12 Tf 14.4 TL ET
+BT 1 0 0 1 48 709.8898 Tm (Purpose) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 687.8898 Tm (This note is an original project-authored software fixture.) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 670.8898 Tm (It is not an academic paper, an investment hypothesis, or a strategy result.) Tj T* ET
+BT /F2 12 Tf 14.4 TL ET
+BT 1 0 0 1 48 637.8898 Tm (Executable definition) Tj T* ET
+BT /F3 10 Tf 12 TL ET
+BT 1 0 0 1 48 615.8898 Tm (close / open - 1) Tj T* ET
+BT /F2 12 Tf 14.4 TL ET
+BT 1 0 0 1 48 582.8898 Tm (Declared convention) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 560.8898 Tm (The signal describes the completed session's open-to-close change.) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 543.8898 Tm (Daily close is available only after the session closes.) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 526.8898 Tm (The local evaluation places higher signal values on the long side.) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 509.8898 Tm (That direction is a demo convention, not an established economic mechanism.) Tj T* ET
+BT /F2 12 Tf 14.4 TL ET
+BT 1 0 0 1 48 476.8898 Tm (Input and evaluation) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 454.8898 Tm (Use deterministic synthetic OHLCV, twelve synthetic assets, and weekday dates.) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 437.8898 Tm (Evaluate on the declared validation interval; keep test evaluation locked.) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 420.8898 Tm (The local label enters at the next open and exits at the following open.) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 403.8898 Tm (No transaction costs, slippage, borrowing, or execution model is included.) Tj T* ET
+BT /F2 12 Tf 14.4 TL ET
+BT 1 0 0 1 48 370.8898 Tm (Acceptance scope) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 348.8898 Tm (A successful run demonstrates PDF evidence checks and actual factor calculation.) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 331.8898 Tm (Saved metrics, events, input snapshots, and reports can then be verified.) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 48 314.8898 Tm (Metrics on this synthetic fixture provide no evidence of investment performance.) Tj T* ET
+.4 .4 .4 rg
+BT /F1 9 Tf 10.8 TL ET
+BT 1 0 0 1 48 40 Tm (Public demo fixture - Original content - Physical PDF page 1) Tj T* ET
+ 
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000061 00000 n 
+0000000112 00000 n 
+0000000219 00000 n 
+0000000331 00000 n 
+0000000436 00000 n 
+0000000639 00000 n 
+0000000707 00000 n 
+0000001077 00000 n 
+0000001136 00000 n 
+trailer
+<<
+/ID 
+[<37549b436c760be6776c70aa0e90beb4><37549b436c760be6776c70aa0e90beb4>]
+% ReportLab generated PDF document -- digest (opensource)
+
+/Info 7 0 R
+/Root 6 0 R
+/Size 10
+>>
+startxref
+3794
+%%EOF
