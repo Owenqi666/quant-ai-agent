@@ -4,12 +4,6 @@ An evidence-linked factor research workbench: turn selected source material into
 
 [![Public CI](https://github.com/Owenqi666/quant-ai-agent/actions/workflows/public-ci.yml/badge.svg?branch=main)](https://github.com/Owenqi666/quant-ai-agent/actions/workflows/public-ci.yml?query=branch%3Amain)
 
-![Computed output metrics and curves from the fixture demo](docs/assets/public-agent-workbench.png)
-
-*Computed output panel · fixture responses · synthetic OHLCV.*
-
-The project grew from my WorldQuant competition research workflow: read a paper, implement a factor, evaluate it, and revise the idea. I built a local workbench to keep the source, assumptions, implementation and results connected. WorldQuant is the research context, not a project affiliation or employment relationship.
-
 ## Engineering decisions
 
 - **Constrained numerical execution.** An AST whitelist checks fields, operators, windows and complexity. Exact panel alignment and declared next-session timing enforce evaluation boundaries. Rolling correlation retains its exact boundary fallback; regression tests compare NaN masks and non-NaN bits, including signed zero, against the retained implementation. [Expression engine](paper_alpha/expressions.py) · [evaluation semantics](docs/evaluation.md).
@@ -18,6 +12,12 @@ The project grew from my WorldQuant competition research workflow: read a paper,
 - **Model drafts behind deterministic gates.** Models propose evidence, hypotheses and candidates; programs parse responses, check citations and expressions, calculate results and verify outputs. Supported definition bindings can be completed from selected spans in a separate automation version. [Provider workflow](docs/model-workflow.md) · [definition checks](paper_alpha/server/operator_definition_grounding.py).
 
 On an Apple M5 Pro, seeded synthetic 1,000-date × 200-asset ordinary inputs showed median `ts_corr` speedups of **39.475×** (window 20) and **22.208×** (window 60) over the retained reference. [Measurement method, boundary costs and raw evidence](docs/ts-corr-benchmark.md).
+
+![Computed output metrics and curves from the fixture demo](docs/assets/public-agent-workbench.png)
+
+*Computed output panel · fixture responses · synthetic OHLCV.*
+
+The project grew from my WorldQuant competition research workflow: read a paper, implement a factor, evaluate it, and revise the idea. I built a local workbench to keep the source, assumptions, implementation and results connected. WorldQuant is the research context, not a project affiliation or employment relationship.
 
 ## See a complete example
 

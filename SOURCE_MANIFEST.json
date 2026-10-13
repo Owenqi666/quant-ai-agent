@@ -49,7 +49,7 @@
     "README.md": {
       "bytes": 9338,
       "origin": "main_project_source",
-      "sha256": "4a44e26a556949b31f06c521361eeb88895a2796d61601d99f02b212e6237f95"
+      "sha256": "64d876d98c49561b075c7985c96c8621555ad3363bd35671923a9c3cc26f1c79"
     },
     "THIRD_PARTY_NOTICES.md": {
       "bytes": 3881,
@@ -3026,7 +3026,7 @@
   "policy_sha256": "d19f9123e8e865b253dc0368984d583bc90f8d90eb996ab3542077c0270386c3",
   "schema_version": 1,
   "scope": "Current source development after the 0.27.2 Runtime freeze. Public fixture validation is separate from historical real-model acceptance; no claim that the older portable archive includes later fixes.",
-  "source_inventory_sha256": "797509fb97cdf58d3d607e2b3c1b7899bdd6cfd639268552540a7c35ae07a0be",
+  "source_inventory_sha256": "0031c33194728e4d02b624cdc7cdd3e9b95508da1ef96a3f09d88f0c970cbb99",
   "total_bytes_excluding_manifest": 10555479,
   "version": "0.27.2"
 }
