@@ -22,6 +22,9 @@ env:
   PYTHONDONTWRITEBYTECODE: '1'
   PYTHONNOUSERSITE: '1'
   PIP_DISABLE_PIP_VERSION_CHECK: '1'
+  OPENBLAS_NUM_THREADS: '1'
+  VECLIB_MAXIMUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
 
 jobs:
   verify:
@@ -67,9 +70,14 @@ jobs:
       - name: Run public software and reliability tests
         env:
           PUBLIC_RELIABILITY_ARTIFACT_DIR: .ci/reliability
+          CORR_COMPATIBILITY_REPORT: .ci/corr-compatibility.json
         run: |
           set -euo pipefail
           .venv/bin/python scripts/run_public_tests.py --output .ci/python-tests.json 2>&1 | tee .ci/logs/python-tests.log
+      - name: Compare and measure rolling-correlation smoke cases
+        run: |
+          set -euo pipefail
+          .venv/bin/python scripts/benchmark_ts_corr.py --suite smoke --warmups 5 --repeats 5 --output-dir .ci/ts-corr-smoke 2>&1 | tee .ci/logs/ts-corr-smoke.log
       - name: Install locked frontend dependencies
         working-directory: frontend
         run: |
@@ -109,6 +117,9 @@ jobs:
           path: |
             .ci/logs/*.log
             .ci/python-tests.json
+            .ci/corr-compatibility.json
+            .ci/ts-corr-smoke/benchmark.json
+            .ci/ts-corr-smoke/report.md
             .ci/reliability/*.json
             .ci/reliability/original-fixture.pdf
             .demo/agent/demo-summary.json

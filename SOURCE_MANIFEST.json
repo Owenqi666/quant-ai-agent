@@ -24,7 +24,7 @@
     "var"
   ],
   "exporter_sha256": "9889753c6a7e33f956a254a174052262053803f8b6c83a095afac8d784173c1c",
-  "file_count_excluding_manifest": 593,
+  "file_count_excluding_manifest": 596,
   "files": {
     ".gitattributes": {
       "bytes": 27,
@@ -32,9 +32,9 @@
       "sha256": "9ef873a5f85a831cd765561c142080e913ec6bf4c993cc1a350aacf4f68a1873"
     },
     ".github/workflows/public-ci.yml": {
-      "bytes": 6052,
+      "bytes": 6595,
       "origin": "main_project_source",
-      "sha256": "1de0c36d03abc4e1cf55fa059ea51ddebe7fcfb6a0e12d7606c4170744ba19f1"
+      "sha256": "9fc25e4307b398ea635c2383306d10bdb258afc9b2c0cb84a78cd9a91a40403f"
     },
     ".gitignore": {
       "bytes": 436,
@@ -1482,9 +1482,9 @@
       "sha256": "7bb9f3d03b47574518d70dd8942f0a058f5fb83dc780eabdf00332b3661265f5"
     },
     "paper_alpha/expressions.py": {
-      "bytes": 18519,
+      "bytes": 19911,
       "origin": "main_project_source",
-      "sha256": "c8aba5dee72d17996cd4fa8120dd7372884d74120ea038084c2826b925c77203"
+      "sha256": "bed31cfc37c38a487017dbaf323c0b675a4bacd4c7d451c0684c3a602b418a05"
     },
     "paper_alpha/feedback_metrics.py": {
       "bytes": 17582,
@@ -2781,6 +2781,11 @@
       "origin": "main_project_source",
       "sha256": "9e2839d4b9c2ad7af0532a8f9101af931e6a74f24ef8b436e7047524cd3249d0"
     },
+    "scripts/benchmark_ts_corr.py": {
+      "bytes": 19466,
+      "origin": "main_project_source",
+      "sha256": "e2e965c32e9fe2d95a68e2d8233252039235867e2fc5863591ec461d6bed2cfc"
+    },
     "scripts/case_review_packet.py": {
       "bytes": 482,
       "origin": "main_project_source",
@@ -2921,6 +2926,11 @@
       "origin": "main_project_source",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
+    "tests/corr_reference.py": {
+      "bytes": 4916,
+      "origin": "main_project_source",
+      "sha256": "70438388c873c60a1c880aaa07b45e7b8ccd072eeeaaa96ff417fe192ffa5a99"
+    },
     "tests/public_fixtures.py": {
       "bytes": 3580,
       "origin": "main_project_source",
@@ -2930,6 +2940,11 @@
       "bytes": 19083,
       "origin": "main_project_source",
       "sha256": "7cbaad5b810105c183b5c5cce379cec59cfd997f5188ebaa67027155bc9617a0"
+    },
+    "tests/test_corr_compatibility.py": {
+      "bytes": 18320,
+      "origin": "main_project_source",
+      "sha256": "8c4f351a03094d1341393b80ad79478bf2611a62ba8fe32f1e2d1f8983594e59"
     },
     "tests/test_evaluation.py": {
       "bytes": 14584,
@@ -2993,10 +3008,10 @@
     }
   },
   "format": "curated-public-source-inventory",
-  "policy_sha256": "c1f95abc72154ee3b51c9b8a0a11745e28220f4a8bba79a2b0327b0a49c00df3",
+  "policy_sha256": "39ddf1c0b6ca3c2f2730e937c647f360fb662a6cb00570e02ac86dd633653ca4",
   "schema_version": 1,
   "scope": "Current source development after the 0.27.2 Runtime freeze. Public fixture validation is separate from historical real-model acceptance; no claim that the older portable archive includes later fixes.",
-  "source_inventory_sha256": "4f4f935c9ae780e185ec31253ca4ecc5d81fb8b662200324ec06ecde8728f3cb",
-  "total_bytes_excluding_manifest": 10825684,
+  "source_inventory_sha256": "91ff2cd0f9702aadd20bf807a81f16472d03240c8cd9ce36bec9dd3b14efa021",
+  "total_bytes_excluding_manifest": 10870321,
   "version": "0.27.2"
 }
