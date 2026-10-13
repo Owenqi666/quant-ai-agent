@@ -16,6 +16,7 @@ from paper_alpha.server.research_assessments import DIMENSIONS
 from paper_alpha.server.service import ServiceError, Store
 from paper_alpha.server import mutations
 from paper_alpha.workflow import run_task
+from tests.public_fixtures import CANDIDATE_ID, create_original_research
 
 
 class MutationIdempotencyTests(unittest.TestCase):
@@ -26,7 +27,7 @@ class MutationIdempotencyTests(unittest.TestCase):
         self.app = create_app(self.home)
         self.client = TestClient(self.app)
         self.store = self.app.state.store
-        self.example = self.store.seed_example()
+        self.example = create_original_research(self.store)
 
     def tearDown(self):
         self.client.close()
@@ -46,11 +47,11 @@ class MutationIdempotencyTests(unittest.TestCase):
         return self.store.get_run(run_id)
 
     def review_body(self, run, *, structured=True):
-        body = {'candidate_id': 'alpha006', 'verdict': 'accepted', 'category': 'implementation',
+        body = {'candidate_id': CANDIDATE_ID, 'verdict': 'accepted', 'category': 'implementation',
                 'note': 'Automated retry fixture; not human approval.', 'source': 'automation',
                 'idempotency_key': 'review-key'}
         if structured:
-            target = next(item for item in run['review_targets'] if item['candidate_id'] == 'alpha006')
+            target = next(item for item in run['review_targets'] if item['candidate_id'] == CANDIDATE_ID)
             body['assessment'] = {
                 'reviewer': 'Automated fixture', 'expected_attempt_id': target['attempt_id'],
                 'expected_result_digest': target['result_digest'],
@@ -63,7 +64,7 @@ class MutationIdempotencyTests(unittest.TestCase):
                 'note': 'Automated retry expectation.', 'idempotency_key': 'case-key'}
 
     def target_pair(self, run):
-        target = next(item for item in run['review_targets'] if item['candidate_id'] == 'alpha006')
+        target = next(item for item in run['review_targets'] if item['candidate_id'] == CANDIDATE_ID)
         return {'expected_attempt_id': target['attempt_id'], 'expected_result_digest': target['result_digest']}
 
     def counts(self, store=None):
@@ -172,7 +173,7 @@ class MutationIdempotencyTests(unittest.TestCase):
         self.assertEqual(self.counts()['mutation_receipts'], 1)
 
     def test_invalid_keys_are_rejected_by_http_and_direct_service(self):
-        body = {'candidate_id': 'alpha006', 'verdict': 'accepted', 'category': 'other', 'note': 'Fixture'}
+        body = {'candidate_id': CANDIDATE_ID, 'verdict': 'accepted', 'category': 'other', 'note': 'Fixture'}
         for key in ('', ' \t\n', 'x' * 129, 1, True, {}, []):
             with self.subTest(key=key):
                 review = self.client.post('/api/runs/missing/reviews', json={**body, 'idempotency_key': key})
@@ -254,7 +255,7 @@ class MutationIdempotencyTests(unittest.TestCase):
         self.assertEqual(self.store.create_review(run['id'], **body), review)
         self.assertEqual(self.store.approve_case(**approval), case)
         retried = self.execute(run_id=run['id'])
-        current_target = next(item for item in retried['review_targets'] if item['candidate_id'] == 'alpha006')
+        current_target = next(item for item in retried['review_targets'] if item['candidate_id'] == CANDIDATE_ID)
         self.assertNotEqual(current_target['attempt_id'], review['attempt_id'])
         before = self.counts()
         self.assertEqual(self.store.create_review(run['id'], **body), review)
@@ -283,6 +284,20 @@ class MutationIdempotencyTests(unittest.TestCase):
         self.assertEqual(self.counts(restored), before)
         self.assertIn(legacy, restored.get_run(run['id'])['reviews'])
         self.assertTrue(restored.get_run(run['id'])['verification']['verified'])
+        changed_review = deepcopy(body)
+        changed_review['assessment']['expected_attempt_id'] = 'different-restored-attempt'
+        with self.assertRaises(ServiceError) as raised:
+            restored.create_review(run['id'], **changed_review)
+        self.assertEqual(raised.exception.status, 409)
+        self.assertEqual(self.counts(restored), before)
+        with self.assertRaises(ServiceError) as raised:
+            restored.approve_case(**{**approval, 'review_id': legacy['id']})
+        self.assertEqual(raised.exception.status, 409)
+        self.assertEqual(self.counts(restored), before)
+        self.assertEqual(restored.create_review(run['id'], **body), review)
+        self.assertEqual(restored.approve_case(**approval), case)
+        self.assertIn(review, restored.get_run(run['id'])['reviews'])
+        self.assertEqual(self.counts(restored), before)
 
     def test_damaged_receipt_is_rejected_without_duplicate_or_false_success(self):
         run = self.execute()
@@ -319,7 +334,7 @@ class MutationIdempotencyTests(unittest.TestCase):
         self.assertEqual(self.counts(), before)
 
     def test_review_target_fields_are_a_strict_pair_for_api_and_direct_call(self):
-        body = {'candidate_id': 'alpha006', 'verdict': 'accepted', 'category': 'other', 'note': 'Automated fixture',
+        body = {'candidate_id': CANDIDATE_ID, 'verdict': 'accepted', 'category': 'other', 'note': 'Automated fixture',
                 'idempotency_key': 'bad-target'}
         invalid = [
             {'expected_attempt_id': 'attempt'}, {'expected_result_digest': 'a' * 64},

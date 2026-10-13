@@ -5,7 +5,6 @@ used. Store registers its bundled synthetic market during normal initialization.
 """
 from concurrent.futures import ThreadPoolExecutor
 from hashlib import sha256
-from io import BytesIO
 import json
 import os
 from pathlib import Path
@@ -13,32 +12,11 @@ import tempfile
 import unittest
 
 from fastapi.testclient import TestClient
-from pypdf import PdfWriter
-from pypdf.generic import DictionaryObject, NameObject, DecodedStreamObject
 
 from paper_alpha.server.api import create_app
 from paper_alpha.server.provider_runtime import ProviderRegistry
 from paper_alpha.server.runner import Worker, worker_lock
-
-
-QUOTE = "Original test definition: signal = close - open."
-
-
-def original_pdf():
-    writer = PdfWriter()
-    page = writer.add_blank_page(width=612, height=792)
-    font = writer._add_object(DictionaryObject({
-        NameObject('/Type'): NameObject('/Font'),
-        NameObject('/Subtype'): NameObject('/Type1'),
-        NameObject('/BaseFont'): NameObject('/Helvetica')}))
-    page[NameObject('/Resources')] = DictionaryObject({NameObject('/Font'):
-        DictionaryObject({NameObject('/F1'): font})})
-    stream = DecodedStreamObject()
-    stream.set_data(f'BT /F1 12 Tf 40 740 Td ({QUOTE}) Tj ET'.encode('ascii'))
-    page[NameObject('/Contents')] = writer._add_object(stream)
-    output = BytesIO()
-    writer.write(output)
-    return output.getvalue()
+from tests.public_fixtures import QUOTE, prepare_original_research
 
 
 class PublicReliabilityTests(unittest.TestCase):
@@ -48,32 +26,10 @@ class PublicReliabilityTests(unittest.TestCase):
         self.app = create_app(self.home, provider_registry=ProviderRegistry({}))
         self.client = TestClient(self.app)
         self.store = self.app.state.store
-        self.pdf = original_pdf()
-        paper = self.store.add_paper(self.pdf, 'Original queue reliability fixture')
+        self.pdf, self.body = prepare_original_research(self.store)
+        paper = self.store.get_paper(self.body['paper_id'])
         self.assertIn(QUOTE, paper['pages'][0]['text'])
-        dataset = self.store.get_dataset(self.store.example_dataset_id)
-        dates = dataset['metadata']['calendar_dates']
-        self.task = {
-            'schema_version': 1,
-            'evidence': [{'id': 'toy-quote', 'page': 1, 'quote': QUOTE}],
-            'hypotheses': [{'id': 'toy-h', 'claim': 'The original fixture defines close - open.',
-                'attribution': 'paper_original', 'evidence_ids': ['toy-quote'],
-                'economic_mechanism': 'No predictive economic mechanism is claimed by this software fixture.',
-                'mechanism_attribution': 'user_modification',
-                'signal_direction': 'Positive is long under a toy engineering convention only.',
-                'required_fields': ['open', 'close'],
-                'assumptions': ['Synthetic data and toy definition; no research effectiveness claim.']}],
-            'candidates': [{'id': 'toy-c', 'hypothesis_id': 'toy-h', 'expression': 'close - open',
-                            'origin': 'paper_original', 'changes': []}],
-            'evaluation': {'min_assets': 3, 'splits': {
-                'train': {'start': dates[0], 'end': dates[9]},
-                'validation': {'start': dates[10], 'end': dates[19]},
-                'test': {'start': dates[20], 'end': dates[29]}}},
-            'budget': {'max_candidates': 1, 'max_attempts_per_candidate': 1,
-                       'max_tool_calls': 4, 'max_seconds': 30}}
-        self.body = {'title': 'Original reliability research', 'paper_id': paper['id'],
-                     'dataset_id': dataset['id'], 'task': self.task,
-                     'idempotency_key': 'public-research-request'}
+        self.task = self.body['task']
 
     def tearDown(self):
         self.client.close()

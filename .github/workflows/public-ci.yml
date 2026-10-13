@@ -50,6 +50,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .ci/logs .ci/reliability
+          git rev-parse HEAD | tee .ci/logs/checkout-sha.log
           python --version 2>&1 | tee .ci/logs/python-version.log
           node --version 2>&1 | tee .ci/logs/node-version.log
           npm --version 2>&1 | tee .ci/logs/npm-version.log
@@ -68,15 +69,7 @@ jobs:
           PUBLIC_RELIABILITY_ARTIFACT_DIR: .ci/reliability
         run: |
           set -euo pipefail
-          .venv/bin/python -m unittest -v \
-            tests.test_expressions \
-            tests.test_evaluation \
-            tests.test_formula_presentation \
-            tests.test_paper_segments \
-            tests.test_formula_engineering_material \
-            tests.test_operator_definition_public \
-            tests.test_public_reliability \
-            tests.test_public_agent_demo 2>&1 | tee .ci/logs/python-tests.log
+          .venv/bin/python scripts/run_public_tests.py --output .ci/python-tests.json 2>&1 | tee .ci/logs/python-tests.log
       - name: Install locked frontend dependencies
         working-directory: frontend
         run: |
@@ -115,6 +108,7 @@ jobs:
           include-hidden-files: true
           path: |
             .ci/logs/*.log
+            .ci/python-tests.json
             .ci/reliability/*.json
             .ci/reliability/original-fixture.pdf
             .demo/agent/demo-summary.json

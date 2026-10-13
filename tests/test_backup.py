@@ -1,5 +1,6 @@
 """Real SQLite/assets recovery, lock fencing and hostile backup boundaries."""
 from contextlib import closing
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -16,10 +17,11 @@ from paper_alpha.server import backup as backup_module
 from paper_alpha.server.api import create_app
 from paper_alpha.server.backup import BackupError, create_backup, restore_backup, verify_backup
 from paper_alpha.server.maintenance import workspace_lease
-from paper_alpha.server.runner import worker_lock
+from paper_alpha.server.runner import Worker, worker_lock
 from paper_alpha.server.service import Store
 from paper_alpha.storage import atomic_json, read_json
 from paper_alpha.workflow import run_task
+from tests.public_fixtures import CANDIDATE_ID, create_original_research
 
 
 class BackupTests(unittest.TestCase):
@@ -30,7 +32,7 @@ class BackupTests(unittest.TestCase):
         self.backup = self.base / "backup"
         self.restored = self.base / "restored"
         self.store = Store(self.home)
-        self.example = self.store.seed_example()
+        self.example = create_original_research(self.store)
 
     def tearDown(self):
         self.temp.cleanup()
@@ -42,10 +44,34 @@ class BackupTests(unittest.TestCase):
         store.finish(submitted["id"], "backup-test-worker", job["attempt_id"], state["status"])
         return store.get_run(submitted["id"]), job
 
+    @staticmethod
+    def persistent_snapshot(root):
+        return {path.relative_to(root).as_posix(): path.read_bytes()
+                for path in root.rglob("*")
+                if path.is_file() and path.name not in backup_module.EXCLUDED}
+
+    def assert_invalid_backup_rejected(self, expected_error=BackupError):
+        with self.assertRaises(expected_error):
+            verify_backup(self.backup)
+        with self.assertRaises(expected_error):
+            restore_backup(self.backup, self.restored)
+        self.assertFalse(self.restored.exists())
+        for command in ("verify", "restore"):
+            argv = [sys.executable, "-m", "paper_alpha.server.backup", command,
+                    "--backup", str(self.backup)]
+            if command == "restore":
+                argv += ["--home", str(self.restored)]
+            failed = subprocess.run(argv, capture_output=True, text=True, timeout=30)
+            with self.subTest(cli=command):
+                self.assertEqual(failed.returncode, 2, failed.stderr)
+                self.assertIn("error:", failed.stderr)
+                self.assertEqual(failed.stdout, "")
+                self.assertFalse(self.restored.exists())
+
     def test_portable_restore_preserves_verified_outputs_and_feedback(self):
         run, job = self.execute(self.store, self.example["revision_id"], "before-backup")
         self.assertTrue(run["verification"]["verified"])
-        review = self.store.create_review(run["id"], "alpha006", "accepted", "implementation", "Automated backup fixture review")
+        review = self.store.create_review(run["id"], CANDIDATE_ID, "accepted", "implementation", "Automated backup fixture review")
         case = self.store.approve_case(review["id"], "evaluated", "Explicit backup fixture expectation")
         check = self.store.run_regression_check(run["id"], [case["id"]])
         self.assertTrue(check["passed"])
@@ -53,12 +79,21 @@ class BackupTests(unittest.TestCase):
         report = self.store.report_path(run["id"]).read_bytes()
         snapshot = {p.relative_to(Path(job["output_dir"])).as_posix(): p.read_bytes()
                     for p in Path(job["output_dir"]).rglob("*") if p.is_file()}
+        researches = self.store._read("SELECT * FROM researches ORDER BY id")
+        revisions = self.store._read("SELECT * FROM revisions ORDER BY id")
         manifest = create_backup(self.home, self.backup)
         self.assertGreater(len(manifest["files"]), 20)
         self.assertFalse(any(name.endswith(("-wal", "-shm")) for name in manifest["files"]))
         restore = restore_backup(self.backup, self.restored)
         self.assertTrue(restore["restored"])
+        for name, expected in manifest["files"].items():
+            if name != "workbench.sqlite3":  # Database paths are intentionally rebased.
+                content = (self.restored / name).read_bytes()
+                self.assertEqual(len(content), expected["size"], name)
+                self.assertEqual(hashlib.sha256(content).hexdigest(), expected["sha256"], name)
         restored = Store(self.restored)
+        self.assertEqual(restored._read("SELECT * FROM researches ORDER BY id"), researches)
+        self.assertEqual(restored._read("SELECT * FROM revisions ORDER BY id"), revisions)
         self.assertEqual(restored._safe_error(f"Historical input {self.home}/runs/example"), "Historical input [workbench]/runs/example")
         restored_run = restored.get_run(run["id"])
         self.assertTrue(restored_run["verification"]["verified"], restored_run["verification"])
@@ -75,10 +110,27 @@ class BackupTests(unittest.TestCase):
         # reviewed case, without dereferencing paths in the original workspace.
         offline_original = self.base / "original-offline"
         self.home.rename(offline_original)
-        next_run, _ = self.execute(restored, self.example["revision_id"], "after-backup")
+        submitted = restored.submit_run(self.example["revision_id"], "normalized_fixed", "after-backup")
+        with worker_lock(self.restored) as lock:
+            worker = Worker(restored, lock)
+            self.assertTrue(worker.run_once())
+        next_run = restored.get_run(submitted["id"])
+        self.assertEqual(next_run["status"], "completed", next_run.get("error"))
+        self.assertNotEqual(next_run["id"], run["id"])
+        self.assertEqual(next_run["attempt_count"], 1)
+        self.assertNotEqual(next_run["attempts"][0]["id"], job["attempt_id"])
         self.assertTrue(next_run["verification"]["verified"])
         self.assertTrue(restored.run_regression_check(next_run["id"], [case["id"]])["passed"])
         self.assertTrue(restored.get_run(run["id"])["verification"]["verified"])
+        historical = restored.get_run(run["id"])
+        self.assertEqual(historical["attempts"], restored_run["attempts"])
+        self.assertEqual(historical["reviews"], restored_run["reviews"])
+        self.assertEqual(restored.events(run["id"]), events)
+        self.assertEqual(restored.report_path(run["id"]).read_bytes(), report)
+        self.assertEqual({p.relative_to(restored_output).as_posix(): p.read_bytes()
+                          for p in restored_output.rglob("*") if p.is_file()}, snapshot)
+        self.assertIn(case, restored.list_cases())
+        self.assertIn(check, restored.list_checks())
         self.assertEqual(verify_backup(self.backup), manifest)
 
     def test_sqlite_snapshot_includes_committed_wal_records(self):
@@ -151,6 +203,38 @@ class BackupTests(unittest.TestCase):
         with self.assertRaisesRegex(BackupError, "untracked"):
             verify_backup(self.backup)
 
+    def test_manifest_listed_file_missing_rejects_verify_restore_and_cli(self):
+        manifest = create_backup(self.home, self.backup)
+        name = next(name for name in manifest["files"] if name.endswith("market.csv"))
+        (self.backup / "files" / name).unlink()
+        self.assertIn(name, read_json(self.backup / "manifest.json")["files"])
+        self.assert_invalid_backup_rejected()
+
+    def test_corrupt_or_invalid_manifest_rejects_verify_restore_and_cli(self):
+        manifest = create_backup(self.home, self.backup)
+        path = self.backup / "manifest.json"
+        original = path.read_bytes()
+        name = next(name for name in manifest["files"] if name.endswith("market.csv"))
+        for corruption in ("invalid_json", "version", "size", "sha256"):
+            with self.subTest(corruption=corruption):
+                changed = json.loads(original)
+                try:
+                    if corruption == "invalid_json":
+                        path.write_bytes(b'{"format":')
+                    else:
+                        if corruption == "version":
+                            changed["version"] = 999
+                        elif corruption == "size":
+                            changed["files"][name]["size"] = True
+                        else:
+                            changed["files"][name]["sha256"] = "z" * 64
+                        atomic_json(path, changed)
+                    expected = json.JSONDecodeError if corruption == "invalid_json" else BackupError
+                    self.assert_invalid_backup_rejected(expected)
+                finally:
+                    path.write_bytes(original)
+                self.assertEqual(verify_backup(self.backup), manifest)
+
     def test_manifest_traversal_and_symlinks_are_rejected(self):
         create_backup(self.home, self.backup)
         manifest = read_json(self.backup / "manifest.json")
@@ -183,9 +267,13 @@ class BackupTests(unittest.TestCase):
             create_backup(alias, self.backup)
 
     def test_existing_and_nested_destinations_are_never_overwritten(self):
+        source_before = self.persistent_snapshot(self.home)
         with self.assertRaisesRegex(BackupError, "non-nested"):
             create_backup(self.home, self.home / "backup")
+        self.assertEqual(self.persistent_snapshot(self.home), source_before)
         create_backup(self.home, self.backup)
+        source_before = self.persistent_snapshot(self.home)
+        backup_before = self.persistent_snapshot(self.backup)
         before = (self.backup / "manifest.json").read_bytes()
         with self.assertRaisesRegex(BackupError, "already exists"):
             create_backup(self.home, self.backup)
@@ -195,21 +283,27 @@ class BackupTests(unittest.TestCase):
             restore_backup(self.backup, self.backup / "restored")
         self.assertEqual((self.backup / "manifest.json").read_bytes(), before)
         self.assertEqual(len(self.store.list_researches()), 1)
+        self.assertEqual(self.persistent_snapshot(self.home), source_before)
+        self.assertEqual(self.persistent_snapshot(self.backup), backup_before)
 
     def test_interrupt_cleans_only_new_destination(self):
         create_backup(self.home, self.backup)
+        source_before = self.persistent_snapshot(self.home)
+        backup_before = self.persistent_snapshot(self.backup)
         copy = backup_module._copy
-        def interrupt_copy(source, destination=None):
+        def interrupt_copy(source, destination=None, **kwargs):
             if destination is not None:
                 self.assertTrue((self.restored / ".restore-incomplete").is_file())
                 raise KeyboardInterrupt("simulated interruption")
-            return copy(source, destination)
+            return copy(source, destination, **kwargs)
         with patch.object(backup_module, "_copy", side_effect=interrupt_copy):
             with self.assertRaises(KeyboardInterrupt):
                 restore_backup(self.backup, self.restored)
         self.assertFalse(self.restored.exists())
         self.assertTrue(verify_backup(self.backup))
         self.assertEqual(len(self.store.list_researches()), 1)
+        self.assertEqual(self.persistent_snapshot(self.home), source_before)
+        self.assertEqual(self.persistent_snapshot(self.backup), backup_before)
 
     def test_incomplete_restore_is_not_a_backup(self):
         (self.home / ".restore-incomplete").write_text("incomplete")

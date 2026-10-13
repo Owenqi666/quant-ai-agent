@@ -14,6 +14,7 @@ from paper_alpha.server.response_schemas import (
 from paper_alpha.server.research_jobs_schema import ENGINEERING_ONLY_ASSUMPTION
 from paper_alpha.server.runner import Worker, worker_lock
 from paper_alpha.storage import digest, json_text
+from tests.public_fixtures import create_original_research
 
 
 class FormulaEngineeringResponseContractTests(unittest.TestCase):
@@ -21,7 +22,7 @@ class FormulaEngineeringResponseContractTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
         self.app = create_app(Path(self.temp.name) / 'workspace')
         self.client = TestClient(self.app); self.addCleanup(self.client.close)
-        self.store = self.app.state.store; self.seed = self.store.seed_example()
+        self.store = self.app.state.store; self.seed = create_original_research(self.store)
         research = self.store.get_research(self.seed['research_id'])
         self.base = research['revisions'][0]['task']
         self.hypothesis = deepcopy(self.base['hypotheses'][0])

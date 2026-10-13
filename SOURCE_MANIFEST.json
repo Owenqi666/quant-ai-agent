@@ -24,7 +24,7 @@
     "var"
   ],
   "exporter_sha256": "9889753c6a7e33f956a254a174052262053803f8b6c83a095afac8d784173c1c",
-  "file_count_excluding_manifest": 591,
+  "file_count_excluding_manifest": 593,
   "files": {
     ".gitattributes": {
       "bytes": 27,
@@ -32,9 +32,9 @@
       "sha256": "9ef873a5f85a831cd765561c142080e913ec6bf4c993cc1a350aacf4f68a1873"
     },
     ".github/workflows/public-ci.yml": {
-      "bytes": 6265,
+      "bytes": 6052,
       "origin": "main_project_source",
-      "sha256": "44f31ace92679f4fa0a6613ea31757c871d6ae37ea44a2a41e4653a165f8a1a8"
+      "sha256": "1de0c36d03abc4e1cf55fa059ea51ddebe7fcfb6a0e12d7606c4170744ba19f1"
     },
     ".gitignore": {
       "bytes": 436,
@@ -2896,6 +2896,11 @@
       "origin": "main_project_source",
       "sha256": "f41fe01465e564ba428da8636f14ecb219c4f8442b900ba3adc024b8aeecea02"
     },
+    "scripts/run_public_tests.py": {
+      "bytes": 2980,
+      "origin": "main_project_source",
+      "sha256": "65e30ec4ebf79d07fb3c14ab5723b82ce37d14fcd0765b05e470fa8548e4f4a4"
+    },
     "scripts/run_registered_daily.py": {
       "bytes": 5059,
       "origin": "main_project_source",
@@ -2916,10 +2921,15 @@
       "origin": "main_project_source",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
-    "tests/test_backup.py": {
-      "bytes": 13546,
+    "tests/public_fixtures.py": {
+      "bytes": 3580,
       "origin": "main_project_source",
-      "sha256": "85939fba3b00d8b4beffc73c222cffba95a5980e2664d9c6891a368ffb79193a"
+      "sha256": "ce2afb4ccae1c69187c5f3915c32552048746da53d9f533acdc56e4408512696"
+    },
+    "tests/test_backup.py": {
+      "bytes": 19083,
+      "origin": "main_project_source",
+      "sha256": "7cbaad5b810105c183b5c5cce379cec59cfd997f5188ebaa67027155bc9617a0"
     },
     "tests/test_evaluation.py": {
       "bytes": 14584,
@@ -2937,9 +2947,9 @@
       "sha256": "60e35d696b5e269f4392c933509a007bc235ac7a02c8b5781855931b440e159a"
     },
     "tests/test_formula_engineering_readback.py": {
-      "bytes": 7239,
+      "bytes": 7309,
       "origin": "main_project_source",
-      "sha256": "fefcb68366a42790fad6dcc953c80fc702f5dc7767c5b5ab904c62582ba25960"
+      "sha256": "6fbaa510cb5153ae68e68fe69186af31bff15d1fabc57947d240fc16926b301e"
     },
     "tests/test_formula_presentation.py": {
       "bytes": 6399,
@@ -2947,9 +2957,9 @@
       "sha256": "450b98dd4f8589a05a22e0c03ec7225a79b8a9a32e40bd70b121938ef427fe6c"
     },
     "tests/test_mutation_idempotency.py": {
-      "bytes": 21783,
+      "bytes": 22753,
       "origin": "main_project_source",
-      "sha256": "3846862cfed02dad33763716e739708f3a4b8ccaa4f39d380b1133555a4187e7"
+      "sha256": "8034863cb11a8bb36f68b02da9e5260633c27fd03e224b9de5bbc8ea54a464c5"
     },
     "tests/test_operator_definition_public.py": {
       "bytes": 31203,
@@ -2977,16 +2987,16 @@
       "sha256": "66b4092392f42812af19b9d3a52d5b8a2e083605f20f09c79630b842942f4c44"
     },
     "tests/test_public_reliability.py": {
-      "bytes": 9708,
+      "bytes": 7278,
       "origin": "main_project_source",
-      "sha256": "4e0f926c56e0733ef5b633319fe8045e16217c49f521485f3c97a4c775886bf2"
+      "sha256": "41dbba02cb7b1c79304f3a643b291719466e8c4a494ac987ea148c116b26f614"
     }
   },
   "format": "curated-public-source-inventory",
-  "policy_sha256": "81e254a3f8cbd88a59e0335e8e397bfaa4844b71f02774ec1cf5442944f4c8d5",
+  "policy_sha256": "c1f95abc72154ee3b51c9b8a0a11745e28220f4a8bba79a2b0327b0a49c00df3",
   "schema_version": 1,
   "scope": "Current source development after the 0.27.2 Runtime freeze. Public fixture validation is separate from historical real-model acceptance; no claim that the older portable archive includes later fixes.",
-  "source_inventory_sha256": "c9aa7a20ee4bedd4e4dc1045a55ea0b59dda54d8983b568ba12fa151ac5f4a2f",
-  "total_bytes_excluding_manifest": 10815190,
+  "source_inventory_sha256": "4f4f935c9ae780e185ec31253ca4ecc5d81fb8b662200324ec06ecde8728f3cb",
+  "total_bytes_excluding_manifest": 10825684,
   "version": "0.27.2"
 }
