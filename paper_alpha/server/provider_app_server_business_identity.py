@@ -267,7 +267,7 @@ def _validated_dispatch_identity(value, *, historical=False):
         'codex_app_server_business_stdio_v3', 'codex_app_server_business_stdio_v4',
         'codex_app_server_business_stdio_v5', 'codex_app_server_business_stdio_v6',
         'codex_app_server_business_stdio_v7',
-        'codex_app_server_business_stdio_v8', 'codex_app_server_business_stdio_v9', 'codex_app_server_business_stdio_v10',
+        'codex_app_server_business_stdio_v8', 'codex_app_server_business_stdio_v9', 'codex_app_server_business_stdio_v10', 'codex_app_server_business_stdio_v11', 'codex_app_server_business_stdio_v12',
     } if historical else {BUSINESS_DISPATCH_TRANSPORT_VERSION}
     if type(transport) is not str or transport not in allowed:
         raise AppServerPreparationError('APP_SERVER_DISPATCH_IDENTITY_INVALID')
@@ -298,7 +298,7 @@ def _validated_dispatch_identity(value, *, historical=False):
     if historical:
         saved_outer_policy = (
             'macos_outer_read_boundary_v5'
-            if transport in {'codex_app_server_business_stdio_v6', 'codex_app_server_business_stdio_v7', 'codex_app_server_business_stdio_v8', 'codex_app_server_business_stdio_v9', 'codex_app_server_business_stdio_v10'} else
+            if transport in {'codex_app_server_business_stdio_v6', 'codex_app_server_business_stdio_v7', 'codex_app_server_business_stdio_v8', 'codex_app_server_business_stdio_v9', 'codex_app_server_business_stdio_v10', 'codex_app_server_business_stdio_v11', 'codex_app_server_business_stdio_v12'} else
             'macos_outer_read_boundary_v4'
             if transport == 'codex_app_server_business_stdio_v5'
             else 'macos_outer_read_boundary_v3'
@@ -411,6 +411,15 @@ def business_dispatch_invocation_boundaries_match(invocation, expected_identity,
             from .provider_app_server_invocation import business_runtime_v8_plan
             rebuilt = business_runtime_v8_plan(profile['config_snapshot'], plan.get('cwd'), plan.get('prompt'), plan.get('output_schema'))
             schema_digest = digest(rebuilt['output_schema'])
+        elif historical and invocation['transport_version'] == 'codex_app_server_business_stdio_v12':
+            from .provider_app_server_invocation import business_runtime_v12_plan
+            rebuilt = business_runtime_v12_plan(profile['config_snapshot'], plan.get('cwd'), plan.get('prompt'), plan.get('output_schema'))
+            schema_digest = digest(rebuilt['output_schema'])
+        elif historical and invocation['transport_version'] == 'codex_app_server_business_stdio_v11':
+            from .provider_app_server_invocation import business_runtime_v11_plan
+            rebuilt = business_runtime_v11_plan(profile['config_snapshot'], plan.get('cwd'), plan.get('prompt'), plan.get('output_schema'))
+            schema_digest = digest(rebuilt['output_schema'])
+
         elif historical and invocation['transport_version'] == 'codex_app_server_business_stdio_v10':
             from .provider_app_server_invocation import business_runtime_v10_plan
             rebuilt = business_runtime_v10_plan(profile['config_snapshot'], plan.get('cwd'), plan.get('prompt'), plan.get('output_schema'))

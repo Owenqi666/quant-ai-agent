@@ -57,7 +57,7 @@ def native_profile_digest(identity) -> str:
             raise ValueError('Unsupported App Server identity')
         profile = identity.get('profile')
         if (not isinstance(profile, dict) or profile.get('transport_version') != transport
-                or type(profile.get('profile_version')) is not int or profile['profile_version'] != 7):
+                or type(profile.get('profile_version')) is not int or profile['profile_version'] != 9):
             raise ValueError('App Server profile belongs to another transport')
         value = profile.get('profile_digest')
     if type(value) is not str or not _HEX.fullmatch(value):

@@ -10,16 +10,16 @@
       "sha256": "5e44b0936d70e8e5dce82ff77412ae88f38343eadd036e38db9fc47ac91020d6"
     },
     "prompt.txt": {
-      "bytes": 2204,
-      "sha256": "2d6ece1423e8b7ff391cc362b347e2b169600f392a7f50516c912c228c22743f"
+      "bytes": 2438,
+      "sha256": "000aaefc8385fc8c586e3ede86bb19ddff7247ab94e20b6c74d4e198334f0510"
     },
     "proposal_create.schema.json": {
-      "bytes": 10194,
-      "sha256": "5b5916d93a4174a0275b1c217caf6489617a3c696fa3a0a626a262fe22f26263"
+      "bytes": 13937,
+      "sha256": "745ce5cd8f55409070591b781dbdae38ebba5cf312be53cb7f2407226cc516d3"
     }
   },
   "fixture_is_model_evidence": false,
-  "prompt_version": "bounded_research_v2_hints_1",
+  "prompt_version": "bounded_research_v2_hints_2",
   "real_inference_qualified": false,
   "reserved_operations": [
     "repair_candidate",

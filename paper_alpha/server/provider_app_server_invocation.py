@@ -67,8 +67,10 @@ import hashlib
 
 from .provider_schema import ProviderConfig
 from .provider_research_contract import (
-    PROMPT_TEMPLATE as _BUSINESS_PROMPT_TEMPLATE,
-    PROMPT_VERSION as _BUSINESS_PROMPT_VERSION,
+    LEGACY_PROMPT_TEMPLATE as _BUSINESS_PROMPT_TEMPLATE,
+    LEGACY_PROMPT_VERSION as _BUSINESS_PROMPT_VERSION,
+    PROMPT_TEMPLATE as _CURRENT_BUSINESS_PROMPT_TEMPLATE,
+    PROMPT_VERSION as _CURRENT_BUSINESS_PROMPT_VERSION,
     model_output_schema as _business_output_schema,
 )
 
@@ -276,16 +278,16 @@ def render_controlled_synthetic_app_server_argv(config, *, port, nonce, write=Fa
 
 # Business dispatch is a distinct contract, never a relabelled B1 preparation.
 # Keep both older renderers above byte-for-byte semantically independent.
-BUSINESS_RUNTIME_TRANSPORT_VERSION = 'codex_app_server_business_stdio_v11'
-BUSINESS_RUNTIME_POLICY_VERSION = 'codex_app_server_business_policy_v11'
+BUSINESS_RUNTIME_TRANSPORT_VERSION = 'codex_app_server_business_stdio_v13'
+BUSINESS_RUNTIME_POLICY_VERSION = 'codex_app_server_business_policy_v13'
 BUSINESS_CONTEXT_POLICY_VERSION = 'codex_app_server_business_context_v2'
 def business_operation_contracts():
     """Two code-owned wire contracts; no arbitrary schema or operation admission."""
     from .provider_material_spans_contract import (
         PROMPT_TEMPLATE, PROMPT_VERSION, model_output_schema)
     result = {
-        'generate_candidates': {'operation': 'generate_candidates', 'prompt_version': _BUSINESS_PROMPT_VERSION,
-            'prompt_digest': hashlib.sha256(_BUSINESS_PROMPT_TEMPLATE.encode()).hexdigest(),
+        'generate_candidates': {'operation': 'generate_candidates', 'prompt_version': _CURRENT_BUSINESS_PROMPT_VERSION,
+            'prompt_digest': hashlib.sha256(_CURRENT_BUSINESS_PROMPT_TEMPLATE.encode()).hexdigest(),
             'schema_digest': _BUSINESS_SCHEMA_DIGEST},
         'extract_material': {'operation': 'extract_material', 'prompt_version': PROMPT_VERSION,
             'prompt_digest': hashlib.sha256(PROMPT_TEMPLATE.encode()).hexdigest(),
@@ -305,6 +307,7 @@ BUSINESS_RUNTIME_RPC_POLICY = {
     'version': BUSINESS_RUNTIME_TRANSPORT_VERSION,
     'policy_version': BUSINESS_RUNTIME_POLICY_VERSION,
     'context_policy_version': BUSINESS_CONTEXT_POLICY_VERSION,
+    'prompt_version': _CURRENT_BUSINESS_PROMPT_VERSION,
     'bundled_skills_enabled': False,
     'global_context_loaded': False,
     'native_auth_access': 'metadata_checked_exact_link_only',
@@ -330,8 +333,16 @@ BUSINESS_V9_RPC_POLICY = json.loads('{"actual_backend_model_calls_known":false,"
 
 BUSINESS_V10_RPC_POLICY = json.loads('{"actual_backend_model_calls_known":false,"allow_file_changes":false,"approval":"never","arbitrary_rpc":false,"automatic_retry":false,"automatic_retry_scope":"host_rpc","bundled_skills_enabled":false,"business_dispatch_authority":"original_host_controller_only","chatgpt_base_url":"https://chatgpt.com/backend-api/","cli_version":"0.145.0","context_policy_version":"codex_app_server_business_context_v2","contract_id":"research_provider_v2","effective_tool_boundary_verified":false,"effort":"low","global_context_loaded":false,"grounding_version":1,"isolated_state_and_home":true,"max_json_depth":64,"max_plan_bytes":131072,"mcp_configuration":"empty_map_requested","mcp_lower_layers_cleared":false,"methods":["initialize","initialized","thread/start","turn/start"],"model":"gpt-5.5","model_provider":"paper_alpha_business_openai","model_provider_name":"OpenAI","native_auth_access":"metadata_checked_exact_link_only","native_auth_recovery_disabled":false,"official_base_url":"https://chatgpt.com/backend-api/codex","operation":"bounded_material_and_candidate_operations","operation_contracts":{"extract_material":{"operation":"extract_material","prompt_digest":"c60fff9cedb73a68d193c0473d97349a0ea6891f1f639a6a247259fa14b2ef67","prompt_version":"bounded-material-span-ids-v1","schema_digest":"cddb30afdc4cb4cf2599eca338e0e7ad3973edb64b9887276e9bc851b41c9aa5"},"formula_engineering_generate_candidates":{"operation":"generate_candidates","prompt_digest":"22318be24f49d8ddf6c77c99bd7cc4e3d58eb96ed3b2bdcda73cad013b992cd6","prompt_version":"bounded-formula-engineering-v1","schema_digest":"97ae8f5cc2249a003b895b47da4e72f97be566a4be7c3b6b0d6af911796cb8ff","wire_contract_id":"research_formula_engineering_v1"},"generate_candidates":{"operation":"generate_candidates","prompt_digest":"2d6ece1423e8b7ff391cc362b347e2b169600f392a7f50516c912c228c22743f","prompt_version":"bounded_research_v2_hints_1","schema_digest":"b6613e5fd3f6194b9fc683b988bade4ebf728d16256246be5e05bf958ed0a69f"},"grounded_extract_material":{"operation":"extract_material","prompt_digest":"90e7748e855e02f448ac08c3fec01b386af9bfa674a0b58d795a2337b09b8bf8","prompt_version":"bounded-grounded-material-v1","schema_digest":"5341a333b8c730ed495c98fee3ac76fae6559a3110859432a934f6a39598a969","wire_contract_id":"research_grounded_material_v1"}},"paper_statistics":"forbidden","policy_version":"codex_app_server_business_policy_v10","prompt_version":"bounded_research_v2_hints_1","reconnect":false,"request_max_retries":0,"requires_openai_auth":true,"sandbox":{"networkAccess":"restricted","type":"externalSandbox"},"schema_digest":"b6613e5fd3f6194b9fc683b988bade4ebf728d16256246be5e05bf958ed0a69f","stream_max_retries":0,"supports_websockets":false,"thread":"ephemeral","version":"codex_app_server_business_stdio_v10","wire_api":"responses"}')
 
+# Exact original V11 policy, frozen before the normal-generation prompt change.
+BUSINESS_V11_RPC_POLICY = json.loads('{"actual_backend_model_calls_known":false,"allow_file_changes":false,"approval":"never","arbitrary_rpc":false,"automatic_retry":false,"automatic_retry_scope":"host_rpc","bundled_skills_enabled":false,"business_dispatch_authority":"original_host_controller_only","chatgpt_base_url":"https://chatgpt.com/backend-api/","cli_version":"0.145.0","context_policy_version":"codex_app_server_business_context_v2","contract_id":"research_provider_v2","effective_tool_boundary_verified":false,"effort":"low","global_context_loaded":false,"grounding_version":1,"isolated_state_and_home":true,"max_json_depth":64,"max_plan_bytes":131072,"mcp_configuration":"empty_map_requested","mcp_lower_layers_cleared":false,"methods":["initialize","initialized","thread/start","turn/start"],"model":"gpt-5.5","model_provider":"paper_alpha_business_openai","model_provider_name":"OpenAI","native_auth_access":"metadata_checked_exact_link_only","native_auth_recovery_disabled":false,"official_base_url":"https://chatgpt.com/backend-api/codex","operation":"bounded_material_and_candidate_operations","operation_contracts":{"extract_material":{"operation":"extract_material","prompt_digest":"c60fff9cedb73a68d193c0473d97349a0ea6891f1f639a6a247259fa14b2ef67","prompt_version":"bounded-material-span-ids-v1","schema_digest":"cddb30afdc4cb4cf2599eca338e0e7ad3973edb64b9887276e9bc851b41c9aa5"},"formula_engineering_generate_candidates":{"operation":"generate_candidates","prompt_digest":"22318be24f49d8ddf6c77c99bd7cc4e3d58eb96ed3b2bdcda73cad013b992cd6","prompt_version":"bounded-formula-engineering-v1","schema_digest":"97ae8f5cc2249a003b895b47da4e72f97be566a4be7c3b6b0d6af911796cb8ff","wire_contract_id":"research_formula_engineering_v1"},"generate_candidates":{"operation":"generate_candidates","prompt_digest":"2d6ece1423e8b7ff391cc362b347e2b169600f392a7f50516c912c228c22743f","prompt_version":"bounded_research_v2_hints_1","schema_digest":"b6613e5fd3f6194b9fc683b988bade4ebf728d16256246be5e05bf958ed0a69f"},"grounded_extract_material":{"operation":"extract_material","prompt_digest":"90e7748e855e02f448ac08c3fec01b386af9bfa674a0b58d795a2337b09b8bf8","prompt_version":"bounded-grounded-material-v1","schema_digest":"5341a333b8c730ed495c98fee3ac76fae6559a3110859432a934f6a39598a969","wire_contract_id":"research_grounded_material_v1"}},"paper_statistics":"forbidden","policy_version":"codex_app_server_business_policy_v11","prompt_version":"bounded_research_v2_hints_1","reconnect":false,"request_max_retries":0,"requires_openai_auth":true,"sandbox":{"networkAccess":"restricted","type":"externalSandbox"},"schema_digest":"b6613e5fd3f6194b9fc683b988bade4ebf728d16256246be5e05bf958ed0a69f","stream_max_retries":0,"supports_websockets":false,"thread":"ephemeral","version":"codex_app_server_business_stdio_v11","wire_api":"responses"}')
+
+
+# Exact V12 identity: normal hints_2 and the original grounded extraction prompt.
+BUSINESS_V12_RPC_POLICY = json.loads('{"actual_backend_model_calls_known":false,"allow_file_changes":false,"approval":"never","arbitrary_rpc":false,"automatic_retry":false,"automatic_retry_scope":"host_rpc","bundled_skills_enabled":false,"business_dispatch_authority":"original_host_controller_only","chatgpt_base_url":"https://chatgpt.com/backend-api/","cli_version":"0.145.0","context_policy_version":"codex_app_server_business_context_v2","contract_id":"research_provider_v2","effective_tool_boundary_verified":false,"effort":"low","global_context_loaded":false,"grounding_version":1,"isolated_state_and_home":true,"max_json_depth":64,"max_plan_bytes":131072,"mcp_configuration":"empty_map_requested","mcp_lower_layers_cleared":false,"methods":["initialize","initialized","thread/start","turn/start"],"model":"gpt-5.5","model_provider":"paper_alpha_business_openai","model_provider_name":"OpenAI","native_auth_access":"metadata_checked_exact_link_only","native_auth_recovery_disabled":false,"official_base_url":"https://chatgpt.com/backend-api/codex","operation":"bounded_material_and_candidate_operations","operation_contracts":{"extract_material":{"operation":"extract_material","prompt_digest":"c60fff9cedb73a68d193c0473d97349a0ea6891f1f639a6a247259fa14b2ef67","prompt_version":"bounded-material-span-ids-v1","schema_digest":"cddb30afdc4cb4cf2599eca338e0e7ad3973edb64b9887276e9bc851b41c9aa5"},"formula_engineering_generate_candidates":{"operation":"generate_candidates","prompt_digest":"22318be24f49d8ddf6c77c99bd7cc4e3d58eb96ed3b2bdcda73cad013b992cd6","prompt_version":"bounded-formula-engineering-v1","schema_digest":"97ae8f5cc2249a003b895b47da4e72f97be566a4be7c3b6b0d6af911796cb8ff","wire_contract_id":"research_formula_engineering_v1"},"generate_candidates":{"operation":"generate_candidates","prompt_digest":"000aaefc8385fc8c586e3ede86bb19ddff7247ab94e20b6c74d4e198334f0510","prompt_version":"bounded_research_v2_hints_2","schema_digest":"b6613e5fd3f6194b9fc683b988bade4ebf728d16256246be5e05bf958ed0a69f"},"grounded_extract_material":{"operation":"extract_material","prompt_digest":"90e7748e855e02f448ac08c3fec01b386af9bfa674a0b58d795a2337b09b8bf8","prompt_version":"bounded-grounded-material-v1","schema_digest":"5341a333b8c730ed495c98fee3ac76fae6559a3110859432a934f6a39598a969","wire_contract_id":"research_grounded_material_v1"}},"paper_statistics":"forbidden","policy_version":"codex_app_server_business_policy_v12","prompt_version":"bounded_research_v2_hints_2","reconnect":false,"request_max_retries":0,"requires_openai_auth":true,"sandbox":{"networkAccess":"restricted","type":"externalSandbox"},"schema_digest":"b6613e5fd3f6194b9fc683b988bade4ebf728d16256246be5e05bf958ed0a69f","stream_max_retries":0,"supports_websockets":false,"thread":"ephemeral","version":"codex_app_server_business_stdio_v12","wire_api":"responses"}')
+
+
 def _runtime_rpc_contract(transport, *, historical=False):
-    """Closed original V3-V10 replay or current V11; never dispatch authority."""
+    """Closed original V3-V12 replay or current V13; never dispatch authority."""
     if type(historical) is not bool:
         raise ValueError('BUSINESS_APP_SERVER_RUNTIME_PROFILE_INVALID')
     if historical:
@@ -340,6 +351,8 @@ def _runtime_rpc_contract(transport, *, historical=False):
         saved['codex_app_server_business_stdio_v8'] = BUSINESS_V8_RPC_POLICY
         saved['codex_app_server_business_stdio_v9'] = BUSINESS_V9_RPC_POLICY
         saved['codex_app_server_business_stdio_v10'] = BUSINESS_V10_RPC_POLICY
+        saved['codex_app_server_business_stdio_v11'] = BUSINESS_V11_RPC_POLICY
+        saved['codex_app_server_business_stdio_v12'] = BUSINESS_V12_RPC_POLICY
         if type(transport) is not str or transport not in saved:
             raise ValueError('BUSINESS_APP_SERVER_RUNTIME_PROFILE_INVALID')
         policy = saved[transport]
@@ -383,11 +396,12 @@ def business_runtime_operation(prompt, schema):
     return business_operation_contracts()[business_runtime_contract(prompt, schema)]['operation']
 
 
-def business_runtime_contract(prompt, schema):
+def business_runtime_contract(prompt, schema, *, historical_grounded=False):
     if type(schema) is not dict:
         raise ValueError('BUSINESS_APP_SERVER_SCHEMA_INVALID')
     if canonical_json(schema) == _BUSINESS_SCHEMA_JSON:
-        payload = _business_prompt(prompt)
+        payload = _business_prompt(prompt, template=_CURRENT_BUSINESS_PROMPT_TEMPLATE,
+                                   prompt_version=_CURRENT_BUSINESS_PROMPT_VERSION)
         from .provider_grounded_contract import mode_for_context
         if mode_for_context(payload['context'], 'generate_candidates') is not None:
             raise ValueError('BUSINESS_APP_SERVER_PROMPT_INVALID')
@@ -396,8 +410,9 @@ def business_runtime_contract(prompt, schema):
         mode_for_context, check_frozen_contract as check_grounded)
     for mode in ('grounded_extract_material', 'formula_engineering_generate_candidates'):
         if canonical_json(schema) == canonical_json(grounded_schema(mode)):
-            check_grounded(mode)
-            template, version, operation, _ = prompt_contract(mode)
+            if not historical_grounded:
+                check_grounded(mode)
+            template, version, operation, _ = prompt_contract(mode, historical=historical_grounded)
             payload = _business_prompt(prompt, template=template, prompt_version=version, operation=operation)
             if mode_for_context(payload['context'], operation) != mode:
                 raise ValueError('BUSINESS_APP_SERVER_PROMPT_INVALID')
@@ -406,7 +421,8 @@ def business_runtime_contract(prompt, schema):
         PROMPT_TEMPLATE, PROMPT_VERSION, model_output_schema, check_frozen_contract)
     if canonical_json(schema) != canonical_json(model_output_schema()):
         raise ValueError('BUSINESS_APP_SERVER_SCHEMA_INVALID')
-    check_frozen_contract()
+    if not historical_grounded:
+        check_frozen_contract()
     payload = _business_prompt(prompt, template=PROMPT_TEMPLATE,
         prompt_version=PROMPT_VERSION, operation='extract_material')
     from .paper_material_spans import validate_context_mode
@@ -445,13 +461,23 @@ def business_runtime_v8_plan(config, work, prompt, schema):
 
 def business_runtime_v9_plan(config, work, prompt, schema):
     """Read-only reconstruction of the original V9 lanes; no dispatch permission."""
-    plan = business_runtime_plan(config, work, prompt, schema)
-    lane = business_runtime_contract(prompt, schema)
+    if canonical_json(schema) == _BUSINESS_SCHEMA_JSON:
+        plan = business_plan(_business_runtime_config(config), work, prompt, schema)
+        lane = 'generate_candidates'
+    else:
+        checked = _business_runtime_config(config)
+        cwd = str(work) if isinstance(work, Path) else work
+        plan = {'protocol_version': 1, 'cwd': cwd, 'model': checked.model,
+            'effort': checked.reasoning_effort, 'prompt': prompt, 'output_schema': schema,
+            'allow_file_changes': False}
+        _business_json_bytes(plan)
+        _business_path(cwd)
+        lane = business_runtime_contract(prompt, schema, historical_grounded=True)
     if digest(schema) != BUSINESS_V9_RPC_POLICY['operation_contracts'][lane]['schema_digest']:
         raise ValueError('BUSINESS_APP_SERVER_SCHEMA_INVALID')
     from .provider_grounded_contract import prompt_contract
     if lane in {'grounded_extract_material', 'formula_engineering_generate_candidates'}:
-        template, version, operation, _ = prompt_contract(lane)
+        template, version, operation, _ = prompt_contract(lane, historical=True)
         payload = _business_prompt(prompt, template=template, prompt_version=version, operation=operation)
         if payload['context'].get('grounding_policy', {}).get('operator_definitions') is not None:
             raise ValueError('BUSINESS_APP_SERVER_PROMPT_INVALID')
@@ -460,8 +486,42 @@ def business_runtime_v9_plan(config, work, prompt, schema):
 
 def business_runtime_v10_plan(config, work, prompt, schema):
     """Read-only V10 reconstruction; never grants current dispatch authority."""
-    plan = business_runtime_plan(config, work, prompt, schema)
-    lane = business_runtime_contract(prompt, schema)
+    if canonical_json(schema) == _BUSINESS_SCHEMA_JSON:
+        plan = business_plan(_business_runtime_config(config), work, prompt, schema)
+        lane = 'generate_candidates'
+    else:
+        checked = _business_runtime_config(config)
+        cwd = str(work) if isinstance(work, Path) else work
+        plan = {'protocol_version': 1, 'cwd': cwd, 'model': checked.model,
+            'effort': checked.reasoning_effort, 'prompt': prompt, 'output_schema': schema,
+            'allow_file_changes': False}
+        _business_json_bytes(plan)
+        _business_path(cwd)
+        lane = business_runtime_contract(prompt, schema, historical_grounded=True)
     if digest(schema) != BUSINESS_V10_RPC_POLICY["operation_contracts"][lane]["schema_digest"]:
         raise ValueError("BUSINESS_APP_SERVER_SCHEMA_INVALID")
+    return plan
+
+
+def business_runtime_v11_plan(config, work, prompt, schema):
+    """Exact V11 prompt replay; no current dispatch permission."""
+    plan = business_runtime_v10_plan(config, work, prompt, schema)
+    lane = ('generate_candidates' if canonical_json(schema) == _BUSINESS_SCHEMA_JSON
+            else business_runtime_contract(prompt, schema, historical_grounded=True))
+    if digest(schema) != BUSINESS_V11_RPC_POLICY['operation_contracts'][lane]['schema_digest']:
+        raise ValueError('BUSINESS_APP_SERVER_SCHEMA_INVALID')
+    return plan
+
+
+def business_runtime_v12_plan(config, work, prompt, schema):
+    """Saved V12: normal hints_2, original grounded extraction; never dispatch."""
+    if canonical_json(schema) == _BUSINESS_SCHEMA_JSON:
+        plan = business_runtime_plan(config, work, prompt, schema)
+        lane = 'generate_candidates'
+    else:
+        plan = business_runtime_v10_plan(config, work, prompt, schema)
+        lane = business_runtime_contract(prompt, schema, historical_grounded=True)
+    contract = BUSINESS_V12_RPC_POLICY['operation_contracts'][lane]
+    if digest(schema) != contract['schema_digest']:
+        raise ValueError('BUSINESS_APP_SERVER_SCHEMA_INVALID')
     return plan

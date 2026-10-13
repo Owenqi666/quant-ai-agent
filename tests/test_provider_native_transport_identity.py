@@ -62,14 +62,14 @@ class NativeTransportIdentityTests(unittest.TestCase):
     def test_nested_app_server_digest_not_shadowed_by_top_level_fallback(self):
         value = {'identity_version': 2, 'transport_version': 'codex_app_server_business_stdio_v2',
                  'profile_digest': 'a'*64,
-                 'profile': {'profile_version': 7, 'transport_version': 'codex_app_server_business_stdio_v2',
+                 'profile': {'profile_version': 9, 'transport_version': 'codex_app_server_business_stdio_v2',
                              'profile_digest': 'b'*64}}
         with patch('paper_alpha.server.provider_app_server_business_identity.BUSINESS_DISPATCH_TRANSPORT_VERSION',
                    'codex_app_server_business_stdio_v2', create=True):
             self.assertEqual(native_profile_digest(value), 'b'*64)
             for key, replacement in (('identity_version', 1), ('identity_version', True),
                                      ('transport_version', 'codex_app_server_business_stdio_v1'),
-                                     ('profile', {'profile_version': 7, 'transport_version': value['transport_version']})):
+                                     ('profile', {'profile_version': 9, 'transport_version': value['transport_version']})):
                 changed = deepcopy(value); changed[key] = replacement
                 with self.subTest(key=key, replacement=replacement), self.assertRaises(ValueError):
                     native_profile_digest(changed)

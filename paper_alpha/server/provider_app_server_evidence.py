@@ -257,7 +257,7 @@ def load_business_capture_evidence(artifact_dir, *, expected_identity, expected_
         historical=envelope['transport_version'] in {
             'codex_app_server_business_stdio_v3', 'codex_app_server_business_stdio_v4',
             'codex_app_server_business_stdio_v5', 'codex_app_server_business_stdio_v6',
-            'codex_app_server_business_stdio_v7', 'codex_app_server_business_stdio_v8', 'codex_app_server_business_stdio_v9', 'codex_app_server_business_stdio_v10'})
+            'codex_app_server_business_stdio_v7', 'codex_app_server_business_stdio_v8', 'codex_app_server_business_stdio_v9', 'codex_app_server_business_stdio_v10', 'codex_app_server_business_stdio_v11', 'codex_app_server_business_stdio_v12'})
     if (envelope['transport_version'] != result['invocation']['transport_version']
             or envelope['invocation_digest'] != digest(result['invocation'])
             or envelope['plan_digest'] != digest(result['plan'])

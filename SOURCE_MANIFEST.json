@@ -144,7 +144,7 @@
     "contracts/research_grounded_material_v1/manifest.json": {
       "bytes": 1748,
       "origin": "main_project_source",
-      "sha256": "4aad259e143074c4d0cddb36af7cba5f069c5a9d8993afbc8838ad45f617e56c"
+      "sha256": "7e214d7795e4f449e42eb037d8752ca34fc0bbcef2bff8451b5f7c35e04135a4"
     },
     "contracts/research_grounded_material_v1/model_output.schema.json": {
       "bytes": 6082,
@@ -157,9 +157,9 @@
       "sha256": "f4d6cc2f76fdaf11c6f0768cc2d1da59d86ff540f08954709392d3c1d883dadc"
     },
     "contracts/research_grounded_material_v1/prompt.txt": {
-      "bytes": 2488,
+      "bytes": 2704,
       "origin": "main_project_source",
-      "sha256": "90e7748e855e02f448ac08c3fec01b386af9bfa674a0b58d795a2337b09b8bf8"
+      "sha256": "3b21fc56b7e3688b36214a216490daefbb59ac3ebb39d508d13c2965b69be566"
     },
     "contracts/research_grounded_material_v1/span_catalog.schema.json": {
       "bytes": 1771,
@@ -204,7 +204,7 @@
     "contracts/research_provider_v2/manifest.json": {
       "bytes": 902,
       "origin": "main_project_source",
-      "sha256": "0c75ec613d2c1ac8c5857cd429a00053043fa6da5a5454ba867927307bdd8b15"
+      "sha256": "d3927dd514a87cf8952c7a50be11979d370da278020b5d862cf76963da842a27"
     },
     "contracts/research_provider_v2/model_output.schema.json": {
       "bytes": 16040,
@@ -212,14 +212,14 @@
       "sha256": "5e44b0936d70e8e5dce82ff77412ae88f38343eadd036e38db9fc47ac91020d6"
     },
     "contracts/research_provider_v2/prompt.txt": {
-      "bytes": 2204,
+      "bytes": 2438,
       "origin": "main_project_source",
-      "sha256": "2d6ece1423e8b7ff391cc362b347e2b169600f392a7f50516c912c228c22743f"
+      "sha256": "000aaefc8385fc8c586e3ede86bb19ddff7247ab94e20b6c74d4e198334f0510"
     },
     "contracts/research_provider_v2/proposal_create.schema.json": {
-      "bytes": 10194,
+      "bytes": 13937,
       "origin": "main_project_source",
-      "sha256": "5b5916d93a4174a0275b1c217caf6489617a3c696fa3a0a626a262fe22f26263"
+      "sha256": "745ce5cd8f55409070591b781dbdae38ebba5cf312be53cb7f2407226cc516d3"
     },
     "contracts/research_workflow_g3b_v1/capabilities.json": {
       "bytes": 688,
@@ -2097,19 +2097,19 @@
       "sha256": "516b0bb05b68388047455acb8ee538c2ce6ee2e3f6994578d50d9e55bb672762"
     },
     "paper_alpha/server/provider_app_server_business_identity.py": {
-      "bytes": 28764,
+      "bytes": 29691,
       "origin": "main_project_source",
-      "sha256": "24c1636cf21ff56578d41d0e07d08b4dc7af946f0d5579b070470026f5779ed3"
+      "sha256": "5558aa61b12f81db73ca071e00b09c434596b51327f6b074b8a132f4d3323034"
     },
     "paper_alpha/server/provider_app_server_capture.py": {
-      "bytes": 13206,
+      "bytes": 13332,
       "origin": "main_project_source",
-      "sha256": "75ee6ebb5841c97d43191cdcd011abb47c2070ed0f8c0749d08869b63b12245e"
+      "sha256": "5c4f158d95cb93373487772194858fcb6f1ad212034bfdc48b55d6010b4373bb"
     },
     "paper_alpha/server/provider_app_server_evidence.py": {
-      "bytes": 16435,
+      "bytes": 16513,
       "origin": "main_project_source",
-      "sha256": "02fd0a927f58e0ef53ceb345f1f290d8f29d11aeb388caf0e1b50c3db69c3fd1"
+      "sha256": "bbd7d4208bf8b27a01ee017963897519417080f18241dc3f706d456bfac1a6ec"
     },
     "paper_alpha/server/provider_app_server_fresh_probe.py": {
       "bytes": 36058,
@@ -2117,9 +2117,9 @@
       "sha256": "3520427f13401029417a51539231f7f0f5f94c7107a8ca6e5a8eb9f87f2db610"
     },
     "paper_alpha/server/provider_app_server_invocation.py": {
-      "bytes": 39663,
+      "bytes": 48444,
       "origin": "main_project_source",
-      "sha256": "61e4474de3d547c7536bca705f97bfb83ba4f51987a38a7596caebfb6d647642"
+      "sha256": "b0737c0e0762c15662560e96ca15890a3ef9664a552464e40bc0e62fafd29247"
     },
     "paper_alpha/server/provider_app_server_probe.py": {
       "bytes": 34502,
@@ -2127,9 +2127,9 @@
       "sha256": "3ee2c2efd2393d8620fb5858215f1cc6c6106605e271cd01bf2c119a48d89b9f"
     },
     "paper_alpha/server/provider_app_server_profile.py": {
-      "bytes": 38536,
+      "bytes": 51633,
       "origin": "main_project_source",
-      "sha256": "75919c63cba46ac8e05d46f2b4d0fbdb45524db4afa3941642aa9336e9abdc56"
+      "sha256": "4256fb42b9fbc72e80fd18798904357141348d730acea432150f9a5bfb1cf88f"
     },
     "paper_alpha/server/provider_app_server_protocol.py": {
       "bytes": 26038,
@@ -2242,9 +2242,9 @@
       "sha256": "226ed4600767edf80e6e171b64bdc7c700edc3354807a904022f4b45b4aa6d87"
     },
     "paper_alpha/server/provider_grounded_contract.py": {
-      "bytes": 20771,
+      "bytes": 21522,
       "origin": "main_project_source",
-      "sha256": "b377497a12d7cead465192fb844ba089bcde8e5cb490f22033a7a15516c290c3"
+      "sha256": "5b226762f2fe320f9fc962be32b96e5d4e8ff657e3d65487d59714fae4eb4c67"
     },
     "paper_alpha/server/provider_host_authority.py": {
       "bytes": 31360,
@@ -2324,7 +2324,7 @@
     "paper_alpha/server/provider_native_transport_identity.py": {
       "bytes": 3847,
       "origin": "main_project_source",
-      "sha256": "97de84e0699b09070c6128db3f4f5403cc16defd84e95edce3a1b67bee939733"
+      "sha256": "11f8b6324c7f1a1ca71a1a0fe71cbaaec9a908339ab2f3e3001433b91a0fedce"
     },
     "paper_alpha/server/provider_outer_sandbox.py": {
       "bytes": 33564,
@@ -2387,9 +2387,9 @@
       "sha256": "96ed151126e520cba9189c19d89a7c470fb6ee6a83f19ca711b15589356321cd"
     },
     "paper_alpha/server/provider_research_contract.py": {
-      "bytes": 5905,
+      "bytes": 6610,
       "origin": "main_project_source",
-      "sha256": "5f64160ef9262895e432f31aec7c42095758b2170b65e3080a2928a950fbb0c4"
+      "sha256": "6c6b59e3df53fec30f9b9e84fafa2d72dfdec536290c998eee77897c6141253c"
     },
     "paper_alpha/server/provider_research_qualification.py": {
       "bytes": 46013,
@@ -2969,7 +2969,7 @@
     "tests/test_provider_native_transport_identity.py": {
       "bytes": 5929,
       "origin": "main_project_source",
-      "sha256": "21ba47e8300ed633c914f31e77066962c3703c949fd6da97ed3055fec88dd5b6"
+      "sha256": "5bc0bee3e0141af16141697952d3c0d4db8b972f85b2bdd951eecc961d0b5baf"
     },
     "tests/test_public_agent_demo.py": {
       "bytes": 7856,
@@ -2986,7 +2986,7 @@
   "policy_sha256": "81e254a3f8cbd88a59e0335e8e397bfaa4844b71f02774ec1cf5442944f4c8d5",
   "schema_version": 1,
   "scope": "Current source development after the 0.27.2 Runtime freeze. Public fixture validation is separate from historical real-model acceptance; no claim that the older portable archive includes later fixes.",
-  "source_inventory_sha256": "0541e08de51e1ffc2d336b7ba6994e31e2ad7d48ccaa831b601b8a613064c8aa",
-  "total_bytes_excluding_manifest": 10786532,
+  "source_inventory_sha256": "c9aa7a20ee4bedd4e4dc1045a55ea0b59dda54d8983b568ba12fa151ac5f4a2f",
+  "total_bytes_excluding_manifest": 10815190,
   "version": "0.27.2"
 }
