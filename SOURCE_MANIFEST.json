@@ -409,7 +409,7 @@
     "frontend/package-lock.json": {
       "bytes": 77837,
       "origin": "main_project_source",
-      "sha256": "6e529aaa419cb3a9bcbef26a3c863644ed5617b245d4b47a4d79c229f1fa8a8d"
+      "sha256": "6ad6f4f4e4dd1ae6cfd89db9dcbfb24cbe40b5b1bc067a18e8cce7ab2d5fad2d"
     },
     "frontend/package.json": {
       "bytes": 690,
@@ -597,9 +597,9 @@
       "sha256": "b01cb8401a37bbd4afffa9c5734d6b3956c6915d878004b0a738b26c2c9a93ea"
     },
     "frontend/src/components/GuidedObservation.tsx": {
-      "bytes": 25702,
+      "bytes": 26553,
       "origin": "main_project_source",
-      "sha256": "7cbcf888598d4f53b07acd46bb835b4932962effef0fa6a15affb32c9602414c"
+      "sha256": "7e40ed0dcfe629a50bc87901a7b89b82567aa64088484f91c3dbee77bdafa23e"
     },
     "frontend/src/components/IndustryMomExperiments.tsx": {
       "bytes": 23838,
@@ -757,9 +757,9 @@
       "sha256": "0a8a458c955a6c5c8ff7fedf2b07291acdc149e787e60305062257094301fcf2"
     },
     "frontend/src/components/WorkflowObservations.tsx": {
-      "bytes": 24940,
+      "bytes": 25992,
       "origin": "main_project_source",
-      "sha256": "1b3163eb5f6e013004c0831115c697741e668a7cec3b57530952ee0ade0cd065"
+      "sha256": "6fbab516311b5a7bf87888a4e1208537f7102b2c01833590bde1d30d50bd68cd"
     },
     "frontend/src/components/candidate-charts.css": {
       "bytes": 1610,
@@ -1312,14 +1312,14 @@
       "sha256": "0c5538042bcb741c27448b80721ba1ff0ed9b89de8b077b430049997dab56529"
     },
     "frontend/src/workflowObservations.test.ts": {
-      "bytes": 4972,
+      "bytes": 5936,
       "origin": "main_project_source",
-      "sha256": "836f2bae73589f0e94cb506e3ca2c104106bf5b77a2c0006ba81b9a4c082fa90"
+      "sha256": "8bddb97d93ce14a85aaa42443e249c05107e36b31ab6d86f4ee2a44c8b09b46b"
     },
     "frontend/src/workflowObservations.ts": {
-      "bytes": 5080,
+      "bytes": 5676,
       "origin": "main_project_source",
-      "sha256": "9d11e200ea0f19c26ba67d872e7595cdcc9e507d0e63c9a67630cfa8b62ecc0b"
+      "sha256": "8da476e7bbd6d203039be63e975c2aa45767dfca5654dd89020b43d1ae28a553"
     },
     "frontend/src/workspaceScope.test.ts": {
       "bytes": 2130,
@@ -3026,7 +3026,7 @@
   "policy_sha256": "d19f9123e8e865b253dc0368984d583bc90f8d90eb996ab3542077c0270386c3",
   "schema_version": 1,
   "scope": "Current source development after the 0.27.2 Runtime freeze. Public fixture validation is separate from historical real-model acceptance; no claim that the older portable archive includes later fixes.",
-  "source_inventory_sha256": "0031c33194728e4d02b624cdc7cdd3e9b95508da1ef96a3f09d88f0c970cbb99",
-  "total_bytes_excluding_manifest": 10555479,
+  "source_inventory_sha256": "2d4eb3555418946608e2dbdeaae9f9a0299e752064d7ebdba43c32b15053bff4",
+  "total_bytes_excluding_manifest": 10558942,
   "version": "0.27.2"
 }

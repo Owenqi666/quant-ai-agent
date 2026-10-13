@@ -3,11 +3,12 @@ import { api, ApiError, post } from "../api";
 import { describeError, formatDate, shortId } from "../domain";
 import type { ObservationDetail, ObservationList, ObservationSummary, ObservationTemplate, ObservationTiming, ObservationValidation } from "../generated/api-contract";
 import { useRecoverableMutation } from "../useRecoverableMutation";
-import { clearSubmittedObservationDraft, loadObservationDraft, MAX_OBSERVATION_BYTES, observationPath, observationPhases, observationScopeKey, observationSources, ObservationRequestEpoch, observedSeconds, parseObservation, saveObservationDraft } from "../workflowObservations";
+import { clearSubmittedObservationDraft, isObservationProtocolUnavailable, loadObservationDraft, MAX_OBSERVATION_BYTES, observationPath, observationPhases, observationScopeKey, observationSources, ObservationRequestEpoch, observedSeconds, parseObservation, saveObservationDraft } from "../workflowObservations";
 import type { ObservationDraft, ObservationSource } from "../workflowObservations";
 import { Field, JsonDetails } from "./ui";
 import GuidedObservation from "./GuidedObservation";
 import { completeGuidedSubmission, guidedKey } from "../guidedObservation";
+import { useI18n } from "../i18n";
 
 export interface WorkflowObservationsProps { workspaceId: string; researchId: string; revisionId?: string; visible?: boolean; onOpen?:()=>void; onRecordingChange?:(recording:boolean)=>void }
 
@@ -25,6 +26,7 @@ function downloadJson(value: unknown, name: string) {
 }
 
 function ObservationWorkspace({ workspaceId, researchId, revisionId, visible=true, onOpen, onRecordingChange }: WorkflowObservationsProps) {
+  const {t}=useI18n();
   const path = observationPath(researchId), draftKey = observationScopeKey(workspaceId, researchId, "draft");
   const mutation = useRecoverableMutation<ObservationDetail>(observationScopeKey(workspaceId, researchId, "import"), path);
   const [draft, setDraft] = useState<ObservationDraft>({raw:"", source:""});
@@ -33,6 +35,7 @@ function ObservationWorkspace({ workspaceId, researchId, revisionId, visible=tru
   const [draftError, setDraftError] = useState("");
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
+  const [protocolUnavailable, setProtocolUnavailable] = useState(false);
   const [notice, setNotice] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [submittedGuided, setSubmittedGuided] = useState<{sessionId:string;snapshot:string;clearedRaw:string|null}>();
@@ -72,6 +75,11 @@ function ObservationWorkspace({ workspaceId, researchId, revisionId, visible=tru
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function showError(error:unknown) {
+    if(isObservationProtocolUnavailable(error)){setProtocolUnavailable(true);setError("");}
+    else setError(describeError(error));
+  }
+
   function edit(next: ObservationDraft) {
     fileEpoch.current.invalidate(); validationEpoch.current.invalidate();
     setBusy((current) => current === "validate" ? "" : current);
@@ -91,23 +99,25 @@ function ObservationWorkspace({ workspaceId, researchId, revisionId, visible=tru
     } catch (e) { if (mounted.current && fileEpoch.current.isCurrent(token)) setError(describeError(e)); }
   }
   async function template() {
+    if(protocolUnavailable)return;
     setBusy("template"); setError("");
     try {
       const value = await api<ObservationTemplate>("/workflow-observation-template");
       if (!mounted.current) return;
       downloadJson(value.observation, "workflow-observation-blank.json");
       setNotice(`空白模板已准备下载。协议 ${value.protocol.id}，摘要 ${value.protocol.digest}；未填写模板不能导入。`);
-    } catch (e) { if (mounted.current) setError(describeError(e)); }
+    } catch (e) { if (mounted.current) showError(e); }
     finally { if (mounted.current) setBusy(""); }
   }
   async function validate() {
+    if(protocolUnavailable)return;
     const token = validationEpoch.current.begin();
     setBusy("validate"); setError(""); setValidation(null); setConfirmed(false);
     try {
       const observation = parseObservation(draft.raw, draft.source);
       const value = await post<ObservationValidation>(`${path}/validate`, {observation});
       if (mounted.current && validationEpoch.current.isCurrent(token)) setValidation({draft:{...draft}, value, observation});
-    } catch (e) { if (mounted.current && validationEpoch.current.isCurrent(token)) setError(describeError(e)); }
+    } catch (e) { if (mounted.current && validationEpoch.current.isCurrent(token)) showError(e); }
     finally { if (mounted.current && validationEpoch.current.isCurrent(token)) setBusy(""); }
   }
   function invalidateGuided() {
@@ -115,16 +125,18 @@ function ObservationWorkspace({ workspaceId, researchId, revisionId, visible=tru
     validationEpoch.current.invalidate(); setValidation(null); setConfirmed(false); setGuidedValidation(false);
   }
   async function prepareGuided(observation: Record<string,unknown>, guidedSnapshot:string) {
+    if(protocolUnavailable)return;
     const next:ObservationDraft={raw:JSON.stringify(observation),source:"human"};
     edit(next); setGuidedValidation(true);
     const token=validationEpoch.current.begin(); setBusy("validate");
     try {
       const value=await post<ObservationValidation>(`${path}/validate`,{observation});
       if (mounted.current&&validationEpoch.current.isCurrent(token))setValidation({draft:next,value,observation,guidedSnapshot});
-    } catch(e) {if(mounted.current&&validationEpoch.current.isCurrent(token))setError(describeError(e));}
+    } catch(e) {if(mounted.current&&validationEpoch.current.isCurrent(token))showError(e);}
     finally {if(mounted.current&&validationEpoch.current.isCurrent(token))setBusy("");}
   }
   async function save(replay = false) {
+    if(protocolUnavailable&&!replay)return;
     if (!replay && (!validation || !confirmed || validation.draft.raw !== draft.raw || validation.draft.source !== draft.source)) return;
     const originalDraft = replay ? mutation.pending?.context?.draft as ObservationDraft | undefined : validation?.draft;
     const originalGuided = replay ? mutation.pending?.context?.guidedSnapshot : validation?.guidedSnapshot;
@@ -152,7 +164,7 @@ function ObservationWorkspace({ workspaceId, researchId, revisionId, visible=tru
       setNotice(`观测已保存为不可变记录 ${saved.id}。${localWarning}`);
       try { await loadList(0); }
       catch (e) { if (mounted.current) setNotice(`观测已保存，列表刷新暂未成功；已保存详情和导出仍可使用。${describeError(e)}${localWarning}`); }
-    } catch (e) { if (mounted.current) setError(describeError(e)); }
+    } catch (e) { if (mounted.current) showError(e); }
     finally { if (mounted.current) setBusy(""); }
   }
   async function loadList(offset: number) {
@@ -186,22 +198,25 @@ function ObservationWorkspace({ workspaceId, researchId, revisionId, visible=tru
   }
   const blocked = !draftReady || draftBlocked || !mutation.ready || mutation.blocked || !!mutation.pending || !!busy;
   return <>
+    {visible&&protocolUnavailable&&<p className="info-note" role="status">{t(
+      "当前安装包中的固定观测协议不可用。日常研究、结果和审核仍可正常使用；已保存观测仍可查看、汇总、导出或按原请求重放。",
+      "The fixed observation protocol is unavailable in this installation. Research, results and reviews remain available. Saved observations can still be viewed, summarized, exported or replayed.")}</p>}
     <GuidedObservation workspaceId={workspaceId} researchId={researchId} revisionId={revisionId} visible={visible}
       onOpen={onOpen} onRecordingChange={onRecordingChange} blocked={blocked} submittedGuided={submittedGuided}
-      onReady={prepareGuided} onInvalidate={invalidateGuided} />
+      onReady={prepareGuided} onInvalidate={invalidateGuided} protocolUnavailable={protocolUnavailable} onProtocolUnavailable={setProtocolUnavailable} />
     <div hidden={!visible}>
     <section className="panel" aria-label="流程观测导入">
       <h2>记录保存与导入</h2>
       <details><summary>高级：JSON 导入与原始模板</summary>
       <p>已有外部记录或自动化验收样例可在此导入。日常记录使用上方引导表单。</p>
       <p className="fine-print">当前研究 {researchId}；当前修订 {revisionId || "未选择"}。JSON 中的修订、运行和审核由服务核对，不会自动替换成当前修订。来源仅是声明，不是身份认证。</p>
-      <div className="button-row"><button className="button" disabled={!!busy} onClick={() => void template()}>下载空白观测模板</button><button className="button small" disabled={!draft.raw} onClick={() => downloadJson({raw:draft.raw, declared_source:draft.source}, "workflow-observation-draft-backup.json")}>下载原草稿备份</button></div>
+      <div className="button-row"><button className="button" disabled={!!busy||protocolUnavailable} onClick={() => void template()}>下载空白观测模板</button><button className="button small" disabled={!draft.raw} onClick={() => downloadJson({raw:draft.raw, declared_source:draft.source}, "workflow-observation-draft-backup.json")}>下载原草稿备份</button></div>
       <p className="fine-print">模板需要在实际使用后填写；预检和导入不会生成观测或通过研究审核。下载的原草稿备份包含原始文本与声明，不是可直接导入的观测。</p>
       <fieldset disabled={blocked}>
         <Field label="上传观测 JSON" hint="单条观测，最大 256 KiB；上传后需重新声明来源。"><input type="file" accept=".json,application/json" onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} /></Field>
         <Field label="观测 JSON" hint="草稿仅保存在当前浏览器、当前工作区与研究；未点击确认导入前不写入服务。"><textarea value={draft.raw} onChange={(e) => edit({...draft,raw:e.target.value})} rows={16} spellCheck={false} /></Field>
         <Field label="观测声明来源" hint="必须与 JSON 中 source 一致；自动化样例不会计入人工完成率或效率对照。"><select value={draft.source} onChange={(e) => edit({...draft,source:e.target.value as ObservationSource | ""})}><option value="">请明确选择来源</option>{Object.entries(observationSources).map(([id,label]) => <option key={id} value={id}>{label}</option>)}</select></Field>
-        <button className="button" disabled={!draft.raw.trim() || !draft.source} onClick={() => void validate()}>预检观测记录</button>
+        <button className="button" disabled={protocolUnavailable || !draft.raw.trim() || !draft.source} onClick={() => void validate()}>预检观测记录</button>
       </fieldset>
       </details>
       {notice && <p role="status">{notice}</p>}
@@ -224,7 +239,7 @@ function ObservationWorkspace({ workspaceId, researchId, revisionId, visible=tru
           </details>
           <Field label="确认来源与不可变保存"><input type="checkbox" checked={confirmed} onChange={(e) => setConfirmed(e.target.checked)} /></Field>
           <p className="fine-print">我确认内容来自所声明来源，并了解保存后只能另建记录补充，不能改写原记录。此确认不等于研究结论通过。</p>
-          <button className="button primary" disabled={!confirmed} onClick={() => void save()}>确认导入不可变观测</button>
+          <button className="button primary" disabled={protocolUnavailable||!confirmed} onClick={() => void save()}>确认导入不可变观测</button>
         </section>}
       </fieldset>
     </section>

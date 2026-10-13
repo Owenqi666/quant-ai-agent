@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { clearSubmittedObservationDraft, loadObservationDraft, MAX_OBSERVATION_BYTES, observationPath, observationScopeKey, ObservationRequestEpoch, observedSeconds, parseObservation, saveObservationDraft } from "./workflowObservations";
+import { clearSubmittedObservationDraft, isObservationProtocolUnavailable, loadObservationDraft, MAX_OBSERVATION_BYTES, observationPath, observationScopeKey, ObservationRequestEpoch, observedSeconds, parseObservation, saveObservationDraft } from "./workflowObservations";
+import { ApiError } from "./api";
 
 function storage() {
   const values = new Map<string, string>();
@@ -7,6 +8,19 @@ function storage() {
 }
 
 describe("workflow observation import boundaries", () => {
+  it("recognizes the exact unavailable protocol error including the existing 409 suffix", () => {
+    const detail="Bundled observation protocol is unavailable or invalid";
+    for(const message of [detail,detail+" 请刷新最新状态后重试；当前编辑内容已保留。"]) {
+      expect(isObservationProtocolUnavailable(new ApiError(message,409))).toBe(true);
+    }
+  });
+  it("keeps other conflicts, contract failures and network errors distinct", () => {
+    const detail="Bundled observation protocol is unavailable or invalid";
+    for(const error of [new ApiError("Stale revision",409),
+      new ApiError("Bundled protocol input digest mismatch; create a new reviewed protocol version",409),
+      new ApiError(detail+" extra",409),new ApiError(detail,503),new ApiError(detail,409,true),new Error(detail)])
+      expect(isObservationProtocolUnavailable(error)).toBe(false);
+  });
   it("requires an explicit source matching the untouched input", () => {
     const raw = JSON.stringify({record_status:"observed", source:"automation", observed_active_seconds:null});
     expect(() => parseObservation(raw, "")).toThrow(/明确声明/);

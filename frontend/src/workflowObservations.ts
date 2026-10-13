@@ -1,4 +1,15 @@
 import { recoveryKey, removeDurably, writeDurably } from "./reviewRecovery";
+import { ApiError } from "./api";
+
+const protocolUnavailableDetail = "Bundled observation protocol is unavailable or invalid";
+function isObservationProtocolUnavailableMessage(message: string): boolean {
+  return message === protocolUnavailableDetail ||
+    message === protocolUnavailableDetail + " 请刷新最新状态后重试；当前编辑内容已保留。";
+}
+export function isObservationProtocolUnavailable(error: unknown): boolean {
+  return error instanceof ApiError && error.status === 409 && !error.contractViolation &&
+    isObservationProtocolUnavailableMessage(error.message);
+}
 
 export const observationSources = { human: "本人实际观测", automation: "自动化验收样例" } as const;
 export type ObservationSource = keyof typeof observationSources;

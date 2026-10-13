@@ -6,15 +6,16 @@ import { assessmentDimensions } from "../researchAssessment";
 import type { Dimension } from "../researchAssessment";
 import { beginGuidedSession, buildGuidedObservation, changeGuidedTimer, finishGuidedSession, guidedKey, initialGuidedDraft, interruptGuidedSession, loadGuidedDraft, safeSessionId, saveGuidedDraft } from "../guidedObservation";
 import type { GuidedDraft, GuidedSettings, IntervalKind, Phase } from "../guidedObservation";
-import { observationPhases, ObservationRequestEpoch } from "../workflowObservations";
+import { isObservationProtocolUnavailable, observationPhases, ObservationRequestEpoch } from "../workflowObservations";
 import { Field, JsonDetails } from "./ui";
 
 interface Props {
   workspaceId:string;researchId:string;revisionId?:string;visible:boolean;onOpen?:()=>void;
   onRecordingChange?:(recording:boolean)=>void;blocked:boolean;submittedGuided?:{sessionId:string;snapshot:string;clearedRaw:string|null};
   onReady:(observation:Record<string,unknown>,snapshot:string)=>Promise<void>;onInvalidate:()=>void;
+  protocolUnavailable:boolean;onProtocolUnavailable:(unavailable:boolean)=>void;
 }
-export default function GuidedObservation({workspaceId,researchId,revisionId,visible,onOpen,onRecordingChange,blocked,submittedGuided,onReady,onInvalidate}:Props) {
+export default function GuidedObservation({workspaceId,researchId,revisionId,visible,onOpen,onRecordingChange,blocked,submittedGuided,onReady,onInvalidate,protocolUnavailable,onProtocolUnavailable}:Props) {
   const key=guidedKey(workspaceId,researchId);
   const [draft,setDraft]=useState<GuidedDraft>(initialGuidedDraft);
   const current=useRef(draft), loaded=useRef(false), mounted=useRef(true);
@@ -39,7 +40,6 @@ export default function GuidedObservation({workspaceId,researchId,revisionId,vis
     try {durableRaw.current=localStorage.getItem(key);const stored=loadGuidedDraft(localStorage,key);if(stored){restoredDraft.current=true;durableWrite(stored);current.current=stored;setDraft(stored);} loaded.current=true;}
     catch(e){setError(describeError(e));setUnreadable(true);}
     setReady(true);
-    void api<ObservationTemplate>("/workflow-observation-template").then(value=>{if(mounted.current)setTemplate(value);}).catch(e=>{if(mounted.current)setContextError(describeError(e));});
     return ()=>{
       mounted.current=false;contextEpoch.current.invalidate();
       // Preserve an unknown endpoint on actual research/workspace changes. Reload recovery also covers process loss.
@@ -51,6 +51,16 @@ export default function GuidedObservation({workspaceId,researchId,revisionId,vis
   // The outer component is keyed by workspace + research; hidden navigation never unmounts it.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[key]);
+  useEffect(()=>{
+    if(!visible||protocolUnavailable||template)return;
+    let active=true;
+    void api<ObservationTemplate>("/workflow-observation-template").then(value=>{if(active&&mounted.current)setTemplate(value);}).catch(e=>{
+      if(!active||!mounted.current)return;
+      if(isObservationProtocolUnavailable(e)){setContextError("");onProtocolUnavailable(true);}
+      else setContextError(describeError(e));
+    });
+    return()=>{active=false;};
+  },[visible,protocolUnavailable,template,onProtocolUnavailable]);
   useEffect(()=>{onRecordingChange?.(recording);return()=>onRecordingChange?.(false);},[recording,onRecordingChange]);
   useEffect(()=>{
     if(!submittedGuided||current.current.session?.id!==submittedGuided.sessionId)return;
@@ -62,6 +72,7 @@ export default function GuidedObservation({workspaceId,researchId,revisionId,vis
     catch(e){setError(`服务已保存，本机草稿清理失败，请保留数据。${describeError(e)}`);}
   },[submittedGuided,key]);
   async function refreshContext(runId=current.current.selectedRun,attemptId=current.current.selectedAttempt) {
+    if(!visible||protocolUnavailable)return;
     const token=contextEpoch.current.begin();setLoading(true);setContextError("");onInvalidate();
     const params=new URLSearchParams();if(frozenRevision)params.set("revision_id",frozenRevision);if(runId)params.set("run_id",runId);if(attemptId)params.set("attempt_id",attemptId);
     try{const value=await api<ObservationContext>(`/researches/${encodeURIComponent(researchId)}/workflow-observation-context?${params}`);
@@ -76,15 +87,20 @@ export default function GuidedObservation({workspaceId,researchId,revisionId,vis
           }
         }
       }
-    }catch(e){if(mounted.current&&contextEpoch.current.isCurrent(token)){setContext(null);setContextError(describeError(e));}}
+    }catch(e){if(mounted.current&&contextEpoch.current.isCurrent(token)){
+      setContext(null);
+      if(isObservationProtocolUnavailable(e)){setContextError("");onProtocolUnavailable(true);}
+      else setContextError(describeError(e));
+    }}
     finally{if(mounted.current&&contextEpoch.current.isCurrent(token))setLoading(false);}
   }
-  useEffect(()=>{if(ready&&loaded.current)void refreshContext();
+  useEffect(()=>{if(visible&&!protocolUnavailable&&ready&&loaded.current)void refreshContext();
   // Explicit result selections trigger refresh below; revision changes may only update a not-yet-started session.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[ready,frozenRevision,researchId]);
+  },[ready,frozenRevision,researchId,visible,protocolUnavailable]);
   function settings(next:Partial<GuidedSettings>){if(next.environment||next.codeCommit!==undefined)metadataTouched.current=true;update({...draft,settings:{...draft.settings,...next}});}
   function begin(){try{
+    if(protocolUnavailable)return;
     if(!context?.compatibility.compatible||!template)throw new Error("请先加载兼容的固定对照任务。");
     const protocol=context.protocol;
     persist(beginGuidedSession(draft,{id:protocol.id,digest:protocol.digest,taskSha256:protocol.task_sha256},context.revision_id,new Date().toISOString(),crypto.randomUUID()));
@@ -92,6 +108,7 @@ export default function GuidedObservation({workspaceId,researchId,revisionId,vis
   function timer(phase:Phase,kind:IntervalKind|null){if(!session)return;try{persist({...draft,session:changeGuidedTimer(session,new Date().toISOString(),phase,kind)});}catch(e){setError(describeError(e));}}
   function finish(){if(!session)return;try{persist({...draft,session:finishGuidedSession(session,new Date().toISOString())});}catch(e){setError(describeError(e));}}
   async function prepare(){
+    if(protocolUnavailable)return;
     setPreparing(true);setError("");
     try{
       if(!session||!template)throw new Error("模板尚未加载。");
@@ -159,9 +176,9 @@ export default function GuidedObservation({workspaceId,researchId,revisionId,vis
           <Field label="允许工具（每行一个）"><textarea rows={4} maxLength={80000} value={draft.settings.tools} onChange={e=>settings({tools:e.target.value})}/></Field>
         </details>
         {context&&!context.compatibility.compatible&&<p role="alert">当前研究不符合固定对照任务：{context.compatibility.reason}</p>}
-        <button className="button primary" disabled={!template||!context?.compatibility.compatible} onClick={begin}>开始本次记录</button>
+        <button className="button primary" disabled={protocolUnavailable||!template||!context?.compatibility.compatible} onClick={begin}>开始本次记录</button>
       </fieldset>
-      <button className="button small" disabled={loading} onClick={()=>void refreshContext()}>刷新记录上下文</button>
+      <button className="button small" disabled={loading||protocolUnavailable} onClick={()=>void refreshContext()}>刷新记录上下文</button>
     </>:<>
       <p>{effective.participant} · {effective.condition==="workbench"?"工作台":"手动 CLI"} · {effective.practice?"练习":"正式对照"} · 第 {effective.executionOrder} 次。开始于 {formatDate(session.startedAt)}。</p>
       {!session.finishedAt&&<fieldset disabled={disabled||session.interrupted}>
@@ -198,7 +215,7 @@ export default function GuidedObservation({workspaceId,researchId,revisionId,vis
           <details open={draft.completion==="completed"}><summary>手动路径五维判断</summary>{Object.entries(assessmentDimensions).map(([key,label])=><div key={key}><Field label={`${label}判断`}><select value={draft.dimensions[key as Dimension].outcome} onChange={e=>update({...draft,dimensions:{...draft.dimensions,[key]:{...draft.dimensions[key as Dimension],outcome:e.target.value}}})}><option value="not_assessed">未评定</option><option value="passed">通过</option><option value="failed">未通过</option><option value="not_applicable">不适用</option></select></Field><Field label={`${label}理由`}><textarea rows={2} maxLength={2000} value={draft.dimensions[key as Dimension].reason} onChange={e=>update({...draft,dimensions:{...draft.dimensions,[key]:{...draft.dimensions[key as Dimension],reason:e.target.value}}})}/></Field></div>)}</details>
         </>}
         <details><summary>错误、返工和其他补充（没有则留空）</summary>{([["rework","错误与返工"],["reuse","模板复用"],["help","获得的帮助"],["limitations","适用限制与学习效应"]] as const).map(([key,label])=><Field key={key} label={label}><textarea rows={2} value={draft[key]} onChange={e=>update({...draft,[key]:e.target.value})}/></Field>)}</details>
-        <button className="button primary" disabled={loading||!template} onClick={()=>void prepare()}>检查并准备保存</button>
+        <button className="button primary" disabled={loading||protocolUnavailable||!template} onClick={()=>void prepare()}>检查并准备保存</button>
       </fieldset>}
       <details><summary>已记录的时间区间</summary><ul>{session.intervals.map((interval,i)=><li key={i}>{observationPhases[interval.phase]} · {interval.kind} · {interval.started_at} → {interval.ended_at||"中断，结束时间未知"}</li>)}</ul><p>未出现的阶段保持未测量，不补零。</p></details>
     </>}
