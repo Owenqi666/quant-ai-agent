@@ -230,6 +230,136 @@
       "title": "ProposalBudget",
       "type": "object"
     },
+    "ProviderCorrectionTarget": {
+      "additionalProperties": false,
+      "description": "Explicit additive target branch; old target bytes retain their shape.\n\ninput_digest binds the observed research input, not the later prepared CLI\nbytes. The original slot separately pins the actual prepared_digest.",
+      "properties": {
+        "action_sequence": {
+          "maximum": 24,
+          "minimum": 1,
+          "title": "Action Sequence",
+          "type": "integer"
+        },
+        "attempt_id": {
+          "pattern": "^proposal_attempt_[0-9a-f]{64}$",
+          "title": "Attempt Id",
+          "type": "string"
+        },
+        "candidate_id": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "capability_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Capability Digest",
+          "type": "string"
+        },
+        "correction_version": {
+          "const": 1,
+          "title": "Correction Version",
+          "type": "integer"
+        },
+        "diagnostics_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Diagnostics Digest",
+          "type": "string"
+        },
+        "effect_key": {
+          "pattern": "^loop-effect-[0-9a-f]{64}$",
+          "title": "Effect Key",
+          "type": "string"
+        },
+        "input_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Digest",
+          "type": "string"
+        },
+        "loop_id": {
+          "pattern": "^research_loop_[0-9a-f]{64}$",
+          "title": "Loop Id",
+          "type": "string"
+        },
+        "parent_binding_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Parent Binding Digest",
+          "type": "string"
+        },
+        "policy_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Policy Digest",
+          "type": "string"
+        },
+        "policy_id": {
+          "enum": [
+            "integral-window-representation-v1",
+            "equivalent-expression-representation-v2"
+          ],
+          "title": "Policy Id",
+          "type": "string"
+        },
+        "proposal_id": {
+          "pattern": "^proposal_[0-9a-f]{64}$",
+          "title": "Proposal Id",
+          "type": "string"
+        },
+        "research_job_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Research Job Id"
+        },
+        "response_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Response Digest",
+          "type": "string"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "source_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Digest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "proposal_id",
+        "attempt_id",
+        "response_digest",
+        "candidate_id",
+        "correction_version",
+        "policy_id",
+        "policy_digest",
+        "source_digest",
+        "capability_digest",
+        "diagnostics_digest",
+        "parent_binding_digest",
+        "input_digest",
+        "loop_id",
+        "action_sequence",
+        "effect_key"
+      ],
+      "title": "ProviderCorrectionTarget",
+      "type": "object"
+    },
     "ResearchRevisionSource": {
       "additionalProperties": false,
       "properties": {
@@ -415,10 +545,14 @@
           "$ref": "#/$defs/ResearchTarget"
         },
         {
+          "$ref": "#/$defs/ProviderCorrectionTarget"
+        },
+        {
           "type": "null"
         }
       ],
-      "default": null
+      "default": null,
+      "title": "Target"
     }
   },
   "required": [

@@ -10,6 +10,9 @@ missing mechanisms, directions and calculation rules unknown; do not fill them
 from general knowledge. Label conjecture explicitly. Do not claim full-paper
 coverage or human verification. A matching quote is not proof of fidelity.
 For generation or repair, use only the provided fields, operators and evidence.
+For generate_candidates, return ALL exposed evidence and hypotheses exactly,
+including unused records, every field and list order. Do not add, remove or
+rewrite records, claims, mechanisms, directions, required fields or assumptions.
 Never invent returns, metrics, citations, review verdicts or user modifications.
 Candidate origin and changes must agree: paper_original requires changes=[].
 An unchanged paper formula must not list faithful translation, preservation,

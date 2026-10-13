@@ -205,45 +205,71 @@ def _pearson_binary64(left, right):
         return float(Decimal(covariance) / Decimal(product).sqrt())
 
 
-def _stable_correlation(left: pd.DataFrame, right: pd.DataFrame, window: int) -> pd.DataFrame:
-    """Complete-window Pearson with explicit binary64 numerical semantics."""
+def _stable_correlation(
+    left: pd.DataFrame, right: pd.DataFrame, window: int, *, chunk_size: int = 1024,
+) -> pd.DataFrame:
+    """Complete-window Pearson, batching bounded groups of trailing windows.
+
+    Each contiguous row follows the original translate/scale/center sequence.
+    The exact boundary algorithm is unchanged. ``chunk_size`` bounds temporary
+    storage per column; it does not change the window or the public DSL.
+    """
     output = np.full(left.shape, np.nan, dtype=float)
-    if window > len(left):
+    if window == 1 or window > len(left):
         return pd.DataFrame(output, index=left.index, columns=left.columns)
+    boundary = 32 * np.finfo(float).eps
     for column in range(left.shape[1]):
         x = left.iloc[:, column].to_numpy(dtype=float, na_value=np.nan)
         y = right.iloc[:, column].to_numpy(dtype=float, na_value=np.nan)
         x_windows = np.lib.stride_tricks.sliding_window_view(x, window)
         y_windows = np.lib.stride_tricks.sliding_window_view(y, window)
-        for row, (xw, yw) in enumerate(zip(x_windows, y_windows), start=window - 1):
-            if not np.isfinite(xw).all() or not np.isfinite(yw).all():
+        for start in range(0, len(x_windows), chunk_size):
+            xw = x_windows[start:start + chunk_size]
+            yw = y_windows[start:start + chunk_size]
+            valid = (
+                np.isfinite(xw).all(axis=1) & np.isfinite(yw).all(axis=1)
+                & (xw != xw[:, :1]).any(axis=1) & (yw != yw[:, :1]).any(axis=1)
+            )
+            rows = start + window - 1 + np.flatnonzero(valid)
+            if not len(rows):
                 continue
-            if np.all(xw == xw[0]) or np.all(yw == yw[0]):
+            xw, yw = xw[valid], yw[valid]
+            equal = (xw == yw).all(axis=1)
+            opposite = (xw == -yw).all(axis=1)
+            output[rows[equal], column] = 1.0
+            output[rows[opposite], column] = -1.0
+            ordinary = ~(equal | opposite)
+            rows, xw, yw = rows[ordinary], xw[ordinary], yw[ordinary]
+            if not len(rows):
                 continue
-            # Equality here is exact equality of the represented inputs, not
-            # an approximate factor threshold. Missing/constant windows have
-            # already been excluded.
-            if np.array_equal(xw, yw):
-                output[row, column] = 1.0
+            xc, yc = xw - xw[:, :1], yw - yw[:, :1]
+            finite = np.isfinite(xc).all(axis=1) & np.isfinite(yc).all(axis=1)
+            for offset in np.flatnonzero(~finite):
+                output[rows[offset], column] = _pearson_binary64(xw[offset], yw[offset])
+            rows, xw, yw = rows[finite], xw[finite], yw[finite]
+            if not len(rows):
                 continue
-            if np.array_equal(xw, -yw):
-                output[row, column] = -1.0
-                continue
-            xc, yc = xw - xw[0], yw - yw[0]
-            if not np.isfinite(xc).all() or not np.isfinite(yc).all():
-                output[row, column] = _pearson_binary64(xw, yw)
-                continue
-            # Translation removes a large common offset; division before
-            # squaring prevents both large- and small-scale norm failures.
-            xc, yc = xc / np.max(np.abs(xc)), yc / np.max(np.abs(yc))
-            xc, yc = xc - xc.mean(), yc - yc.mean()
-            value = float(np.dot(xc, yc) / np.sqrt(np.dot(xc, xc) * np.dot(yc, yc)))
-            # This threshold ONLY selects the more exact algorithm. It never
-            # rounds, ties or snaps a computed coefficient to 0 or +/-1.
-            boundary = 32 * np.finfo(float).eps
-            if not math.isfinite(value) or abs(value) <= boundary or abs(value) >= 1 - boundary:
-                value = _pearson_binary64(xw, yw)
-            output[row, column] = value
+            xc, yc = xc[finite], yc[finite]
+            xc = xc / np.max(np.abs(xc), axis=1, keepdims=True)
+            yc = yc / np.max(np.abs(yc), axis=1, keepdims=True)
+            # Keep each row contiguous and at the allocator's alignment.
+            # An odd row stride can select a different dot accumulation path
+            # (observed with Accelerate), even for identical input bits.
+            stride = (window + 7) // 8 * 8
+            centered_x = np.empty((len(rows), stride))[:, :window]
+            centered_y = np.empty((len(rows), stride))[:, :window]
+            np.subtract(xc, xc.mean(axis=1, keepdims=True), out=centered_x)
+            np.subtract(yc, yc.mean(axis=1, keepdims=True), out=centered_y)
+            cross = (centered_x[:, None, :] @ centered_y[:, :, None])[:, 0, 0]
+            xx = (centered_x[:, None, :] @ centered_x[:, :, None])[:, 0, 0]
+            yy = (centered_y[:, None, :] @ centered_y[:, :, None])[:, 0, 0]
+            values = cross / np.sqrt(xx * yy)
+            # This threshold selects the unchanged exact algorithm, never
+            # rounding or snapping a coefficient to zero or an endpoint.
+            exact = ~np.isfinite(values) | (np.abs(values) <= boundary) | (np.abs(values) >= 1 - boundary)
+            for offset in np.flatnonzero(exact):
+                values[offset] = _pearson_binary64(xw[offset], yw[offset])
+            output[rows, column] = values
     return pd.DataFrame(output, index=left.index, columns=left.columns)
 
 

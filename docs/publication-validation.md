@@ -1,6 +1,34 @@
 # Publication checks
 
-## Current public patch: 13 October 2026
+## Current PR: public tests and correlation update
+
+[PR #3](https://github.com/Owenqi666/quant-ai-agent/pull/3) records the current head,
+checks and artifacts. Its test/backup stage passed
+[Public CI 38430037990](https://github.com/Owenqi666/quant-ai-agent/actions/runs/38430037990).
+The numerical stage passed
+[Public CI 38456656929](https://github.com/Owenqi666/quant-ai-agent/actions/runs/38456656929)
+for source head
+[`3fcaadbd2fc5aa4c6abe13f164e3b8eda2953e73`](https://github.com/Owenqi666/quant-ai-agent/commit/3fcaadbd2fc5aa4c6abe13f164e3b8eda2953e73);
+Ubuntu tested PR merge checkout `5fdae00655794915a7668e68618579ce5da66b4e`.
+
+| Environment-local numerical stage | Observed result |
+| --- | --- |
+| Isolated macOS public checkout, Python 3.14.8 | 165 core Python tests, zero skips; 243 correlation comparisons, zero NaN-mask or non-NaN bit differences |
+| Ubuntu 24.04 Public CI, Python 3.14.8 | 165 core Python tests, zero skips; 243 correlation comparisons, zero differences; frontend, API contracts, Worker demo and independent checks passed |
+| Apple M5 Pro operator benchmark | Nine cases including the large panel; five warmups and five alternating repeats per implementation, independent process RSS and separate fallback/profile runs; clean recorded source unchanged |
+
+Each platform compares reference and production in its own locked environment;
+ordinary floating arrays from macOS are not an Ubuntu oracle. The matrix includes
+signed zero and downstream regressions. This is finite compatibility evidence,
+not a proof for every legal input. [Benchmark method, results and raw evidence](ts-corr-benchmark.md)
+describe measured computation performance rather than investment or research gains.
+
+This page lists stage evidence. For the final cumulative version's status, actual
+PR head and tested checkout SHA, consult
+[PR #3](https://github.com/Owenqi666/quant-ai-agent/pull/3) and its corresponding CI
+runs. Detailed method mappings and stage logs stay in the PR and CI artifacts.
+
+## Historical public patch: 13 October 2026
 
 The results in this section belong to
 [commit af07a86efbe6bd5ad56f6bd98ca0feec80679135](https://github.com/Owenqi666/quant-ai-agent/commit/af07a86efbe6bd5ad56f6bd98ca0feec80679135).
@@ -14,8 +42,9 @@ A separate public checkout installed the locked dependencies in a new Python
 build and the generated API contract comparison. The account-free Agent demo
 completed one original Worker run; its independent checker passed all 13 checks.
 A malformed fixture reply remained failed with `REQUEST_MISMATCH`. Browser
-readback and the screenshots use that generated workspace, not an old research
-database. Human scores, confirmations and timing measurements remain empty.
+readback and screenshots recorded for that revision used its generated workspace,
+not an old research database. Human scores, confirmations and timing measurements
+remained empty.
 
 The [workflow](../.github/workflows/public-ci.yml) passed on a fresh Ubuntu
 24.04 / Python 3.14.8 / Node 24.21.0 runner for the linked revision: 103 public
@@ -27,9 +56,9 @@ regressions exercise full supported RHS grammar, altered suffixes, dependency
 coverage and preserved repair versions; they do not establish general semantic
 entailment.
 
-The maintained application and public export share the same production fix. The
-older frozen Runtime archives and their signoff records were preserved; they
-do not contain this later patch.
+For that patch, the maintained application and public export shared the same
+production fix. The older frozen Runtime archives and their signoff records were
+preserved; they do not contain that later patch.
 
 ## Historical 0.27.2 source publication
 
