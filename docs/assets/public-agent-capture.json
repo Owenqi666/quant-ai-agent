@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "started_at": "2026-10-13T19:52:48.024Z",
+  "completed_at": "2026-10-13T19:52:49.605Z",
+  "code_commit": "3fcaadbd2fc5aa4c6abe13f164e3b8eda2953e73",
+  "capture_checkout_sha": "3fcaadbd2fc5aa4c6abe13f164e3b8eda2953e73",
+  "tracked_status_before": "",
+  "stage2_ci_checkout_sha": "5fdae00655794915a7668e68618579ce5da66b4e",
+  "viewport": {
+    "width": 1440,
+    "height": 1100
+  },
+  "device_scale_factor": 1,
+  "locale": "en-GB",
+  "reduced_motion": "reduce",
+  "browser_channel": "chrome",
+  "browser_version": "155.0.8059.40",
+  "fixture_responses": true,
+  "synthetic_market_data": true,
+  "real_model_dispatches": 0,
+  "human_review": {
+    "status": "pending_human",
+    "scores": null
+  },
+  "human_approval": false,
+  "identities": {
+    "research_id": "9c497f9a-8652-4a04-8244-ffb31e4d3b0b",
+    "revision_id": "ac3e9045-ab38-4f14-a0ad-13d38bfc766c",
+    "run_id": "f6a90a30-051b-4104-9704-50dc733ac034",
+    "candidate_id": "teaching_candidate",
+    "attempt_id": "b86199e1-f9ac-41c1-a601-cae639ed0d6b",
+    "result_digest": "8e8b5a605c6a1604021b8e14cb273e98634953f30596775f5af77ae17b53f0fa",
+    "report_id": "d9efcd88-5374-4baa-bc35-85a757a20749"
+  },
+  "checks": [
+    "same_workspace_health",
+    "provider_disabled",
+    "same_research_revision",
+    "same_completed_verified_run",
+    "same_frozen_report_and_export",
+    "same_review_target_and_series",
+    "real_english_ui",
+    "synthetic_label_visible",
+    "frozen_and_computed_expression_match",
+    "no_review_or_run_mutation",
+    "source_checkout_unchanged"
+  ],
+  "console_errors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 409 (Conflict)",
+    "Failed to load resource: the server responded with a status of 409 (Conflict)"
+  ],
+  "console_resource_diagnostics": [
+    {
+      "path": "/favicon.ico",
+      "status": 404,
+      "body": "{\"detail\":\"Not Found\"}",
+      "checked_after_capture_at": "2026-10-13T19:54:16.876Z"
+    },
+    {
+      "path": "/api/workflow-observation-template",
+      "status": 409,
+      "body": "{\"detail\":\"Bundled observation protocol is unavailable or invalid\"}",
+      "checked_after_capture_at": "2026-10-13T19:54:16.878Z"
+    },
+    {
+      "path": "/api/researches/9c497f9a-8652-4a04-8244-ffb31e4d3b0b/workflow-observation-context?revision_id=ac3e9045-ab38-4f14-a0ad-13d38bfc766c",
+      "status": 409,
+      "body": "{\"detail\":\"Bundled observation protocol is unavailable or invalid\"}",
+      "checked_after_capture_at": "2026-10-13T19:54:16.880Z"
+    }
+  ],
+  "series_summary": {
+    "sum_gross_return": 0.07451735105742664,
+    "mean_gross_return": 0.0043833735916133315,
+    "mean_rank_ic": 0.04873949579831932,
+    "evaluated_days": 17,
+    "rank_ic_days": 17,
+    "skipped_days": 1,
+    "purged_days": 2,
+    "factor_coverage": 1
+  },
+  "independent_demo_check": {
+    "outcome": "passed",
+    "checks": 13
+  },
+  "visual_review": {
+    "passed": true,
+    "method": "view_image actual PNGs",
+    "notes": "English application elements are readable; calculated metrics, synthetic labels, source chain and unchanged expressions remain visible. No pixel editing."
+  },
+  "workspace": ".demo/stage3-20261013-01/workspace",
+  "workspace_id": "1f47def7d5385f39edd0e4da8fe313eb636239ec2def3c500ed6d7920249dd98",
+  "files": {
+    "demo-summary.json": {
+      "path": ".demo/stage3-20261013-01/demo-summary.json",
+      "bytes": 3260,
+      "sha256": "c68088115c1a0210481ef3923065fe472b84af690f98e5e247b2608bc4d0f80e"
+    },
+    "report.json": {
+      "path": ".demo/stage3-20261013-01/report.json",
+      "bytes": 113064,
+      "sha256": "bc4e29efed3e1c173fce67f755dc803501cfebc11b922d60a3ef8298ef4f8258"
+    },
+    "report-export.json": {
+      "path": ".demo/stage3-20261013-01/report-export.json",
+      "bytes": 113064,
+      "sha256": "7e188477c8b683c7a5b0c1c8d031d9a766b1bf370614972eb4f6c625ce0ae374"
+    },
+    "report.md": {
+      "path": ".demo/stage3-20261013-01/report.md",
+      "bytes": 12454,
+      "sha256": "2fe524a8849712685d8834da1687651fff04907dee0f8422426b4e89be91a012"
+    },
+    "run.json": {
+      "path": ".demo/stage3-20261013-01/run.json",
+      "bytes": 18401,
+      "sha256": "9b30274c422891a939843e40376255d13407356bdc76d6967be0944a85eba18b"
+    },
+    "research.json": {
+      "path": ".demo/stage3-20261013-01/research.json",
+      "bytes": 10616,
+      "sha256": "08183f9cef9f2ce99630d8e62149613dee6c317eddbdfbf41b781529ba744bc9"
+    },
+    "spec.json": {
+      "path": ".demo/stage3-20261013-01/spec.json",
+      "bytes": 940,
+      "sha256": "2cb7f37ecfa4a3c4549112bc08f4f388f5b3bfe74542ecaa420c67b847c38608"
+    },
+    "verification.json": {
+      "path": ".demo/stage3-20261013-01/verification.json",
+      "bytes": 2474,
+      "sha256": "0230c3f020b0ba2ed263574320f601c08a59288914742cd43a2ef62f49d3f61e"
+    }
+  },
+  "capture_harness": {
+    "sha256": "d89f96d2926dd52cbd3df9e86a0d5315cc7c537a29b416ef3d39e5726fc4cdc0",
+    "bytes": 9442,
+    "description": "Task-local Playwright harness using the existing frontend dependency and the explicit demo workspace."
+  },
+  "screenshots": [
+    {
+      "filename": "public-agent-workbench.png",
+      "selector": ".review-output-pane",
+      "bytes": 148072,
+      "sha256": "10b862379acf3f3759b45812e236ae4806b85287e289db67c3c6bd31f38702ed",
+      "bounding_box": {
+        "x": 281,
+        "y": -6.578125,
+        "width": 1106,
+        "height": 1112.953125
+      },
+      "dimensions_px": {
+        "width": 1106,
+        "height": 1114
+      },
+      "path": "docs/assets/public-agent-workbench.png"
+    },
+    {
+      "filename": "public-agent-results.png",
+      "selector": ".review-source-pane",
+      "bytes": 247815,
+      "sha256": "5c82112163198317e424ee35b09521b9bc87ceda775799b3cf66034d29186d74",
+      "bounding_box": {
+        "x": 281,
+        "y": -113.625,
+        "width": 1106,
+        "height": 1326.46875
+      },
+      "dimensions_px": {
+        "width": 1106,
+        "height": 1327
+      },
+      "path": "docs/assets/public-agent-results.png"
+    }
+  ],
+  "observed_posts": [],
+  "page_errors": [],
+  "launcher_stopped": true,
+  "tracked_status_after": "",
+  "full_local_record_sha256": "a8d7dc6d8044f99cb866f88ccc12ad1e4183af219df6db0f5f8a0e454c44ae6d",
+  "record_scope": "Public identity, file-digest and capture metadata. Absolute local paths and verbose response/rendered-text logs remain in the task-local record. Listed demo artifact paths are relative to the capture checkout and are not committed workspaces.",
+  "version_relationship": "Screenshots were captured from the clean application commit identified by capture_checkout_sha. The later presentation commit adds documentation, images, metadata and CI artifact paths, plus a comment-only vendor edit with matching provenance. The final cumulative PR head and CI checkout are recorded in PR #3.",
+  "optional_endpoint_note": "The development-only human-observation protocol is absent from the public export, as before this task. The two optional observation endpoints returned 409; required result, evidence and series reads returned 200. No human review or approval was written. The favicon 404 is also recorded. These diagnostics are not real-model or human-evaluation evidence."
+}

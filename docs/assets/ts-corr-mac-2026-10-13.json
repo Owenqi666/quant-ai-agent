@@ -1,0 +1,1698 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "suite": "local",
+  "large": true,
+  "warmups_per_implementation": 5,
+  "repeats_per_implementation": 5,
+  "seed": 20261013,
+  "production_chunk_size": 1024,
+  "cases": [
+    {
+      "id": "normal-500x50-w5",
+      "dates": 500,
+      "assets": 50,
+      "window": 5,
+      "scenario": "normal",
+      "seed": 20261013,
+      "layout": "C",
+      "dtype": "float64",
+      "input_sha256": {
+        "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+        "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+      },
+      "numeric": {
+        "passed": true,
+        "axes_equal": true,
+        "shape_equal": true,
+        "dtype_equal": true,
+        "nan_mask_differences": 0,
+        "non_nan_bit_differences": 0
+      },
+      "timing": {
+        "clock": "time.perf_counter_ns",
+        "unit": "nanoseconds",
+        "raw": [
+          {
+            "repetition": 1,
+            "implementation": "reference",
+            "elapsed_ns": 307598875
+          },
+          {
+            "repetition": 1,
+            "implementation": "production",
+            "elapsed_ns": 7742583
+          },
+          {
+            "repetition": 2,
+            "implementation": "production",
+            "elapsed_ns": 7538667
+          },
+          {
+            "repetition": 2,
+            "implementation": "reference",
+            "elapsed_ns": 312536084
+          },
+          {
+            "repetition": 3,
+            "implementation": "reference",
+            "elapsed_ns": 307197125
+          },
+          {
+            "repetition": 3,
+            "implementation": "production",
+            "elapsed_ns": 7576791
+          },
+          {
+            "repetition": 4,
+            "implementation": "production",
+            "elapsed_ns": 7524292
+          },
+          {
+            "repetition": 4,
+            "implementation": "reference",
+            "elapsed_ns": 304880042
+          },
+          {
+            "repetition": 5,
+            "implementation": "reference",
+            "elapsed_ns": 308171167
+          },
+          {
+            "repetition": 5,
+            "implementation": "production",
+            "elapsed_ns": 7498708
+          }
+        ],
+        "summary": {
+          "reference": {
+            "count": 5,
+            "median_ns": 307598875,
+            "min_ns": 304880042,
+            "max_ns": 312536084
+          },
+          "production": {
+            "count": 5,
+            "median_ns": 7538667,
+            "min_ns": 7498708,
+            "max_ns": 7742583
+          }
+        },
+        "statistic": "median of all samples; no samples discarded",
+        "reference_over_production_median": 40.802820312928
+      },
+      "memory": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 79200256,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 75.53125,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 79216640,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 75.546875,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        }
+      },
+      "fallback": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 24800,
+          "finite_nonconstant_windows": 24800,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 24800,
+          "finite_nonconstant_windows": 24800,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        }
+      },
+      "profile": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         1930833 function calls (1930619 primitive calls) in 0.549 seconds\n\n   Ordered by: cumulative time\n   List reduced from 145 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.549    0.549 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.549    0.549 benchmark_ts_corr.py:115(invoke)\n        1    0.191    0.191    0.549    0.549 corr_reference.py:59(_stable_correlation)\n   297700    0.111    0.000    0.111    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n    49600    0.008    0.000    0.104    0.000 {method 'mean' of 'numpy.ndarray' objects}\n    49600    0.040    0.000    0.096    0.000 _methods.py:115(_mean)\n   148800    0.020    0.000    0.086    0.000 {method 'all' of 'numpy.ndarray' objects}\n   148800    0.014    0.000    0.066    0.000 _methods.py:64(_all)\n    49600    0.027    0.000    0.063    0.000 numeric.py:2535(array_equal)\n    49600    0.014    0.000    0.055    0.000 fromnumeric.py:3011(max)\n    49600    0.011    0.000    0.049    0.000 fromnumeric.py:2548(all)\n    49600    0.017    0.000    0.041    0.000 fromnumeric.py:66(_wrapreduction)\n    49700    0.017    0.000    0.037    0.000 fromnumeric.py:86(_wrapreduction_any_all)\n    49600    0.019    0.000    0.022    0.000 _methods.py:73(_count_reduce_items)\n    24800    0.006    0.000    0.009    0.000 getlimits.py:178(__new__)\n    99300    0.006    0.000    0.006    0.000 {method 'items' of 'dict' objects}\n    99502    0.005    0.000    0.005    0.000 {built-in method builtins.issubclass}\n      100    0.000    0.000    0.005    0.000 indexing.py:1192(__getitem__)\n    99400    0.005    0.000    0.005    0.000 {built-in method numpy.asarray}\n    99200    0.004    0.000    0.004    0.000 {built-in method numpy.asanyarray}\n    52628    0.004    0.000    0.004    0.000 {built-in method builtins.isinstance}\n      100    0.000    0.000    0.004    0.000 indexing.py:1710(_getitem_tuple)\n    49600    0.004    0.000    0.004    0.000 {built-in method builtins.hasattr}\n    74400    0.004    0.000    0.004    0.000 multiarray.py:748(dot)\n    49600    0.003    0.000    0.003    0.000 {method 'get' of 'dict' objects}\n\n\n"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         26136 function calls (25922 primitive calls) in 0.012 seconds\n\n   Ordered by: cumulative time\n   List reduced from 148 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.012    0.012 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.012    0.012 benchmark_ts_corr.py:115(invoke)\n        1    0.004    0.004    0.012    0.012 expressions.py:208(_stable_correlation)\n      100    0.000    0.000    0.003    0.000 indexing.py:1192(__getitem__)\n      100    0.000    0.000    0.003    0.000 indexing.py:1710(_getitem_tuple)\n      100    0.000    0.000    0.002    0.000 indexing.py:1058(_getitem_lowerdim)\n      700    0.002    0.000    0.002    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n      100    0.000    0.000    0.002    0.000 indexing.py:1740(_getitem_axis)\n      100    0.000    0.000    0.001    0.000 frame.py:4292(_ixs)\n      300    0.000    0.000    0.001    0.000 {method 'all' of 'numpy.ndarray' objects}\n      100    0.000    0.000    0.001    0.000 _stride_tricks_impl.py:119(sliding_window_view)\n      300    0.000    0.000    0.001    0.000 _methods.py:64(_all)\n      100    0.000    0.000    0.001    0.000 indexing.py:984(_validate_tuple_indexer)\n     3378    0.000    0.000    0.001    0.000 {built-in method builtins.isinstance}\n      100    0.000    0.000    0.001    0.000 frame.py:4954(_box_col_values)\n      100    0.000    0.000    0.001    0.000 fromnumeric.py:3011(max)\n      100    0.000    0.000    0.001    0.000 {method 'mean' of 'numpy.ndarray' objects}\n      100    0.000    0.000    0.001    0.000 base.py:567(to_numpy)\n      200    0.000    0.000    0.001    0.000 indexing.py:1592(_validate_key)\n      100    0.000    0.000    0.001    0.000 _methods.py:115(_mean)\n      100    0.000    0.000    0.001    0.000 fromnumeric.py:66(_wrapreduction)\n      300    0.000    0.000    0.001    0.000 common.py:105(is_bool_indexer)\n      100    0.000    0.000    0.000    0.000 managers.py:1213(iget)\n     1306    0.000    0.000    0.000    0.000 generic.py:43(_instancecheck)\n      150    0.000    0.000    0.000    0.000 numeric.py:679(flatnonzero)\n\n\n"
+        }
+      }
+    },
+    {
+      "id": "normal-500x50-w20",
+      "dates": 500,
+      "assets": 50,
+      "window": 20,
+      "scenario": "normal",
+      "seed": 20261013,
+      "layout": "C",
+      "dtype": "float64",
+      "input_sha256": {
+        "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+        "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+      },
+      "numeric": {
+        "passed": true,
+        "axes_equal": true,
+        "shape_equal": true,
+        "dtype_equal": true,
+        "nan_mask_differences": 0,
+        "non_nan_bit_differences": 0
+      },
+      "timing": {
+        "clock": "time.perf_counter_ns",
+        "unit": "nanoseconds",
+        "raw": [
+          {
+            "repetition": 1,
+            "implementation": "reference",
+            "elapsed_ns": 300848125
+          },
+          {
+            "repetition": 1,
+            "implementation": "production",
+            "elapsed_ns": 9210125
+          },
+          {
+            "repetition": 2,
+            "implementation": "production",
+            "elapsed_ns": 9226791
+          },
+          {
+            "repetition": 2,
+            "implementation": "reference",
+            "elapsed_ns": 315169750
+          },
+          {
+            "repetition": 3,
+            "implementation": "reference",
+            "elapsed_ns": 304560334
+          },
+          {
+            "repetition": 3,
+            "implementation": "production",
+            "elapsed_ns": 9644083
+          },
+          {
+            "repetition": 4,
+            "implementation": "production",
+            "elapsed_ns": 9632167
+          },
+          {
+            "repetition": 4,
+            "implementation": "reference",
+            "elapsed_ns": 395571750
+          },
+          {
+            "repetition": 5,
+            "implementation": "reference",
+            "elapsed_ns": 344482083
+          },
+          {
+            "repetition": 5,
+            "implementation": "production",
+            "elapsed_ns": 9398208
+          }
+        ],
+        "summary": {
+          "reference": {
+            "count": 5,
+            "median_ns": 315169750,
+            "min_ns": 300848125,
+            "max_ns": 395571750
+          },
+          "production": {
+            "count": 5,
+            "median_ns": 9398208,
+            "min_ns": 9210125,
+            "max_ns": 9644083
+          }
+        },
+        "statistic": "median of all samples; no samples discarded",
+        "reference_over_production_median": 33.53508988096454
+      },
+      "memory": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 79527936,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 75.84375,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 79413248,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 75.734375,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        }
+      },
+      "fallback": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 24050,
+          "finite_nonconstant_windows": 24050,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 24050,
+          "finite_nonconstant_windows": 24050,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        }
+      },
+      "profile": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         1873083 function calls (1872869 primitive calls) in 0.543 seconds\n\n   Ordered by: cumulative time\n   List reduced from 145 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.543    0.543 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.543    0.543 benchmark_ts_corr.py:115(invoke)\n        1    0.190    0.190    0.543    0.543 corr_reference.py:59(_stable_correlation)\n   288700    0.112    0.000    0.112    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n    48100    0.007    0.000    0.102    0.000 {method 'mean' of 'numpy.ndarray' objects}\n    48100    0.039    0.000    0.095    0.000 _methods.py:115(_mean)\n   144300    0.019    0.000    0.085    0.000 {method 'all' of 'numpy.ndarray' objects}\n   144300    0.014    0.000    0.066    0.000 _methods.py:64(_all)\n    48100    0.027    0.000    0.062    0.000 numeric.py:2535(array_equal)\n    48100    0.013    0.000    0.054    0.000 fromnumeric.py:3011(max)\n    48100    0.011    0.000    0.048    0.000 fromnumeric.py:2548(all)\n    48100    0.017    0.000    0.041    0.000 fromnumeric.py:66(_wrapreduction)\n    48200    0.016    0.000    0.037    0.000 fromnumeric.py:86(_wrapreduction_any_all)\n    48100    0.019    0.000    0.021    0.000 _methods.py:73(_count_reduce_items)\n    24050    0.006    0.000    0.009    0.000 getlimits.py:178(__new__)\n    96502    0.005    0.000    0.005    0.000 {built-in method builtins.issubclass}\n    96300    0.005    0.000    0.005    0.000 {method 'items' of 'dict' objects}\n      100    0.000    0.000    0.005    0.000 indexing.py:1192(__getitem__)\n    96400    0.005    0.000    0.005    0.000 {built-in method numpy.asarray}\n    96200    0.004    0.000    0.004    0.000 {built-in method numpy.asanyarray}\n    51128    0.004    0.000    0.004    0.000 {built-in method builtins.isinstance}\n      100    0.000    0.000    0.004    0.000 indexing.py:1710(_getitem_tuple)\n    48100    0.004    0.000    0.004    0.000 {built-in method builtins.hasattr}\n    72150    0.004    0.000    0.004    0.000 multiarray.py:748(dot)\n    48100    0.003    0.000    0.003    0.000 {method 'get' of 'dict' objects}\n\n\n"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         26136 function calls (25922 primitive calls) in 0.014 seconds\n\n   Ordered by: cumulative time\n   List reduced from 148 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.014    0.014 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.014    0.014 benchmark_ts_corr.py:115(invoke)\n        1    0.006    0.006    0.014    0.014 expressions.py:208(_stable_correlation)\n      100    0.000    0.000    0.004    0.000 indexing.py:1192(__getitem__)\n      100    0.000    0.000    0.003    0.000 indexing.py:1710(_getitem_tuple)\n      100    0.000    0.000    0.002    0.000 indexing.py:1058(_getitem_lowerdim)\n      700    0.002    0.000    0.002    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n      100    0.000    0.000    0.002    0.000 indexing.py:1740(_getitem_axis)\n      100    0.000    0.000    0.001    0.000 frame.py:4292(_ixs)\n      100    0.000    0.000    0.001    0.000 _stride_tricks_impl.py:119(sliding_window_view)\n      300    0.000    0.000    0.001    0.000 {method 'all' of 'numpy.ndarray' objects}\n      300    0.000    0.000    0.001    0.000 _methods.py:64(_all)\n      100    0.000    0.000    0.001    0.000 indexing.py:984(_validate_tuple_indexer)\n      100    0.000    0.000    0.001    0.000 frame.py:4954(_box_col_values)\n     3378    0.000    0.000    0.001    0.000 {built-in method builtins.isinstance}\n      100    0.000    0.000    0.001    0.000 base.py:567(to_numpy)\n      100    0.000    0.000    0.001    0.000 {method 'mean' of 'numpy.ndarray' objects}\n      100    0.000    0.000    0.001    0.000 _methods.py:115(_mean)\n      200    0.000    0.000    0.001    0.000 indexing.py:1592(_validate_key)\n      100    0.000    0.000    0.001    0.000 fromnumeric.py:3011(max)\n      100    0.000    0.000    0.001    0.000 fromnumeric.py:66(_wrapreduction)\n      300    0.000    0.000    0.001    0.000 common.py:105(is_bool_indexer)\n      100    0.000    0.000    0.000    0.000 managers.py:1213(iget)\n     1306    0.000    0.000    0.000    0.000 generic.py:43(_instancecheck)\n      150    0.000    0.000    0.000    0.000 numeric.py:679(flatnonzero)\n\n\n"
+        }
+      }
+    },
+    {
+      "id": "normal-500x50-w60",
+      "dates": 500,
+      "assets": 50,
+      "window": 60,
+      "scenario": "normal",
+      "seed": 20261013,
+      "layout": "C",
+      "dtype": "float64",
+      "input_sha256": {
+        "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+        "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+      },
+      "numeric": {
+        "passed": true,
+        "axes_equal": true,
+        "shape_equal": true,
+        "dtype_equal": true,
+        "nan_mask_differences": 0,
+        "non_nan_bit_differences": 0
+      },
+      "timing": {
+        "clock": "time.perf_counter_ns",
+        "unit": "nanoseconds",
+        "raw": [
+          {
+            "repetition": 1,
+            "implementation": "reference",
+            "elapsed_ns": 279763583
+          },
+          {
+            "repetition": 1,
+            "implementation": "production",
+            "elapsed_ns": 14851250
+          },
+          {
+            "repetition": 2,
+            "implementation": "production",
+            "elapsed_ns": 14411333
+          },
+          {
+            "repetition": 2,
+            "implementation": "reference",
+            "elapsed_ns": 279697000
+          },
+          {
+            "repetition": 3,
+            "implementation": "reference",
+            "elapsed_ns": 278333833
+          },
+          {
+            "repetition": 3,
+            "implementation": "production",
+            "elapsed_ns": 14561417
+          },
+          {
+            "repetition": 4,
+            "implementation": "production",
+            "elapsed_ns": 14309750
+          },
+          {
+            "repetition": 4,
+            "implementation": "reference",
+            "elapsed_ns": 283148208
+          },
+          {
+            "repetition": 5,
+            "implementation": "reference",
+            "elapsed_ns": 277588125
+          },
+          {
+            "repetition": 5,
+            "implementation": "production",
+            "elapsed_ns": 14830334
+          }
+        ],
+        "summary": {
+          "reference": {
+            "count": 5,
+            "median_ns": 279697000,
+            "min_ns": 277588125,
+            "max_ns": 283148208
+          },
+          "production": {
+            "count": 5,
+            "median_ns": 14561417,
+            "min_ns": 14309750,
+            "max_ns": 14851250
+          }
+        },
+        "statistic": "median of all samples; no samples discarded",
+        "reference_over_production_median": 19.20808943250509
+      },
+      "memory": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 79446016,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 75.765625,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 81166336,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 77.40625,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        }
+      },
+      "fallback": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 22050,
+          "finite_nonconstant_windows": 22050,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 22050,
+          "finite_nonconstant_windows": 22050,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        }
+      },
+      "profile": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         1719083 function calls (1718869 primitive calls) in 0.520 seconds\n\n   Ordered by: cumulative time\n   List reduced from 145 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.520    0.520 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.520    0.520 benchmark_ts_corr.py:115(invoke)\n        1    0.183    0.183    0.520    0.520 corr_reference.py:59(_stable_correlation)\n   264700    0.107    0.000    0.107    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n    44100    0.007    0.000    0.097    0.000 {method 'mean' of 'numpy.ndarray' objects}\n    44100    0.036    0.000    0.090    0.000 _methods.py:115(_mean)\n   132300    0.018    0.000    0.081    0.000 {method 'all' of 'numpy.ndarray' objects}\n   132300    0.012    0.000    0.063    0.000 _methods.py:64(_all)\n    44100    0.026    0.000    0.059    0.000 numeric.py:2535(array_equal)\n    44100    0.013    0.000    0.051    0.000 fromnumeric.py:3011(max)\n    44100    0.011    0.000    0.047    0.000 fromnumeric.py:2548(all)\n    44100    0.016    0.000    0.039    0.000 fromnumeric.py:66(_wrapreduction)\n    44200    0.016    0.000    0.036    0.000 fromnumeric.py:86(_wrapreduction_any_all)\n    44100    0.018    0.000    0.020    0.000 _methods.py:73(_count_reduce_items)\n    22050    0.006    0.000    0.009    0.000 getlimits.py:178(__new__)\n    88300    0.005    0.000    0.005    0.000 {method 'items' of 'dict' objects}\n    88502    0.005    0.000    0.005    0.000 {built-in method builtins.issubclass}\n      100    0.000    0.000    0.005    0.000 indexing.py:1192(__getitem__)\n    88400    0.004    0.000    0.004    0.000 {built-in method numpy.asarray}\n    88200    0.004    0.000    0.004    0.000 {built-in method numpy.asanyarray}\n    47128    0.004    0.000    0.004    0.000 {built-in method builtins.isinstance}\n      100    0.000    0.000    0.004    0.000 indexing.py:1710(_getitem_tuple)\n    44100    0.003    0.000    0.003    0.000 {built-in method builtins.hasattr}\n    66150    0.003    0.000    0.003    0.000 multiarray.py:748(dot)\n    44100    0.003    0.000    0.003    0.000 {method 'get' of 'dict' objects}\n\n\n"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "c2dd778a20a3e2508db8169b045009430b07afb8ed9710ab373ab8545e2f91a9",
+            "right": "c9c104368d323a80a50b3bb8882153c470363a2adfd99c12f5fd16615ad3c1b0"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         26136 function calls (25922 primitive calls) in 0.023 seconds\n\n   Ordered by: cumulative time\n   List reduced from 148 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.023    0.023 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.023    0.023 benchmark_ts_corr.py:115(invoke)\n        1    0.013    0.013    0.023    0.023 expressions.py:208(_stable_correlation)\n      100    0.000    0.000    0.004    0.000 indexing.py:1192(__getitem__)\n      100    0.000    0.000    0.003    0.000 indexing.py:1710(_getitem_tuple)\n      700    0.003    0.000    0.003    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n      100    0.000    0.000    0.002    0.000 indexing.py:1058(_getitem_lowerdim)\n      100    0.000    0.000    0.002    0.000 indexing.py:1740(_getitem_axis)\n      100    0.000    0.000    0.001    0.000 frame.py:4292(_ixs)\n      300    0.000    0.000    0.001    0.000 {method 'all' of 'numpy.ndarray' objects}\n      300    0.000    0.000    0.001    0.000 _methods.py:64(_all)\n      100    0.000    0.000    0.001    0.000 {method 'mean' of 'numpy.ndarray' objects}\n      100    0.000    0.000    0.001    0.000 _methods.py:115(_mean)\n      100    0.000    0.000    0.001    0.000 _stride_tricks_impl.py:119(sliding_window_view)\n      100    0.000    0.000    0.001    0.000 indexing.py:984(_validate_tuple_indexer)\n      100    0.000    0.000    0.001    0.000 fromnumeric.py:3011(max)\n     3378    0.000    0.000    0.001    0.000 {built-in method builtins.isinstance}\n      100    0.000    0.000    0.001    0.000 fromnumeric.py:66(_wrapreduction)\n      100    0.000    0.000    0.001    0.000 frame.py:4954(_box_col_values)\n      100    0.000    0.000    0.001    0.000 base.py:567(to_numpy)\n      200    0.000    0.000    0.001    0.000 indexing.py:1592(_validate_key)\n      300    0.000    0.000    0.001    0.000 common.py:105(is_bool_indexer)\n      100    0.000    0.000    0.001    0.000 managers.py:1213(iget)\n      150    0.000    0.000    0.000    0.000 numeric.py:679(flatnonzero)\n     1306    0.000    0.000    0.000    0.000 generic.py:43(_instancecheck)\n\n\n"
+        }
+      }
+    },
+    {
+      "id": "normal-1000x200-w20",
+      "dates": 1000,
+      "assets": 200,
+      "window": 20,
+      "scenario": "normal",
+      "seed": 20261013,
+      "layout": "C",
+      "dtype": "float64",
+      "input_sha256": {
+        "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+        "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+      },
+      "numeric": {
+        "passed": true,
+        "axes_equal": true,
+        "shape_equal": true,
+        "dtype_equal": true,
+        "nan_mask_differences": 0,
+        "non_nan_bit_differences": 0
+      },
+      "timing": {
+        "clock": "time.perf_counter_ns",
+        "unit": "nanoseconds",
+        "raw": [
+          {
+            "repetition": 1,
+            "implementation": "reference",
+            "elapsed_ns": 2519853208
+          },
+          {
+            "repetition": 1,
+            "implementation": "production",
+            "elapsed_ns": 63421791
+          },
+          {
+            "repetition": 2,
+            "implementation": "production",
+            "elapsed_ns": 62328541
+          },
+          {
+            "repetition": 2,
+            "implementation": "reference",
+            "elapsed_ns": 2469044125
+          },
+          {
+            "repetition": 3,
+            "implementation": "reference",
+            "elapsed_ns": 2503567708
+          },
+          {
+            "repetition": 3,
+            "implementation": "production",
+            "elapsed_ns": 64093167
+          },
+          {
+            "repetition": 4,
+            "implementation": "production",
+            "elapsed_ns": 62766917
+          },
+          {
+            "repetition": 4,
+            "implementation": "reference",
+            "elapsed_ns": 2502039958
+          },
+          {
+            "repetition": 5,
+            "implementation": "reference",
+            "elapsed_ns": 2515026375
+          },
+          {
+            "repetition": 5,
+            "implementation": "production",
+            "elapsed_ns": 64118333
+          }
+        ],
+        "summary": {
+          "reference": {
+            "count": 5,
+            "median_ns": 2503567708,
+            "min_ns": 2469044125,
+            "max_ns": 2519853208
+          },
+          "production": {
+            "count": 5,
+            "median_ns": 63421791,
+            "min_ns": 62328541,
+            "max_ns": 64118333
+          }
+        },
+        "statistic": "median of all samples; no samples discarded",
+        "reference_over_production_median": 39.47488187459102
+      },
+      "memory": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 84492288,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 80.578125,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 86933504,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 82.90625,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        }
+      },
+      "fallback": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 196200,
+          "finite_nonconstant_windows": 196200,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 196200,
+          "finite_nonconstant_windows": 196200,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        }
+      },
+      "profile": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         15191933 function calls (15191119 primitive calls) in 4.474 seconds\n\n   Ordered by: cumulative time\n   List reduced from 145 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    4.474    4.474 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    4.474    4.474 benchmark_ts_corr.py:115(invoke)\n        1    1.570    1.570    4.474    4.474 corr_reference.py:59(_stable_correlation)\n  2354800    0.911    0.000    0.911    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n   392400    0.062    0.000    0.850    0.000 {method 'mean' of 'numpy.ndarray' objects}\n   392400    0.324    0.000    0.789    0.000 _methods.py:115(_mean)\n  1177200    0.160    0.000    0.702    0.000 {method 'all' of 'numpy.ndarray' objects}\n  1177200    0.113    0.000    0.541    0.000 _methods.py:64(_all)\n   392400    0.223    0.000    0.508    0.000 numeric.py:2535(array_equal)\n   392400    0.112    0.000    0.447    0.000 fromnumeric.py:3011(max)\n   392400    0.092    0.000    0.398    0.000 fromnumeric.py:2548(all)\n   392400    0.142    0.000    0.335    0.000 fromnumeric.py:66(_wrapreduction)\n   392800    0.136    0.000    0.306    0.000 fromnumeric.py:86(_wrapreduction_any_all)\n   392400    0.159    0.000    0.180    0.000 _methods.py:73(_count_reduce_items)\n   196200    0.051    0.000    0.075    0.000 getlimits.py:178(__new__)\n   785200    0.046    0.000    0.046    0.000 {method 'items' of 'dict' objects}\n   786002    0.044    0.000    0.044    0.000 {built-in method builtins.issubclass}\n   785600    0.037    0.000    0.037    0.000 {built-in method numpy.asarray}\n   784800    0.037    0.000    0.037    0.000 {built-in method numpy.asanyarray}\n   404428    0.030    0.000    0.032    0.000 {built-in method builtins.isinstance}\n   588600    0.030    0.000    0.030    0.000 multiarray.py:748(dot)\n   392400    0.030    0.000    0.030    0.000 {built-in method builtins.hasattr}\n   392400    0.024    0.000    0.024    0.000 {method 'get' of 'dict' objects}\n      400    0.001    0.000    0.023    0.000 indexing.py:1192(__getitem__)\n   392400    0.021    0.000    0.021    0.000 fromnumeric.py:2543(_all_dispatcher)\n\n\n"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         104136 function calls (103322 primitive calls) in 0.082 seconds\n\n   Ordered by: cumulative time\n   List reduced from 148 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.082    0.082 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.082    0.082 benchmark_ts_corr.py:115(invoke)\n        1    0.045    0.045    0.082    0.082 expressions.py:208(_stable_correlation)\n     2800    0.014    0.000    0.014    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n      400    0.000    0.000    0.013    0.000 indexing.py:1192(__getitem__)\n      400    0.000    0.000    0.011    0.000 indexing.py:1710(_getitem_tuple)\n      400    0.001    0.000    0.008    0.000 indexing.py:1058(_getitem_lowerdim)\n     1200    0.000    0.000    0.006    0.000 {method 'all' of 'numpy.ndarray' objects}\n      400    0.000    0.000    0.006    0.000 indexing.py:1740(_getitem_axis)\n     1200    0.000    0.000    0.006    0.000 _methods.py:64(_all)\n      400    0.000    0.000    0.004    0.000 fromnumeric.py:3011(max)\n      400    0.000    0.000    0.004    0.000 frame.py:4292(_ixs)\n      400    0.000    0.000    0.004    0.000 fromnumeric.py:66(_wrapreduction)\n      400    0.000    0.000    0.004    0.000 {method 'mean' of 'numpy.ndarray' objects}\n      400    0.001    0.000    0.004    0.000 _methods.py:115(_mean)\n      400    0.001    0.000    0.003    0.000 _stride_tricks_impl.py:119(sliding_window_view)\n      400    0.000    0.000    0.003    0.000 indexing.py:984(_validate_tuple_indexer)\n    13428    0.001    0.000    0.003    0.000 {built-in method builtins.isinstance}\n      400    0.000    0.000    0.002    0.000 frame.py:4954(_box_col_values)\n      800    0.000    0.000    0.002    0.000 indexing.py:1592(_validate_key)\n     1200    0.000    0.000    0.002    0.000 common.py:105(is_bool_indexer)\n      400    0.001    0.000    0.002    0.000 base.py:567(to_numpy)\n      400    0.000    0.000    0.002    0.000 {method 'any' of 'numpy.ndarray' objects}\n      400    0.000    0.000    0.002    0.000 _methods.py:55(_any)\n      400    0.001    0.000    0.001    0.000 managers.py:1213(iget)\n\n\n"
+        }
+      }
+    },
+    {
+      "id": "normal-1000x200-w60",
+      "dates": 1000,
+      "assets": 200,
+      "window": 60,
+      "scenario": "normal",
+      "seed": 20261013,
+      "layout": "C",
+      "dtype": "float64",
+      "input_sha256": {
+        "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+        "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+      },
+      "numeric": {
+        "passed": true,
+        "axes_equal": true,
+        "shape_equal": true,
+        "dtype_equal": true,
+        "nan_mask_differences": 0,
+        "non_nan_bit_differences": 0
+      },
+      "timing": {
+        "clock": "time.perf_counter_ns",
+        "unit": "nanoseconds",
+        "raw": [
+          {
+            "repetition": 1,
+            "implementation": "reference",
+            "elapsed_ns": 2516070000
+          },
+          {
+            "repetition": 1,
+            "implementation": "production",
+            "elapsed_ns": 112996666
+          },
+          {
+            "repetition": 2,
+            "implementation": "production",
+            "elapsed_ns": 112079542
+          },
+          {
+            "repetition": 2,
+            "implementation": "reference",
+            "elapsed_ns": 2526637959
+          },
+          {
+            "repetition": 3,
+            "implementation": "reference",
+            "elapsed_ns": 2485739125
+          },
+          {
+            "repetition": 3,
+            "implementation": "production",
+            "elapsed_ns": 113294708
+          },
+          {
+            "repetition": 4,
+            "implementation": "production",
+            "elapsed_ns": 114162416
+          },
+          {
+            "repetition": 4,
+            "implementation": "reference",
+            "elapsed_ns": 2518257458
+          },
+          {
+            "repetition": 5,
+            "implementation": "reference",
+            "elapsed_ns": 2512625625
+          },
+          {
+            "repetition": 5,
+            "implementation": "production",
+            "elapsed_ns": 119794500
+          }
+        ],
+        "summary": {
+          "reference": {
+            "count": 5,
+            "median_ns": 2516070000,
+            "min_ns": 2485739125,
+            "max_ns": 2526637959
+          },
+          "production": {
+            "count": 5,
+            "median_ns": 113294708,
+            "min_ns": 112079542,
+            "max_ns": 119794500
+          }
+        },
+        "statistic": "median of all samples; no samples discarded",
+        "reference_over_production_median": 22.208186458276586
+      },
+      "memory": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 86753280,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 82.734375,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 91635712,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 87.390625,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        }
+      },
+      "fallback": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 188200,
+          "finite_nonconstant_windows": 188200,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 188200,
+          "finite_nonconstant_windows": 188200,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        }
+      },
+      "profile": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         14575933 function calls (14575119 primitive calls) in 4.304 seconds\n\n   Ordered by: cumulative time\n   List reduced from 145 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    4.304    4.304 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    4.304    4.304 benchmark_ts_corr.py:115(invoke)\n        1    1.512    1.512    4.304    4.304 corr_reference.py:59(_stable_correlation)\n  2258800    0.883    0.000    0.883    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n   376400    0.059    0.000    0.815    0.000 {method 'mean' of 'numpy.ndarray' objects}\n   376400    0.306    0.000    0.756    0.000 _methods.py:115(_mean)\n  1129200    0.154    0.000    0.676    0.000 {method 'all' of 'numpy.ndarray' objects}\n  1129200    0.108    0.000    0.521    0.000 _methods.py:64(_all)\n   376400    0.218    0.000    0.494    0.000 numeric.py:2535(array_equal)\n   376400    0.107    0.000    0.433    0.000 fromnumeric.py:3011(max)\n   376400    0.088    0.000    0.381    0.000 fromnumeric.py:2548(all)\n   376400    0.138    0.000    0.326    0.000 fromnumeric.py:66(_wrapreduction)\n   376800    0.132    0.000    0.294    0.000 fromnumeric.py:86(_wrapreduction_any_all)\n   376400    0.152    0.000    0.171    0.000 _methods.py:73(_count_reduce_items)\n   188200    0.049    0.000    0.073    0.000 getlimits.py:178(__new__)\n   753200    0.044    0.000    0.044    0.000 {method 'items' of 'dict' objects}\n   754002    0.042    0.000    0.042    0.000 {built-in method builtins.issubclass}\n   753600    0.036    0.000    0.036    0.000 {built-in method numpy.asarray}\n   752800    0.036    0.000    0.036    0.000 {built-in method numpy.asanyarray}\n   388428    0.028    0.000    0.030    0.000 {built-in method builtins.isinstance}\n   376400    0.028    0.000    0.028    0.000 {built-in method builtins.hasattr}\n   564600    0.028    0.000    0.028    0.000 multiarray.py:748(dot)\n   376400    0.024    0.000    0.024    0.000 {method 'get' of 'dict' objects}\n      400    0.001    0.000    0.021    0.000 indexing.py:1192(__getitem__)\n   376400    0.020    0.000    0.020    0.000 {built-in method numpy.lib.array_utils.normalize_axis_index}\n\n\n"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "2ae0a59924f2a3592d6c26027efbb5f4b6d47167391bd4af879f99b881747299",
+            "right": "c82de85fa8db406a880255a19da947503a262884c14a855b8cbec65d2b9592bd"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         104136 function calls (103322 primitive calls) in 0.130 seconds\n\n   Ordered by: cumulative time\n   List reduced from 148 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.130    0.130 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.130    0.130 benchmark_ts_corr.py:115(invoke)\n        1    0.089    0.089    0.130    0.130 expressions.py:208(_stable_correlation)\n     2800    0.018    0.000    0.018    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n      400    0.000    0.000    0.014    0.000 indexing.py:1192(__getitem__)\n      400    0.000    0.000    0.011    0.000 indexing.py:1710(_getitem_tuple)\n      400    0.001    0.000    0.008    0.000 indexing.py:1058(_getitem_lowerdim)\n     1200    0.000    0.000    0.008    0.000 {method 'all' of 'numpy.ndarray' objects}\n     1200    0.000    0.000    0.007    0.000 _methods.py:64(_all)\n      400    0.000    0.000    0.006    0.000 {method 'mean' of 'numpy.ndarray' objects}\n      400    0.001    0.000    0.006    0.000 _methods.py:115(_mean)\n      400    0.000    0.000    0.006    0.000 indexing.py:1740(_getitem_axis)\n      400    0.000    0.000    0.005    0.000 fromnumeric.py:3011(max)\n      400    0.000    0.000    0.004    0.000 fromnumeric.py:66(_wrapreduction)\n      400    0.000    0.000    0.004    0.000 frame.py:4292(_ixs)\n      400    0.001    0.000    0.003    0.000 _stride_tricks_impl.py:119(sliding_window_view)\n      400    0.000    0.000    0.003    0.000 indexing.py:984(_validate_tuple_indexer)\n    13428    0.001    0.000    0.003    0.000 {built-in method builtins.isinstance}\n      400    0.000    0.000    0.002    0.000 frame.py:4954(_box_col_values)\n      800    0.000    0.000    0.002    0.000 indexing.py:1592(_validate_key)\n     1200    0.000    0.000    0.002    0.000 common.py:105(is_bool_indexer)\n      400    0.001    0.000    0.002    0.000 base.py:567(to_numpy)\n      400    0.000    0.000    0.002    0.000 {method 'any' of 'numpy.ndarray' objects}\n      400    0.000    0.000    0.002    0.000 _methods.py:55(_any)\n      400    0.001    0.000    0.002    0.000 managers.py:1213(iget)\n\n\n"
+        }
+      }
+    },
+    {
+      "id": "missing-500x50-w20",
+      "dates": 500,
+      "assets": 50,
+      "window": 20,
+      "scenario": "missing",
+      "seed": 20261013,
+      "layout": "C",
+      "dtype": "float64",
+      "input_sha256": {
+        "left": "3d676baa5782c92e522ed70621417b356f2cafdf27d1c00d1d963f348ec8d778",
+        "right": "feced060be814f12de3499bdaac22be2ca73090988b625761e4b0289d9ceed2a"
+      },
+      "numeric": {
+        "passed": true,
+        "axes_equal": true,
+        "shape_equal": true,
+        "dtype_equal": true,
+        "nan_mask_differences": 0,
+        "non_nan_bit_differences": 0
+      },
+      "timing": {
+        "clock": "time.perf_counter_ns",
+        "unit": "nanoseconds",
+        "raw": [
+          {
+            "repetition": 1,
+            "implementation": "reference",
+            "elapsed_ns": 125730917
+          },
+          {
+            "repetition": 1,
+            "implementation": "production",
+            "elapsed_ns": 6417667
+          },
+          {
+            "repetition": 2,
+            "implementation": "production",
+            "elapsed_ns": 6721958
+          },
+          {
+            "repetition": 2,
+            "implementation": "reference",
+            "elapsed_ns": 124632291
+          },
+          {
+            "repetition": 3,
+            "implementation": "reference",
+            "elapsed_ns": 125967875
+          },
+          {
+            "repetition": 3,
+            "implementation": "production",
+            "elapsed_ns": 6595250
+          },
+          {
+            "repetition": 4,
+            "implementation": "production",
+            "elapsed_ns": 6645667
+          },
+          {
+            "repetition": 4,
+            "implementation": "reference",
+            "elapsed_ns": 126151750
+          },
+          {
+            "repetition": 5,
+            "implementation": "reference",
+            "elapsed_ns": 124871375
+          },
+          {
+            "repetition": 5,
+            "implementation": "production",
+            "elapsed_ns": 6498167
+          }
+        ],
+        "summary": {
+          "reference": {
+            "count": 5,
+            "median_ns": 125730917,
+            "min_ns": 124632291,
+            "max_ns": 126151750
+          },
+          "production": {
+            "count": 5,
+            "median_ns": 6595250,
+            "min_ns": 6417667,
+            "max_ns": 6721958
+          }
+        },
+        "statistic": "median of all samples; no samples discarded",
+        "reference_over_production_median": 19.063859141048482
+      },
+      "memory": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "3d676baa5782c92e522ed70621417b356f2cafdf27d1c00d1d963f348ec8d778",
+            "right": "feced060be814f12de3499bdaac22be2ca73090988b625761e4b0289d9ceed2a"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 79101952,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 75.4375,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "3d676baa5782c92e522ed70621417b356f2cafdf27d1c00d1d963f348ec8d778",
+            "right": "feced060be814f12de3499bdaac22be2ca73090988b625761e4b0289d9ceed2a"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 79839232,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 76.140625,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        }
+      },
+      "fallback": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "3d676baa5782c92e522ed70621417b356f2cafdf27d1c00d1d963f348ec8d778",
+            "right": "feced060be814f12de3499bdaac22be2ca73090988b625761e4b0289d9ceed2a"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 24050,
+          "finite_nonconstant_windows": 8649,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "3d676baa5782c92e522ed70621417b356f2cafdf27d1c00d1d963f348ec8d778",
+            "right": "feced060be814f12de3499bdaac22be2ca73090988b625761e4b0289d9ceed2a"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 24050,
+          "finite_nonconstant_windows": 8649,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        }
+      },
+      "profile": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "3d676baa5782c92e522ed70621417b356f2cafdf27d1c00d1d963f348ec8d778",
+            "right": "feced060be814f12de3499bdaac22be2ca73090988b625761e4b0289d9ceed2a"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         751868 function calls (751654 primitive calls) in 0.219 seconds\n\n   Ordered by: cumulative time\n   List reduced from 145 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.219    0.219 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.219    0.219 benchmark_ts_corr.py:115(invoke)\n        1    0.075    0.075    0.219    0.219 corr_reference.py:59(_stable_correlation)\n   125442    0.048    0.000    0.048    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n    73448    0.009    0.000    0.042    0.000 {method 'all' of 'numpy.ndarray' objects}\n    17298    0.003    0.000    0.037    0.000 {method 'mean' of 'numpy.ndarray' objects}\n    17298    0.014    0.000    0.035    0.000 _methods.py:115(_mean)\n    73448    0.007    0.000    0.033    0.000 _methods.py:64(_all)\n    17298    0.010    0.000    0.023    0.000 numeric.py:2535(array_equal)\n    17298    0.005    0.000    0.020    0.000 fromnumeric.py:3011(max)\n    17298    0.004    0.000    0.018    0.000 fromnumeric.py:2548(all)\n    17298    0.006    0.000    0.015    0.000 fromnumeric.py:66(_wrapreduction)\n    17398    0.006    0.000    0.014    0.000 fromnumeric.py:86(_wrapreduction_any_all)\n    17298    0.007    0.000    0.008    0.000 _methods.py:73(_count_reduce_items)\n      100    0.000    0.000    0.004    0.000 indexing.py:1192(__getitem__)\n     8649    0.002    0.000    0.003    0.000 getlimits.py:178(__new__)\n      100    0.000    0.000    0.003    0.000 indexing.py:1710(_getitem_tuple)\n      100    0.000    0.000    0.002    0.000 indexing.py:1058(_getitem_lowerdim)\n    34696    0.002    0.000    0.002    0.000 {method 'items' of 'dict' objects}\n    20326    0.002    0.000    0.002    0.000 {built-in method builtins.isinstance}\n    34898    0.002    0.000    0.002    0.000 {built-in method builtins.issubclass}\n      100    0.000    0.000    0.002    0.000 indexing.py:1740(_getitem_axis)\n    34796    0.002    0.000    0.002    0.000 {built-in method numpy.asarray}\n    34596    0.002    0.000    0.002    0.000 {built-in method numpy.asanyarray}\n    17298    0.001    0.000    0.001    0.000 {built-in method builtins.hasattr}\n\n\n"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "3d676baa5782c92e522ed70621417b356f2cafdf27d1c00d1d963f348ec8d778",
+            "right": "feced060be814f12de3499bdaac22be2ca73090988b625761e4b0289d9ceed2a"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         26136 function calls (25922 primitive calls) in 0.011 seconds\n\n   Ordered by: cumulative time\n   List reduced from 148 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.011    0.011 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.011    0.011 benchmark_ts_corr.py:115(invoke)\n        1    0.004    0.004    0.011    0.011 expressions.py:208(_stable_correlation)\n      100    0.000    0.000    0.003    0.000 indexing.py:1192(__getitem__)\n      100    0.000    0.000    0.003    0.000 indexing.py:1710(_getitem_tuple)\n      100    0.000    0.000    0.002    0.000 indexing.py:1058(_getitem_lowerdim)\n      100    0.000    0.000    0.001    0.000 indexing.py:1740(_getitem_axis)\n      700    0.001    0.000    0.001    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n      100    0.000    0.000    0.001    0.000 frame.py:4292(_ixs)\n      100    0.000    0.000    0.001    0.000 _stride_tricks_impl.py:119(sliding_window_view)\n      100    0.000    0.000    0.001    0.000 indexing.py:984(_validate_tuple_indexer)\n     3378    0.000    0.000    0.001    0.000 {built-in method builtins.isinstance}\n      100    0.000    0.000    0.001    0.000 frame.py:4954(_box_col_values)\n      300    0.000    0.000    0.001    0.000 {method 'all' of 'numpy.ndarray' objects}\n      200    0.000    0.000    0.001    0.000 indexing.py:1592(_validate_key)\n      300    0.000    0.000    0.001    0.000 _methods.py:64(_all)\n      300    0.000    0.000    0.001    0.000 common.py:105(is_bool_indexer)\n      100    0.000    0.000    0.001    0.000 base.py:567(to_numpy)\n      100    0.000    0.000    0.000    0.000 {method 'mean' of 'numpy.ndarray' objects}\n      100    0.000    0.000    0.000    0.000 _methods.py:115(_mean)\n      100    0.000    0.000    0.000    0.000 managers.py:1213(iget)\n     1306    0.000    0.000    0.000    0.000 generic.py:43(_instancecheck)\n      150    0.000    0.000    0.000    0.000 numeric.py:679(flatnonzero)\n      100    0.000    0.000    0.000    0.000 fromnumeric.py:3011(max)\n      100    0.000    0.000    0.000    0.000 fromnumeric.py:66(_wrapreduction)\n\n\n"
+        }
+      }
+    },
+    {
+      "id": "constant_affine-500x50-w20",
+      "dates": 500,
+      "assets": 50,
+      "window": 20,
+      "scenario": "constant_affine",
+      "seed": 20261013,
+      "layout": "C",
+      "dtype": "float64",
+      "input_sha256": {
+        "left": "1011f6b830954351e1b14f018567069631f5d9aa2f78eae340073aa96615b216",
+        "right": "9f85e185753411a7fa4e471a777e63ebeaadf16e5ca98168d30998794c8315cf"
+      },
+      "numeric": {
+        "passed": true,
+        "axes_equal": true,
+        "shape_equal": true,
+        "dtype_equal": true,
+        "nan_mask_differences": 0,
+        "non_nan_bit_differences": 0
+      },
+      "timing": {
+        "clock": "time.perf_counter_ns",
+        "unit": "nanoseconds",
+        "raw": [
+          {
+            "repetition": 1,
+            "implementation": "reference",
+            "elapsed_ns": 485596750
+          },
+          {
+            "repetition": 1,
+            "implementation": "production",
+            "elapsed_ns": 180988583
+          },
+          {
+            "repetition": 2,
+            "implementation": "production",
+            "elapsed_ns": 180668042
+          },
+          {
+            "repetition": 2,
+            "implementation": "reference",
+            "elapsed_ns": 484482542
+          },
+          {
+            "repetition": 3,
+            "implementation": "reference",
+            "elapsed_ns": 485225208
+          },
+          {
+            "repetition": 3,
+            "implementation": "production",
+            "elapsed_ns": 181520375
+          },
+          {
+            "repetition": 4,
+            "implementation": "production",
+            "elapsed_ns": 187209041
+          },
+          {
+            "repetition": 4,
+            "implementation": "reference",
+            "elapsed_ns": 490696875
+          },
+          {
+            "repetition": 5,
+            "implementation": "reference",
+            "elapsed_ns": 487771250
+          },
+          {
+            "repetition": 5,
+            "implementation": "production",
+            "elapsed_ns": 182298333
+          }
+        ],
+        "summary": {
+          "reference": {
+            "count": 5,
+            "median_ns": 485596750,
+            "min_ns": 484482542,
+            "max_ns": 490696875
+          },
+          "production": {
+            "count": 5,
+            "median_ns": 181520375,
+            "min_ns": 180668042,
+            "max_ns": 187209041
+          }
+        },
+        "statistic": "median of all samples; no samples discarded",
+        "reference_over_production_median": 2.675163876231525
+      },
+      "memory": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "1011f6b830954351e1b14f018567069631f5d9aa2f78eae340073aa96615b216",
+            "right": "9f85e185753411a7fa4e471a777e63ebeaadf16e5ca98168d30998794c8315cf"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 79593472,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 75.90625,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "1011f6b830954351e1b14f018567069631f5d9aa2f78eae340073aa96615b216",
+            "right": "9f85e185753411a7fa4e471a777e63ebeaadf16e5ca98168d30998794c8315cf"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 79675392,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 75.984375,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        }
+      },
+      "fallback": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "1011f6b830954351e1b14f018567069631f5d9aa2f78eae340073aa96615b216",
+            "right": "9f85e185753411a7fa4e471a777e63ebeaadf16e5ca98168d30998794c8315cf"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 22607,
+          "complete_windows": 24050,
+          "finite_nonconstant_windows": 23569,
+          "calls_per_complete_window": 0.94,
+          "calls_per_finite_nonconstant_window": 0.9591836734693877,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "1011f6b830954351e1b14f018567069631f5d9aa2f78eae340073aa96615b216",
+            "right": "9f85e185753411a7fa4e471a777e63ebeaadf16e5ca98168d30998794c8315cf"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 22607,
+          "complete_windows": 24050,
+          "finite_nonconstant_windows": 23569,
+          "calls_per_complete_window": 0.94,
+          "calls_per_finite_nonconstant_window": 0.9591836734693877,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        }
+      },
+      "profile": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "1011f6b830954351e1b14f018567069631f5d9aa2f78eae340073aa96615b216",
+            "right": "9f85e185753411a7fa4e471a777e63ebeaadf16e5ca98168d30998794c8315cf"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         5275677 function calls (5275463 primitive calls) in 1.063 seconds\n\n   Ordered by: cumulative time\n   List reduced from 154 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    1.063    1.063 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    1.063    1.063 benchmark_ts_corr.py:115(invoke)\n        1    0.203    0.203    1.063    1.063 corr_reference.py:59(_stable_correlation)\n    22607    0.033    0.000    0.486    0.000 corr_reference.py:35(_pearson_binary64)\n    45214    0.196    0.000    0.297    0.000 corr_reference.py:22(_integer_observations)\n   113035    0.087    0.000    0.155    0.000 {built-in method builtins.sum}\n   278118    0.115    0.000    0.115    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n    45214    0.008    0.000    0.106    0.000 {method 'mean' of 'numpy.ndarray' objects}\n    45214    0.040    0.000    0.098    0.000 _methods.py:115(_mean)\n   139971    0.021    0.000    0.091    0.000 {method 'all' of 'numpy.ndarray' objects}\n   139971    0.015    0.000    0.070    0.000 _methods.py:64(_all)\n    46657    0.029    0.000    0.065    0.000 numeric.py:2535(array_equal)\n   904280    0.058    0.000    0.058    0.000 {method 'as_integer_ratio' of 'float' objects}\n    45214    0.013    0.000    0.055    0.000 fromnumeric.py:3011(max)\n    47619    0.012    0.000    0.052    0.000 fromnumeric.py:2548(all)\n    45214    0.018    0.000    0.041    0.000 fromnumeric.py:66(_wrapreduction)\n    47719    0.018    0.000    0.041    0.000 fromnumeric.py:86(_wrapreduction_any_all)\n   904280    0.033    0.000    0.033    0.000 {method 'bit_length' of 'int' objects}\n   474747    0.025    0.000    0.025    0.000 corr_reference.py:49(<genexpr>)\n   474747    0.023    0.000    0.023    0.000 corr_reference.py:45(<genexpr>)\n    45214    0.019    0.000    0.022    0.000 _methods.py:73(_count_reduce_items)\n   474747    0.020    0.000    0.020    0.000 corr_reference.py:46(<genexpr>)\n    22607    0.007    0.000    0.010    0.000 getlimits.py:178(__new__)\n    45214    0.009    0.000    0.009    0.000 {built-in method builtins.max}\n    92933    0.006    0.000    0.006    0.000 {method 'items' of 'dict' objects}\n\n\n"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "1011f6b830954351e1b14f018567069631f5d9aa2f78eae340073aa96615b216",
+            "right": "9f85e185753411a7fa4e471a777e63ebeaadf16e5ca98168d30998794c8315cf"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         3507412 function calls (3507198 primitive calls) in 0.490 seconds\n\n   Ordered by: cumulative time\n   List reduced from 157 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.490    0.490 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.490    0.490 benchmark_ts_corr.py:115(invoke)\n        1    0.017    0.017    0.490    0.490 expressions.py:208(_stable_correlation)\n    22607    0.029    0.000    0.463    0.000 expressions.py:184(_pearson_binary64)\n    45214    0.191    0.000    0.290    0.000 expressions.py:171(_integer_observations)\n   113035    0.078    0.000    0.143    0.000 {built-in method builtins.sum}\n   904280    0.057    0.000    0.057    0.000 {method 'as_integer_ratio' of 'float' objects}\n   904280    0.033    0.000    0.033    0.000 {method 'bit_length' of 'int' objects}\n   474747    0.025    0.000    0.025    0.000 expressions.py:198(<genexpr>)\n   474747    0.020    0.000    0.020    0.000 expressions.py:194(<genexpr>)\n   474747    0.020    0.000    0.020    0.000 expressions.py:195(<genexpr>)\n    45214    0.008    0.000    0.008    0.000 {built-in method builtins.max}\n      100    0.000    0.000    0.005    0.000 indexing.py:1192(__getitem__)\n      100    0.000    0.000    0.004    0.000 indexing.py:1710(_getitem_tuple)\n      100    0.000    0.000    0.003    0.000 indexing.py:1058(_getitem_lowerdim)\n      100    0.000    0.000    0.002    0.000 indexing.py:1740(_getitem_axis)\n      680    0.002    0.000    0.002    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n      100    0.000    0.000    0.001    0.000 frame.py:4292(_ixs)\n24125/23911    0.001    0.000    0.001    0.000 {built-in method builtins.len}\n      100    0.000    0.000    0.001    0.000 _stride_tricks_impl.py:119(sliding_window_view)\n      100    0.000    0.000    0.001    0.000 indexing.py:984(_validate_tuple_indexer)\n      292    0.000    0.000    0.001    0.000 {method 'all' of 'numpy.ndarray' objects}\n      100    0.000    0.000    0.001    0.000 frame.py:4954(_box_col_values)\n     3360    0.000    0.000    0.001    0.000 {built-in method builtins.isinstance}\n      292    0.000    0.000    0.001    0.000 _methods.py:64(_all)\n\n\n"
+        }
+      }
+    },
+    {
+      "id": "high_fallback-500x50-w20",
+      "dates": 500,
+      "assets": 50,
+      "window": 20,
+      "scenario": "high_fallback",
+      "seed": 20261013,
+      "layout": "C",
+      "dtype": "float64",
+      "input_sha256": {
+        "left": "cf084bb0db2388c4c90f1b556329c13b206117e634db407bd51df8d4b94c4c93",
+        "right": "a26843fb6b465d82fa704b05bf7ffbc33b8372dcdb4431cfbf8d0e6fbbc1edc9"
+      },
+      "numeric": {
+        "passed": true,
+        "axes_equal": true,
+        "shape_equal": true,
+        "dtype_equal": true,
+        "nan_mask_differences": 0,
+        "non_nan_bit_differences": 0
+      },
+      "timing": {
+        "clock": "time.perf_counter_ns",
+        "unit": "nanoseconds",
+        "raw": [
+          {
+            "repetition": 1,
+            "implementation": "reference",
+            "elapsed_ns": 588958333
+          },
+          {
+            "repetition": 1,
+            "implementation": "production",
+            "elapsed_ns": 274350042
+          },
+          {
+            "repetition": 2,
+            "implementation": "production",
+            "elapsed_ns": 274736375
+          },
+          {
+            "repetition": 2,
+            "implementation": "reference",
+            "elapsed_ns": 591136417
+          },
+          {
+            "repetition": 3,
+            "implementation": "reference",
+            "elapsed_ns": 589742458
+          },
+          {
+            "repetition": 3,
+            "implementation": "production",
+            "elapsed_ns": 273610958
+          },
+          {
+            "repetition": 4,
+            "implementation": "production",
+            "elapsed_ns": 271899750
+          },
+          {
+            "repetition": 4,
+            "implementation": "reference",
+            "elapsed_ns": 590295250
+          },
+          {
+            "repetition": 5,
+            "implementation": "reference",
+            "elapsed_ns": 589008542
+          },
+          {
+            "repetition": 5,
+            "implementation": "production",
+            "elapsed_ns": 272219917
+          }
+        ],
+        "summary": {
+          "reference": {
+            "count": 5,
+            "median_ns": 589742458,
+            "min_ns": 588958333,
+            "max_ns": 591136417
+          },
+          "production": {
+            "count": 5,
+            "median_ns": 273610958,
+            "min_ns": 271899750,
+            "max_ns": 274736375
+          }
+        },
+        "statistic": "median of all samples; no samples discarded",
+        "reference_over_production_median": 2.1554051135627397
+      },
+      "memory": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "cf084bb0db2388c4c90f1b556329c13b206117e634db407bd51df8d4b94c4c93",
+            "right": "a26843fb6b465d82fa704b05bf7ffbc33b8372dcdb4431cfbf8d0e6fbbc1edc9"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 79609856,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 75.921875,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "cf084bb0db2388c4c90f1b556329c13b206117e634db407bd51df8d4b94c4c93",
+            "right": "a26843fb6b465d82fa704b05bf7ffbc33b8372dcdb4431cfbf8d0e6fbbc1edc9"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 80101376,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 76.390625,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        }
+      },
+      "fallback": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "cf084bb0db2388c4c90f1b556329c13b206117e634db407bd51df8d4b94c4c93",
+            "right": "a26843fb6b465d82fa704b05bf7ffbc33b8372dcdb4431cfbf8d0e6fbbc1edc9"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 24050,
+          "complete_windows": 24050,
+          "finite_nonconstant_windows": 24050,
+          "calls_per_complete_window": 1.0,
+          "calls_per_finite_nonconstant_window": 1.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "cf084bb0db2388c4c90f1b556329c13b206117e634db407bd51df8d4b94c4c93",
+            "right": "a26843fb6b465d82fa704b05bf7ffbc33b8372dcdb4431cfbf8d0e6fbbc1edc9"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 24050,
+          "complete_windows": 24050,
+          "finite_nonconstant_windows": 24050,
+          "calls_per_complete_window": 1.0,
+          "calls_per_finite_nonconstant_window": 1.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        }
+      },
+      "profile": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "cf084bb0db2388c4c90f1b556329c13b206117e634db407bd51df8d4b94c4c93",
+            "right": "a26843fb6b465d82fa704b05bf7ffbc33b8372dcdb4431cfbf8d0e6fbbc1edc9"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         5556581 function calls (5556367 primitive calls) in 1.194 seconds\n\n   Ordered by: cumulative time\n   List reduced from 154 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    1.194    1.194 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    1.194    1.194 benchmark_ts_corr.py:115(invoke)\n        1    0.210    0.210    1.194    1.194 corr_reference.py:59(_stable_correlation)\n    24050    0.043    0.000    0.593    0.000 corr_reference.py:35(_pearson_binary64)\n    48100    0.210    0.000    0.342    0.000 corr_reference.py:22(_integer_observations)\n   120250    0.111    0.000    0.206    0.000 {built-in method builtins.sum}\n   286295    0.121    0.000    0.121    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n    47138    0.008    0.000    0.111    0.000 {method 'mean' of 'numpy.ndarray' objects}\n    47138    0.043    0.000    0.103    0.000 _methods.py:115(_mean)\n   143819    0.022    0.000    0.096    0.000 {method 'all' of 'numpy.ndarray' objects}\n   962000    0.088    0.000    0.088    0.000 {method 'as_integer_ratio' of 'float' objects}\n   143819    0.015    0.000    0.074    0.000 _methods.py:64(_all)\n    48100    0.030    0.000    0.068    0.000 numeric.py:2535(array_equal)\n    47138    0.014    0.000    0.058    0.000 fromnumeric.py:3011(max)\n    48100    0.012    0.000    0.055    0.000 fromnumeric.py:2548(all)\n    47138    0.019    0.000    0.044    0.000 fromnumeric.py:66(_wrapreduction)\n    48200    0.019    0.000    0.042    0.000 fromnumeric.py:86(_wrapreduction_any_all)\n   962000    0.036    0.000    0.036    0.000 {method 'bit_length' of 'int' objects}\n   505050    0.035    0.000    0.035    0.000 corr_reference.py:49(<genexpr>)\n   505050    0.032    0.000    0.032    0.000 corr_reference.py:45(<genexpr>)\n   505050    0.028    0.000    0.028    0.000 corr_reference.py:46(<genexpr>)\n    47138    0.020    0.000    0.023    0.000 _methods.py:73(_count_reduce_items)\n    23569    0.007    0.000    0.010    0.000 getlimits.py:178(__new__)\n    48100    0.009    0.000    0.009    0.000 {built-in method builtins.max}\n    95338    0.006    0.000    0.006    0.000 {method 'items' of 'dict' objects}\n\n\n"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "cf084bb0db2388c4c90f1b556329c13b206117e634db407bd51df8d4b94c4c93",
+            "right": "a26843fb6b465d82fa704b05bf7ffbc33b8372dcdb4431cfbf8d0e6fbbc1edc9"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         3729790 function calls (3729576 primitive calls) in 0.586 seconds\n\n   Ordered by: cumulative time\n   List reduced from 157 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.586    0.586 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.586    0.586 benchmark_ts_corr.py:115(invoke)\n        1    0.018    0.018    0.586    0.586 expressions.py:208(_stable_correlation)\n    24050    0.035    0.000    0.557    0.000 expressions.py:184(_pearson_binary64)\n    48100    0.204    0.000    0.333    0.000 expressions.py:171(_integer_observations)\n   120250    0.099    0.000    0.188    0.000 {built-in method builtins.sum}\n   962000    0.085    0.000    0.085    0.000 {method 'as_integer_ratio' of 'float' objects}\n   962000    0.036    0.000    0.036    0.000 {method 'bit_length' of 'int' objects}\n   505050    0.034    0.000    0.034    0.000 expressions.py:198(<genexpr>)\n   505050    0.028    0.000    0.028    0.000 expressions.py:194(<genexpr>)\n   505050    0.027    0.000    0.027    0.000 expressions.py:195(<genexpr>)\n    48100    0.009    0.000    0.009    0.000 {built-in method builtins.max}\n      100    0.000    0.000    0.005    0.000 indexing.py:1192(__getitem__)\n      100    0.000    0.000    0.004    0.000 indexing.py:1710(_getitem_tuple)\n      100    0.000    0.000    0.003    0.000 indexing.py:1058(_getitem_lowerdim)\n      100    0.000    0.000    0.002    0.000 indexing.py:1740(_getitem_axis)\n      696    0.002    0.000    0.002    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n      100    0.000    0.000    0.002    0.000 frame.py:4292(_ixs)\n      100    0.001    0.000    0.001    0.000 _stride_tricks_impl.py:119(sliding_window_view)\n25576/25362    0.001    0.000    0.001    0.000 {built-in method builtins.len}\n      100    0.000    0.000    0.001    0.000 indexing.py:984(_validate_tuple_indexer)\n      100    0.000    0.000    0.001    0.000 frame.py:4954(_box_col_values)\n      300    0.000    0.000    0.001    0.000 {method 'all' of 'numpy.ndarray' objects}\n       98    0.000    0.000    0.001    0.000 {method 'mean' of 'numpy.ndarray' objects}\n      100    0.000    0.000    0.001    0.000 base.py:567(to_numpy)\n\n\n"
+        }
+      }
+    },
+    {
+      "id": "normal-2500x500-w20",
+      "dates": 2500,
+      "assets": 500,
+      "window": 20,
+      "scenario": "normal",
+      "seed": 20261013,
+      "layout": "C",
+      "dtype": "float64",
+      "input_sha256": {
+        "left": "9818586475f7dfb568383ed5b1b4b50888ae719723cbd22aa6f77ce7d911b380",
+        "right": "7a21ff6198303ab23b4e153e62df9572f04c5ceb2c34cf165278f475f57125bb"
+      },
+      "numeric": {
+        "passed": true,
+        "axes_equal": true,
+        "shape_equal": true,
+        "dtype_equal": true,
+        "nan_mask_differences": 0,
+        "non_nan_bit_differences": 0
+      },
+      "timing": {
+        "clock": "time.perf_counter_ns",
+        "unit": "nanoseconds",
+        "raw": [
+          {
+            "repetition": 1,
+            "implementation": "reference",
+            "elapsed_ns": 16266993166
+          },
+          {
+            "repetition": 1,
+            "implementation": "production",
+            "elapsed_ns": 397779958
+          },
+          {
+            "repetition": 2,
+            "implementation": "production",
+            "elapsed_ns": 398170334
+          },
+          {
+            "repetition": 2,
+            "implementation": "reference",
+            "elapsed_ns": 16222697542
+          },
+          {
+            "repetition": 3,
+            "implementation": "reference",
+            "elapsed_ns": 16239543000
+          },
+          {
+            "repetition": 3,
+            "implementation": "production",
+            "elapsed_ns": 396583500
+          },
+          {
+            "repetition": 4,
+            "implementation": "production",
+            "elapsed_ns": 394714708
+          },
+          {
+            "repetition": 4,
+            "implementation": "reference",
+            "elapsed_ns": 16182255125
+          },
+          {
+            "repetition": 5,
+            "implementation": "reference",
+            "elapsed_ns": 16173529917
+          },
+          {
+            "repetition": 5,
+            "implementation": "production",
+            "elapsed_ns": 399602542
+          }
+        ],
+        "summary": {
+          "reference": {
+            "count": 5,
+            "median_ns": 16222697542,
+            "min_ns": 16173529917,
+            "max_ns": 16266993166
+          },
+          "production": {
+            "count": 5,
+            "median_ns": 397779958,
+            "min_ns": 394714708,
+            "max_ns": 399602542
+          }
+        },
+        "statistic": "median of all samples; no samples discarded",
+        "reference_over_production_median": 40.783094310649005
+      },
+      "memory": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "9818586475f7dfb568383ed5b1b4b50888ae719723cbd22aa6f77ce7d911b380",
+            "right": "7a21ff6198303ab23b4e153e62df9572f04c5ceb2c34cf165278f475f57125bb"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 118456320,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 112.96875,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "9818586475f7dfb568383ed5b1b4b50888ae719723cbd22aa6f77ce7d911b380",
+            "right": "7a21ff6198303ab23b4e153e62df9572f04c5ceb2c34cf165278f475f57125bb"
+          },
+          "method": "resource.getrusage(RUSAGE_SELF).ru_maxrss",
+          "raw_peak_rss": 121536512,
+          "raw_unit": "bytes",
+          "peak_rss_mib": 115.90625,
+          "warmup_calls": 5,
+          "measured_calls": 1,
+          "scope": "Complete fresh process peak, including interpreter, imports, inputs and warmups"
+        }
+      },
+      "fallback": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "9818586475f7dfb568383ed5b1b4b50888ae719723cbd22aa6f77ce7d911b380",
+            "right": "7a21ff6198303ab23b4e153e62df9572f04c5ceb2c34cf165278f475f57125bb"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 1240500,
+          "finite_nonconstant_windows": 1240500,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "9818586475f7dfb568383ed5b1b4b50888ae719723cbd22aa6f77ce7d911b380",
+            "right": "7a21ff6198303ab23b4e153e62df9572f04c5ceb2c34cf165278f475f57125bb"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "exact_helper_calls": 0,
+          "complete_windows": 1240500,
+          "finite_nonconstant_windows": 1240500,
+          "calls_per_complete_window": 0.0,
+          "calls_per_finite_nonconstant_window": 0.0,
+          "method": "Wrap only this implementation's _pearson_binary64 in a separate process"
+        }
+      },
+      "profile": {
+        "reference": {
+          "implementation": "reference",
+          "input_sha256": {
+            "left": "9818586475f7dfb568383ed5b1b4b50888ae719723cbd22aa6f77ce7d911b380",
+            "right": "7a21ff6198303ab23b4e153e62df9572f04c5ceb2c34cf165278f475f57125bb"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         95729633 function calls (95727619 primitive calls) in 28.230 seconds\n\n   Ordered by: cumulative time\n   List reduced from 145 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000   28.230   28.230 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000   28.230   28.230 benchmark_ts_corr.py:115(invoke)\n        1    9.965    9.965   28.230   28.230 corr_reference.py:59(_stable_correlation)\n 14887000    5.810    0.000    5.810    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n  2481000    0.391    0.000    5.338    0.000 {method 'mean' of 'numpy.ndarray' objects}\n  2481000    2.020    0.000    4.946    0.000 _methods.py:115(_mean)\n  7443000    1.010    0.000    4.461    0.000 {method 'all' of 'numpy.ndarray' objects}\n  7443000    0.717    0.000    3.450    0.000 _methods.py:64(_all)\n  2481000    1.421    0.000    3.238    0.000 numeric.py:2535(array_equal)\n  2481000    0.703    0.000    2.840    0.000 fromnumeric.py:3011(max)\n  2481000    0.585    0.000    2.531    0.000 fromnumeric.py:2548(all)\n  2481000    0.911    0.000    2.138    0.000 fromnumeric.py:66(_wrapreduction)\n  2482000    0.872    0.000    1.947    0.000 fromnumeric.py:86(_wrapreduction_any_all)\n  2481000    0.980    0.000    1.109    0.000 _methods.py:73(_count_reduce_items)\n  1240500    0.324    0.000    0.477    0.000 getlimits.py:178(__new__)\n  4963000    0.285    0.000    0.285    0.000 {method 'items' of 'dict' objects}\n  4965002    0.277    0.000    0.277    0.000 {built-in method builtins.issubclass}\n  4964000    0.231    0.000    0.231    0.000 {built-in method numpy.asarray}\n  4962000    0.230    0.000    0.230    0.000 {built-in method numpy.asanyarray}\n  3721500    0.188    0.000    0.188    0.000 multiarray.py:748(dot)\n  2481000    0.187    0.000    0.187    0.000 {built-in method builtins.hasattr}\n  2511028    0.179    0.000    0.184    0.000 {built-in method builtins.isinstance}\n  2481000    0.152    0.000    0.152    0.000 {method 'get' of 'dict' objects}\n  2481000    0.134    0.000    0.134    0.000 fromnumeric.py:2543(_all_dispatcher)\n  2481000    0.128    0.000    0.128    0.000 {built-in method numpy.lib.array_utils.normalize_axis_index}\n\n\n"
+        },
+        "production": {
+          "implementation": "production",
+          "input_sha256": {
+            "left": "9818586475f7dfb568383ed5b1b4b50888ae719723cbd22aa6f77ce7d911b380",
+            "right": "7a21ff6198303ab23b4e153e62df9572f04c5ceb2c34cf165278f475f57125bb"
+          },
+          "measured_calls": 1,
+          "warmup_calls": 0,
+          "method": "cProfile, cumulative top 25",
+          "text": "         357136 function calls (355122 primitive calls) in 0.447 seconds\n\n   Ordered by: cumulative time\n   List reduced from 148 to 25 due to restriction <25>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        1    0.000    0.000    0.447    0.447 benchmark_ts_corr.py:189(<lambda>)\n        1    0.000    0.000    0.447    0.447 benchmark_ts_corr.py:115(invoke)\n        1    0.287    0.287    0.447    0.447 expressions.py:208(_stable_correlation)\n    19000    0.086    0.000    0.086    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n     9000    0.002    0.000    0.037    0.000 {method 'all' of 'numpy.ndarray' objects}\n     9000    0.001    0.000    0.035    0.000 _methods.py:64(_all)\n     1000    0.001    0.000    0.034    0.000 indexing.py:1192(__getitem__)\n     1000    0.001    0.000    0.028    0.000 indexing.py:1710(_getitem_tuple)\n     3000    0.001    0.000    0.027    0.000 fromnumeric.py:3011(max)\n     3000    0.002    0.000    0.026    0.000 fromnumeric.py:66(_wrapreduction)\n     3000    0.001    0.000    0.024    0.000 {method 'mean' of 'numpy.ndarray' objects}\n     3000    0.004    0.000    0.024    0.000 _methods.py:115(_mean)\n     1000    0.002    0.000    0.020    0.000 indexing.py:1058(_getitem_lowerdim)\n     1000    0.001    0.000    0.015    0.000 indexing.py:1740(_getitem_axis)\n     3000    0.001    0.000    0.011    0.000 {method 'any' of 'numpy.ndarray' objects}\n     3000    0.000    0.000    0.011    0.000 _methods.py:55(_any)\n     1000    0.000    0.000    0.010    0.000 frame.py:4292(_ixs)\n     4500    0.003    0.000    0.009    0.000 numeric.py:679(flatnonzero)\n     1000    0.003    0.000    0.008    0.000 _stride_tricks_impl.py:119(sliding_window_view)\n     1000    0.001    0.000    0.007    0.000 indexing.py:984(_validate_tuple_indexer)\n    40528    0.004    0.000    0.007    0.000 {built-in method builtins.isinstance}\n     1000    0.001    0.000    0.006    0.000 frame.py:4954(_box_col_values)\n     2000    0.001    0.000    0.006    0.000 indexing.py:1592(_validate_key)\n     3000    0.001    0.000    0.006    0.000 common.py:105(is_bool_indexer)\n     1000    0.002    0.000    0.005    0.000 base.py:567(to_numpy)\n\n\n"
+        }
+      }
+    }
+  ],
+  "command": [
+    "python",
+    "scripts/benchmark_ts_corr.py",
+    "--suite",
+    "local",
+    "--large",
+    "--warmups",
+    "5",
+    "--repeats",
+    "5",
+    "--profile",
+    "--output-dir",
+    "../stage2-mac-local"
+  ],
+  "measurement_policy": "Timing alternates in one process; memory/fallback/profile each use separate fresh processes; construction/imports excluded from operator timings",
+  "environment": {
+    "os": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu": "Apple M5 Pro",
+    "python": "3.14.8",
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "thread_environment_inherited": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "VECLIB_MAXIMUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null,
+      "BLIS_NUM_THREADS": null
+    },
+    "thread_environment_effective": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "BLIS_NUM_THREADS": "1"
+    },
+    "numpy_backend_and_runtime": "{\n  \"Compilers\": {\n    \"c\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"cc\"\n    },\n    \"cython\": {\n      \"name\": \"cython\",\n      \"linker\": \"cython\",\n      \"version\": \"3.2.4\",\n      \"commands\": \"cython\"\n    },\n    \"c++\": {\n      \"name\": \"clang\",\n      \"linker\": \"ld64\",\n      \"version\": \"15.0.0\",\n      \"commands\": \"c++\"\n    }\n  },\n  \"Machine Information\": {\n    \"host\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    },\n    \"build\": {\n      \"cpu\": \"aarch64\",\n      \"family\": \"aarch64\",\n      \"endian\": \"little\",\n      \"system\": \"darwin\"\n    }\n  },\n  \"Build Dependencies\": {\n    \"blas\": {\n      \"name\": \"accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"system\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\"\n    },\n    \"lapack\": {\n      \"name\": \"accelerate\",\n      \"found\": true,\n      \"version\": \"unknown\",\n      \"detection method\": \"system\",\n      \"include directory\": \"unknown\",\n      \"lib directory\": \"unknown\",\n      \"openblas configuration\": \"unknown\",\n      \"pc file directory\": \"unknown\"\n    }\n  },\n  \"Python Information\": {\n    \"path\": \"/private/var/folders/k4/_09nqs851t35bpkk8lr_p43c0000gn/T/build-env-legy_ptj/bin/python\",\n    \"version\": \"3.14\"\n  },\n  \"SIMD Extensions\": {\n    \"baseline\": [\n      \"NEON\",\n      \"NEON_FP16\",\n      \"NEON_VFPV4\",\n      \"ASIMD\"\n    ],\n    \"found\": [\n      \"ASIMDHP\",\n      \"ASIMDDP\"\n    ],\n    \"not found\": [\n      \"ASIMDFHM\"\n    ]\n  }\n}\nWARNING: `threadpoolctl` not found in system! Install it by `pip install threadpoolctl`. Once installed, try `np.show_runtime` again for more detailed build information\n[{'numpy_version': '2.4.6',\n  'python': '3.14.8 (main, Sep 30 2026, 17:55:09) [Clang 21.0.0 '\n            '(clang-2100.3.34.2)]',\n  'uname': uname_result(system='Darwin', node='OwendeMacBook-Pro.local', release='25.6.0', version='Darwin Kernel Version 25.6.0: Fri Jul 31 19:19:08 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T6050', machine='arm64')},\n {'simd_extensions': {'baseline': ['NEON', 'NEON_FP16', 'NEON_VFPV4', 'ASIMD'],\n                      'found': ['ASIMDHP', 'ASIMDDP'],\n                      'not_found': ['ASIMDFHM']}},\n {'ignore_floating_point_errors_in_matmul': True}]\n"
+  },
+  "source": {
+    "checkout_commit": "3fcaadbd2fc5aa4c6abe13f164e3b8eda2953e73",
+    "tracked_dirty": false,
+    "tracked_status": [],
+    "files_sha256": {
+      "scripts/benchmark_ts_corr.py": "e2e965c32e9fe2d95a68e2d8233252039235867e2fc5863591ec461d6bed2cfc",
+      "tests/corr_reference.py": "70438388c873c60a1c880aaa07b45e7b8ccd072eeeaaa96ff417fe192ffa5a99",
+      "paper_alpha/expressions.py": "bed31cfc37c38a487017dbaf323c0b675a4bacd4c7d451c0684c3a602b418a05",
+      "requirements-lock.txt": "9465a4e97aaa3af7742a5960d1aa2c516cc739d7d28a7db3958e9b60f6d21912"
+    },
+    "functions_sha256": {
+      "reference": "c2c21466c679b6a858354f31b0245f7c9276f7f245f1ec1a8fce6406fe29357d",
+      "production": "cf16366b03301e3d5747b7e693ddee92d8c3463e7171c25fef4981ea23330b02"
+    },
+    "reference_origin": {
+      "SOURCE_PUBLIC_COMMIT": "1c44df62985049af0c19dea2148666e089354f05",
+      "SOURCE_FILE_SHA256": "c8aba5dee72d17996cd4fa8120dd7372884d74120ea038084c2826b925c77203",
+      "SOURCE_FUNCTION_SHA256": {
+        "_integer_observations": "a28830500e5af076d00300bb553d12b81a091d4ad4d11bef2664bb5e33945562",
+        "_pearson_binary64": "6004e664a8278fa36b8c3e8250b912ae2e0e506fc970f0f803e1b8a1d43f84bd",
+        "_stable_correlation": "c2c21466c679b6a858354f31b0245f7c9276f7f245f1ec1a8fce6406fe29357d"
+      },
+      "FROZEN_FUNCTIONS_SHA256": "c88bba8f6a86f63d17567f111fc726a32bf4e65f2e4aadb23a04f81861afa098"
+    }
+  },
+  "source_unchanged": true
+}

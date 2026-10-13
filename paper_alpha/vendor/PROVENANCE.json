@@ -12,11 +12,12 @@
     },
     "factors.py": {
       "original_sha256": "1fe358f6764607bce71e28e9d310e8a31a52bd302a4006bb5b1a4fb1d7f8e2ef",
-      "vendored_sha256": "ef331da3d3df75b8421ca982e110877bb8cc22eeeacef754cda50c9a32b2bb0d",
+      "vendored_sha256": "50ccba382ce04fed772e534d24086fb639959549dc999d43d731babff7262a9e",
       "changes": [
         "Removed import-time np.random.seed(42).",
         "Removed script-only __main__ download/demo entry point.",
-        "Changed operators import to package-relative import."
+        "Changed operators import to package-relative import.",
+        "Replaced the interview-oriented heading with a neutral description of additional factor groups; no computational changes."
       ]
     }
   }

@@ -4,55 +4,33 @@ An evidence-linked factor research workbench: turn selected source material into
 
 [![Public CI](https://github.com/Owenqi666/quant-ai-agent/actions/workflows/public-ci.yml/badge.svg?branch=main)](https://github.com/Owenqi666/quant-ai-agent/actions/workflows/public-ci.yml?query=branch%3Amain)
 
-![The running workbench with a completed fixture research and original Worker run](docs/assets/public-agent-workbench.png)
+![Computed output metrics and curves from the fixture demo](docs/assets/public-agent-workbench.png)
 
-The project grew from my WorldQuant competition research workflow: read a paper, form an alpha idea, implement a factor, evaluate it, and revise the research. I built a local workbench to keep the source, assumptions, implementation and results connected. WorldQuant is the research context, not a project affiliation or employment relationship.
+*Computed output panel · fixture responses · synthetic OHLCV.*
 
-## See a complete example
-
-The public Agent demo uses an original teaching note defining a simple `close - open` signal and deterministic synthetic OHLCV. It runs without a model account or an external paper download.
-
-| Input / stage | Output you can inspect |
-| --- | --- |
-| Select pages from the original teaching PDF | File digest, physical pages and extracted text |
-| Fixture extraction response | Parsed quotations, evidence IDs, structured hypothesis and unresolved scientific questions |
-| Explicit host configuration | Separate automation binding version, saved material and recorded timing/data assumptions |
-| Fixture candidate response | Expression, source hypothesis and required fields |
-| Deterministic validation and persisted execution | AST checks, queued run, original Worker, calculated factor and evaluation results |
-| Result verification and export | Independent numerical checks and a frozen report |
-
-**Fixture** means hand-authored response fixtures replace inference. **Synthetic** describes the market data. The response parser, source checks, experiment controller, queue, Worker and reporting code are the application paths. Component bindings are explicitly authored by the demo host in a new version; they are not claimed as fixture model output. An additional response with invalid request identity fails the same parser; it never creates a successful experiment. See [the reproducible demo](docs/public-agent-demo.md).
+The project grew from my WorldQuant competition research workflow: read a paper, implement a factor, evaluate it, and revise the idea. I built a local workbench to keep the source, assumptions, implementation and results connected. WorldQuant is the research context, not a project affiliation or employment relationship.
 
 ## Engineering decisions
 
-- **Constrained execution.** An AST whitelist checks data fields, operators, windows and complexity before factor calculation. Exact panel alignment and declared next-session timing prevent silent broadcasting and enforce the configured evaluation boundaries. [Expression engine](paper_alpha/expressions.py) · [evaluation semantics](docs/evaluation.md).
+- **Constrained numerical execution.** An AST whitelist checks fields, operators, windows and complexity. Exact panel alignment and declared next-session timing enforce evaluation boundaries. Rolling correlation retains its exact boundary fallback; regression tests compare NaN masks and non-NaN bits, including signed zero, against the retained implementation. [Expression engine](paper_alpha/expressions.py) · [evaluation semantics](docs/evaluation.md).
 - **Requests that survive lost responses.** Transactional idempotency receipts return the original result for a repeated request. A SQLite queue separates browser activity from execution, and the Worker retains attempts, events, cancellation and interrupted state. [Mutation receipts](paper_alpha/server/mutations.py) · [Worker](paper_alpha/server/runner.py) · [recovery](docs/recovery.md).
 - **Traceability across revisions.** PDF locations, evidence, hypotheses, expressions, input/code snapshots and result hashes remain linked. Review decisions produce new records; they do not silently rewrite old results. [Material versions](paper_alpha/server/paper_materials.py) · [result verification](paper_alpha/workflow.py).
-- **Model drafts behind deterministic gates.** Models propose evidence/hypotheses and candidates. Programs parse responses, check citations and expressions, run calculations and verify outputs. A finite definition recognizer can repair missing references from already selected spans in a separate automation version. Unsupported or ambiguous definition text remains unresolved; this is not a general semantic entailment checker. [Provider workflow](docs/model-workflow.md) · [definition checks](paper_alpha/server/operator_definition_grounding.py).
+- **Model drafts behind deterministic gates.** Models propose evidence, hypotheses and candidates; programs parse responses, check citations and expressions, calculate results and verify outputs. Supported definition bindings can be completed from selected spans in a separate automation version. [Provider workflow](docs/model-workflow.md) · [definition checks](paper_alpha/server/operator_definition_grounding.py).
 
-## My contribution and reuse
+On an Apple M5 Pro, seeded ordinary 1,000-date × 200-asset inputs showed median `ts_corr` speedups of **39.475×** (window 20) and **22.208×** (window 60) over the retained reference. [Measurement method, boundary costs and raw evidence](docs/ts-corr-benchmark.md).
 
-I implemented the full-stack workbench, typed API contracts, source/material versions, bounded proposal workflow, persisted experiment handoff, execution/recovery lifecycle, review/reporting interfaces and reproducible verification tooling. The integration connects model-generated drafts to controlled factor evaluation rather than letting the model invent metrics or approve its own output.
+## See a complete example
 
-The factor/operator implementation includes code adapted from my earlier personal factor project. React, FastAPI, pandas, NumPy and other dependencies provide the underlying libraries. The reuse boundary and checksums are documented in [component provenance](THIRD_PARTY_NOTICES.md); this is not a claim that every numerical primitive was written from scratch.
+The public Agent demo uses an original teaching note defining `close - open` and deterministic synthetic OHLCV. It runs without a model account or an external paper download.
 
-## Architecture and stack
+| Stage | Output you can inspect |
+| --- | --- |
+| Select pages from the original teaching PDF | File digest, physical pages and extracted quotations |
+| Fixture proposal and explicit host configuration | Evidence, hypothesis, preserved material versions and recorded engineering assumptions |
+| Validate the candidate and execute | Expression, AST checks, persisted queue, original Worker, factor panel and evaluation |
+| Verify and export | Independent arithmetic and artifact checks, saved computation and frozen report |
 
-```mermaid
-flowchart LR
-    Browser[React + TypeScript] --> API[FastAPI]
-    Source[Selected PDF pages] --> Proposal[Model or fixture response]
-    Proposal --> Gate[Schema, citation and AST checks]
-    Gate --> API
-    API --> Store[SQLite + immutable revisions]
-    Store --> Queue[Persistent queue]
-    Queue --> Worker[Python Worker]
-    Worker --> Tools[Factor evaluation tools]
-    Tools --> Artifacts[Verified artifacts + reports]
-    Artifacts --> API
-```
-
-Python / pandas / NumPy calculate factors and evaluation metrics; FastAPI exposes typed endpoints; React / TypeScript / Vite provide the workbench. SQLite WAL and filesystem artifacts support a **local, single-user** workflow. The queue is not a distributed service. [Detailed architecture](docs/architecture.md).
+Hand-authored **fixture responses** replace inference; **synthetic** describes the market data. Normal parsing, experiment validation, queue, Worker and reporting paths execute. The host adds component bindings in a separate automation version; these are not model output. A malformed request identity is retained as failed `REQUEST_MISMATCH`. [Reproduce and inspect the demo](docs/public-agent-demo.md).
 
 ## Quick start
 
@@ -91,21 +69,46 @@ The earlier fixed-candidate CLI example is also available via `scripts/prepare_p
 
 ```sh
 .venv/bin/python scripts/export_api_contract.py --check
-.venv/bin/python -m unittest tests.test_expressions tests.test_evaluation \
-  tests.test_formula_presentation tests.test_paper_segments \
-  tests.test_formula_engineering_material tests.test_operator_definition_public \
-  tests.test_public_reliability tests.test_public_agent_demo
+.venv/bin/python scripts/run_public_tests.py --output .ci/python-tests.json
+.venv/bin/python scripts/benchmark_ts_corr.py --suite smoke \
+  --warmups 5 --repeats 5 --output-dir .ci/ts-corr-smoke
 npm --prefix frontend run typecheck
 npm --prefix frontend test
 npm --prefix frontend run build
 ```
 
-[Public CI](.github/workflows/public-ci.yml) installs locked Python and npm dependencies in a fresh runner, checks API contract drift, runs public regressions and reliability tests, builds the frontend, and runs the Agent demo plus its numerical check. Logs and selected demonstration artifacts are uploaded for inspection. These tests require no model credentials, private database or third-party paper. [Validation scope](docs/publication-validation.md).
+[Public CI](.github/workflows/public-ci.yml) installs locked dependencies, checks API contract drift, discovers all exported core Python tests, runs the correlation compatibility matrix and performance smoke, checks/builds the frontend, and runs the Agent demo plus its independent checker. Empty collections, skips and expected failures fail the core gate; speed has no CI threshold. Use a new benchmark output path for each run. [Reproduction and artifacts](docs/public-ci.md) · [observed validation](docs/publication-validation.md).
 
-## Scope and further reading
+## My contribution and reuse
+
+I implemented the full-stack workbench, typed API contracts, source/material versions, bounded proposal workflow, persisted experiment handoff, execution/recovery lifecycle, review/reporting interfaces and reproducible verification tooling. The integration connects model-generated drafts to controlled factor evaluation rather than letting the model invent metrics or approve its own output.
+
+The factor/operator implementation includes code adapted from my earlier personal factor project. React, FastAPI, pandas, NumPy and other dependencies provide the underlying libraries. The reuse boundary and checksums are documented in [component provenance](THIRD_PARTY_NOTICES.md); this is not a claim that every numerical primitive was written from scratch.
+
+## Architecture and stack
+
+```mermaid
+flowchart LR
+    Browser[React + TypeScript] --> API[FastAPI]
+    Source[Selected PDF pages] --> Proposal[Model or fixture response]
+    Proposal --> Gate[Schema, citation and AST checks]
+    Gate --> API
+    API --> Store[SQLite + immutable revisions]
+    Store --> Queue[Persistent queue]
+    Queue --> Worker[Python Worker]
+    Worker --> Tools[Factor evaluation tools]
+    Tools --> Artifacts[Verified artifacts + reports]
+    Artifacts --> API
+```
+
+Python / pandas / NumPy calculate factors and evaluation metrics; FastAPI exposes typed endpoints; React / TypeScript / Vite provide the workbench. SQLite WAL and filesystem artifacts retain the local workflow. [Detailed architecture](docs/architecture.md).
+
+## Limitations
 
 Model dispatch is disabled by default. The optional real App Server transport supports evidence/hypothesis extraction and candidate generation under explicit host permissions and budgets. The public demonstration exercises the supported fixture response protocol; it does not count as a real LLM call. Historical local real-call evidence is described separately in [the model workflow](docs/model-workflow.md) and is not a new-version CI result.
 
-The application performs **factor evaluation**, not a complete trading backtest. Synthetic results do not prove investment returns, general paper understanding or research efficiency gains. Human research-quality and time-comparison evaluation remain unmeasured. Automated exact-text or definition checks are separate from a person's semantic judgment.
+This is a **local, single-user factor-evaluation workbench**. Its queue is not a distributed service, and factor evaluation is not a complete trading simulation. Definition checks recognize finite supported forms; unsupported or ambiguous text remains unresolved. They do not establish general semantic entailment or human judgment.
+
+Synthetic results and measured operator speedups do not prove investment returns, general paper understanding or research efficiency gains. Human research-quality and time-comparison evaluation remain unmeasured. Numerical compatibility passed the recorded same-environment matrix; finite tests do not prove equivalence for every legal input.
 
 [Evaluation rules](docs/evaluation.md) · [backup/recovery](docs/recovery.md) · [public source boundary](docs/publication-scope.md) · [change history](CHANGELOG.md).

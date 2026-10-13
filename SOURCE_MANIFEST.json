@@ -24,7 +24,7 @@
     "var"
   ],
   "exporter_sha256": "9889753c6a7e33f956a254a174052262053803f8b6c83a095afac8d784173c1c",
-  "file_count_excluding_manifest": 596,
+  "file_count_excluding_manifest": 599,
   "files": {
     ".gitattributes": {
       "bytes": 27,
@@ -32,9 +32,9 @@
       "sha256": "9ef873a5f85a831cd765561c142080e913ec6bf4c993cc1a350aacf4f68a1873"
     },
     ".github/workflows/public-ci.yml": {
-      "bytes": 6595,
+      "bytes": 6697,
       "origin": "main_project_source",
-      "sha256": "9fc25e4307b398ea635c2383306d10bdb258afc9b2c0cb84a78cd9a91a40403f"
+      "sha256": "42811bc5a7b3be844fc8990631db08106672bad6de3756189bf310f2b41b0aa6"
     },
     ".gitignore": {
       "bytes": 436,
@@ -47,9 +47,9 @@
       "sha256": "52201b29c20f3ebf77d3a22f0609e724e90fc611385738d32bfa04afd22785ca"
     },
     "README.md": {
-      "bytes": 9143,
+      "bytes": 9328,
       "origin": "main_project_source",
-      "sha256": "60fa7619a9c955243712d1c35229f958e5e3676215b83100b400b655b58725f1"
+      "sha256": "963ee05e2777e59df108d8d22b9e6ebc745e5c8f032b17678486f37fb721eb29"
     },
     "THIRD_PARTY_NOTICES.md": {
       "bytes": 3881,
@@ -231,15 +231,25 @@
       "origin": "main_project_source",
       "sha256": "c45809729eecde88ea518ffa985f4194583ac3f0b2cddf64679831e148a4aca9"
     },
-    "docs/assets/public-agent-results.png": {
-      "bytes": 418634,
+    "docs/assets/public-agent-capture.json": {
+      "bytes": 7343,
       "origin": "main_project_source",
-      "sha256": "8966cbefe6100782b83597285f5f9adf8498788e94c380bf12209300a47a79d2"
+      "sha256": "26ef08e2044dfb8149d2ab716de670c9cc0aa3013fc056d85e8afcf4ddad4c9d"
+    },
+    "docs/assets/public-agent-results.png": {
+      "bytes": 247815,
+      "origin": "main_project_source",
+      "sha256": "5c82112163198317e424ee35b09521b9bc87ceda775799b3cf66034d29186d74"
     },
     "docs/assets/public-agent-workbench.png": {
-      "bytes": 411765,
+      "bytes": 148072,
       "origin": "main_project_source",
-      "sha256": "b0754f6262943c2c060df7a96688ab6d8d3ba13fe73ce9d2be839377ce555f93"
+      "sha256": "10b862379acf3f3759b45812e236ae4806b85287e289db67c3c6bd31f38702ed"
+    },
+    "docs/assets/ts-corr-mac-2026-10-13.json": {
+      "bytes": 100795,
+      "origin": "main_project_source",
+      "sha256": "3dfff62ca5da0f4ac28ea076bff0750ff81a6ec003a7b24d915455b22a8b3982"
     },
     "docs/evaluation.md": {
       "bytes": 6715,
@@ -252,14 +262,14 @@
       "sha256": "da7e46616f735c31cb498ff357978f58f8d61e45e48fe35f90fcb97025265e84"
     },
     "docs/public-agent-demo.md": {
-      "bytes": 4040,
+      "bytes": 4493,
       "origin": "main_project_source",
-      "sha256": "537494b4560b3009ec68db40ecec31704660d418111f12d991a2272698cb2902"
+      "sha256": "2c0f36e17423f419bcb54ca9ecf931611c8bd4607208c112a166fa547b368731"
     },
     "docs/public-ci.md": {
-      "bytes": 3012,
+      "bytes": 3815,
       "origin": "main_project_source",
-      "sha256": "ba2989920bf73f5e2221bebdc480deeae179dac5570d2f5af1a1708651e8bfe5"
+      "sha256": "c1905fae4fcdb98c470ac2dca42644e6b05c28e7dc409abb09ea44da393ebb49"
     },
     "docs/publication-scope.md": {
       "bytes": 5100,
@@ -267,14 +277,19 @@
       "sha256": "14649d0efe04114fbd38b944c954f8a21d680fbb4e1b68ea63dc019f5563df3f"
     },
     "docs/publication-validation.md": {
-      "bytes": 5100,
+      "bytes": 7148,
       "origin": "main_project_source",
-      "sha256": "4b27a1ffc945dc50339434901fe9d3b98e76123410fa982b1bc7277b8c92b4fa"
+      "sha256": "d617c935ffe6b466cc723fab38f8278cfe3cf70903a84c555441b3b8f09719ad"
     },
     "docs/recovery.md": {
       "bytes": 4420,
       "origin": "main_project_source",
       "sha256": "922656a7b2aafca4bae8b9519ada0308a08153a6739263692eb8caa25bcb6da5"
+    },
+    "docs/ts-corr-benchmark.md": {
+      "bytes": 7667,
+      "origin": "main_project_source",
+      "sha256": "2aafb3ce333b1d1d829430e2ec91c72cb98f9af5f6ee11a2a52e1382e0bc82dd"
     },
     "evaluation_suites/v05/material_confirmation.json": {
       "bytes": 335,
@@ -2737,9 +2752,9 @@
       "sha256": "6631912c9c36694d71e495ba832e7638f4b3233fb17099258041fa5f7e7e7feb"
     },
     "paper_alpha/vendor/PROVENANCE.json": {
-      "bytes": 991,
+      "bytes": 1124,
       "origin": "main_project_source:private_path_redacted",
-      "sha256": "cc229ed5cbffc94c710f19970c37c968b100934197e9a449b4c05c3c836a229f"
+      "sha256": "8a9b8fb650ce6e7799d24d463f762b03aead51c4a6528f7d44d0b95df682affe"
     },
     "paper_alpha/vendor/__init__.py": {
       "bytes": 70,
@@ -2747,9 +2762,9 @@
       "sha256": "801f537586b8c13f4877e2e67202d1aac2e5dec5a79348fc1e3e81a65c04514e"
     },
     "paper_alpha/vendor/factors.py": {
-      "bytes": 4982,
+      "bytes": 5004,
       "origin": "main_project_source",
-      "sha256": "ef331da3d3df75b8421ca982e110877bb8cc22eeeacef754cda50c9a32b2bb0d"
+      "sha256": "50ccba382ce04fed772e534d24086fb639959549dc999d43d731babff7262a9e"
     },
     "paper_alpha/vendor/operators.py": {
       "bytes": 2985,
@@ -3008,10 +3023,10 @@
     }
   },
   "format": "curated-public-source-inventory",
-  "policy_sha256": "39ddf1c0b6ca3c2f2730e937c647f360fb662a6cb00570e02ac86dd633653ca4",
+  "policy_sha256": "d19f9123e8e865b253dc0368984d583bc90f8d90eb996ab3542077c0270386c3",
   "schema_version": 1,
   "scope": "Current source development after the 0.27.2 Runtime freeze. Public fixture validation is separate from historical real-model acceptance; no claim that the older portable archive includes later fixes.",
-  "source_inventory_sha256": "91ff2cd0f9702aadd20bf807a81f16472d03240c8cd9ce36bec9dd3b14efa021",
-  "total_bytes_excluding_manifest": 10870321,
+  "source_inventory_sha256": "b3fb18c0f75cc2e179ff434ee9350c368d8df4537efc815e403207d6840cd54f",
+  "total_bytes_excluding_manifest": 10555360,
   "version": "0.27.2"
 }

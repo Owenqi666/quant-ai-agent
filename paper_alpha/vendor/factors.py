@@ -68,7 +68,7 @@ def alpha034(open_, high, low, close, volume, returns):
 def alpha018(open_, high, low, close, volume, returns):
     return -1 * rank(ts_std(abs(close - open_), 5) + (close - open_) + ts_corr(close, open_, 10))
 
-# --- self-added (the interview battleground; each occupies a mechanism the 16 above do not) ---
+# --- additional factors: liquidity, proximity to the 52-week high, extreme returns, and overnight/intraday spread ---
 
 def amihud(open_, high, low, close, volume, returns):
     # liquidity premium: price impact per dollar traded; illiquid -> demands higher future return (long)

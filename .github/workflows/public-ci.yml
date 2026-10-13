@@ -120,6 +120,8 @@ jobs:
             .ci/corr-compatibility.json
             .ci/ts-corr-smoke/benchmark.json
             .ci/ts-corr-smoke/report.md
+            docs/assets/ts-corr-mac-2026-10-13.json
+            docs/assets/public-agent-capture.json
             .ci/reliability/*.json
             .ci/reliability/original-fixture.pdf
             .demo/agent/demo-summary.json

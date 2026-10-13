@@ -1,7 +1,8 @@
 # Reproducible fixture Agent demo
 
-This example uses an original two-page teaching note and 48 invented daily
-sessions for six assets. It needs no model account or external paper. The note's
+This example uses **fixture responses and synthetic OHLCV**: an original two-page
+teaching note and 48 invented daily sessions for six assets. It needs no model
+account or external paper. The note's
 `Alpha#9001` label is a local teaching identifier, unrelated to published alphas.
 Its expression is `close - open`; no research-quality or investment claim follows.
 
@@ -65,4 +66,11 @@ Inputs and source generator: [examples/public_agent](../examples/public_agent).
 Implementation: [demo](../scripts/demo_public_agent.py) and
 [independent checker](../scripts/check_public_agent_demo.py).
 
-![Actual synthetic result displayed in the workbench](assets/public-agent-results.png)
+![Frozen source evidence with declared and executed candidate expressions](assets/public-agent-results.png)
+
+*Frozen evidence panel · fixture responses · synthetic OHLCV.* The candidate links
+source evidence to its declared and executed `close - open` expression.
+[Capture metadata](assets/public-agent-capture.json) records the demo/run identities,
+fixed viewport and report hashes; the
+[PR's validation evidence](https://github.com/Owenqi666/quant-ai-agent/pull/3)
+records the current checks.
