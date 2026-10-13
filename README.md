@@ -2,7 +2,7 @@
 
 An evidence-linked factor research workbench: turn selected source material into reviewable model proposals, then validate and evaluate them with deterministic tools.
 
-[![Public CI](https://github.com/Owenqi666/quant-ai-agent/actions/workflows/public-ci.yml/badge.svg?branch=codex%2Fpublic-agent-ci)](https://github.com/Owenqi666/quant-ai-agent/actions/workflows/public-ci.yml?query=branch%3Acodex%2Fpublic-agent-ci)
+[![Public CI](https://github.com/Owenqi666/quant-ai-agent/actions/workflows/public-ci.yml/badge.svg?branch=main)](https://github.com/Owenqi666/quant-ai-agent/actions/workflows/public-ci.yml?query=branch%3Amain)
 
 ![The running workbench with a completed fixture research and original Worker run](docs/assets/public-agent-workbench.png)
 
@@ -25,7 +25,7 @@ The public Agent demo uses an original teaching note defining a simple `close - 
 
 ## Engineering decisions
 
-- **Constrained execution.** An AST whitelist checks data fields, operators, windows and complexity before factor calculation. Exact panel alignment and execution timing prevent silent broadcasting or use of future information. [Expression engine](paper_alpha/expressions.py) · [evaluation semantics](docs/evaluation.md).
+- **Constrained execution.** An AST whitelist checks data fields, operators, windows and complexity before factor calculation. Exact panel alignment and declared next-session timing prevent silent broadcasting and enforce the configured evaluation boundaries. [Expression engine](paper_alpha/expressions.py) · [evaluation semantics](docs/evaluation.md).
 - **Requests that survive lost responses.** Transactional idempotency receipts return the original result for a repeated request. A SQLite queue separates browser activity from execution, and the Worker retains attempts, events, cancellation and interrupted state. [Mutation receipts](paper_alpha/server/mutations.py) · [Worker](paper_alpha/server/runner.py) · [recovery](docs/recovery.md).
 - **Traceability across revisions.** PDF locations, evidence, hypotheses, expressions, input/code snapshots and result hashes remain linked. Review decisions produce new records; they do not silently rewrite old results. [Material versions](paper_alpha/server/paper_materials.py) · [result verification](paper_alpha/workflow.py).
 - **Model drafts behind deterministic gates.** Models propose evidence/hypotheses and candidates. Programs parse responses, check citations and expressions, run calculations and verify outputs. A finite definition recognizer can repair missing references from already selected spans in a separate automation version. Unsupported or ambiguous definition text remains unresolved; this is not a general semantic entailment checker. [Provider workflow](docs/model-workflow.md) · [definition checks](paper_alpha/server/operator_definition_grounding.py).
@@ -61,8 +61,6 @@ The public CI targets **Ubuntu 24.04, Python 3.14 and Node.js 24**. Local develo
 ```sh
 git clone https://github.com/Owenqi666/quant-ai-agent.git
 cd quant-ai-agent
-# This PR's reproducible revision; main stays unchanged until review/merge.
-git switch codex/public-agent-ci
 python3.14 -m venv .venv
 .venv/bin/python -m pip install -r requirements-web-lock.txt
 .venv/bin/python -m pip install --no-deps -e .

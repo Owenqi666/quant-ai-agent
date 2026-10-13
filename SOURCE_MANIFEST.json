@@ -47,9 +47,9 @@
       "sha256": "52201b29c20f3ebf77d3a22f0609e724e90fc611385738d32bfa04afd22785ca"
     },
     "README.md": {
-      "bytes": 9258,
+      "bytes": 9143,
       "origin": "main_project_source",
-      "sha256": "dc1cb7a56b7e2d140ed905329396b12046da83b5872fc398bcb8c822293b2323"
+      "sha256": "60fa7619a9c955243712d1c35229f958e5e3676215b83100b400b655b58725f1"
     },
     "THIRD_PARTY_NOTICES.md": {
       "bytes": 3881,
@@ -267,9 +267,9 @@
       "sha256": "14649d0efe04114fbd38b944c954f8a21d680fbb4e1b68ea63dc019f5563df3f"
     },
     "docs/publication-validation.md": {
-      "bytes": 4524,
+      "bytes": 5100,
       "origin": "main_project_source",
-      "sha256": "a0b1a98a47cabe30185944fbb1ec9ac5bcc991e8f53d0385e956c8367fee1937"
+      "sha256": "4b27a1ffc945dc50339434901fe9d3b98e76123410fa982b1bc7277b8c92b4fa"
     },
     "docs/recovery.md": {
       "bytes": 4420,
@@ -2986,7 +2986,7 @@
   "policy_sha256": "81e254a3f8cbd88a59e0335e8e397bfaa4844b71f02774ec1cf5442944f4c8d5",
   "schema_version": 1,
   "scope": "Current source development after the 0.27.2 Runtime freeze. Public fixture validation is separate from historical real-model acceptance; no claim that the older portable archive includes later fixes.",
-  "source_inventory_sha256": "076275ef1b62e911abe1aea3c779dda7cb3eef4b01b157548408729f519964a6",
-  "total_bytes_excluding_manifest": 10786071,
+  "source_inventory_sha256": "0541e08de51e1ffc2d336b7ba6994e31e2ad7d48ccaa831b601b8a613064c8aa",
+  "total_bytes_excluding_manifest": 10786532,
   "version": "0.27.2"
 }
