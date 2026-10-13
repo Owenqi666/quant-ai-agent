@@ -43,6 +43,8 @@ The source-definition check follows nested AST operator dependencies and a finit
 
 If the necessary definition already exists in the selected spans, the bounded repair appends its citations and bindings in a new automation version. It preserves the raw draft, earlier accepted versions, hypotheses, formula, data, and scientific unknowns. Absent definitions, incorrect formulas, and inconsistent windows produce `needs_information`; the checker does not manufacture source text. A complete input may produce a zero-change verification version rather than a citation repair.
 
+Definition coverage is limited to a finite formal grammar and a declaration contained in one selected transport chunk. Catalog spans may jointly cover it. Explicit leading arithmetic continuations on the next adjacent selected physical page are also rejected; unselected pages are never read. Cross-page declarations, arbitrary cross-page prose, unfamiliar formatting and general entailment are outside this recognizer.
+
 ## Explicit formula engineering
 
 Formula-engineering mode can test a calculable source formula while leaving its missing economic explanation unresolved. It requires explicit execution conditions and an exact disposition for every original unknown. The source calculation, data meanings, mathematical direction, and execution assumptions must be adequate for computation. An execution gap cannot be relabeled as a scientific unknown to pass the gate.

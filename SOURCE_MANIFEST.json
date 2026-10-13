@@ -232,14 +232,14 @@
       "sha256": "c45809729eecde88ea518ffa985f4194583ac3f0b2cddf64679831e148a4aca9"
     },
     "docs/assets/public-agent-results.png": {
-      "bytes": 419127,
+      "bytes": 418634,
       "origin": "main_project_source",
-      "sha256": "23bde1c6a4e819274dc47611bdc5f2af57973d06ffc4b7aa7c5aaa916772cfcb"
+      "sha256": "8966cbefe6100782b83597285f5f9adf8498788e94c380bf12209300a47a79d2"
     },
     "docs/assets/public-agent-workbench.png": {
-      "bytes": 412274,
+      "bytes": 411765,
       "origin": "main_project_source",
-      "sha256": "fddf3184f06fad245aff85fc8896213ca1c68ecbf086b4c6a2c546ed03bbeeb7"
+      "sha256": "b0754f6262943c2c060df7a96688ab6d8d3ba13fe73ce9d2be839377ce555f93"
     },
     "docs/evaluation.md": {
       "bytes": 6715,
@@ -247,9 +247,9 @@
       "sha256": "ab2406a23609a06bea1f5f0656da7306032076b92c8eaafc58c8d9cbdb63cb7d"
     },
     "docs/model-workflow.md": {
-      "bytes": 6158,
+      "bytes": 6579,
       "origin": "main_project_source",
-      "sha256": "32a2062db1ff70d94e13377d8da874529855d30aaadc531142290f41d1c16d74"
+      "sha256": "da7e46616f735c31cb498ff357978f58f8d61e45e48fe35f90fcb97025265e84"
     },
     "docs/public-agent-demo.md": {
       "bytes": 4040,
@@ -267,9 +267,9 @@
       "sha256": "14649d0efe04114fbd38b944c954f8a21d680fbb4e1b68ea63dc019f5563df3f"
     },
     "docs/publication-validation.md": {
-      "bytes": 4523,
+      "bytes": 4524,
       "origin": "main_project_source",
-      "sha256": "50ab4637f33361aec8a8fb98498fbbb110fbd7b3719ca7a931a1174d5c3fda88"
+      "sha256": "a0b1a98a47cabe30185944fbb1ec9ac5bcc991e8f53d0385e956c8367fee1937"
     },
     "docs/recovery.md": {
       "bytes": 4420,
@@ -2037,9 +2037,9 @@
       "sha256": "4fab86e11d928968e8728eb20beddf87bf0228ac9f5255ab25bc3893d6e0695c"
     },
     "paper_alpha/server/operator_definition_grounding.py": {
-      "bytes": 19922,
+      "bytes": 20829,
       "origin": "main_project_source",
-      "sha256": "4c6389f1a0527a8da414100edac97895c16a733150d102ad6359e19904946b08"
+      "sha256": "cc8b16d7fe0f912da759aeeaa810b73e9113695ac71200223c55d9540fa5f288"
     },
     "paper_alpha/server/oracle_temporal.py": {
       "bytes": 2131,
@@ -2952,9 +2952,9 @@
       "sha256": "3846862cfed02dad33763716e739708f3a4b8ccaa4f39d380b1133555a4187e7"
     },
     "tests/test_operator_definition_public.py": {
-      "bytes": 28751,
+      "bytes": 31203,
       "origin": "main_project_source",
-      "sha256": "71ef0bddf85d9df7ea8d05c9d9b5d98151fd23c878040dd25973048f540cc07c"
+      "sha256": "0348cce3d5b8d3d69a13c0409cb548a6b719269dbea96f7e92b36f5195f60871"
     },
     "tests/test_paper_material_spans.py": {
       "bytes": 7120,
@@ -2986,7 +2986,7 @@
   "policy_sha256": "81e254a3f8cbd88a59e0335e8e397bfaa4844b71f02774ec1cf5442944f4c8d5",
   "schema_version": 1,
   "scope": "Current source development after the 0.27.2 Runtime freeze. Public fixture validation is separate from historical real-model acceptance; no claim that the older portable archive includes later fixes.",
-  "source_inventory_sha256": "d7a7e944cc154457fb99500c0504484589358cd1294199d5065b75666e11babc",
-  "total_bytes_excluding_manifest": 10783292,
+  "source_inventory_sha256": "076275ef1b62e911abe1aea3c779dda7cb3eef4b01b157548408729f519964a6",
+  "total_bytes_excluding_manifest": 10786071,
   "version": "0.27.2"
 }

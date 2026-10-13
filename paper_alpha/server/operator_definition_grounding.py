@@ -27,6 +27,7 @@ _STANDARD_SYMBOL = r'(?:\+|-|\*|/|>|<|==|\|\||x \? y : z)'
 _QUOTED_STANDARD_SYMBOL = rf'(?:"{_STANDARD_SYMBOL}"|“{_STANDARD_SYMBOL}”)'
 _STANDARD_MEANING = (rf'standard definitions(?:;\s*same for the operators\s+{_QUOTED_STANDARD_SYMBOL}'
                      rf'(?:,\s*{_QUOTED_STANDARD_SYMBOL}){{0,15}})?')
+_ARITHMETIC_CONTINUATION = re.compile(r'^(?:(?:divided|multiplied)\s+by\b|(?:plus|minus)\b|[/*+\-−])', re.I)
 
 
 def check_policy():
@@ -127,6 +128,16 @@ def _definitions(selection, catalog):
                            else _meaning(name, parameters))
             if pattern is None or re.fullmatch(pattern, rhs, re.I) is None:
                 continue
+            if index + 1 == len(headers) and page + 1 in selection['selected_pages']:
+                following = ''.join(c['text'] for c in selection['chunks'] if c['page'] == page + 1)
+                boundaries = [m.start() for m in _HEADER.finditer(following)]
+                boundaries += [m.start() for m in _STANDARD_HEADER.finditer(following)]
+                boundaries += [m.start() for m in re.finditer(r'\bAlpha\s*#\s*\d+\s*:', following, re.I)]
+                prefix = following[:min(boundaries) if boundaries else len(following)].lstrip()
+                # Only explicit leading arithmetic continuations are covered;
+                # independent prose is not silently attached across pages.
+                if _ARITHMETIC_CONTINUATION.match(prefix):
+                    continue
             # V1 evidence ranges name one source chunk. A declaration crossing
             # chunks remains unresolved; catalog spans within a chunk can join.
             chunk = next((c for c in chunks if c['start'] <= header.start() and end <= c['end']), None)

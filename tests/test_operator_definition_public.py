@@ -201,6 +201,38 @@ class PublicOperatorDefinitionTests(unittest.TestCase):
         repair = plan_operator_definition_repair(selection, material, catalog)
         self.assertFalse(repair['changed']); self.assertEqual(repair['material'], material)
 
+    def test_adjacent_selected_page_division_is_not_a_complete_definition(self):
+        suffix = 'divided by the value of x d days ago'
+        for terminal in ['', '.']:
+            for tail in [suffix, suffix.upper(), suffix + '; ' + RANK]:
+                with self.subTest(terminal=terminal, tail=tail):
+                    selection, material, catalog = synthetic('delta(close, 1)', (DELTA + terminal, tail))
+                    result = assess_operator_definitions(selection, material, catalog)
+                    self.assertEqual(result['status'], 'needs_information'); self.assertEqual(missing(result), {'delta'})
+                    plan = plan_operator_definition_repair(selection, material, catalog)
+                    self.assertFalse(plan['changed']); self.assertEqual(plan['material'], material)
+
+    def test_adjacent_selected_page_arithmetic_continuations_remain_unresolved(self):
+        for tail in ['multiplied by d', 'MULTIPLIED BY d', 'plus d', 'MINUS d', '/ d', '* d', '+ d', '- d']:
+            with self.subTest(tail=tail):
+                selection, material, catalog = synthetic('delta(close, 1)', (DELTA + '.', tail))
+                result = assess_operator_definitions(selection, material, catalog)
+                self.assertEqual(result['status'], 'needs_information'); self.assertEqual(missing(result), {'delta'})
+                self.assertFalse(plan_operator_definition_repair(selection, material, catalog)['changed'])
+        selection, material, catalog = synthetic('sign(close)', (SIGN, 'multiplied by 2'))
+        self.assertEqual(missing(assess_operator_definitions(selection, material, catalog)), {'sign'})
+
+    def test_next_selected_page_independent_definition_or_named_formula_ends_the_declaration(self):
+        for following in [RANK, 'Alpha#9002: rank(close)', 'minus(x) = an independently named function']:
+            with self.subTest(following=following):
+                selection, material, catalog = synthetic('delta(close, 1)', (DELTA, following))
+                self.assertEqual(assess_operator_definitions(selection, material, catalog)['status'], 'grounded')
+
+    def test_unselected_page_continuation_is_not_read_or_inferred(self):
+        selection, material, catalog = synthetic('delta(close, 1)',
+            (DELTA, 'divided by the value of x d days ago'), selected_pages=[1, 2])
+        self.assertEqual(assess_operator_definitions(selection, material, catalog)['status'], 'grounded')
+
     def test_delta_rhs_keeps_arithmetic_and_sentence_suffixes_unresolved(self):
         for suffix in [' multiplied by d', ' / d', ' * 2', ' plus the current value of x',
                        '; divided by d', '. Divided by d', '\nmultiplied by d', '...']:

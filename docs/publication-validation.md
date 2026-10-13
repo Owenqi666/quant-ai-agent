@@ -4,7 +4,7 @@
 
 A separate public checkout installed the locked dependencies in a new Python
 3.14.4 environment and used `npm ci` with Node 24.16.0 on macOS. It passed
-99 public Python tests, 505 frontend tests, TypeScript checking, the production
+103 public Python tests, 505 frontend tests, TypeScript checking, the production
 build and the generated API contract comparison. The account-free Agent demo
 completed one original Worker run; its independent checker passed all 13 checks.
 A malformed fixture reply remained failed with `REQUEST_MISMATCH`. Browser
