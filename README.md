@@ -17,7 +17,7 @@ The project grew from my WorldQuant competition research workflow: read a paper,
 - **Traceability across revisions.** PDF locations, evidence, hypotheses, expressions, input/code snapshots and result hashes remain linked. Review decisions produce new records; they do not silently rewrite old results. [Material versions](paper_alpha/server/paper_materials.py) · [result verification](paper_alpha/workflow.py).
 - **Model drafts behind deterministic gates.** Models propose evidence, hypotheses and candidates; programs parse responses, check citations and expressions, calculate results and verify outputs. Supported definition bindings can be completed from selected spans in a separate automation version. [Provider workflow](docs/model-workflow.md) · [definition checks](paper_alpha/server/operator_definition_grounding.py).
 
-On an Apple M5 Pro, seeded ordinary 1,000-date × 200-asset inputs showed median `ts_corr` speedups of **39.475×** (window 20) and **22.208×** (window 60) over the retained reference. [Measurement method, boundary costs and raw evidence](docs/ts-corr-benchmark.md).
+On an Apple M5 Pro, seeded synthetic 1,000-date × 200-asset ordinary inputs showed median `ts_corr` speedups of **39.475×** (window 20) and **22.208×** (window 60) over the retained reference. [Measurement method, boundary costs and raw evidence](docs/ts-corr-benchmark.md).
 
 ## See a complete example
 

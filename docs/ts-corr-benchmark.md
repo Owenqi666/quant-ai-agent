@@ -1,12 +1,12 @@
 # Rolling correlation: compatibility and measured performance
 
-The bounded batch implementation passed **243 same-environment matrix comparisons** on both macOS and Ubuntu, plus nine local benchmark cases and eight Ubuntu smoke cases. NaN masks matched and every non-NaN float64 bit pattern matched the frozen reference, including signed zero. This finite acceptance matrix is not a proof for every legal input or a requirement for identical bits across platforms.
+The bounded batch implementation passed **243 same-environment comparisons** on both macOS and Ubuntu, including frozen-reference compatibility, downstream behavior and future/prefix causality checks, plus nine local benchmark cases and eight Ubuntu smoke cases. The reference comparisons matched NaN masks and every non-NaN float64 bit pattern, including signed zero. This finite acceptance matrix is not a proof for every legal input or a requirement for identical bits across platforms.
 
 The reference is copied verbatim from [`1c44df6`](https://github.com/Owenqi666/quant-ai-agent/commit/1c44df62985049af0c19dea2148666e089354f05) into [tests/corr_reference.py](../tests/corr_reference.py), including its own integer-moment and 80-digit Decimal helpers. Independent Fraction cases cover selected analytically explainable values, endpoints and signed-zero underflow. The regression matrix also covers legal dtypes, C/F/strided layouts, windows 1/2/252 and equal to or greater than the input length, missing values, extreme scales, chunk seams, causality, rank ties, combined expressions and full evaluation results.
 
 ## Recorded Mac measurements
 
-Measured clean checkout: [`3fcaadb`](https://github.com/Owenqi666/quant-ai-agent/commit/3fcaadbd2fc5aa4c6abe13f164e3b8eda2953e73), Apple M5 Pro, macOS 26.6.2 arm64, Python 3.14.8, NumPy 2.4.6, pandas 3.0.3, Accelerate. BLAS/OpenMP thread environment variables were set to 1 before imports; these are recorded settings, not a measurement of live thread counts. Seed `20261013`, C-layout float64 inputs, chunk size `1024`.
+Measured clean checkout: [`3fcaadb`](https://github.com/Owenqi666/quant-ai-agent/commit/3fcaadbd2fc5aa4c6abe13f164e3b8eda2953e73), Apple M5 Pro, macOS 26.6.2 arm64, Python 3.14.8, NumPy 2.4.6, pandas 3.0.3, Accelerate. BLAS/OpenMP thread environment variables were set to 1 before imports; these are recorded settings, not a measurement of live thread counts. Seeded synthetic panels (`20261013`), C-layout float64 inputs, chunk size `1024`.
 
 Both implementations received five warmups and five alternating timed repetitions per case. The table uses all-sample medians; imports and input construction are outside the operator timer. Exact fallback counts and profiles come from separate runs.
 
