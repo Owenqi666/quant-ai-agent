@@ -277,9 +277,9 @@
       "sha256": "14649d0efe04114fbd38b944c954f8a21d680fbb4e1b68ea63dc019f5563df3f"
     },
     "docs/publication-validation.md": {
-      "bytes": 7148,
+      "bytes": 7353,
       "origin": "main_project_source",
-      "sha256": "d617c935ffe6b466cc723fab38f8278cfe3cf70903a84c555441b3b8f09719ad"
+      "sha256": "5493824eec353d108200665782d5e1b29386858337133471f019e51be92e4481"
     },
     "docs/recovery.md": {
       "bytes": 4420,
@@ -3026,7 +3026,7 @@
   "policy_sha256": "d19f9123e8e865b253dc0368984d583bc90f8d90eb996ab3542077c0270386c3",
   "schema_version": 1,
   "scope": "Current source development after the 0.27.2 Runtime freeze. Public fixture validation is separate from historical real-model acceptance; no claim that the older portable archive includes later fixes.",
-  "source_inventory_sha256": "2d4eb3555418946608e2dbdeaae9f9a0299e752064d7ebdba43c32b15053bff4",
-  "total_bytes_excluding_manifest": 10558942,
+  "source_inventory_sha256": "9c1924b85b291e17bad502d20e619508aa190238e6df712026a5ec190a750a37",
+  "total_bytes_excluding_manifest": 10559147,
   "version": "0.27.2"
 }
