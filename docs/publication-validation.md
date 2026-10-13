@@ -1,9 +1,14 @@
 # Publication checks
 
-## Current PR: public tests and correlation update
+For validation of current `main`, see
+[Public CI push runs for main](https://github.com/Owenqi666/quant-ai-agent/actions/workflows/public-ci.yml?query=branch%3Amain+event%3Apush).
+Match the run's commit and actual checkout SHA to the revision being reviewed.
+The sections below preserve historical stage evidence.
 
-[PR #3](https://github.com/Owenqi666/quant-ai-agent/pull/3) records the current head,
-checks and artifacts. Its test/backup stage passed
+## Historical public tests and correlation update (PR #3)
+
+[PR #3](https://github.com/Owenqi666/quant-ai-agent/pull/3) records the heads,
+checks and artifacts for that release stage. Its test/backup stage passed
 [Public CI 38430037990](https://github.com/Owenqi666/quant-ai-agent/actions/runs/38430037990).
 The numerical stage passed
 [Public CI 38456656929](https://github.com/Owenqi666/quant-ai-agent/actions/runs/38456656929)
@@ -23,10 +28,8 @@ signed zero and downstream regressions. This is finite compatibility evidence,
 not a proof for every legal input. [Benchmark method, results and raw evidence](ts-corr-benchmark.md)
 describe measured computation performance rather than investment or research gains.
 
-This page lists stage evidence. For the final cumulative version's status, actual
-PR head and tested checkout SHA, consult
-[PR #3](https://github.com/Owenqi666/quant-ai-agent/pull/3) and its corresponding CI
-runs. Detailed method mappings and stage logs stay in the PR and CI artifacts.
+Detailed method mappings, tested checkout SHAs and stage logs remain in
+[PR #3](https://github.com/Owenqi666/quant-ai-agent/pull/3) and its CI artifacts.
 
 ## Historical public patch: 13 October 2026
 
