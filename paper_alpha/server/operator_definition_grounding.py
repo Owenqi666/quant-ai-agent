@@ -22,7 +22,12 @@ POLICY = {'schema_version': 1, 'policy_version': POLICY_VERSION,
           'semantic_fidelity': 'unverified', 'human_approval': False}
 _ROOT = Path(__file__).resolve().parents[2]
 _HEADER = re.compile(r'\b([A-Za-z_]\w*)\(\s*([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*){0,2})\s*\)\s*=(?!=)')
-_STANDARD = re.compile(r'((?:[A-Za-z_]\w*\(\s*[A-Za-z_]\w*\)\s*,\s*)*[A-Za-z_]\w*\(\s*[A-Za-z_]\w*\))\s*=\s*standard definitions\b', re.I)
+_STANDARD_HEADER = re.compile(r'((?:[A-Za-z_]\w*\(\s*[A-Za-z_]\w*\)\s*,\s*)+[A-Za-z_]\w*\(\s*[A-Za-z_]\w*\))\s*=(?!=)')
+_STANDARD_SYMBOL = r'(?:\+|-|\*|/|>|<|==|\|\||x \? y : z)'
+_QUOTED_STANDARD_SYMBOL = rf'(?:"{_STANDARD_SYMBOL}"|“{_STANDARD_SYMBOL}”)'
+_STANDARD_MEANING = (rf'standard definitions(?:;\s*same for the operators\s+{_QUOTED_STANDARD_SYMBOL}'
+                     rf'(?:,\s*{_QUOTED_STANDARD_SYMBOL}){{0,15}})?')
+_ARITHMETIC_CONTINUATION = re.compile(r'^(?:(?:divided|multiplied)\s+by\b|(?:plus|minus)\b|[/*+\-−])', re.I)
 
 
 def check_policy():
@@ -71,21 +76,75 @@ def _meaning(name, parameters):
 
 def _definitions(selection, catalog):
     result = []
-    for chunk in selection['chunks']:
-        text = chunk['text']
-        for match in _STANDARD.finditer(text):
-            for name, parameter in re.findall(r'([A-Za-z_]\w*)\(\s*([A-Za-z_]\w*)\)', match[1]):
-                if name.lower() in {'abs', 'log', 'sign'}:
-                    result.append(_definition(chunk, match.start(), match.end(), name.lower(), catalog))
-        for match in _HEADER.finditer(text):
-            name = match[1].lower(); parameters = [p.strip() for p in match[2].split(',')]
-            pattern = _meaning(name, parameters)
-            if pattern:
-                rhs = re.match(pattern, text[match.end():].lstrip(), re.I)
-                if rhs:
-                    start = match.start()
-                    end = match.end() + len(text[match.end():]) - len(text[match.end():].lstrip()) + rhs.end()
-                    result.append(_definition(chunk, start, end, _ALIASES.get(name, name), catalog))
+    for page in selection['selected_pages']:
+        chunks = [chunk for chunk in selection['chunks'] if chunk['page'] == page]
+        # A transport chunk cut cannot hide a suffix. Joining the already sent
+        # page only establishes statement boundaries; no new source is read.
+        text = ''.join(chunk['text'] for chunk in chunks)
+        groups = list(_STANDARD_HEADER.finditer(text))
+        headers = [(m, True) for m in groups]
+        headers += [(m, False) for m in _HEADER.finditer(text)
+                    if not any(group.start() <= m.start() < group.end() for group in groups)]
+        headers.sort(key=lambda item: item[0].start())
+        # Headers inside parentheses or quoted examples cannot delimit an
+        # independent declaration. Reject obvious chained assignments too.
+        starts = {header.start() for header, _ in headers}
+        independent = set(); depth = 0; quote = None
+        for position, char in enumerate(text):
+            if position in starts and depth == 0 and quote is None:
+                prefix = text[:position].rstrip()
+                if not prefix or prefix[-1] not in '=+*/-':
+                    independent.add(position)
+            if quote is not None:
+                if char == quote:
+                    quote = None
+            elif char in {'"', '“'}:
+                quote = '”' if char == '“' else '"'
+            elif char == '(':
+                depth += 1
+            elif char == ')':
+                depth = max(0, depth - 1)
+        headers = [(header, grouped) for header, grouped in headers if header.start() in independent]
+        for index, (header, grouped) in enumerate(headers):
+            stop = headers[index + 1][0].start() if index + 1 < len(headers) else len(text)
+            end = stop
+            while end > header.end() and text[end - 1].isspace():
+                end -= 1
+            # One terminal delimiter is allowed. It cannot discard subsequent
+            # prose/arithmetic: that whole RHS still must match the grammar.
+            if end > header.end() and (text[end - 1] in '.;' or
+                                      text[end - 1] == ',' and index + 1 < len(headers)):
+                end -= 1
+                while end > header.end() and text[end - 1].isspace():
+                    end -= 1
+            rhs = text[header.end():end].strip()
+            if grouped:
+                names = [name.lower() for name, _ in re.findall(r'([A-Za-z_]\w*)\(\s*([A-Za-z_]\w*)\)', header[1])]
+                pattern = _STANDARD_MEANING if set(names) <= {'abs', 'log', 'sign'} else None
+            else:
+                name = header[1].lower(); names = [name]
+                parameters = [p.strip() for p in header[2].split(',')]
+                pattern = (_STANDARD_MEANING if name in {'abs', 'log', 'sign'} and len(parameters) == 1
+                           else _meaning(name, parameters))
+            if pattern is None or re.fullmatch(pattern, rhs, re.I) is None:
+                continue
+            if index + 1 == len(headers) and page + 1 in selection['selected_pages']:
+                following = ''.join(c['text'] for c in selection['chunks'] if c['page'] == page + 1)
+                boundaries = [m.start() for m in _HEADER.finditer(following)]
+                boundaries += [m.start() for m in _STANDARD_HEADER.finditer(following)]
+                boundaries += [m.start() for m in re.finditer(r'\bAlpha\s*#\s*\d+\s*:', following, re.I)]
+                prefix = following[:min(boundaries) if boundaries else len(following)].lstrip()
+                # Only explicit leading arithmetic continuations are covered;
+                # independent prose is not silently attached across pages.
+                if _ARITHMETIC_CONTINUATION.match(prefix):
+                    continue
+            # V1 evidence ranges name one source chunk. A declaration crossing
+            # chunks remains unresolved; catalog spans within a chunk can join.
+            chunk = next((c for c in chunks if c['start'] <= header.start() and end <= c['end']), None)
+            if chunk is not None:
+                for name in names:
+                    result.append(_definition(chunk, header.start() - chunk['start'], end - chunk['start'],
+                                              _ALIASES.get(name, name), catalog))
     return result
 
 

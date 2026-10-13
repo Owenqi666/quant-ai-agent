@@ -1,5 +1,38 @@
 # Publication checks
 
+## Current public patch: 13 October 2026
+
+The results in this section belong to
+[commit af07a86efbe6bd5ad56f6bd98ca0feec80679135](https://github.com/Owenqi666/quant-ai-agent/commit/af07a86efbe6bd5ad56f6bd98ca0feec80679135).
+Its [successful Public CI run 38325161941](https://github.com/Owenqi666/quant-ai-agent/actions/runs/38325161941)
+was triggered by `pull_request` for that exact head SHA. Later release-closeout
+commits and merged `main` require their own CI evidence.
+
+A separate public checkout installed the locked dependencies in a new Python
+3.14.4 environment and used `npm ci` with Node 24.16.0 on macOS. It passed
+103 public Python tests, 505 frontend tests, TypeScript checking, the production
+build and the generated API contract comparison. The account-free Agent demo
+completed one original Worker run; its independent checker passed all 13 checks.
+A malformed fixture reply remained failed with `REQUEST_MISMATCH`. Browser
+readback and the screenshots use that generated workspace, not an old research
+database. Human scores, confirmations and timing measurements remain empty.
+
+The [workflow](../.github/workflows/public-ci.yml) passed on a fresh Ubuntu
+24.04 / Python 3.14.8 / Node 24.21.0 runner for the linked revision: 103 public
+Python tests, 505 frontend tests, API contract comparison, TypeScript checking,
+production build, the Worker demo and all 13 independent checks. This remote
+result is separate from the local checks above. Selected logs and
+reproducible demo artifacts are uploaded even on failure. The source definition
+regressions exercise full supported RHS grammar, altered suffixes, dependency
+coverage and preserved repair versions; they do not establish general semantic
+entailment.
+
+The maintained application and public export share the same production fix. The
+older frozen Runtime archives and their signoff records were preserved; they
+do not contain this later patch.
+
+## Historical 0.27.2 source publication
+
 Checked on 12 October 2026 in the isolated 0.27.2 public source directory using existing local dependencies: macOS, Python 3.14, Node.js 24.16.0. Dependencies were reused for efficiency; a fresh network installation and another operating system were not re-qualified.
 
 | Check | Result |

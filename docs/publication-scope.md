@@ -1,6 +1,6 @@
 # Public source scope
 
-This is a curated source export of version 0.27.2, database schema 29. It preserves the main local workbench, typed contracts, expression engine, persistent worker, saved-result/report/review lifecycle, dependency locks, selected tests, preparation tools, source-grounded material contracts, and finite operator-definition policies. It is not the separately accepted local Runtime archive.
+This is a curated source export of version 0.27.2, database schema 29. It preserves the main local workbench, typed contracts, expression engine, persistent worker, saved-result/report/review lifecycle, dependency locks, selected tests, preparation tools, source-grounded material contracts, and finite operator-definition policies. It is not the separately accepted local Runtime archive. Source changes after that freeze are reviewed on a work branch; old runtime acceptance is not reused as a current CI result.
 
 ## Included
 
@@ -36,3 +36,7 @@ Optional real App Server material extraction and candidate generation need curre
 ## Publication test fixtures
 
 The operator-definition public test file curates synthetic cases from the existing regression suite. Historical real-response and research-report fixtures are excluded. The public formula-engineering fixture supplies an original, complete named formula (`Alpha#9001: close`) so the stricter source-support gate reaches the intended scientific-unknown and disposition checks. Product validation rules and the original development tests are unchanged.
+
+## Maintained export
+
+The private development checkout and this public repository have separate Git histories. The public baseline was `90d658c73dbda40df7cd2db6f48e0a6a83dee0ef`. The maintained development-side exporter is `publications/export_public_source_current.py`, using `publications/public-source-policy.json`. It copies current application code, contracts, primary README/docs, selected public tests and original tutorials. A small maintained overlay holds ignore rules and the explicitly curated synthetic formula-engineering test. It regenerates `SOURCE_MANIFEST.json`; editing the old versioned export is not the release source of truth. Old frozen runtime packages and export snapshots are preserved.

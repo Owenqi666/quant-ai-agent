@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "case_id": "public-close-minus-open-v1",
+  "source": "original project teaching note",
+  "selected_physical_pages": [1, 2],
+  "instruction": "Extract the teaching score, its field meanings, mathematical direction and stated scientific unknowns from the selected pages. Preserve unresolved scientific claims.",
+  "generation_instruction": "Implement the explicitly adopted teaching score unchanged. Preserve all accepted evidence and hypotheses and the unresolved economic mechanism.",
+  "expression": "close - open",
+  "data_kind": "synthetic",
+  "provider_mode": "fixture",
+  "extraction_schema": "research_provider_v2 legacy material_span_ids_v1",
+  "semantic_fidelity": "unverified",
+  "human_approval": false,
+  "human_review": {"status": "pending_human", "scores": null},
+  "scientific_validity": "unknown",
+  "scope": "Formula engineering and workflow verification only; no predictive performance claim."
+}
